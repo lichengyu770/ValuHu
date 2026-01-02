@@ -1,0 +1,28 @@
+name: ValuHu Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+构建并部署:
+运行于: ubuntu-latest
+步骤:
+      - name: 结账代码
+使用: actions/checkout@v4
+
+      - 名称: 设置 Node.js
+使用: actions/setup-node@v4
+与:
+节点版本: 20
+缓存: 'npm'
+
+安装依赖项
+npm 安装
+
+名称: 
+运行: npm run build
+
+部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
