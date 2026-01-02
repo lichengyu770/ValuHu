@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>安全扫描报告 - ValuHub</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      h1 {
+        color: #333;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
+      .summary {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .severity {
+        margin-bottom: 30px;
+      }
+      .severity h2 {
+        margin-bottom: 10px;
+        padding: 5px 10px;
+        border-radius: 3px;
+        display: inline-block;
+      }
+      .high h2 {
+        background-color: #ffcccc;
+        color: #cc0000;
+      }
+      .medium h2 {
+        background-color: #ffffcc;
+        color: #cccc00;
+      }
+      .low h2 {
+        background-color: #ccffcc;
+        color: #00cc00;
+      }
+      .vulnerability {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .vulnerability h3 {
+        margin-top: 0;
+        color: #333;
+      }
+      .file-info {
+        color: #666;
+        margin-bottom: 10px;
+      }
+      .matches {
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 3px;
+        margin: 10px 0;
+      }
+      .match {
+        margin-bottom: 5px;
+        font-family: monospace;
+        background-color: #fff;
+        padding: 5px;
+        border-left: 3px solid #ccc;
+      }
+      .match-line {
+        color: #999;
+        font-size: 12px;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <h1>安全扫描报告</h1>
+    <div class="summary">
+      <h2>扫描摘要</h2>
+      <p>总共发现 <strong>7</strong> 个安全漏洞：</p>
+      <ul>
+        <li>高危漏洞：6 个</li>
+        <li>中危漏洞：1 个</li>
+        <li>低危漏洞：0 个</li>
+      </ul>
+    </div>
+    <div class="severity high">
+      <h2>高危漏洞 (6个)</h2>
+      <div class="vulnerability">
+        <h3>XSS跨站脚本攻击检测</h3>
+        <div class="file-info">文件：src\routes.jsx</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 453 行：</div>
+            <div>
+              <script>
+                // 简化的图表绘制逻辑，实际项目中可以使用Chart.js等库
+                const canvas1 = document.getElementById('priceTrendChart');
+                if (canvas1) {
+                  const ctx1 = canvas1.getContext('2d');
+                  // 绘制简单的价格趋势线
+                  ctx1.strokeStyle = '#ffa046';
+                  ctx1.lineWidth = 2;
+                  ctx1.beginPath();
+                  ctx1.moveTo(50, 250);
+                  ctx1.lineTo(100, 200);
+                  ctx1.lineTo(150, 220);
+                  ctx1.lineTo(200, 180);
+                  ctx1.lineTo(250, 150);
+                  ctx1.lineTo(300, 170);
+                  ctx1.lineTo(350, 140);
+                  ctx1.stroke();
+                }
+
+                const canvas2 = document.getElementById('transactionDataChart');
+                if (canvas2) {
+                  const ctx2 = canvas2.getContext('2d');
+                  // 绘制简单的柱状图
+                  const colors = [
+                    '#ffa046',
+                    '#4CAF50',
+                    '#2196F3',
+                    '#FF9800',
+                    '#9C27B0',
+                    '#F44336',
+                  ];
+                  const data = [120, 190, 150, 200, 250, 180];
+                  const barWidth = 40;
+                  const gap = 20;
+
+                  data.forEach((value, index) => {
+                    const x = index * (barWidth + gap) + 50;
+                    const barHeight = value / 2;
+                    const y = 300 - barHeight - 50;
+
+                    ctx2.fillStyle = colors[index % colors.length];
+                    ctx2.fillRect(x, y, barWidth, barHeight);
+                  });
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vulnerability">
+        <h3>SQL注入漏洞检测</h3>
+        <div class="file-info">文件：server\dataImporter.js</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 178 行：</div>
+            <div>
+              DELETE FROM properties', (err) => { if (err) {
+              console.error('清空表数据失败:', err.message); return; }
+              console.log('已清空表中现有数据');
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vulnerability">
+        <h3>SQL注入漏洞检测</h3>
+        <div class="file-info">文件：server\mysql-server.js</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 297 行：</div>
+            <div>
+              DELETE FROM users WHERE id = ?', [id]); if (affectedRows === 0) {
+              return sendResponse(res, 400, '删除失败');
+            </div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 528 行：</div>
+            <div>
+              DELETE FROM properties WHERE id = ?', [id]); if (affectedRows ===
+              0) { return sendResponse(res, 400, '删除失败');
+            </div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 751 行：</div>
+            <div>
+              DELETE FROM valuation_records WHERE id = ?', [id]); if
+              (affectedRows === 0) { return sendResponse(res, 400, '删除失败');
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vulnerability">
+        <h3>SQL注入漏洞检测</h3>
+        <div class="file-info">文件：server\mysql-server.js</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 297 行：</div>
+            <div>DELETE FROM users WHERE id = ?', [id]);</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 528 行：</div>
+            <div>DELETE FROM properties WHERE id = ?', [id]);</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 751 行：</div>
+            <div>DELETE FROM valuation_records WHERE id = ?', [id]);</div>
+          </div>
+        </div>
+      </div>
+      <div class="vulnerability">
+        <h3>SQL注入漏洞检测</h3>
+        <div class="file-info">文件：server\server.js</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 288 行：</div>
+            <div>
+              DELETE FROM properties WHERE id = ?', [id], function(err) { if
+              (err) { console.error('删除房源失败:', err.message);
+              res.status(500).send({ success: false, message: '删除房源失败' });
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vulnerability">
+        <h3>SQL注入漏洞检测</h3>
+        <div class="file-info">文件：server\server.js</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 288 行：</div>
+            <div>
+              DELETE FROM properties WHERE id = ?', [id], function(err) { if
+              (err) { console.error('删除房源失败:', err.message);
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="severity medium">
+      <h2>中危漏洞 (1个)</h2>
+      <div class="vulnerability">
+        <h3>缺失CSRF Token检测</h3>
+        <div class="file-info">文件：server\mock-server.js</div>
+        <div class="matches">
+          <div class="match">
+            <div class="match-line">第 291 行：</div>
+            <div>POST /api/estimate</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 292 行：</div>
+            <div>POST /api/estimate/fixed</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 293 行：</div>
+            <div>POST /api/estimate/timeout</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 294 行：</div>
+            <div>POST /api/estimate/validation-error</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 295 行：</div>
+            <div>POST /api/estimate/server-error</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 296 行：</div>
+            <div>POST /api/estimate/batch</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 300 行：</div>
+            <div>POST /api/estimate/invalid-format</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 301 行：</div>
+            <div>POST /api/estimate/gateway-timeout</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 302 行：</div>
+            <div>POST /api/estimate/unauthorized</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 303 行：</div>
+            <div>POST /api/estimate/forbidden</div>
+          </div>
+          <div class="match">
+            <div class="match-line">第 304 行：</div>
+            <div>POST /api/estimate/not-found</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

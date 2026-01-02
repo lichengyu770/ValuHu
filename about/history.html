@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>发展历程 - 数智估价核心引擎</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="../shared.css" />
+    <style>
+      /* 页面特定样式 */
+      .content-section {
+        padding: 60px 0;
+        background: white;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 40px;
+        color: #1d2129;
+      }
+      .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .history-info {
+        line-height: 1.8;
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      .timeline {
+        position: relative;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .timeline::after {
+        content: '';
+        position: absolute;
+        width: 6px;
+        background-color: #f5f7fa;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -3px;
+      }
+      .timeline-item {
+        padding: 10px 40px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+      }
+      .timeline-item::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        right: -17px;
+        background-color: white;
+        border: 4px solid #1a73e8;
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+      }
+      .left {
+        left: 0;
+      }
+      .right {
+        left: 50%;
+      }
+      .left::before {
+        content: ' ';
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        right: 30px;
+        border: medium solid white;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent white;
+      }
+      .right::before {
+        content: ' ';
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        left: 30px;
+        border: medium solid white;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent white transparent transparent;
+      }
+      .right::after {
+        left: -16px;
+      }
+      .timeline-content {
+        padding: 20px 30px;
+        background: linear-gradient(
+          135deg,
+          rgba(26, 115, 232, 0.05),
+          rgba(249, 168, 37, 0.05)
+        );
+        border: 1px solid rgba(26, 115, 232, 0.1);
+        position: relative;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(26, 115, 232, 0.15);
+        border-color: var(--color-primary);
+      }
+      .timeline-year {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a73e8;
+        margin-bottom: 10px;
+      }
+      .timeline-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d2129;
+        margin-bottom: 10px;
+      }
+      .timeline-desc {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+      }
+      /* 响应式设计 */
+      @media screen and (max-width: 768px) {
+        .timeline::after {
+          left: 31px;
+        }
+        .timeline-item {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 25px;
+        }
+        .timeline-item::before {
+          left: 60px;
+          border: medium solid white;
+          border-width: 10px 10px 10px 0;
+          border-color: transparent white transparent transparent;
+        }
+        .left::after,
+        .right::after {
+          left: 15px;
+        }
+        .right {
+          left: 0%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 引入导航栏 -->
+    <iframe
+      src="../nav.html"
+      frameborder="0"
+      style="width: 100%; height: 65px; border: none; display: block"
+    ></iframe>
+
+    <!-- 主要内容 -->
+    <main>
+      <section class="content-section">
+        <div class="content-container">
+          <h1 class="section-title">发展历程</h1>
+          <div class="history-info">
+            <p>
+              数智估价核心引擎自成立以来，始终致力于房地产土地智能估价领域的技术创新和产品研发，不断推动行业的数字化转型。
+            </p>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item left">
+              <div class="timeline-content">
+                <div class="timeline-year">2025年</div>
+                <div class="timeline-title">公司成立</div>
+                <div class="timeline-desc">
+                  数智估价核心引擎正式成立，专注于房地产土地智能估价领域的技术研发和产品创新。
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item right">
+              <div class="timeline-content">
+                <div class="timeline-year">2024年</div>
+                <div class="timeline-title">产品发布</div>
+                <div class="timeline-desc">
+                  发布第一代智能估价系统，采用机器学习和GIS技术，实现了高精度的房地产估价。
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item left">
+              <div class="timeline-content">
+                <div class="timeline-year">2023年</div>
+                <div class="timeline-title">技术突破</div>
+                <div class="timeline-desc">
+                  研发团队取得重大技术突破，将估价精度提升至95%以上，达到行业领先水平。
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item right">
+              <div class="timeline-content">
+                <div class="timeline-year">2022年</div>
+                <div class="timeline-title">市场拓展</div>
+                <div class="timeline-desc">
+                  与多家房地产企业和金融机构建立合作关系，产品市场份额持续增长。
+                </div>
+              </div>
+            </div>
+            <div class="timeline-item left">
+              <div class="timeline-content">
+                <div class="timeline-year">2021年</div>
+                <div class="timeline-title">团队组建</div>
+                <div class="timeline-desc">
+                  组建了一支由行业专家和技术精英组成的核心团队，为公司的发展奠定了坚实基础。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="company.html" target="_blank">公司简介</a>
+          <a href="team.html" target="_blank">团队介绍</a>
+          <a href="culture.html" target="_blank">企业文化</a>
+          <a href="history.html" target="_blank">发展历程</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="../product/core.html" target="_blank">核心产品</a>
+          <a href="../product/function.html" target="_blank">功能介绍</a>
+          <a href="../product/case.html" target="_blank">成功案例</a>
+          <a href="../solution/index.html" target="_blank">解决方案</a>
+        </div>
+        <div class="footer-col">
+          <h3>资源中心</h3>
+          <a href="../resource/news.html" target="_blank">行业动态</a>
+          <a href="../resource/help.html" target="_blank">帮助中心</a>
+          <a href="../resource/doc.html" target="_blank">技术文档</a>
+          <a href="../resource/whitepaper.html" target="_blank">白皮书</a>
+        </div>
+        <div class="footer-col">
+          <h3>联系我们</h3>
+          <a href="tel:16680508457"><i class="fas fa-phone"></i> 16680508457</a>
+          <a href="mailto:1558691995@qq.com"
+            ><i class="fas fa-envelope"></i> 1558691995@qq.com</a
+          >
+          <a href="#" target="_blank"
+            ><i class="fas fa-map-marker-alt"></i> 湖南湘潭区</a
+          >
+          <a href="../service/online.html" target="_blank"
+            ><i class="fas fa-headset"></i> 在线客服</a
+          >
+        </div>
+        <div class="footer-col">
+          <h3>合作企业</h3>
+          <a href="../coop/hunanzhixin.html" target="_blank">湖南智新科技</a>
+          <a href="../coop/changshalizhi.html" target="_blank">长沙立智评估</a>
+          <a href="../coop/apply.html" target="_blank">合作申请</a>
+        </div>
+      </div>
+      <div class="copyright">
+        © 2025 湘潭市房算云互联网科技有限公司 版权所有 |
+        <a href="../policy/privacy.html" target="_blank">隐私政策</a> |
+        <a href="../policy/service.html" target="_blank">服务条款</a> |
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=43011202001203"
+          rel="noreferrer"
+          target="_blank"
+          >湘ICP备2025144327号-1 | 湘公网安备43011202001203号</a
+        >
+      </div>
+    </footer>
+
+    <!-- 引入共享脚本 -->
+    <script src="../shared.js"></script>
+  </body>
+</html>

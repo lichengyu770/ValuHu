@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>数据洞察 - ValuHub</title>
+    <meta name="description" content="ValuHub数据洞察博客，定期发布房产市场报告、数据分析和行业趋势，为您提供专业的房产价值分析。">
+    <meta name="keywords" content="ValuHub,数据洞察,博客,市场报告,数据分析,房产趋势,房产价值">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ValuHub">
+    <meta name="copyright" content="© 2025 ValuHub">
+    <meta property="og:title" content="数据洞察 - ValuHub">
+    <meta property="og:description" content="ValuHub数据洞察博客，定期发布房产市场报告、数据分析和行业趋势，为您提供专业的房产价值分析。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.valuhub.com/insights.html">
+    <meta property="og:site_name" content="ValuHub">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "数据洞察 - ValuHub",
+      "url": "https://www.valuhub.com/insights.html",
+      "description": "ValuHub数据洞察博客，定期发布房产市场报告、数据分析和行业趋势，为您提供专业的房产价值分析。",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ValuHub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.valuhub.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- 引入CSS样式 - 预加载关键CSS -->
+    <link rel="preload" href="css/design-tokens.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="css/design-tokens.css">
+        <link rel="stylesheet" href="css/components.css">
+    </noscript>
+    
+    <!-- 页面特定样式 -->
+    <style>
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-16) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+        }
+        
+        /* 博客内容区样式 */
+        .blog-content {
+            background: var(--bg-ecosystem-pattern);
+        }
+        
+        /* 博客卡片样式 */
+        .blog-card {
+            background-color: var(--color-white);
+            border-radius: var(--border-radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-ecosystem-card);
+            transition: var(--transition-ecosystem);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        .blog-card-image {
+            height: 240px;
+            background-color: var(--color-bg-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blog-card-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 95, 223, 0.1) 0%, rgba(26, 95, 223, 0.05) 100%);
+        }
+        
+        .blog-card-image i {
+            font-size: 64px;
+            color: var(--color-primary);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .blog-card-content {
+            padding: var(--spacing-6);
+        }
+        
+        .blog-card-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .blog-category {
+            display: inline-block;
+            padding: var(--spacing-1) var(--spacing-3);
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+            border-radius: var(--border-radius-full);
+        }
+        
+        .blog-date {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .blog-reading-time {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+        
+        .blog-card-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .blog-card-excerpt {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .blog-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .blog-tag {
+            padding: var(--spacing-1) var(--spacing-2);
+            background-color: var(--color-bg-light);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            border-radius: var(--border-radius-sm);
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            background-color: var(--color-white);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .sidebar-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-4);
+            padding-bottom: var(--spacing-2);
+            border-bottom: var(--border-width-2) var(--border-style-solid) var(--color-primary);
+        }
+        
+        .sidebar-category {
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .category-list li {
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .category-list a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+        
+        .category-list a:hover {
+            color: var(--color-primary);
+        }
+        
+        .category-count {
+            background-color: var(--color-bg-light);
+            padding: var(--spacing-1) var(--spacing-2);
+            border-radius: var(--border-radius-full);
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+        
+        /* 热门文章样式 */
+        .popular-posts {
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .post-item {
+            display: flex;
+            gap: var(--spacing-3);
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .post-item-image {
+            width: 80px;
+            height: 80px;
+            background-color: var(--color-bg-light);
+            border-radius: var(--border-radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .post-item-image i {
+            font-size: 24px;
+            color: var(--color-primary);
+        }
+        
+        .post-item-content {
+            flex: 1;
+        }
+        
+        .post-item-title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-1);
+            transition: var(--transition-base);
+        }
+        
+        .post-item-title:hover {
+            color: var(--color-primary);
+        }
+        
+        .post-item-meta {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+        }
+        
+        /* 分页样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-12);
+        }
+        
+        .page-item {
+            background-color: var(--color-white);
+            border: var(--border-width-1) var(--border-style-solid) var(--border-color-base);
+            border-radius: var(--border-radius-lg);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        
+        .page-item:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+        
+        .page-item.active {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+        
+        /* 搜索框样式 */
+        .search-box {
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) var(--border-style-solid) var(--border-color-base);
+            border-radius: var(--border-radius-lg);
+            font-size: var(--font-size-base);
+            transition: var(--transition-base);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(26, 95, 223, 0.2);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .hero {
+                padding: var(--spacing-12) 0;
+            }
+            
+            .blog-card {
+                margin-bottom: var(--spacing-6);
+            }
+            
+            .blog-card-image {
+                height: 200px;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="navbar navbar-fixed">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ecosystem.html" class="nav-link">生态合作</a>
+                    <a href="partner-showcase.html" class="nav-link">合作伙伴</a>
+                    <a href="insights.html" class="nav-link active">数据洞察</a>
+                    <a href="academy.html" class="nav-link">学院中心</a>
+                    <div class="d-flex gap-4 ml-8">
+                        <a href="residential.html" class="nav-link">个人用户</a>
+                        <a href="government.html" class="nav-link">政府人员</a>
+                        <a href="enterprise.html" class="nav-link">企业客户</a>
+                        <a href="academy.html" class="nav-link">院校师生</a>
+                    </div>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- Hero区域 -->
+        <section class="hero py-16 bg-gradient-to-r from-primary to-secondary text-white relative overflow-hidden">
+            <div class="container relative z-10">
+                <h1 class="text-5xl font-bold mb-4">数据洞察</h1>
+                <p class="text-xl max-w-3xl">定期发布房产市场报告、数据分析和行业趋势，为您提供专业的房产价值分析</p>
+            </div>
+        </section>
+        
+        <!-- 博客内容区 -->
+        <section class="blog-content py-16">
+            <div class="container">
+                <div class="grid grid-cols-4 gap-8">
+                    <!-- 博客列表 -->
+                <div class="grid-cols-3">
+                    <!-- 博客管理工具条（仅管理员可见） -->
+                    <div id="admin-toolbar" class="blog-card p-6 mb-8" style="display: none;">
+                        <div class="d-flex justify-content-between items-center mb-4">
+                            <h3 class="text-xl font-bold">博客管理</h3>
+                            <button id="add-blog-btn" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus mr-2"></i>新建博客
+                            </button>
+                        </div>
+                        <div class="d-flex gap-4">
+                            <select id="status-filter" class="form-control px-3 py-2 rounded-lg">
+                                <option value="">所有状态</option>
+                                <option value="published">已发布</option>
+                                <option value="draft">草稿</option>
+                                <option value="archived">已归档</option>
+                            </select>
+                            <select id="category-filter" class="form-control px-3 py-2 rounded-lg">
+                                <option value="">所有分类</option>
+                                <!-- 分类选项将通过JavaScript动态加载 -->
+                            </select>
+                            <button id="filter-btn" class="btn btn-secondary btn-sm px-4 py-2 rounded-lg">
+                                <i class="fas fa-filter mr-2"></i>筛选
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 博客搜索 -->
+                    <div class="blog-card p-6 mb-8">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="搜索博客文章...">
+                        </div>
+                    </div>
+                        
+                        <!-- 博客卡片1 -->
+                        <div class="blog-card mb-8">
+                            <div class="blog-card-image">
+                                <i class="fas fa-chart-line text-6xl text-primary"></i>
+                            </div>
+                            <div class="blog-card-content">
+                                <!-- 管理员操作按钮（仅管理员可见） -->
+                                <div class="admin-actions" style="display: none; margin-bottom: 12px; text-align: right;">
+                                    <button class="btn btn-sm btn-secondary mr-2" onclick="editBlog('2025-market-report')">
+                                        <i class="fas fa-edit mr-1"></i>编辑
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteBlog('2025-market-report')">
+                                        <i class="fas fa-trash mr-1"></i>删除
+                                    </button>
+                                    <button class="btn btn-sm btn-success" onclick="toggleBlogStatus('2025-market-report', 'published')">
+                                        <i class="fas fa-eye mr-1"></i>发布
+                                    </button>
+                                </div>
+                                
+                                <div class="blog-card-meta">
+                                    <span class="blog-category">市场报告</span>
+                                    <span class="blog-date">2025-12-31</span>
+                                    <span class="blog-reading-time">12分钟阅读</span>
+                                    <span class="blog-status published" style="margin-left: 12px; padding: 2px 8px; background-color: #f6ffed; color: #52c41a; font-size: 10px; border-radius: 10px;">
+                                        已发布
+                                    </span>
+                                </div>
+                                <h3 class="blog-card-title">2025年中国房地产市场年度报告</h3>
+                                <p class="blog-card-excerpt">全面分析2025年中国房地产市场的发展趋势、价格变化和政策影响，为您提供专业的市场洞察。</p>
+                                <div class="blog-card-tags">
+                                    <span class="blog-tag">市场分析</span>
+                                    <span class="blog-tag">年度报告</span>
+                                    <span class="blog-tag">价格趋势</span>
+                                    <span class="blog-tag">政策影响</span>
+                                </div>
+                                <a href="insight-detail.html?id=2025-market-report" class="text-primary font-medium hover:underline">阅读全文</a>
+                            </div>
+                        </div>
+                        
+                        <!-- 博客卡片2 -->
+                        <div class="blog-card mb-8">
+                            <div class="blog-card-image">
+                                <i class="fas fa-map-marked-alt text-6xl text-primary"></i>
+                            </div>
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span class="blog-category">区域分析</span>
+                                    <span class="blog-date">2025-12-25</span>
+                                    <span class="blog-reading-time">8分钟阅读</span>
+                                </div>
+                                <h3 class="blog-card-title">一线城市房产价值趋势分析</h3>
+                                <p class="blog-card-excerpt">深入分析北京、上海、广州、深圳四大一线城市的房产价值变化趋势，为投资者提供决策参考。</p>
+                                <div class="blog-card-tags">
+                                    <span class="blog-tag">一线城市</span>
+                                    <span class="blog-tag">价值趋势</span>
+                                    <span class="blog-tag">投资分析</span>
+                                    <span class="blog-tag">区域分析</span>
+                                </div>
+                                <a href="insight-detail.html?id=first-tier-cities" class="text-primary font-medium hover:underline">阅读全文</a>
+                            </div>
+                        </div>
+                        
+                        <!-- 博客卡片3 -->
+                        <div class="blog-card mb-8">
+                            <div class="blog-card-image">
+                                <i class="fas fa-home text-6xl text-primary"></i>
+                            </div>
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span class="blog-category">数据分析</span>
+                                    <span class="blog-date">2025-12-20</span>
+                                    <span class="blog-reading-time">10分钟阅读</span>
+                                </div>
+                                <h3 class="blog-card-title">房产估价模型精度分析报告</h3>
+                                <p class="blog-card-excerpt">详细分析ValuHub房产估价模型的精度表现，包括不同区域、不同类型房产的估价准确性。</p>
+                                <div class="blog-card-tags">
+                                    <span class="blog-tag">模型精度</span>
+                                    <span class="blog-tag">数据分析</span>
+                                    <span class="blog-tag">估价技术</span>
+                                    <span class="blog-tag">AI模型</span>
+                                </div>
+                                <a href="insight-detail.html?id=valuation-model-accuracy" class="text-primary font-medium hover:underline">阅读全文</a>
+                            </div>
+                        </div>
+                        
+                        <!-- 博客卡片4 -->
+                        <div class="blog-card mb-8">
+                            <div class="blog-card-image">
+                                <i class="fas fa-chart-bar text-6xl text-primary"></i>
+                            </div>
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span class="blog-category">市场趋势</span>
+                                    <span class="blog-date">2025-12-15</span>
+                                    <span class="blog-reading-time">7分钟阅读</span>
+                                </div>
+                                <h3 class="blog-card-title">2026年房产市场预测报告</h3>
+                                <p class="blog-card-excerpt">基于大数据分析和AI模型预测，展望2026年中国房地产市场的发展趋势和投资机会。</p>
+                                <div class="blog-card-tags">
+                                    <span class="blog-tag">市场预测</span>
+                                    <span class="blog-tag">2026年</span>
+                                    <span class="blog-tag">投资机会</span>
+                                    <span class="blog-tag">趋势分析</span>
+                                </div>
+                                <a href="insight-detail.html?id=2026-market-prediction" class="text-primary font-medium hover:underline">阅读全文</a>
+                            </div>
+                        </div>
+                        
+                        <!-- 博客卡片5 -->
+                        <div class="blog-card mb-8">
+                            <div class="blog-card-image">
+                                <i class="fas fa-building text-6xl text-primary"></i>
+                            </div>
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span class="blog-category">行业动态</span>
+                                    <span class="blog-date">2025-12-10</span>
+                                    <span class="blog-reading-time">9分钟阅读</span>
+                                </div>
+                                <h3 class="blog-card-title">中国房地产行业数字化转型报告</h3>
+                                <p class="blog-card-excerpt">分析中国房地产行业数字化转型的现状、趋势和挑战，探讨数字化技术在房产估价中的应用。</p>
+                                <div class="blog-card-tags">
+                                    <span class="blog-tag">数字化转型</span>
+                                    <span class="blog-tag">行业动态</span>
+                                    <span class="blog-tag">技术应用</span>
+                                    <span class="blog-tag">创新趋势</span>
+                                </div>
+                                <a href="insight-detail.html?id=digital-transformation" class="text-primary font-medium hover:underline">阅读全文</a>
+                            </div>
+                        </div>
+                        
+                        <!-- 博客卡片6 -->
+                        <div class="blog-card mb-8">
+                            <div class="blog-card-image">
+                                <i class="fas fa-chart-pie text-6xl text-primary"></i>
+                            </div>
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span class="blog-category">数据分析</span>
+                                    <span class="blog-date">2025-12-05</span>
+                                    <span class="blog-reading-time">11分钟阅读</span>
+                                </div>
+                                <h3 class="blog-card-title">中国城市房产价值分布分析</h3>
+                                <p class="blog-card-excerpt">基于大数据分析，展示中国主要城市的房产价值分布情况，为您提供城市间的价值比较。</p>
+                                <div class="blog-card-tags">
+                                    <span class="blog-tag">城市分布</span>
+                                    <span class="blog-tag">价值比较</span>
+                                    <span class="blog-tag">数据分析</span>
+                                    <span class="blog-tag">可视化</span>
+                                </div>
+                                <a href="insight-detail.html?id=city-value-distribution" class="text-primary font-medium hover:underline">阅读全文</a>
+                            </div>
+                        </div>
+                        
+                        <!-- 分页 -->
+                        <div class="pagination mt-8">
+                            <div class="page-item"><i class="fas fa-chevron-left"></i></div>
+                            <div class="page-item active">1</div>
+                            <div class="page-item">2</div>
+                            <div class="page-item">3</div>
+                            <div class="page-item">4</div>
+                            <div class="page-item">5</div>
+                            <div class="page-item"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 侧边栏 -->
+                    <div class="grid-cols-1">
+                        <!-- 博客分类 -->
+                        <div class="sidebar mb-8">
+                            <h3 class="sidebar-title">博客分类</h3>
+                            <div class="sidebar-category">
+                                <ul class="category-list">
+                                    <li><a href="#">市场报告 <span class="category-count">12</span></a></li>
+                                    <li><a href="#">数据分析 <span class="category-count">28</span></a></li>
+                                    <li><a href="#">行业趋势 <span class="category-count">18</span></a></li>
+                                    <li><a href="#">政策解读 <span class="category-count">9</span></a></li>
+                                    <li><a href="#">技术应用 <span class="category-count">15</span></a></li>
+                                    <li><a href="#">案例分析 <span class="category-count">22</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 热门文章 -->
+                        <div class="sidebar mb-8">
+                            <h3 class="sidebar-title">热门文章</h3>
+                            <div class="popular-posts">
+                                <!-- 热门文章1 -->
+                                <div class="post-item">
+                                    <div class="post-item-image">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="post-item-content">
+                                        <a href="#" class="post-item-title">2025年中国房地产市场年度报告</a>
+                                        <div class="post-item-meta">2025-12-31 · 12分钟阅读</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 热门文章2 -->
+                                <div class="post-item">
+                                    <div class="post-item-image">
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </div>
+                                    <div class="post-item-content">
+                                        <a href="#" class="post-item-title">一线城市房产价值趋势分析</a>
+                                        <div class="post-item-meta">2025-12-25 · 8分钟阅读</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 热门文章3 -->
+                                <div class="post-item">
+                                    <div class="post-item-image">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="post-item-content">
+                                        <a href="#" class="post-item-title">2026年房产市场预测报告</a>
+                                        <div class="post-item-meta">2025-12-15 · 7分钟阅读</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 热门文章4 -->
+                                <div class="post-item">
+                                    <div class="post-item-image">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="post-item-content">
+                                        <a href="#" class="post-item-title">房产估价模型精度分析报告</a>
+                                        <div class="post-item-meta">2025-12-20 · 10分钟阅读</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 标签云 -->
+                        <div class="sidebar">
+                            <h3 class="sidebar-title">标签云</h3>
+                            <div class="blog-card-tags" style="margin-top: 0;">
+                                <span class="blog-tag">市场分析</span>
+                                <span class="blog-tag">年度报告</span>
+                                <span class="blog-tag">价格趋势</span>
+                                <span class="blog-tag">政策影响</span>
+                                <span class="blog-tag">一线城市</span>
+                                <span class="blog-tag">价值趋势</span>
+                                <span class="blog-tag">投资分析</span>
+                                <span class="blog-tag">区域分析</span>
+                                <span class="blog-tag">模型精度</span>
+                                <span class="blog-tag">数据分析</span>
+                                <span class="blog-tag">估价技术</span>
+                                <span class="blog-tag">AI模型</span>
+                                <span class="blog-tag">市场预测</span>
+                                <span class="blog-tag">2026年</span>
+                                <span class="blog-tag">投资机会</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 订阅区域 -->
+        <section class="subscribe py-16 bg-light">
+            <div class="container">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="section-title">订阅数据洞察</h2>
+                    <p class="section-subtitle mb-8">定期接收最新的市场报告、数据分析和行业趋势，保持对房产市场的敏锐洞察</p>
+                    <div class="d-flex gap-4 justify-center">
+                        <input type="email" class="form-control px-6 py-3 rounded-lg w-64" placeholder="您的邮箱地址">
+                        <button class="btn btn-primary btn-lg px-8 py-3 rounded-lg">订阅</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid grid-lg">
+                <div class="grid-item grid-lg-3">
+                    <div class="footer-logo">
+                        <a href="index.html" class="navbar-brand">
+                            <img src="图片1.png" alt="ValuHub Logo">
+                            ValuHub
+                        </a>
+                        <p class="mt-4 text-sm text-text-secondary">
+                            房产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">产品与服务</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">房产估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">数据报告</a></li>
+                        <li><a href="#">API服务</a></li>
+                        <li><a href="solutions.html">解决方案</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">解决方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">大众端</a></li>
+                        <li><a href="#">政务端</a></li>
+                        <li><a href="#">企业端</a></li>
+                        <li><a href="#">院校端</a></li>
+                        <li><a href="#">资管通</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="partner-showcase.html">合作伙伴</a></li>
+                        <li><a href="insights.html">数据洞察</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-3">
+                    <h4 class="footer-title">联系我们</h4>
+                    <ul class="footer-links contact-links">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市朝阳区XX大厦XX层</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@valuhub.com</span>
+                        </li>
+                    </ul>
+                    <div class="social-links mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom mt-8 pt-6 border-top">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="text-sm text-text-secondary">
+                        © 2025 ValuHub. 保留所有权利。
+                    </p>
+                    <div class="footer-bottom-links mt-3 mt-md-0">
+                        <a href="privacy-policy.html" class="text-sm text-text-secondary mr-4">隐私政策</a>
+                        <a href="terms-of-service.html" class="text-sm text-text-secondary">服务条款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 引入JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <!-- 页面特定脚本 -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 博客卡片交互效果
+            const blogCards = document.querySelectorAll('.blog-card');
+            blogCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                    this.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                });
+            });
+            
+            // 检查管理员身份并显示管理界面
+            checkAdminStatus();
+            
+            // 加载博客分类
+            loadBlogCategories();
+            
+            // 绑定事件监听
+            bindEventListeners();
+        });
+        
+        // 检查管理员身份
+        function checkAdminStatus() {
+            // 这里可以通过检查localStorage或调用API来判断用户是否为管理员
+            // 模拟管理员登录
+            const isAdmin = localStorage.getItem('isAdmin') === 'true' || false;
+            
+            if (isAdmin) {
+                // 显示管理员工具栏
+                document.getElementById('admin-toolbar').style.display = 'block';
+                
+                // 显示每个博客卡片的管理按钮
+                const adminActions = document.querySelectorAll('.admin-actions');
+                adminActions.forEach(action => {
+                    action.style.display = 'block';
+                });
+            }
+        }
+        
+        // 加载博客分类
+        function loadBlogCategories() {
+            // 这里应该调用API获取分类列表
+            // 模拟分类数据
+            const categories = [
+                { id: 'market-report', name: '市场报告' },
+                { id: 'data-analysis', name: '数据分析' },
+                { id: 'industry-trend', name: '行业趋势' },
+                { id: 'policy-interpretation', name: '政策解读' },
+                { id: 'technology-application', name: '技术应用' },
+                { id: 'case-analysis', name: '案例分析' }
+            ];
+            
+            const categoryFilter = document.getElementById('category-filter');
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                categoryFilter.appendChild(option);
+            });
+        }
+        
+        // 绑定事件监听
+        function bindEventListeners() {
+            // 新增博客按钮
+            document.getElementById('add-blog-btn').addEventListener('click', function() {
+                window.location.href = 'blog-editor.html';
+            });
+            
+            // 筛选按钮
+            document.getElementById('filter-btn').addEventListener('click', function() {
+                filterBlogs();
+            });
+            
+            // 搜索框事件
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    filterBlogs();
+                }
+            });
+        }
+        
+        // 编辑博客
+        function editBlog(blogId) {
+            window.location.href = `blog-editor.html?id=${blogId}`;
+        }
+        
+        // 删除博客
+        function deleteBlog(blogId) {
+            if (confirm('确定要删除这篇博客吗？此操作不可恢复。')) {
+                // 这里应该调用API删除博客
+                console.log('删除博客:', blogId);
+                // 删除成功后刷新页面
+                window.location.reload();
+            }
+        }
+        
+        // 切换博客状态
+        function toggleBlogStatus(blogId, currentStatus) {
+            let newStatus;
+            if (currentStatus === 'published') {
+                newStatus = 'draft';
+            } else {
+                newStatus = 'published';
+            }
+            
+            // 这里应该调用API切换博客状态
+            console.log('切换博客状态:', blogId, '从', currentStatus, '到', newStatus);
+            // 切换成功后刷新页面
+            window.location.reload();
+        }
+        
+        // 筛选博客
+        function filterBlogs() {
+            const searchQuery = document.querySelector('.search-input').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            const categoryFilter = document.getElementById('category-filter').value;
+            
+            console.log('筛选条件:', {
+                search: searchQuery,
+                status: statusFilter,
+                category: categoryFilter
+            });
+            
+            // 这里应该调用API获取筛选后的博客列表
+            // 模拟筛选效果
+            alert('筛选功能已触发，实际应用中会调用API获取筛选结果');
+        }
+        
+        // 切换管理员模式（用于测试）
+        function toggleAdminMode() {
+            const isAdmin = localStorage.getItem('isAdmin') === 'true' || false;
+            localStorage.setItem('isAdmin', !isAdmin);
+            window.location.reload();
+        }
+        
+        // 为测试目的，添加一个快捷方式切换管理员模式
+        // 在控制台输入 toggleAdminMode() 即可切换
+        window.toggleAdminMode = toggleAdminMode;
+    </script>
+</body>
+</html>

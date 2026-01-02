@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业控制台 - ValuHub</title>
+    <!-- 引入Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#6ea8fe',
+                    },
+                },
+            }
+        }
+    </script>
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-item-active {
+                @apply bg-primary text-white;
+            }
+            .nav-item-active {
+                @apply text-primary border-b-2 border-primary;
+            }
+            .btn-disabled {
+                @apply opacity-50 cursor-not-allowed;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+    <!-- 自定义样式 -->
+    <style>
+        /* Toast消息样式 */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* 模态框样式 */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- 主容器 -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- 左侧侧边栏 -->
+        <aside class="w-64 bg-white shadow-md flex flex-col fixed h-full z-10">
+            <!-- 侧边栏头部 -->
+            <div class="p-4 border-b">
+                <h1 class="text-xl font-bold text-primary">企业控制台</h1>
+            </div>
+            
+            <!-- 侧边栏菜单 -->
+            <nav class="flex-1 overflow-y-auto p-4">
+                <ul class="space-y-1">
+                    <!-- 首页 -->
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 数据表盘 - 高亮 -->
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-2 rounded-md sidebar-item-active transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span>数据表盘</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 资产管理 -->
+                    <li>
+                        <div class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors" onclick="toggleSubMenu(this)">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>资产管理</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <!-- 子菜单 -->
+                        <ul class="ml-10 mt-1 space-y-1 sub-menu">
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产列表</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产录入</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产统计</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 数据管务 -->
+                    <li>
+                        <div class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors" onclick="toggleSubMenu(this)">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                <span>数据管务</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <!-- 子菜单 -->
+                        <ul class="ml-10 mt-1 space-y-1 sub-menu">
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据录入</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据审核</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据导出</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 数据分析 -->
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>数据分析</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- 侧边栏底部 -->
+            <div class="p-4 border-t">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white mr-3">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-medium">管理员</div>
+                        <div class="text-xs text-gray-500">企业端</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <div class="flex-1 ml-64 flex flex-col">
+            <!-- 顶部导航栏 -->
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-6">
+                <!-- 左侧logo -->
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-primary">企业控制台</h1>
+                </div>
+                
+                <!-- 右侧导航 -->
+                <nav class="flex items-center space-x-8">
+                    <ul class="flex space-x-8">
+                        <li>
+                            <a href="#" class="text-primary border-b-2 border-primary py-4 px-1 font-medium">首页</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">资产管理</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">团队协作</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">数据分析</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- 功能按钮区 -->
+                    <div class="flex space-x-2">
+                        <button id="undo-btn" class="btn-disabled px-3 py-1 rounded bg-gray-200 text-gray-500 text-sm cursor-not-allowed" onclick="undoOperation()">
+                            ↩️ 撤销
+                        </button>
+                        <button id="redo-btn" class="btn-disabled px-3 py-1 rounded bg-gray-200 text-gray-500 text-sm cursor-not-allowed" onclick="redoOperation()">
+                            ➡️ 恢复
+                        </button>
+                        <button id="erase-selected-btn" class="btn-disabled px-3 py-1 rounded bg-gray-200 text-gray-500 text-sm cursor-not-allowed" onclick="eraseSelectedItems()">
+                            🗑️ 擦除选中
+                        </button>
+                        <button id="clear-temp-btn" class="px-3 py-1 rounded bg-primary text-white text-sm hover:bg-primary/90 transition-colors" onclick="clearTempOperations()">
+                            🧹 清空临时
+                        </button>
+                    </div>
+                </nav>
+            </header>
+            
+            <!-- 主内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 页面标题 -->
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">数据表盘</h2>
+                
+                <!-- 关键指标卡片组 -->
+                <div class="grid grid-cols-4 gap-6 mb-6">
+                    <!-- 卡片1 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">总资产</p>
+                                <h3 class="text-2xl font-bold text-primary">¥25,800,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-green-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    +7.8%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片2 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">已估价资产</p>
+                                <h3 class="text-2xl font-bold text-primary">¥18,060,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-green-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    +5.6%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片3 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">未估价资产</p>
+                                <h3 class="text-2xl font-bold text-primary">¥7,740,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-red-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                    -3.2%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片4 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">本月估价金额</p>
+                                <h3 class="text-2xl font-bold text-primary">¥1,200,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-green-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    +12.3%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图表区域 -->
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <!-- 资产总量环图 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">资产总量分布</h3>
+                        <div class="h-80 flex items-center justify-center">
+                            <canvas id="asset-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- 本月估价金额折线图 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">本月估价金额趋势</h3>
+                        <div class="h-80">
+                            <canvas id="valuation-amount-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 待处理任务进度条 -->
+                <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">待处理任务</h3>
+                    
+                    <!-- 任务1 -->
+                    <div class="mb-6 task-item" data-task-id="1">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="task-checkbox mr-3" onchange="updateSelectedItems()">
+                                <span class="text-sm font-medium text-gray-700">资产审核</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm text-gray-500 mr-3">82%</span>
+                                <button class="text-red-500 hover:text-red-700" onclick="deleteSingleItem(1)">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full" style="width: 82%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务2 -->
+                    <div class="mb-6 task-item" data-task-id="2">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="task-checkbox mr-3" onchange="updateSelectedItems()">
+                                <span class="text-sm font-medium text-gray-700">数据录入</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm text-gray-500 mr-3">68%</span>
+                                <button class="text-red-500 hover:text-red-700" onclick="deleteSingleItem(2)">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full" style="width: 68%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务3 -->
+                    <div class="mb-6 task-item" data-task-id="3">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="task-checkbox mr-3" onchange="updateSelectedItems()">
+                                <span class="text-sm font-medium text-gray-700">报表生成</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm text-gray-500 mr-3">95%</span>
+                                <button class="text-red-500 hover:text-red-700" onclick="deleteSingleItem(3)">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务4 -->
+                    <div class="task-item" data-task-id="4">
+                        <div class="flex justify-between items-center mb-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" class="task-checkbox mr-3" onchange="updateSelectedItems()">
+                                <span class="text-sm font-medium text-gray-700">系统维护</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-sm text-gray-500 mr-3">45%</span>
+                                <button class="text-red-500 hover:text-red-700" onclick="deleteSingleItem(4)">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- 回退/擦除功能的JavaScript逻辑 -->
+    <script>
+        // 操作历史记录类
+        class OperationHistory {
+            constructor() {
+                this.history = []; // 操作记录数组
+                this.currentIndex = -1; // 当前操作索引
+            }
+            
+            // 添加新操作
+            pushOperation(operation) {
+                // 截断当前索引后的记录
+                this.history = this.history.slice(0, this.currentIndex + 1);
+                // 存入新操作
+                this.history.push(operation);
+                // 更新当前索引
+                this.currentIndex = this.history.length - 1;
+                // 更新按钮状态
+                this.updateButtonStatus();
+            }
+            
+            // 撤销操作
+            undo() {
+                if (this.currentIndex >= 0) {
+                    const operation = this.history[this.currentIndex];
+                    this.currentIndex--;
+                    this.updateButtonStatus();
+                    return operation;
+                }
+                return null;
+            }
+            
+            // 恢复操作
+            redo() {
+                if (this.currentIndex < this.history.length - 1) {
+                    this.currentIndex++;
+                    const operation = this.history[this.currentIndex];
+                    this.updateButtonStatus();
+                    return operation;
+                }
+                return null;
+            }
+            
+            // 更新按钮状态
+            updateButtonStatus() {
+                const undoBtn = document.getElementById('undo-btn');
+                const redoBtn = document.getElementById('redo-btn');
+                
+                // 更新撤销按钮状态
+                if (this.currentIndex >= 0) {
+                    undoBtn.classList.remove('btn-disabled', 'bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                    undoBtn.classList.add('bg-primary', 'text-white', 'hover:bg-primary/90', 'cursor-pointer');
+                } else {
+                    undoBtn.classList.add('btn-disabled', 'bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                    undoBtn.classList.remove('bg-primary', 'text-white', 'hover:bg-primary/90', 'cursor-pointer');
+                }
+                
+                // 更新恢复按钮状态
+                if (this.currentIndex < this.history.length - 1) {
+                    redoBtn.classList.remove('btn-disabled', 'bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                    redoBtn.classList.add('bg-primary', 'text-white', 'hover:bg-primary/90', 'cursor-pointer');
+                } else {
+                    redoBtn.classList.add('btn-disabled', 'bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                    redoBtn.classList.remove('bg-primary', 'text-white', 'hover:bg-primary/90', 'cursor-pointer');
+                }
+            }
+            
+            // 清空临时操作
+            clearTemp() {
+                this.history = [];
+                this.currentIndex = -1;
+                this.updateButtonStatus();
+            }
+        }
+        
+        // 创建操作历史实例
+        const operationHistory = new OperationHistory();
+        
+        // Toast消息提示
+        function showToast(message, type = 'info') {
+            // 创建toast元素
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            // 设置样式
+            switch(type) {
+                case 'success':
+                    toast.style.backgroundColor = '#52c41a';
+                    break;
+                case 'error':
+                    toast.style.backgroundColor = '#f5222d';
+                    break;
+                case 'warning':
+                    toast.style.backgroundColor = '#faad14';
+                    break;
+                default:
+                    toast.style.backgroundColor = '#0056b3';
+            }
+            
+            // 设置消息内容
+            toast.textContent = message;
+            
+            // 添加到页面
+            document.body.appendChild(toast);
+            
+            // 2秒后自动移除
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+        
+        // 撤销操作
+        function undoOperation() {
+            const operation = operationHistory.undo();
+            if (operation) {
+                // 根据操作类型执行撤销逻辑
+                switch(operation.type) {
+                    case 'deleteTask':
+                        // 恢复删除的任务
+                        restoreTask(operation.data);
+                        showToast('已回退上一步操作', 'success');
+                        break;
+                    case 'deleteSelectedTasks':
+                        // 恢复删除的多个任务
+                        operation.data.forEach(task => {
+                            restoreTask(task);
+                        });
+                        showToast('已回退上一步操作', 'success');
+                        break;
+                }
+            }
+        }
+        
+        // 恢复操作
+        function redoOperation() {
+            const operation = operationHistory.redo();
+            if (operation) {
+                // 根据操作类型执行恢复逻辑
+                switch(operation.type) {
+                    case 'deleteTask':
+                        // 重新删除任务
+                        deleteTaskElement(operation.data.taskId);
+                        showToast('已恢复操作', 'success');
+                        break;
+                    case 'deleteSelectedTasks':
+                        // 重新删除多个任务
+                        operation.data.forEach(task => {
+                            deleteTaskElement(task.taskId);
+                        });
+                        showToast('已恢复操作', 'success');
+                        break;
+                }
+            }
+        }
+        
+        // 单条数据擦除功能
+        function deleteSingleItem(taskId) {
+            if (confirm('确定要删除这条记录吗？')) {
+                // 获取任务元素
+                const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+                if (taskElement) {
+                    // 保存任务数据用于恢复
+                    const taskData = {
+                        taskId: taskId,
+                        html: taskElement.outerHTML
+                    };
+                    
+                    // 记录操作
+                    operationHistory.pushOperation({
+                        type: 'deleteTask',
+                        data: taskData
+                    });
+                    
+                    // 删除任务元素
+                    taskElement.remove();
+                    showToast('已擦除选中任务', 'success');
+                    updateSelectedItems(); // 更新选中状态
+                }
+            }
+        }
+        
+        // 批量擦除功能
+        function eraseSelectedItems() {
+            const selectedCheckboxes = document.querySelectorAll('.task-checkbox:checked');
+            if (selectedCheckboxes.length === 0) {
+                showToast('请先选择要删除的记录', 'warning');
+                return;
+            }
+            
+            if (confirm(`确定要删除选中的 ${selectedCheckboxes.length} 条记录吗？`)) {
+                const deletedTasks = [];
+                
+                // 收集并删除选中的任务
+                selectedCheckboxes.forEach(checkbox => {
+                    const taskElement = checkbox.closest('.task-item');
+                    const taskId = parseInt(taskElement.dataset.taskId);
+                    
+                    // 保存任务数据用于恢复
+                    deletedTasks.push({
+                        taskId: taskId,
+                        html: taskElement.outerHTML
+                    });
+                    
+                    // 删除任务元素
+                    taskElement.remove();
+                });
+                
+                // 记录操作
+                operationHistory.pushOperation({
+                    type: 'deleteSelectedTasks',
+                    data: deletedTasks
+                });
+                
+                showToast(`已擦除 ${deletedTasks.length} 条选中任务`, 'success');
+                updateSelectedItems(); // 更新选中状态
+            }
+        }
+        
+        // 清空临时操作
+        function clearTempOperations() {
+            if (confirm('确定要清空所有临时操作记录吗？')) {
+                operationHistory.clearTemp();
+                showToast('已清空临时操作记录', 'success');
+            }
+        }
+        
+        // 恢复任务
+        function restoreTask(taskData) {
+            // 创建任务元素
+            const taskContainer = document.querySelector('.task-item') ? 
+                document.querySelector('.task-item').parentElement : 
+                document.querySelector('.bg-white.rounded-lg.shadow-sm.p-6.transition-all.hover\:shadow-md:last-of-type');
+            
+            if (taskContainer) {
+                // 插入恢复的任务
+                taskContainer.insertAdjacentHTML('beforeend', taskData.html);
+                updateSelectedItems(); // 更新选中状态
+            }
+        }
+        
+        // 删除任务元素
+        function deleteTaskElement(taskId) {
+            const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+            if (taskElement) {
+                taskElement.remove();
+                updateSelectedItems(); // 更新选中状态
+            }
+        }
+        
+        // 更新选中的项目
+        function updateSelectedItems() {
+            const selectedCheckboxes = document.querySelectorAll('.task-checkbox:checked');
+            const eraseSelectedBtn = document.getElementById('erase-selected-btn');
+            
+            // 更新擦除选中按钮状态
+            if (selectedCheckboxes.length > 0) {
+                eraseSelectedBtn.classList.remove('btn-disabled', 'bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                eraseSelectedBtn.classList.add('bg-primary', 'text-white', 'hover:bg-primary/90', 'cursor-pointer');
+            } else {
+                eraseSelectedBtn.classList.add('btn-disabled', 'bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+                eraseSelectedBtn.classList.remove('bg-primary', 'text-white', 'hover:bg-primary/90', 'cursor-pointer');
+            }
+        }
+        
+        // 切换子菜单
+        function toggleSubMenu(element) {
+            const subMenu = element.nextElementSibling;
+            const arrow = element.querySelector('svg:last-child');
+            
+            if (subMenu.classList.contains('sub-menu')) {
+                subMenu.classList.toggle('hidden');
+                arrow.classList.toggle('rotate-180');
+            }
+        }
+        
+        // 初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 资产总量环图
+            const assetCtx = document.getElementById('asset-distribution-chart').getContext('2d');
+            new Chart(assetCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['已估价资产', '未估价资产'],
+                    datasets: [{
+                        data: [70, 30],
+                        backgroundColor: [
+                            '#0056b3', // 深蓝色
+                            '#6ea8fe'   // 浅蓝
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            
+            // 本月估价金额折线图
+            const valuationCtx = document.getElementById('valuation-amount-chart').getContext('2d');
+            new Chart(valuationCtx, {
+                type: 'line',
+                data: {
+                    labels: ['100', '200', '400', '600', '800'],
+                    datasets: [{
+                        label: '估价金额 (万元)',
+                        data: [300, 700, 1200, 900, 800],
+                        borderColor: '#0056b3',
+                        backgroundColor: 'rgba(110, 168, 254, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#0056b3',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#0056b3',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}万`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '时间节点',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '金额 (万元)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '万';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 100 100">
+  <!-- 背景六边形 -->
+  <path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" fill="none" stroke="#1a73e8" stroke-width="3"/>
+  <!-- 蓝色主图形 -->
+  <path d="M40 35 L70 35 L60 50 L70 65 L40 65 L50 50 Z" fill="#1a73e8"/>
+  <!-- 蓝色交叉线条 -->
+  <path d="M25 45 L50 25 L75 45" stroke="#1a73e8" stroke-width="8" stroke-linecap="round"/>
+  <path d="M25 55 L50 75 L75 55" stroke="#1a73e8" stroke-width="8" stroke-linecap="round"/>
+  <!-- 橙色装饰 -->
+  <path d="M50 25 L65 35 L60 50" fill="#ff7e46"/>
+  <path d="M60 50 L65 65 L50 75" fill="#ff7e46"/>
+</svg>

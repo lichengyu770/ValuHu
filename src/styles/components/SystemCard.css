@@ -1,0 +1,208 @@
+.system-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.system-card.custom-card {
+  /* 自定义卡片基础样式 */
+}
+
+.system-card.hoverable:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.system-card.clickable {
+  cursor: pointer;
+}
+
+.system-card:not(.clickable):not(.hoverable) {
+  cursor: default;
+}
+
+.card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #e74c3c;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.card-image {
+  width: 100%;
+  height: 180px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.system-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #3498db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  color: white;
+  font-size: 24px;
+}
+
+.card-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #2c3e50;
+}
+
+.card-description {
+  margin: 0 0 1rem 0;
+  color: #7f8c8d;
+  flex: 1;
+}
+
+.card-content {
+  margin: 0.5rem 0;
+  flex: 1;
+  color: #555;
+}
+
+.card-link {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  margin-top: auto;
+  display: inline-block;
+}
+
+.card-link:hover {
+  color: #2980b9;
+}
+
+/* 深色主题样式 */
+.system-card.dark-theme {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.system-card.dark-theme .card-title {
+  color: white;
+}
+
+.system-card.dark-theme .card-description {
+  color: #bdc3c7;
+}
+
+.system-card.dark-theme .card-content {
+  color: #ecf0f1;
+}
+
+.system-card.dark-theme .card-link {
+  color: #3498db;
+}
+
+.system-card.dark-theme .card-link:hover {
+  color: #2980b9;
+}
+
+/* 不同尺寸样式 */
+.system-card.small {
+  padding: 1rem;
+}
+
+.system-card.small .card-title {
+  font-size: 1rem;
+}
+
+.system-card.small .card-description {
+  font-size: 0.875rem;
+}
+
+.system-card.large {
+  padding: 2rem;
+}
+
+.system-card.large .card-title {
+  font-size: 1.5rem;
+}
+
+.system-card.large .card-description {
+  font-size: 1rem;
+}
+
+/* 不同形状样式 */
+.system-card.rounded {
+  border-radius: 16px;
+}
+
+.system-card.square {
+  border-radius: 0;
+}
+
+/* 不同主题颜色 */
+.system-card.primary {
+  border-left: 4px solid #3498db;
+}
+
+.system-card.secondary {
+  border-left: 4px solid #2ecc71;
+}
+
+.system-card.success {
+  border-left: 4px solid #27ae60;
+}
+
+.system-card.warning {
+  border-left: 4px solid #f39c12;
+}
+
+.system-card.danger {
+  border-left: 4px solid #e74c3c;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .system-card {
+    padding: 1rem;
+  }
+
+  .card-image {
+    height: 150px;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+  }
+
+  .card-description {
+    font-size: 0.875rem;
+  }
+}

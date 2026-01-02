@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ValuHub 企业控制台</title>
+    <!-- 引入Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入Axios用于API调用 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Tailwind配置 -->
+    <script>
+        // API配置
+        const API_CONFIG = {
+            BASE_URL: 'http://localhost:8001',
+            TIMEOUT: 10000,
+            HEADERS: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+            }
+        };
+        
+        // 创建Axios实例
+        const apiClient = axios.create(API_CONFIG);
+        
+        // 请求拦截器
+        apiClient.interceptors.request.use(
+            config => {
+                // 在发送请求之前更新token
+                const token = localStorage.getItem('access_token');
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+                return config;
+            },
+            error => {
+                return Promise.reject(error);
+            }
+        );
+        
+        // 响应拦截器
+        apiClient.interceptors.response.use(
+            response => response,
+            error => {
+                if (error.response && error.response.status === 401) {
+                    // 处理未授权错误，跳转到登录页
+                    window.location.href = 'login.html';
+                }
+                console.error('API Error:', error.message);
+                return Promise.reject(error);
+            }
+        );
+        
+        // 获取仪表盘数据
+async function getDashboardData() {
+    try {
+        const response = await apiClient.get('/api/v1/valuation/history');
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+        return null;
+    }
+}
+
+// 获取资产分组列表
+async function getAssetGroups() {
+    try {
+        const response = await apiClient.get('/api/asset-groups');
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch asset groups:', error);
+        return null;
+    }
+}
+
+// 创建资产分组
+async function createAssetGroup(groupData) {
+    try {
+        const response = await apiClient.post('/api/asset-groups', groupData);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to create asset group:', error);
+        return null;
+    }
+}
+
+// 获取资产标签列表
+async function getAssetTags() {
+    try {
+        const response = await apiClient.get('/api/asset-tags');
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch asset tags:', error);
+        return null;
+    }
+}
+
+// 为资产添加标签
+async function addAssetTags(assetId, tags) {
+    try {
+        const response = await apiClient.post(`/api/assets/${assetId}/tags`, { tags });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to add tags to asset:', error);
+        return null;
+    }
+}
+        
+        // 获取资产价值分布数据
+        async function getAssetValueDistribution() {
+            try {
+                const response = await apiClient.get('/api/v1/analysis/asset-value-distribution');
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch asset value distribution:', error);
+                return null;
+            }
+        }
+        
+        // 获取资产价值趋势数据
+        async function getAssetValueTrend(period = 'month') {
+            try {
+                const response = await apiClient.get(`/api/v1/analysis/asset-value-trend?period=${period}`);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch asset value trend:', error);
+                return null;
+            }
+        }
+        
+        // 获取快速统计数据
+        async function getQuickStats() {
+            try {
+                const response = await apiClient.get('/api/v1/analysis/quick-stats');
+                return response.data;
+            } catch (error) {
+                console.error('Failed to fetch quick stats:', error);
+                return null;
+            }
+        }
+        
+        // 收集原始数据
+        async function collectRawData(data) {
+            try {
+                const response = await apiClient.post('/api/v1/data/collect', data);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to collect raw data:', error);
+                return null;
+            }
+        }
+        
+        // 生成估价报告
+        async function generateReport(reportData) {
+            try {
+                const response = await apiClient.post('/api/v1/report/generate', reportData);
+                return response.data;
+            } catch (error) {
+                console.error('Failed to generate report:', error);
+                return null;
+            }
+        }
+        
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#6ea8fe',
+                    },
+                },
+            }
+        }
+        
+        // 添加响应式样式
+        const style = document.createElement('style');
+        style.textContent = `
+            /* 响应式调整 */
+            @media (max-width: 768px) {
+                /* 侧边栏在小屏幕下的调整 */
+                aside.w-64 {
+                    width: 60px;
+                }
+                
+                /* 侧边栏标题在小屏幕下隐藏 */
+                aside .text-lg {
+                    display: none;
+                }
+                
+                /* 主内容区在小屏幕下的调整 */
+                .ml-64 {
+                    margin-left: 60px;
+                }
+                
+                /* 顶部导航栏在小屏幕下的调整 */
+                header .text-lg {
+                    font-size: 0.875rem;
+                }
+                
+                /* 顶部导航项在小屏幕下的调整 */
+                header ul.space-x-8 {
+                    gap: 1rem;
+                }
+                
+                /* 按钮在小屏幕下的调整 */
+                header button.px-4 {
+                    padding-left: 0.5rem;
+                    padding-right: 0.5rem;
+                    font-size: 0.75rem;
+                }
+            }
+            
+            /* 确保logo始终正确显示 */
+            img[src="图片1.png"] {
+                max-width: 32px !important;
+                max-height: 32px !important;
+                width: 32px !important;
+                height: 32px !important;
+                object-fit: contain !important;
+                display: inline-block !important;
+            }
+            
+            /* 确保页面结构正确渲染 */
+            body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            
+            /* 确保主容器正确显示 */
+            .flex.h-screen.overflow-hidden {
+                display: flex !important;
+                flex-direction: row !important;
+                width: 100% !important;
+                height: 100vh !important;
+            }
+            
+            /* 确保侧边栏正确显示 */
+            aside.w-64.bg-white.shadow-md.flex.flex-col.fixed.h-full.z-10 {
+                display: flex !important;
+                flex-direction: column !important;
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                height: 100vh !important;
+                width: 256px !important;
+                z-index: 10 !important;
+            }
+            
+            /* 确保主内容区正确显示 */
+            .flex-1.ml-64.flex.flex-col {
+                display: flex !important;
+                flex-direction: column !important;
+                margin-left: 256px !important;
+                flex: 1 !important;
+            }
+            
+            /* 确保顶部导航栏正确显示 */
+            header.bg-white.shadow-sm.h-16.flex.items-center.justify-between.px-6 {
+                display: flex !important;
+                height: 64px !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-item-active {
+                @apply bg-primary text-white;
+            }
+            .nav-item-active {
+                @apply text-primary border-b-2 border-primary;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- 主容器 -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- 左侧侧边栏 -->
+        <aside class="w-64 bg-white shadow-md flex flex-col fixed h-full z-10" aria-label="侧边导航">
+            <!-- 侧边栏头部 -->
+            <div class="p-4 border-b flex items-center">
+                <img src="图片1.png" alt="ValuHub Logo" class="w-6 h-6 mr-3 object-contain">
+                <h1 class="text-lg font-bold text-primary">ValuHub 企业控制台</h1>
+            </div>
+            
+            <!-- 侧边栏菜单 -->
+            <nav class="flex-1 overflow-y-auto p-4" aria-label="侧边栏导航">
+                <ul class="space-y-1">
+                    <!-- 首页 -->
+                    <li>
+                        <a href="#" id="sidebar-home" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 数据表盘 - 高亮 -->
+                    <li>
+                        <a href="#" id="sidebar-dashboard" class="flex items-center px-4 py-2 rounded-md sidebar-item-active transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span>数据表盘</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 资产管理 -->
+                    <li>
+                        <div id="sidebar-asset" class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>资产管理</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <!-- 子菜单 -->
+                        <ul class="ml-10 mt-1 space-y-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产列表</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产录入</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产统计</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 数据管务 -->
+                    <li>
+                        <div id="sidebar-data" class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                <span>数据管务</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <!-- 子菜单 -->
+                        <ul class="ml-10 mt-1 space-y-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据录入</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据审核</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据导出</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 数据分析 -->
+                    <li>
+                        <a href="#" id="sidebar-analysis" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>数据分析</span>
+                        </a>
+                    </li>
+                </ul>
+            
+            <!-- 侧边栏底部 -->
+            <div class="p-4 border-t">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white mr-3">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-medium">管理员</div>
+                        <div class="text-xs text-gray-500">企业端</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <div class="flex-1 ml-64 flex flex-col">
+            <!-- 顶部导航栏 -->
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-6">
+                <!-- 左侧logo -->
+                <div class="flex items-center">
+                    <img src="图片1.png" alt="ValuHub Logo" class="w-6 h-6 mr-2 object-contain">
+                    <h1 class="text-lg font-bold text-primary">ValuHub 企业控制台</h1>
+                </div>
+                
+                <!-- 右侧导航 -->
+                <nav aria-label="顶部导航">
+                    <ul class="flex space-x-8">
+                        <li>
+                            <a href="#" id="top-home" class="text-primary border-b-2 border-primary py-4 px-1 font-medium">首页</a>
+                        </li>
+                        <li>
+                            <a href="#" id="top-asset" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">资产管理</a>
+                        </li>
+                        <li>
+                            <a href="#" id="top-team" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">团队协作</a>
+                        </li>
+                        <li>
+                            <a href="#" id="top-analysis" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">数据分析</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <!-- 操作按钮 -->
+                <div class="flex items-center space-x-4">
+                    <button id="undo-btn" type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md transition-colors" aria-label="撤销操作">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        撤销
+                    </button>
+                    <button id="redo-btn" type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md transition-colors" aria-label="重做操作">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        重做
+                    </button>
+                </div>
+            </header>
+            
+            <!-- 主内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 仪表盘模块 -->
+                <div id="module-dashboard" class="module-content active">
+                    <!-- 页面标题 -->
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">数据表盘</h2>
+                    
+                    <!-- 关键指标卡片组 -->
+                    <div class="grid grid-cols-4 gap-6 mb-6">
+                        <!-- 卡片1 -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-500 text-sm mb-1">总资产</p>
+                                    <h3 class="text-2xl font-bold text-primary">¥8,600,000</h3>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-green-500 text-sm flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        +4.2%
+                                    </span>
+                                    <span class="text-gray-500 text-sm ml-2">较上月</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 卡片2 -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-500 text-sm mb-1">已估价资产</p>
+                                    <h3 class="text-2xl font-bold text-primary">¥6,020,000</h3>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-green-500 text-sm flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        +2.6%
+                                    </span>
+                                    <span class="text-gray-500 text-sm ml-2">较上月</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 卡片3 -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-500 text-sm mb-1">未估价资产</p>
+                                    <h3 class="text-2xl font-bold text-primary">¥2,580,000</h3>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-red-500 text-sm flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                        -1.8%
+                                    </span>
+                                    <span class="text-gray-500 text-sm ml-2">较上月</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 卡片4 -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-gray-500 text-sm mb-1">本月低价金额</p>
+                                    <h3 class="text-2xl font-bold text-primary">¥650,000</h3>
+                                </div>
+                                <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-green-500 text-sm flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        +5.9%
+                                    </span>
+                                    <span class="text-gray-500 text-sm ml-2">较上月</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 图表区域 -->
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <!-- 资产总量环图 -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">资产总量分布</h3>
+                                <button onclick="refreshChart('asset-distribution-chart')" class="text-sm text-primary hover:text-blue-700 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    刷新
+                                </button>
+                            </div>
+                            <div class="h-80 flex items-center justify-center">
+                                <canvas id="asset-distribution-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- 本月低价金额折线图 -->
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">本月低价金额趋势</h3>
+                                <button onclick="refreshChart('low-price-trend-chart')" class="text-sm text-primary hover:text-blue-700 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                    </svg>
+                                    刷新
+                                </button>
+                            </div>
+                            <div class="h-80">
+                                <canvas id="low-price-trend-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 快捷统计 -->
+                    <div class="grid grid-cols-3 gap-6 mb-6">
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+                            <div class="text-sm opacity-80 mb-1">本月新增资产</div>
+                            <div class="text-3xl font-bold" id="new-assets-count">0</div>
+                            <div class="text-sm mt-2 opacity-80">较上月 <span id="new-assets-change">+12%</span></div>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white">
+                            <div class="text-sm opacity-80 mb-1">完成估价</div>
+                            <div class="text-3xl font-bold" id="completed-count">0</div>
+                            <div class="text-sm mt-2 opacity-80">本月目标 <span id="completion-rate">85%</span></div>
+                        </div>
+                        <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white">
+                            <div class="text-sm opacity-80 mb-1">待处理任务</div>
+                            <div class="text-3xl font-bold" id="pending-tasks">0</div>
+                            <div class="text-sm mt-2 opacity-80">紧急 <span id="urgent-tasks">3</span> 项</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 待处理任务进度条 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">待处理任务</h3>
+                            <span class="text-sm text-gray-500">点击进度条可更新</span>
+                        </div>
+                        
+                        <!-- 任务1 -->
+                        <div class="mb-6 task-item" data-task="asset-review">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-700">资产审核</span>
+                                <span class="text-sm text-gray-500 task-percent">65%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 cursor-pointer task-progress" onclick="updateTaskProgress(this)">
+                                <div class="bg-primary h-2.5 rounded-full w-[65%] transition-all duration-300 task-bar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 任务2 -->
+                        <div class="mb-6 task-item" data-task="data-input">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-700">数据录入</span>
+                                <span class="text-sm text-gray-500 task-percent">40%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 cursor-pointer task-progress" onclick="updateTaskProgress(this)">
+                                <div class="bg-primary h-2.5 rounded-full w-[40%] transition-all duration-300 task-bar" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 任务3 -->
+                        <div class="mb-6 task-item" data-task="report-gen">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-700">报表生成</span>
+                                <span class="text-sm text-gray-500 task-percent">78%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 cursor-pointer task-progress" onclick="updateTaskProgress(this)">
+                                <div class="bg-primary h-2.5 rounded-full w-[78%] transition-all duration-300 task-bar" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 任务4 -->
+                        <div class="task-item" data-task="sys-maintain">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium text-gray-700">系统维护</span>
+                                <span class="text-sm text-gray-500 task-percent">25%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 cursor-pointer task-progress" onclick="updateTaskProgress(this)">
+                                <div class="bg-primary h-2.5 rounded-full w-[25%] transition-all duration-300 task-bar" style="width: 25%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 资产管理模块 -->
+                <div id="module-asset" class="module-content" style="display: none;">
+                    <!-- 页面标题 -->
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">资产管理</h2>
+                    
+                    <!-- 资产管理内容 -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">资产列表</h3>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">资产名称</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">价值</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">办公电脑</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">电子设备</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">¥5,000</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">已估价</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <a href="#" class="text-primary hover:text-blue-700 mr-3">查看</a>
+                                                <a href="#" class="text-primary hover:text-blue-700">编辑</a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">办公桌椅</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">家具</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">¥2,000</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">待估价</span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <a href="#" class="text-primary hover:text-blue-700 mr-3">查看</a>
+                                                <a href="#" class="text-primary hover:text-blue-700">编辑</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 数据管务模块 -->
+                <div id="module-data" class="module-content" style="display: none;">
+                    <!-- 页面标题 -->
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">数据管务</h2>
+                    
+                    <!-- 数据管务内容 -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">数据录入</h3>
+                            <form class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="asset-name" class="block text-sm font-medium text-gray-700">资产名称</label>
+                                        <input type="text" id="asset-name" name="asset-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="asset-type" class="block text-sm font-medium text-gray-700">资产类型</label>
+                                        <select id="asset-type" name="asset-type" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                            <option value="">请选择</option>
+                                            <option value="electronics">电子设备</option>
+                                            <option value="furniture">家具</option>
+                                            <option value="equipment">机械设备</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="asset-value" class="block text-sm font-medium text-gray-700">预估价值</label>
+                                        <input type="number" id="asset-value" name="asset-value" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="asset-status" class="block text-sm font-medium text-gray-700">状态</label>
+                                        <select id="asset-status" name="asset-status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                                            <option value="">请选择</option>
+                                            <option value="pending">待估价</option>
+                                            <option value="valued">已估价</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="asset-description" class="block text-sm font-medium text-gray-700">描述</label>
+                                    <textarea id="asset-description" name="asset-description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"></textarea>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="button" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">取消</button>
+                                    <button type="submit" class="ml-3 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 数据分析模块 -->
+                <div id="module-analysis" class="module-content" style="display: none;">
+                    <!-- 页面标题 -->
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">数据分析</h2>
+                    
+                    <!-- 数据分析内容 -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">资产价值分析</h3>
+                            <div class="h-96">
+                                <canvas id="analysis-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 团队协作模块 -->
+                <div id="module-team" class="module-content" style="display: none;">
+                    <!-- 页面标题 -->
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800">团队协作</h2>
+                    
+                    <!-- 团队协作内容 -->
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">团队成员</h3>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                    <div class="w-16 h-16 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center text-white">
+                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium">张三</h4>
+                                    <p class="text-sm text-gray-500">管理员</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                    <div class="w-16 h-16 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center text-white">
+                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium">李四</h4>
+                                    <p class="text-sm text-gray-500">资产管理员</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                    <div class="w-16 h-16 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center text-white">
+                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium">王五</h4>
+                                    <p class="text-sm text-gray-500">数据分析师</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                    <div class="w-16 h-16 bg-primary rounded-full mx-auto mb-3 flex items-center justify-center text-white">
+                                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <h4 class="font-medium">赵六</h4>
+                                    <p class="text-sm text-gray-500">审核员</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Toast消息容器 -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    
+    <!-- 图表初始化脚本 -->
+    <script>
+        // 操作历史记录类
+        class OperationHistory {
+            constructor() {
+                this.operations = [];
+                this.currentIndex = -1;
+            }
+            
+            // 记录操作
+            recordOperation(operation) {
+                // 如果当前不是最新操作，清除后面的操作
+                if (this.currentIndex < this.operations.length - 1) {
+                    this.operations = this.operations.slice(0, this.currentIndex + 1);
+                }
+                
+                this.operations.push(operation);
+                this.currentIndex++;
+            }
+            
+            // 撤销操作
+            undo() {
+                if (this.currentIndex >= 0) {
+                    const operation = this.operations[this.currentIndex];
+                    operation.undo();
+                    this.currentIndex--;
+                    return true;
+                }
+                return false;
+            }
+            
+            // 重做操作
+            redo() {
+                if (this.currentIndex < this.operations.length - 1) {
+                    this.currentIndex++;
+                    const operation = this.operations[this.currentIndex];
+                    operation.redo();
+                    return true;
+                }
+                return false;
+            }
+        }
+        
+        // Toast消息系统
+        const Toast = {
+            // 显示toast消息
+            show(message, type = 'info', duration = 3000) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                
+                // 设置样式
+                toast.className = `px-4 py-3 rounded-md shadow-lg transition-all transform translate-x-full opacity-0`;
+                
+                // 根据类型设置背景色
+                switch(type) {
+                    case 'success':
+                        toast.classList.add('bg-green-500', 'text-white');
+                        break;
+                    case 'error':
+                        toast.classList.add('bg-red-500', 'text-white');
+                        break;
+                    case 'warning':
+                        toast.classList.add('bg-yellow-500', 'text-white');
+                        break;
+                    default:
+                        toast.classList.add('bg-blue-500', 'text-white');
+                }
+                
+                toast.textContent = message;
+                container.appendChild(toast);
+                
+                // 添加动画
+                setTimeout(() => {
+                    toast.classList.remove('translate-x-full', 'opacity-0');
+                    toast.classList.add('translate-x-0', 'opacity-100');
+                }, 10);
+                
+                // 自动移除
+                setTimeout(() => {
+                    toast.classList.remove('translate-x-0', 'opacity-100');
+                    toast.classList.add('translate-x-full', 'opacity-0');
+                    
+                    setTimeout(() => {
+                        container.removeChild(toast);
+                    }, 300);
+                }, duration);
+            },
+            
+            success(message, duration) {
+                this.show(message, 'success', duration);
+            },
+            
+            error(message, duration) {
+                this.show(message, 'error', duration);
+            },
+            
+            warning(message, duration) {
+                this.show(message, 'warning', duration);
+            },
+            
+            info(message, duration) {
+                this.show(message, 'info', duration);
+            }
+        };
+        
+        // 初始化操作历史
+        const operationHistory = new OperationHistory();
+        
+        // 初始化单个图表 - 支持从后端获取数据
+        async function initChart(canvasId) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx || ctx.chart) return;
+            
+            switch(canvasId) {
+                case 'asset-distribution-chart':
+                    // 从API获取资产价值分布数据
+                    const distributionData = await getAssetValueDistribution();
+                    
+                    // 处理资产分布数据
+                    let estimatedValue = 70;
+                    let unestimatedValue = 30;
+                    
+                    // 如果有真实数据，使用真实数据
+                    if (distributionData) {
+                        // 计算已估价资产和未估价资产的比例
+                        const distribution = distributionData.distribution;
+                        const totalValue = Object.values(distribution).reduce((sum, value) => sum + value, 0);
+                        estimatedValue = Math.round((totalValue / (estimatedValue + unestimatedValue)) * estimatedValue);
+                        unestimatedValue = Math.round((totalValue / (estimatedValue + unestimatedValue)) * unestimatedValue);
+                    }
+                    
+                    ctx.chart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['已估价资产', '未估价资产'],
+                            datasets: [{
+                                data: [estimatedValue, unestimatedValue],
+                                backgroundColor: ['#0056b3', '#6ea8fe'],
+                                borderWidth: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%'
+                        }
+                    });
+                    break;
+                    
+                case 'low-price-trend-chart':
+                    // 从API获取资产价值趋势数据
+                    const trendData = await getAssetValueTrend('month');
+                    
+                    // 处理低价金额趋势数据
+                    let chartData = [150, 400, 650, 550, 500];
+                    let chartLabels = ['1月', '2月', '3月', '4月', '5月'];
+                    
+                    // 如果有真实数据，使用真实数据
+                    if (trendData && trendData.trend) {
+                        chartLabels = Object.keys(trendData.trend);
+                        chartData = Object.values(trendData.trend).map(value => Math.round(value / 10000));
+                    }
+                    
+                    ctx.chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: chartLabels,
+                            datasets: [{
+                                label: '低价金额 (万元)',
+                                data: chartData,
+                                borderColor: '#0056b3',
+                                backgroundColor: 'rgba(110, 168, 254, 0.1)',
+                                fill: true,
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                    break;
+                    
+                case 'analysis-chart':
+                    // 从API获取资产价值分布数据
+                    const assetDistribution = await getAssetValueDistribution();
+                    
+                    // 处理资产价值分布数据
+                    let analysisLabels = ['电子设备', '家具', '机械设备', '车辆', '其他'];
+                    let analysisData = [1200, 800, 1500, 2000, 500];
+                    
+                    // 如果有真实数据，使用真实数据
+                    if (assetDistribution && assetDistribution.distribution) {
+                        analysisLabels = Object.keys(assetDistribution.distribution);
+                        analysisData = Object.values(assetDistribution.distribution).map(value => Math.round(value / 10000));
+                    }
+                    
+                    ctx.chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: analysisLabels,
+                            datasets: [{
+                                label: '资产价值 (万元)',
+                                data: analysisData,
+                                backgroundColor: '#0056b3',
+                                borderRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: { beginAtZero: true }
+                            }
+                        }
+                    });
+                    break;
+            }
+        }
+        
+        // 刷新图表 - 支持异步调用
+        async function refreshChart(canvasId) {
+            const ctx = document.getElementById(canvasId);
+            if (ctx && ctx.chart) {
+                ctx.chart.destroy();
+                ctx.chart = null;
+            }
+            await initChart(canvasId);
+            Toast.success('图表已刷新');
+        }
+        
+        // 页面加载完成后初始化图表和事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            // 资产总量环图
+            const assetCtx = document.getElementById('asset-distribution-chart').getContext('2d');
+            new Chart(assetCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['已估价资产', '未估价资产'],
+                    datasets: [{
+                        data: [70, 30],
+                        backgroundColor: [
+                            '#0056b3',
+                            '#6ea8fe'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            
+            // 本月低价金额折线图
+            const lowPriceCtx = document.getElementById('low-price-trend-chart').getContext('2d');
+            new Chart(lowPriceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['100', '200', '400', '600', '800'],
+                    datasets: [{
+                        label: '低价金额 (万元)',
+                        data: [150, 400, 650, 550, 500],
+                        borderColor: '#0056b3',
+                        backgroundColor: 'rgba(110, 168, 254, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#0056b3',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#0056b3',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}万`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '时间节点',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '金额 (万元)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '万';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+            
+            // 初始化撤销/重做按钮事件监听
+            const undoBtn = document.getElementById('undo-btn');
+            const redoBtn = document.getElementById('redo-btn');
+            
+            undoBtn.addEventListener('click', function() {
+                if (operationHistory.undo()) {
+                    Toast.success('已撤销操作');
+                } else {
+                    Toast.warning('没有更多可撤销的操作');
+                }
+            });
+            
+            redoBtn.addEventListener('click', function() {
+                if (operationHistory.redo()) {
+                    Toast.success('已重做操作');
+                } else {
+                    Toast.warning('没有更多可重做的操作');
+                }
+            });
+            
+            // 图表按需加载（当canvas进入视口时初始化）
+            const chartObserver = new IntersectionObserver(async (entries) => {
+                entries.forEach(async entry => {
+                    if (entry.isIntersecting) {
+                        const canvasId = entry.target.id;
+                        await initChart(canvasId);
+                        chartObserver.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '100px' });
+            
+            // 观察所有图表canvas
+            document.querySelectorAll('canvas').forEach(canvas => {
+                chartObserver.observe(canvas);
+            });
+            
+            // 更新任务进度
+            function updateTaskProgress(element) {
+                const bar = element.querySelector('.task-bar');
+                const percentText = element.parentElement.querySelector('.task-percent');
+                const currentWidth = parseInt(bar.style.width) || 0;
+                const newWidth = Math.min(100, currentWidth + 10);
+                
+                // 记录操作以便撤销
+                const operation = {
+                    undo: () => {
+                        bar.style.width = currentWidth + '%';
+                        percentText.textContent = currentWidth + '%';
+                    },
+                    redo: () => {
+                        bar.style.width = newWidth + '%';
+                        percentText.textContent = newWidth + '%';
+                    }
+                };
+                
+                operationHistory.recordOperation(operation);
+                operation.redo();
+                Toast.success('任务进度已更新');
+                
+                // 更新统计数据
+                updateQuickStats();
+            }
+            
+            // 更新快捷统计数据
+            function updateQuickStats() {
+                let totalProgress = 0;
+                let taskCount = 0;
+                document.querySelectorAll('.task-bar').forEach(bar => {
+                    totalProgress += parseInt(bar.style.width) || 0;
+                    taskCount++;
+                });
+                
+                const avgProgress = Math.round(totalProgress / taskCount);
+                document.getElementById('pending-tasks').textContent = Math.round((100 - avgProgress) * 0.15);
+                
+                let urgentCount = 0;
+                document.querySelectorAll('.task-bar').forEach(bar => {
+                    if ((parseInt(bar.style.width) || 0) < 50) urgentCount++;
+                });
+                document.getElementById('urgent-tasks').textContent = urgentCount;
+            }
+            
+            // 数字递增动画
+            function animateNumber(element, target, duration = 1000) {
+                const start = 0;
+                const increment = target / (duration / 16);
+                let current = start;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.round(current);
+                }, 16);
+            }
+            
+            // 初始化快捷统计数字动画
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(() => {
+                    animateNumber(document.getElementById('new-assets-count'), 128);
+                    animateNumber(document.getElementById('completed-count'), 856);
+                    animateNumber(document.getElementById('pending-tasks'), 45);
+                }, 500);
+            });
+            
+            // 模块切换功能
+            function switchModule(moduleName) {
+                // 隐藏所有模块内容
+                document.querySelectorAll('.module-content').forEach(content => {
+                    content.classList.remove('active');
+                    content.style.display = 'none';
+                });
+                
+                // 显示目标模块
+                const targetModule = document.getElementById(`module-${moduleName}`);
+                if (targetModule) {
+                    targetModule.classList.add('active');
+                    targetModule.style.display = 'block';
+                }
+                
+                // 更新侧边栏激活状态
+                document.querySelectorAll('#sidebar-dashboard, #sidebar-asset, #sidebar-data, #sidebar-analysis').forEach(item => {
+                    item.classList.remove('sidebar-item-active');
+                });
+                
+                // 更新顶部导航激活状态
+                document.querySelectorAll('#top-home, #top-asset, #top-team, #top-analysis').forEach(item => {
+                    item.classList.remove('nav-item-active');
+                    item.classList.remove('text-primary');
+                    item.classList.remove('border-b-2');
+                    item.classList.remove('border-primary');
+                    item.classList.add('text-gray-600');
+                });
+                
+                // 设置对应导航项的激活状态
+                switch(moduleName) {
+                    case 'dashboard':
+                        document.getElementById('sidebar-dashboard').classList.add('sidebar-item-active');
+                        document.getElementById('top-home').classList.add('nav-item-active', 'text-primary', 'border-b-2', 'border-primary');
+                        document.getElementById('top-home').classList.remove('text-gray-600');
+                        break;
+                    case 'asset':
+                        document.getElementById('sidebar-asset').classList.add('sidebar-item-active');
+                        document.getElementById('top-asset').classList.add('nav-item-active', 'text-primary', 'border-b-2', 'border-primary');
+                        document.getElementById('top-asset').classList.remove('text-gray-600');
+                        break;
+                    case 'data':
+                        document.getElementById('sidebar-data').classList.add('sidebar-item-active');
+                        break;
+                    case 'analysis':
+                        document.getElementById('sidebar-analysis').classList.add('sidebar-item-active');
+                        document.getElementById('top-analysis').classList.add('nav-item-active', 'text-primary', 'border-b-2', 'border-primary');
+                        document.getElementById('top-analysis').classList.remove('text-gray-600');
+                        break;
+                    case 'team':
+                        document.getElementById('top-team').classList.add('nav-item-active', 'text-primary', 'border-b-2', 'border-primary');
+                        document.getElementById('top-team').classList.remove('text-gray-600');
+                        break;
+                }
+            }
+            
+            // 初始化导航点击事件
+            document.addEventListener('DOMContentLoaded', function() {
+                // 初始化快捷统计数据
+                document.getElementById('new-assets-count').textContent = '12';
+                document.getElementById('completed-count').textContent = '45';
+                document.getElementById('pending-tasks').textContent = '8';
+                
+                // 侧边栏导航事件
+                const sidebarLinks = {
+                    '#sidebar-home': 'dashboard',
+                    '#sidebar-dashboard': 'dashboard',
+                    '#sidebar-asset': 'asset',
+                    '#sidebar-data': 'data',
+                    '#sidebar-analysis': 'analysis'
+                };
+                
+                Object.entries(sidebarLinks).forEach(([selector, module]) => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        element.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            switchModule(module);
+                        });
+                    }
+                });
+                
+                // 顶部导航事件
+                const topNavLinks = {
+                    '#top-home': 'dashboard',
+                    '#top-asset': 'asset',
+                    '#top-team': 'team',
+                    '#top-analysis': 'analysis'
+                };
+                
+                Object.entries(topNavLinks).forEach(([selector, module]) => {
+                    const element = document.querySelector(selector);
+                    if (element) {
+                        element.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            switchModule(module);
+                        });
+                    }
+                });
+                
+                // 初始化数据分析图表
+                const analysisCtx = document.getElementById('analysis-chart');
+                if (analysisCtx) {
+                    new Chart(analysisCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['电子设备', '家具', '机械设备', '车辆', '其他'],
+                            datasets: [{
+                                label: '资产价值 (万元)',
+                                data: [1200, 800, 1500, 2000, 500],
+                                backgroundColor: '#0056b3',
+                                borderRadius: 4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: '金额 (万元)',
+                                        font: {
+                                            size: 14,
+                                            weight: 'bold'
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // 数据录入表单提交事件
+                const dataForm = document.querySelector('#module-data form');
+                if (dataForm) {
+                    dataForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        Toast.success('数据已保存');
+                        dataForm.reset();
+                    });
+                }
+            });
+            
+            // 初始化任务进度条点击事件
+            document.querySelectorAll('.task-progress').forEach(progress => {
+                progress.addEventListener('click', function() {
+                    updateTaskProgress(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

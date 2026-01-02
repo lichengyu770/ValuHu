@@ -1,0 +1,103 @@
+name: 跨浏览器测试
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      quick-test:
+        description: '运行快速测试模式'
+        required: false
+        default: true
+        type: boolean
+      test-platform:
+        description: '测试平台'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - 'browserstack'
+          - 'lambdatest'
+          - 'all'
+
+jobs:
+  setup:
+    name: 环境准备
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: 安装依赖
+        run: npm ci
+
+  browser-tests:
+    name: 跨浏览器测试
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ github.event.inputs.test-platform == 'all' && fromJSON('["browserstack", "lambdatest"]') || [github.event.inputs.test-platform] }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: 安装依赖
+        run: npm ci
+      - name: 创建环境变量文件
+        run: |
+          echo "BROWSERSTACK_USERNAME=${{ secrets.BROWSERSTACK_USERNAME }}" >> .env
+          echo "BROWSERSTACK_ACCESS_KEY=${{ secrets.BROWSERSTACK_ACCESS_KEY }}" >> .env
+          echo "LAMBDATEST_USERNAME=${{ secrets.LAMBDATEST_USERNAME }}" >> .env
+          echo "LAMBDATEST_ACCESS_KEY=${{ secrets.LAMBDATEST_ACCESS_KEY }}" >> .env
+          echo "SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}" >> .env
+          echo "CI=github_actions" >> .env
+          echo "BUILD_NUMBER=${{ github.run_number }}" >> .env
+          echo "JOB_ID=${{ github.job }}" >> .env
+          echo "GIT_BRANCH=${{ github.ref_name }}" >> .env
+          echo "PR_NUMBER=${{ github.event.pull_request.number || '' }}" >> .env
+      - name: 构建应用
+        run: npm run build
+      - name: 启动服务器
+        run: |
+          npm run preview -- --port 5173 --host 0.0.0.0 &
+          # 等待服务器启动
+          sleep 10
+      - name: 运行 ${{ matrix.platform }} 测试 ${{ github.event.inputs.quick-test && '(快速模式)' || '' }}
+        run: |
+          TEST_ARGS="${{ matrix.platform }} ${{ github.event.inputs.quick-test && '--quick' || '' }} --skip-server"
+          node scripts/run-browser-tests.js $TEST_ARGS
+      - name: 上传测试报告
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-reports-${{ matrix.platform }}
+          path: test-reports/
+          retention-days: 7
+
+  notifications:
+    name: 测试通知
+    needs: browser-tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 检查测试结果并发送通知
+        run: |
+          # 检查所有测试作业是否通过
+          if [[ "${{ needs.browser-tests.result }}" == "success" ]]; then
+            echo "所有测试通过！"
+            # 可以在这里添加成功通知逻辑
+          else
+            echo "测试失败！"
+            # 可以在这里添加失败通知逻辑
+          fi

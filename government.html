@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>AI快速估价- 政府端 - ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    
+    <!-- 引入第三方库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <!-- 引入设计系统样式 -->
+    <link rel="stylesheet" href="css/design-tokens.css">
+    <!-- 引入政务端专用样式 -->
+    <link rel="stylesheet" href="css/government.css">
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0C2461',
+                        secondary: '#B71540',
+                        accent: '#667eea',
+                        success: '#52c41a',
+                        warning: '#faad14',
+                        danger: '#f5222d',
+                        dark: '#1a1a1a',
+                        light: '#f5f7fa'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-smooth {
+                transition: all 0.3s ease;
+            }
+            .shadow-soft {
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+            .shadow-medium {
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+    
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* 页面布局 */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 左侧菜单 */
+        .sidebar {
+            width: 240px;
+            background-color: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        /* 顶部导航 */
+        .top-nav {
+            height: 64px;
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 工作区 */
+        .workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            background-color: #f5f7fa;
+        }
+        
+        /* 估价表单 */
+        .valuation-form {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background-color: white;
+        }
+        
+        /* 结果展示区 */
+        .result-display {
+            width: 400px;
+            background-color: #f8f9fa;
+            border-left: 1px solid #e0e0e0;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: #f5f7fa;
+            border-color: #667eea;
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5566cc;
+            border-color: #5566cc;
+            color: white;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        /* 表单行 */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 结果卡片 */
+        .result-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+        }
+        
+        /* 结果标签 */
+        .result-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        /* 结果值 */
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        /* 图表容器 */
+        .chart-container {
+            margin: 20px 0;
+            height: 300px;
+        }
+        
+        /* 操作历史 */
+        .operation-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        /* 菜单样式 */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .menu-item:hover {
+            background-color: #f0f4ff;
+            color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        /* 数据表格 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* 选择框 */
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        /* 工具栏 */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        /* 统计卡片 */
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        
+        /* 政策卡片 */
+        .policy-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .result-display {
+                width: 320px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+            }
+            
+            .workspace {
+                flex-direction: column;
+            }
+            
+            .result-display {
+                width: 100%;
+                height: 300px;
+                border-left: none;
+                border-top: 1px solid #e0e0e0;
+            }
+        }
+    </style>
+</head>
+<body class="gov-terminal">
+    <div class="app-container gov-lattice-border">
+        <!-- 左侧菜单 -->
+        <div class="sidebar gov-sidebar">
+            <!-- 品牌标识 -->
+            <div class="gov-sidebar-brand">
+                <h2 class="gov-sidebar-title">🏛️ 政府端</h2>
+                <p style="font-size: 12px; color: rgba(255, 255, 255, 0.8); margin: 0;">AI快速估价</p>
+            </div>
+            
+            <!-- 菜单列表 -->
+            <div class="gov-sidebar-menu">
+                <div class="gov-sidebar-item">
+                    <div class="gov-sidebar-link active" data-module="dashboard">
+                        📊 监管仪表盘
+                    </div>
+                </div>
+                <div class="gov-sidebar-item">
+                    <div class="gov-sidebar-link" data-module="regulatory-review">
+                        🔍 监管审核
+                    </div>
+                </div>
+                <div class="gov-sidebar-item">
+                    <div class="gov-sidebar-link" data-module="policy-management">
+                        📋 政策管理
+                    </div>
+                </div>
+                <div class="gov-sidebar-item">
+                    <div class="gov-sidebar-link" data-module="statistical-reports">
+                        📈 统计报表
+                    </div>
+                </div>
+                <div class="gov-sidebar-item">
+                    <div class="gov-sidebar-link" data-module="enterprise-management">
+                        🏢 企业管理
+                    </div>
+                </div>
+                <div class="gov-sidebar-item">
+                    <div class="gov-sidebar-link" data-module="system-settings">
+                        ⚙️ 系统设置
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 顶部导航 -->
+            <div class="top-nav gov-header">
+                <div class="gov-header-content">
+                    <div>
+                        <h1 class="gov-header-title">AI快速估价 - 政府监管平台</h1>
+                        <p class="gov-header-subtitle">权威 · 公正 · 高效</p>
+                    </div>
+                    <div class="top-actions">
+                        <!-- 回退/擦除功能按钮 -->
+                        <button id="undo-btn" class="btn gov-btn" disabled>
+                            ↩️ 撤销
+                        </button>
+                        <button id="redo-btn" class="btn gov-btn" disabled>
+                            ➡️ 恢复
+                        </button>
+                        <button id="erase-selected-btn" class="btn gov-btn" disabled>
+                            🗑️ 擦除选中
+                        </button>
+                        <button id="clear-temp-btn" class="btn gov-btn gov-btn-primary">
+                            🧹 清空临时
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 工作区 -->
+            <div class="workspace">
+                <!-- 监管仪表盘模块 -->
+                <div id="dashboard" class="valuation-form module-content active gov-dashboard">
+                    <div class="gov-dashboard-header">
+                        <h3 class="gov-dashboard-title">📊 监管仪表盘</h3>
+                        <div class="gov-dashboard-toolbar">
+                            <button class="btn gov-btn gov-btn-primary">导出数据</button>
+                            <button class="btn gov-btn gov-btn-outline-primary">刷新</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                        <div class="stat-card gov-stat-card gov-fade-in">
+                            <div class="stat-number gov-stat-number">12,568</div>
+                            <div class="stat-label gov-stat-label">累计估价项目</div>
+                        </div>
+                        <div class="stat-card gov-stat-card gov-fade-in" style="animation-delay: 0.1s;">
+                            <div class="stat-number gov-stat-number">1,256</div>
+                            <div class="stat-label gov-stat-label">本月估价项目</div>
+                        </div>
+                        <div class="stat-card gov-stat-card gov-fade-in" style="animation-delay: 0.2s;">
+                            <div class="stat-number gov-stat-number">528</div>
+                            <div class="stat-label gov-stat-label">注册企业</div>
+                        </div>
+                        <div class="stat-card gov-stat-card gov-fade-in" style="animation-delay: 0.3s;">
+                            <div class="stat-number gov-stat-number">36</div>
+                            <div class="stat-label gov-stat-label">待审核项目</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 图表区域 -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; margin-bottom: 24px;">
+                        <!-- 估价趋势图 -->
+                        <div class="card gov-card gov-card-primary gov-slide-in">
+                            <h4 class="gov-card-title">📈 估价趋势</h4>
+                            <div class="chart-container gov-chart-container">
+                                <canvas id="valuation-trend-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- 资产类型分布 -->
+                        <div class="card gov-card gov-card-primary gov-slide-in" style="animation-delay: 0.1s;">
+                            <h4 class="gov-card-title">🏠 资产类型分布</h4>
+                            <div class="chart-container gov-chart-container">
+                                <canvas id="asset-type-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 监管重点 -->
+                    <div class="card gov-card gov-card-secondary gov-slide-in" style="animation-delay: 0.2s;">
+                        <div class="toolbar gov-dashboard-toolbar">
+                            <h4 class="gov-card-title">🔍 监管重点</h4>
+                            <button class="btn gov-btn gov-btn-secondary">查看全部</button>
+                        </div>
+                        
+                        <div id="regulatory-focus" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- 监管重点项目将动态生成 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 监管审核模块 -->
+                <div id="regulatory-review" class="valuation-form module-content gov-dashboard" style="display: none;">
+                    <div class="gov-dashboard-header">
+                        <h3 class="gov-dashboard-title">🔍 监管审核</h3>
+                        <div class="gov-dashboard-toolbar">
+                            <button class="btn gov-btn gov-btn-primary">+ 新建审核任务</button>
+                            <button id="export-reviews-btn" class="btn gov-btn gov-btn-outline-primary">📥 导出审核记录</button>
+                        </div>
+                    </div>
+                    
+                    <div class="gov-dashboard-toolbar" style="margin-bottom: 16px;">
+                        <div style="display: flex; gap: 8px; flex: 1;">
+                            <input type="text" id="review-search" placeholder="搜索审核项目..." class="gov-form-control" style="flex: 2;">
+                            <select id="review-status" class="gov-form-control" style="flex: 1;">
+                                <option value="">全部状态</option>
+                                <option value="pending">待审核</option>
+                                <option value="approved">已通过</option>
+                                <option value="rejected">已拒绝</option>
+                            </select>
+                            <button id="search-review-btn" class="btn gov-btn gov-btn-primary" style="flex: 0;">
+                                🔍 搜索
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <table class="data-table gov-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="select-all-reviews" class="checkbox"></th>
+                                <th>项目名称</th>
+                                <th>企业名称</th>
+                                <th>资产类型</th>
+                                <th>估价金额</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="review-list">
+                            <!-- 审核列表将动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 政策管理模块 -->
+                <div id="policy-management" class="valuation-form module-content gov-dashboard" style="display: none;">
+                    <div class="gov-dashboard-header">
+                        <h3 class="gov-dashboard-title">📋 政策管理</h3>
+                        <div class="gov-dashboard-toolbar">
+                            <button class="btn gov-btn gov-btn-primary">+ 发布新政策</button>
+                            <button id="export-policies-btn" class="btn gov-btn gov-btn-outline-primary">📥 导出政策</button>
+                        </div>
+                    </div>
+                    
+                    <div class="gov-dashboard-toolbar" style="margin-bottom: 16px;">
+                        <div style="display: flex; gap: 8px; flex: 1;">
+                            <input type="text" id="policy-search" placeholder="搜索政策..." class="gov-form-control" style="flex: 1;">
+                            <button id="search-policy-btn" class="btn gov-btn gov-btn-primary">
+                                🔍 搜索
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="policy-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+                        <!-- 政策列表将动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 统计报表模块 -->
+                <div id="statistical-reports" class="valuation-form module-content gov-dashboard" style="display: none;">
+                    <div class="gov-dashboard-header">
+                        <h3 class="gov-dashboard-title">📈 统计报表</h3>
+                        <div class="gov-dashboard-toolbar">
+                            <button class="btn gov-btn gov-btn-primary">+ 生成新报表</button>
+                            <button id="export-statistics-btn" class="btn gov-btn gov-btn-outline-primary">📥 导出报表</button>
+                        </div>
+                    </div>
+                    
+                    <div class="gov-dashboard-toolbar" style="margin-bottom: 24px;">
+                        <div style="display: flex; gap: 8px; flex: 1;">
+                            <select id="report-type" class="gov-form-control" style="flex: 1;">
+                                <option value="monthly">月度报表</option>
+                                <option value="quarterly">季度报表</option>
+                                <option value="annual">年度报表</option>
+                            </select>
+                            <select id="report-period" class="gov-form-control" style="flex: 1;">
+                                <option value="2025-12">2025年12月</option>
+                                <option value="2025-Q4">2025年第四季度</option>
+                                <option value="2025">2025年度</option>
+                            </select>
+                            <button id="generate-report-btn" class="btn gov-btn gov-btn-primary" style="flex: 0;">
+                                生成报表
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="statistics-charts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; margin-top: 24px;">
+                        <!-- 统计图表将动态生成 -->
+                    </div>
+                </div>
+                
+                <!-- 企业管理模块 -->
+                <div id="enterprise-management" class="valuation-form module-content gov-dashboard" style="display: none;">
+                    <div class="gov-dashboard-header">
+                        <h3 class="gov-dashboard-title">🏢 企业管理</h3>
+                        <div class="gov-dashboard-toolbar">
+                            <button class="btn gov-btn gov-btn-primary">+ 新增企业</button>
+                            <button id="export-enterprises-btn" class="btn gov-btn gov-btn-outline-primary">📥 导出企业</button>
+                        </div>
+                    </div>
+                    
+                    <div class="gov-dashboard-toolbar" style="margin-bottom: 16px;">
+                        <div style="display: flex; gap: 8px; flex: 1;">
+                            <input type="text" id="enterprise-search" placeholder="搜索企业..." class="gov-form-control" style="flex: 2;">
+                            <select id="enterprise-status" class="gov-form-control" style="flex: 1;">
+                                <option value="">全部状态</option>
+                                <option value="active">正常</option>
+                                <option value="suspended">暂停</option>
+                                <option value="closed">注销</option>
+                            </select>
+                            <button id="search-enterprise-btn" class="btn gov-btn gov-btn-primary" style="flex: 0;">
+                                🔍 搜索
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <table class="data-table gov-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="select-all-enterprises" class="checkbox"></th>
+                                <th>企业名称</th>
+                                <th>统一社会信用代码</th>
+                                <th>注册时间</th>
+                                <th>估价项目数</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="enterprise-list">
+                            <!-- 企业列表将动态生成 -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- 系统设置模块 -->
+                <div id="system-settings" class="valuation-form module-content gov-dashboard" style="display: none;">
+                    <div class="gov-dashboard-header">
+                        <h3 class="gov-dashboard-title">⚙️ 系统设置</h3>
+                        <div class="gov-dashboard-toolbar">
+                            <button class="btn gov-btn gov-btn-primary">保存设置</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card gov-card gov-card-primary">
+                        <h4 class="gov-card-title">监管设置</h4>
+                        <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 16px;">
+                            <div class="form-group gov-form-group">
+                                <label for="review-process-days" class="gov-form-label">审核期限 (天)</label>
+                                <input type="number" id="review-process-days" placeholder="请输入审核期限" value="7" class="gov-form-control">
+                            </div>
+                            <div class="form-group gov-form-group">
+                                <label for="valuation-threshold" class="gov-form-label">估价阈值 (万元)</label>
+                                <input type="number" id="valuation-threshold" placeholder="请输入估价阈值" value="1000" class="gov-form-control">
+                            </div>
+                        </div>
+                        <div class="form-group gov-form-group">
+                            <label for="regulatory-rules" class="gov-form-label">监管规则</label>
+                            <textarea id="regulatory-rules" placeholder="请输入监管规则" rows="4" class="gov-form-control">
+1. 估价报告需在7个工作日内完成审核
+2. 超过1000万元的估价项目需重点审核
+3. 企业需每季度提交估价业务报告
+4. 定期对企业估价业务进行抽查
+                            </textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="card gov-card gov-card-primary" style="margin-top: 16px;">
+                        <h4 class="gov-card-title">系统参数</h4>
+                        <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                            <div class="form-group gov-form-group">
+                                <label for="system-notification" class="gov-form-label">系统通知</label>
+                                <select id="system-notification" class="gov-form-control">
+                                    <option value="enabled">启用</option>
+                                    <option value="disabled">禁用</option>
+                                </select>
+                            </div>
+                            <div class="form-group gov-form-group">
+                                <label for="data-retention" class="gov-form-label">数据保留期限 (年)</label>
+                                <input type="number" id="data-retention" placeholder="请输入数据保留期限" value="5" class="gov-form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 结果展示区 -->
+                <div class="result-display gov-sidebar">
+                    <div class="gov-sidebar-brand">
+                        <h3 class="gov-sidebar-title" style="font-size: 18px;">📊 实时数据</h3>
+                    </div>
+                    
+                    <!-- 待处理审核 -->
+                    <div class="result-card gov-card" style="margin: 16px; background-color: rgba(255, 255, 255, 0.9);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h4 style="color: var(--gov-primary); font-weight: var(--gov-font-weight-semibold);">⏳ 待处理审核</h4>
+                            <span class="gov-status gov-status-danger" style="font-size: 12px;">36</span>
+                        </div>
+                        <div id="pending-reviews" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- 待处理审核项目将动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 政策动态 -->
+                    <div class="result-card gov-card" style="margin: 16px; background-color: rgba(255, 255, 255, 0.9);">
+                        <h4 style="margin-bottom: 16px; color: var(--gov-primary); font-weight: var(--gov-font-weight-semibold);">📢 政策动态</h4>
+                        <div id="policy-updates" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- 政策动态将动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 系统通知 -->
+                    <div class="result-card gov-card" style="margin: 16px; background-color: rgba(255, 255, 255, 0.9);">
+                        <h4 style="margin-bottom: 16px; color: var(--gov-primary); font-weight: var(--gov-font-weight-semibold);">🔔 系统通知</h4>
+                        <div id="system-notifications" style="display: flex; flex-direction: column; gap: 12px;">
+                            <!-- 系统通知将动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 隐藏的文件输入 -->
+    <input type="file" id="excel-file-input" accept=".xlsx,.xls" style="display: none;">
+    
+    <script>
+        // 操作历史记录类
+        class OperationHistory {
+            constructor() {
+                this.history = []; // 操作记录数组
+                this.currentIndex = -1; // 当前操作索引
+            }
+            
+            // 添加新操作
+            pushOperation(operation) {
+                // 截断当前索引后的记录
+                this.history = this.history.slice(0, this.currentIndex + 1);
+                // 存入新操作
+                this.history.push(operation);
+                // 更新当前索引
+                this.currentIndex = this.history.length - 1;
+                // 更新按钮状态
+                this.updateButtonStatus();
+            }
+            
+            // 撤销操作
+            undo() {
+                if (this.currentIndex >= 0) {
+                    const operation = this.history[this.currentIndex];
+                    this.currentIndex--;
+                    this.updateButtonStatus();
+                    return operation;
+                }
+                return null;
+            }
+            
+            // 恢复操作
+            redo() {
+                if (this.currentIndex < this.history.length - 1) {
+                    this.currentIndex++;
+                    const operation = this.history[this.currentIndex];
+                    this.updateButtonStatus();
+                    return operation;
+                }
+                return null;
+            }
+            
+            // 更新按钮状态
+            updateButtonStatus() {
+                const undoBtn = document.getElementById('undo-btn');
+                const redoBtn = document.getElementById('redo-btn');
+                const eraseSelectedBtn = document.getElementById('erase-selected-btn');
+                
+                if (undoBtn) {
+                    undoBtn.disabled = this.currentIndex < 0;
+                }
+                if (redoBtn) {
+                    redoBtn.disabled = this.currentIndex >= this.history.length - 1;
+                }
+                if (eraseSelectedBtn) {
+                    // 检查是否有选中的项目
+                    const selectedItems = document.querySelectorAll('.selected');
+                    eraseSelectedBtn.disabled = selectedItems.length === 0;
+                }
+            }
+        }
+        
+        // 创建操作历史实例
+        const operationHistory = new OperationHistory();
+        
+        // Toast消息提示系统
+        function showToast(message, type = 'info') {
+            // 创建toast元素
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300 ease-in-out transform translate-y-0 opacity-100`;
+            
+            // 设置样式
+            switch(type) {
+                case 'success':
+                    toast.style.backgroundColor = '#52c41a';
+                    toast.style.color = 'white';
+                    break;
+                case 'error':
+                    toast.style.backgroundColor = '#f5222d';
+                    toast.style.color = 'white';
+                    break;
+                case 'warning':
+                    toast.style.backgroundColor = '#faad14';
+                    toast.style.color = 'white';
+                    break;
+                default:
+                    toast.style.backgroundColor = '#667eea';
+                    toast.style.color = 'white';
+            }
+            
+            // 设置消息内容
+            toast.textContent = message;
+            
+            // 添加到页面
+            document.body.appendChild(toast);
+            
+            // 3秒后自动移除
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 2000);
+        }
+        
+        // 初始化菜单切换
+        function initMenu() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const moduleContents = document.querySelectorAll('.module-content');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    menuItems.forEach(menu => menu.classList.remove('active'));
+                    moduleContents.forEach(content => content.style.display = 'none');
+                    
+                    // 添加active类
+                    this.classList.add('active');
+                    
+                    // 显示对应的模块内容
+                    const moduleId = this.dataset.module;
+                    const targetModule = document.getElementById(moduleId);
+                    if (targetModule) {
+                        targetModule.style.display = 'block';
+                        targetModule.classList.add('active');
+                        
+                        // 初始化对应模块
+                        if (moduleId === 'dashboard') {
+                            initDashboard();
+                        } else if (moduleId === 'regulatory-review') {
+                            initRegulatoryReview();
+                        } else if (moduleId === 'policy-management') {
+                            initPolicyManagement();
+                        } else if (moduleId === 'statistical-reports') {
+                            initStatisticalReports();
+                        } else if (moduleId === 'enterprise-management') {
+                            initEnterpriseManagement();
+                        }
+                    }
+                });
+            });
+        }
+        
+        // 初始化监管仪表盘
+        function initDashboard() {
+            // 初始化估价趋势图
+            initValuationTrendChart();
+            // 初始化资产类型分布图
+            initAssetTypeChart();
+            // 初始化监管重点
+            initRegulatoryFocus();
+        }
+        
+        // 初始化估价趋势图
+        function initValuationTrendChart() {
+            const ctx = document.getElementById('valuation-trend-chart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                        datasets: [{
+                            label: '估价项目数量',
+                            data: [890, 1260, 980, 1560, 1890, 1280, 1450, 1620, 1340, 1510, 1780, 1256],
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#667eea',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // 页面加载完成后初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            initValuationTrendChart();
+        });
+    </script>
+</body>
+</html>

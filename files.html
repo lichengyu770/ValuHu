@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ValuHubValuHub - 房地产AI估价与数智平台</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --error-color: #f5222d;
+            --light-color: #f5f7fa;
+            --dark-color: #1e293b;
+            --gray-color: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--gray-color);
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active a {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.hot {
+            color: var(--error-color);
+        }
+        
+        .nav-item.hot span {
+            background-color: var(--error-color);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+            overflow-x: auto;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: var(--gray-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: var(--primary-color);
+            background-color: #f0f4ff;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 60px 0;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .content-section:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        /* 功能卡片网格 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        /* 功能卡片 */
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-card .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .feature-card .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .feature-card .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 卡片标题 */
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* 返回首页按钮 */
+        .back-home {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 文件管理样式 */
+        .file-manager {
+            margin-bottom: 40px;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .file-upload-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .file-upload-btn input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-list {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .file-list-header {
+            display: grid;
+            grid-template-columns: 1fr 200px 120px 120px 120px;
+            gap: 16px;
+            padding: 16px 24px;
+            background-color: var(--light-color);
+            font-weight: 500;
+            color: var(--gray-color);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .file-item {
+            display: grid;
+            grid-template-columns: 1fr 200px 120px 120px 120px;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+        
+        .file-item:hover {
+            background-color: var(--light-color);
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .file-icon {
+            font-size: 24px;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .file-size {
+            color: var(--gray-color);
+            font-size: 13px;
+        }
+        
+        .file-actions-btn {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .file-actions-btn .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        /* API文档样式 */
+        .api-section {
+            margin-bottom: 40px;
+        }
+        
+        .api-endpoint {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+        
+        .api-endpoint:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .api-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .api-method {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .api-method.get {
+            background-color: var(--success-color);
+        }
+        
+        .api-method.post {
+            background-color: var(--primary-color);
+        }
+        
+        .api-method.put {
+            background-color: var(--warning-color);
+        }
+        
+        .api-method.delete {
+            background-color: var(--error-color);
+        }
+        
+        .api-url {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .api-description {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+        }
+        
+        .api-params {
+            margin-bottom: 20px;
+        }
+        
+        .api-params h4 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .api-params table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .api-params th,
+        .api-params td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .api-params th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .api-params td {
+            color: var(--dark-color);
+        }
+        
+        .api-params tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .api-example {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 24px;
+            overflow-x: auto;
+        }
+        
+        .api-example code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #f8fafc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* 解决方案样式 */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .solution-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .solution-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .solution-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .solution-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .solution-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        
+        .solution-features li {
+            padding: 8px 0;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .solution-features li::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        /* 价格方案样式 */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .pricing-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 2px solid transparent;
+        }
+        
+        .pricing-card.popular {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15);
+        }
+        
+        .pricing-card.popular::before {
+            content: '推荐';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+            text-align: center;
+        }
+        
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .pricing-card .price-period {
+            color: var(--gray-color);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .pricing-features li.negative::before {
+            content: '✗';
+            color: var(--light-gray);
+        }
+        
+        .pricing-features li.negative {
+            color: var(--light-gray);
+        }
+        
+        .pricing-card .btn {
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* 下载中心样式 */
+        .download-categories {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        
+        .download-categories::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .download-categories::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        .download-categories::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            background-color: var(--light-color);
+            color: var(--gray-color);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        
+        .category-btn.active,
+        .category-btn:hover {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .download-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+        
+        .download-item {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 28px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .download-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .download-info h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+        
+        .download-info p {
+            color: var(--gray-color);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .download-meta {
+            display: flex;
+            gap: 16px;
+            color: var(--gray-color);
+            font-size: 13px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .file-list-header,
+            .file-item {
+                grid-template-columns: 1fr 150px 100px;
+                gap: 12px;
+            }
+            
+            .file-list-header > :nth-child(n+4),
+            .file-item > :nth-child(n+4) {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 24px;
+            }
+            
+            .features-grid,
+            .solutions-grid,
+            .pricing-grid,
+            .download-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+            
+            .file-list-header,
+            .file-item {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .file-actions {
+                flex-direction: column;
+            }
+            
+            .api-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .download-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                    <span>Hot</span>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="smart-nav.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="container">
+                <a href="visual-index.html" class="back-home">返回首页</a>
+                
+                <div class="page-title">
+                    <h1 id="pageTitle">页面标题</h1>
+                    <p id="pageDescription">页面描述</p>
+                </div>
+                
+                <!-- 我的文件模块 -->
+                <div class="content-section file-manager">
+                    <h2 class="card-title">文件管理</h2>
+                    
+                    <!-- 文件操作按钮 -->
+                    <div class="file-actions">
+                        <button class="btn btn-primary">新建文件夹</button>
+                        <div class="file-upload-btn">
+                            <button class="btn btn-secondary">上传文件</button>
+                            <input type="file" multiple>
+                        </div>
+                        <button class="btn btn-secondary">刷新</button>
+                        <button class="btn btn-secondary">更多操作</button>
+                    </div>
+                    
+                    <!-- 文件列表 -->
+                    <div class="file-list">
+                        <div class="file-list-header">
+                            <div>文件名称</div>
+                            <div>类型</div>
+                            <div>大小</div>
+                            <div>创建时间</div>
+                            <div>操作</div>
+                        </div>
+                        
+                        <!-- 文件项 -->
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">📁</span>
+                                <div>
+                                    <div class="file-name">估价报告</div>
+                                    <div class="file-size">包含 12 个文件</div>
+                                </div>
+                            </div>
+                            <div>文件夹</div>
+                            <div>1.2 GB</div>
+                            <div>2025-12-20</div>
+                            <div class="file-actions-btn">
+                                <button class="btn btn-secondary">查看</button>
+                                <button class="btn btn-primary">下载</button>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">📊</span>
+                                <div>
+                                    <div class="file-name">2025年12月长沙房价报告.pdf</div>
+                                    <div class="file-size">2.5 MB</div>
+                                </div>
+                            </div>
+                            <div>PDF</div>
+                            <div>2.5 MB</div>
+                            <div>2025-12-28</div>
+                            <div class="file-actions-btn">
+                                <button class="btn btn-secondary">预览</button>
+                                <button class="btn btn-primary">下载</button>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">📄</span>
+                                <div>
+                                    <div class="file-name">房产估价模板.xlsx</div>
+                                    <div class="file-size">512 KB</div>
+                                </div>
+                            </div>
+                            <div>Excel</div>
+                            <div>512 KB</div>
+                            <div class="file-size">2025-12-25</div>
+                            <div class="file-actions-btn">
+                                <button class="btn btn-secondary">预览</button>
+                                <button class="btn btn-primary">下载</button>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">📁</span>
+                                <div>
+                                    <div class="file-name">案例库</div>
+                                    <div class="file-size">包含 256 个文件</div>
+                                </div>
+                            </div>
+                            <div>文件夹</div>
+                            <div>4.8 GB</div>
+                            <div>2025-12-15</div>
+                            <div class="file-actions-btn">
+                                <button class="btn btn-secondary">查看</button>
+                                <button class="btn btn-primary">下载</button>
+                            </div>
+                        </div>
+                        
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span class="file-icon">📊</span>
+                                <div>
+                                    <div class="file-name">湖南省房地产市场分析报告.pdf</div>
+                                    <div class="file-size">8.2 MB</div>
+                                </div>
+                            </div>
+                            <div>PDF</div>
+                            <div>8.2 MB</div>
+                            <div>2025-12-22</div>
+                            <div class="file-actions-btn">
+                                <button class="btn btn-secondary">预览</button>
+                                <button class="btn btn-primary">下载</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 文件统计 -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">📁</span>
+                        <h3>总文件数</h3>
+                        <p>269 个文件</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">💾</span>
+                        <h3>已用空间</h3>
+                        <p>6.5 GB</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">📈</span>
+                        <h3>本月上传</h3>
+                        <p>12 个文件</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🔒</span>
+                        <h3>已加密文件</h3>
+                        <p>45 个文件</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>产品服务</h3>
+                    <ul>
+                        <li><a href="#">AI估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">案例库</a></li>
+                        <li><a href="#">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="smart-nav.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li>电话：16680508457</li>
+                        <li>微信：svip6763</li>
+                        <li>邮箱：contact@fangsuanyun.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 文件管理系统主脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 页面初始化
+            const pageTitle = document.getElementById('pageTitle');
+            const pageDescription = document.getElementById('pageDescription');
+            
+            // 获取当前页面文件名
+            const fileName = window.location.pathname.split('/').pop().replace('.html', '');
+            
+            // 页面配置
+            const pageConfig = {
+                platform: {
+                    title: 'ValuHub平台',
+                    description: '连接政府、行业、学校、企业和大众的房地产数智生态平台'
+                },
+                reports: {
+                    title: '行业报告',
+                    description: '提供最新的房地产行业研究报告和市场分析'
+                },
+                cooperation: {
+                    title: '企业合作',
+                    description: '与企业建立深度合作关系，共同推动房地产行业数字化转型'
+                },
+                cases: {
+                    title: '案例库',
+                    description: '百万真实房地产案例，为您提供参考依据'
+                },
+                pricing: {
+                    title: '服务价格',
+                    description: '自由选择更快、更高效的ValuHub服务方案'
+                },
+                tutorials: {
+                    title: '使用教程',
+                    description: '详细的使用指南，帮助您快速上手ValuHub平台'
+                },
+                template: {
+                    title: '模板社区',
+                    description: '共享优质房地产数据模板，提高工作效率'
+                },
+                files: {
+                    title: '我的文件',
+                    description: '集中管理您的房地产数据文件'
+                },
+                api: {
+                    title: 'API服务',
+                    description: '提供开放的API接口，支持第三方系统集成'
+                },
+                solution: {
+                    title: '解决方案',
+                    description: '为不同行业提供专业的房地产数据解决方案'
+                },
+                enterprise: {
+                    title: '企业服务',
+                    description: '为企业提供专业的房地产数据服务'
+                },
+                download: {
+                    title: '下载',
+                    description: '下载ValuHub相关资源和工具'
+                },
+                school: {
+                    title: '院校端',
+                    description: '为房地产相关院校提供教学和科研支持'
+                },
+                business: {
+                    title: '企业端',
+                    description: '为房地产企业提供数据驱动的决策支持'
+                },
+                association: {
+                    title: '协会端',
+                    description: '为房地产协会提供行业数据统计和分析服务'
+                },
+                government: {
+                    title: '政府端',
+                    description: '为政府部门提供房地产市场监测和调控支持'
+                },
+                public: {
+                    title: '大众端',
+                    description: '为普通用户提供房地产信息查询和估价服务'
+                },
+                payment: {
+                    title: '支付页面',
+                    description: '安全、便捷的支付方式，支持多种支付渠道'
+                },
+                consult: {
+                    title: '预约咨询',
+                    description: '专业团队为您提供一对一的房地产数据解决方案'
+                }
+            };
+            
+            // 设置标题和描述
+            if (pageConfig[fileName]) {
+                pageTitle.textContent = pageConfig[fileName].title;
+                pageDescription.textContent = pageConfig[fileName].description;
+            } else {
+                pageTitle.textContent = '页面标题';
+                pageDescription.textContent = '页面描述';
+            }
+            
+            // 更新当前页面的导航活跃状态
+            const navLinks = document.querySelectorAll('.nav-item a');
+            navLinks.forEach(link => {
+                if (link.href.includes(fileName + '.html') || (fileName === 'visual-index' && link.href.includes('visual-index.html'))) {
+                    link.parentElement.classList.add('active');
+                }
+            });
+            
+            const subNavLinks = document.querySelectorAll('.sub-nav-item a');
+            subNavLinks.forEach(link => {
+                if (link.href.includes(fileName + '.html') || (fileName === 'visual-index' && link.href.includes('visual-index.html'))) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // 文件管理功能
+            if (fileName === 'files') {
+                initFileManager();
+            }
+        });
+        
+        // 初始化文件管理器
+        function initFileManager() {
+            // 绑定按钮事件
+            bindFileActions();
+            
+            // 初始化文件列表
+            renderFileList();
+        }
+        
+        // 绑定文件操作按钮事件
+        function bindFileActions() {
+            // 新建文件夹按钮
+            const createFolderBtn = document.querySelector('.file-actions .btn-primary:nth-child(1)');
+            createFolderBtn.addEventListener('click', createNewFolder);
+            
+            // 上传文件按钮
+            const uploadBtn = document.querySelector('.file-upload-btn input[type="file"]');
+            uploadBtn.addEventListener('change', uploadFiles);
+            
+            // 刷新按钮
+            const refreshBtn = document.querySelector('.file-actions .btn-secondary:nth-child(3)');
+            refreshBtn.addEventListener('click', refreshFileList);
+            
+            // 更多操作按钮
+            const moreActionsBtn = document.querySelector('.file-actions .btn-secondary:nth-child(4)');
+            moreActionsBtn.addEventListener('click', showMoreActions);
+        }
+        
+        // 新建文件夹
+        function createNewFolder() {
+            const folderName = prompt('请输入文件夹名称：');
+            if (folderName && folderName.trim()) {
+                // 这里可以调用后端API创建文件夹
+                console.log('创建文件夹：', folderName);
+                
+                // 模拟创建文件夹，前端临时渲染
+                const newFolder = {
+                    id: Date.now(),
+                    name: folderName.trim(),
+                    type: 'folder',
+                    size: '0',
+                    createTime: new Date().toISOString().split('T')[0],
+                    fileCount: 0
+                };
+                
+                // 添加到文件列表并重新渲染
+                addFileItem(newFolder);
+                renderFileList();
+            }
+        }
+        
+        // 上传文件
+        function uploadFiles(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                // 这里可以使用AJAX/axios上传文件到后端
+                console.log('上传文件：', files);
+                
+                // 模拟上传成功，添加到文件列表
+                Array.from(files).forEach(file => {
+                    const fileItem = {
+                        id: Date.now() + Math.random(),
+                        name: file.name,
+                        type: file.type || getFileExtension(file.name),
+                        size: formatFileSize(file.size),
+                        createTime: new Date().toISOString().split('T')[0],
+                        realSize: file.size
+                    };
+                    addFileItem(fileItem);
+                });
+                
+                // 重新渲染文件列表
+                renderFileList();
+                
+                // 重置文件输入
+                event.target.value = '';
+            }
+        }
+        
+        // 刷新文件列表
+        function refreshFileList() {
+            // 这里可以调用后端API获取最新的文件列表
+            console.log('刷新文件列表');
+            
+            // 模拟重新获取文件列表
+            renderFileList();
+        }
+        
+        // 显示更多操作
+        function showMoreActions() {
+            // 这里可以弹出下拉菜单或对话框
+            const action = prompt('请选择操作：\n1. 删除选中文件\n2. 重命名\n3. 下载所有文件\n4. 压缩打包\n\n请输入数字选择：');
+            
+            switch(action) {
+                case '1':
+                    console.log('删除选中文件');
+                    break;
+                case '2':
+                    console.log('重命名');
+                    break;
+                case '3':
+                    console.log('下载所有文件');
+                    break;
+                case '4':
+                    console.log('压缩打包');
+                    break;
+                default:
+                    console.log('取消操作');
+            }
+        }
+        
+        // 获取文件扩展名
+        function getFileExtension(fileName) {
+            const ext = fileName.split('.').pop().toLowerCase();
+            const extensionMap = {
+                'pdf': 'PDF',
+                'doc': 'Word',
+                'docx': 'Word',
+                'xls': 'Excel',
+                'xlsx': 'Excel',
+                'ppt': 'PowerPoint',
+                'pptx': 'PowerPoint',
+                'txt': '文本',
+                'jpg': '图片',
+                'jpeg': '图片',
+                'png': '图片',
+                'gif': '图片',
+                'zip': '压缩包',
+                'rar': '压缩包',
+                '7z': '压缩包',
+                'exe': '可执行文件',
+                'dmg': '磁盘镜像',
+                'iso': '镜像文件'
+            };
+            return extensionMap[ext] || '其他';
+        }
+        
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // 模拟文件数据
+        let fileData = [
+            {
+                id: 1,
+                name: '估价报告',
+                type: 'folder',
+                size: '1.2 GB',
+                createTime: '2025-12-20',
+                fileCount: 12,
+                realSize: 12884901888
+            },
+            {
+                id: 2,
+                name: '2025年12月长沙房价报告.pdf',
+                type: 'PDF',
+                size: '2.5 MB',
+                createTime: '2025-12-28',
+                realSize: 2621440
+            },
+            {
+                id: 3,
+                name: '房产估价模板.xlsx',
+                type: 'Excel',
+                size: '512 KB',
+                createTime: '2025-12-25',
+                realSize: 524288
+            },
+            {
+                id: 4,
+                name: '案例库',
+                type: 'folder',
+                size: '4.8 GB',
+                createTime: '2025-12-15',
+                fileCount: 256,
+                realSize: 51539607552
+            },
+            {
+                id: 5,
+                name: '湖南省房地产市场分析报告.pdf',
+                type: 'PDF',
+                size: '8.2 MB',
+                createTime: '2025-12-22',
+                realSize: 8590220
+            }
+        ];
+        
+        // 添加文件项
+        function addFileItem(file) {
+            fileData.push(file);
+        }
+        
+        // 获取文件图标
+        function getFileIcon(type) {
+            const iconMap = {
+                'folder': '📁',
+                'PDF': '📊',
+                'Word': '📄',
+                'Excel': '📈',
+                'PowerPoint': '📊',
+                '文本': '📝',
+                '图片': '🖼️',
+                '压缩包': '📦',
+                '可执行文件': '⚙️',
+                '磁盘镜像': '💿',
+                '镜像文件': '💿',
+                '其他': '📄'
+            };
+            return iconMap[type] || '📄';
+        }
+        
+        // 渲染文件列表
+        function renderFileList() {
+            const fileList = document.querySelector('.file-list');
+            const fileListHeader = fileList.querySelector('.file-list-header');
+            
+            // 清空现有文件项（保留表头）
+            const fileItems = fileList.querySelectorAll('.file-item');
+            fileItems.forEach(item => item.remove());
+            
+            // 检查是否有文件
+            if (fileData.length === 0) {
+                // 显示空数据状态
+                const emptyState = document.createElement('div');
+                emptyState.style.cssText = `
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 60px 20px;
+                    color: var(--gray-color);
+                    font-size: 16px;
+                `;
+                emptyState.innerHTML = `<div style="text-align: center;"><div style="font-size: 48px; margin-bottom: 16px;">📂</div><div>暂无文件</div></div>`;
+                fileList.appendChild(emptyState);
+                return;
+            }
+            
+            // 渲染文件项
+            fileData.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                // 文件图标
+                const fileIcon = getFileIcon(file.type);
+                
+                // 文件大小显示
+                let sizeDisplay = file.size;
+                if (file.type === 'folder') {
+                    sizeDisplay += `<div class="file-size">包含 ${file.fileCount || 0} 个文件</div>`;
+                }
+                
+                // 构建文件项HTML
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <span class="file-icon">${fileIcon}</span>
+                        <div>
+                            <div class="file-name">${file.name}</div>
+                            ${file.type === 'folder' ? `<div class="file-size">包含 ${file.fileCount || 0} 个文件</div>` : ''}
+                        </div>
+                    </div>
+                    <div>${file.type}</div>
+                    <div>${file.type === 'folder' ? '-' : file.size}</div>
+                    <div>${file.createTime}</div>
+                    <div class="file-actions-btn">
+                        <button class="btn btn-secondary" onclick="viewFile(${file.id})">${file.type === 'folder' ? '查看' : '预览'}</button>
+                        <button class="btn btn-primary" onclick="downloadFile(${file.id})">下载</button>
+                    </div>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
+        }
+        
+        // 查看/预览文件
+        function viewFile(fileId) {
+            const file = fileData.find(f => f.id === fileId);
+            if (file) {
+                console.log('查看/预览文件：', file.name);
+                // 这里可以实现文件查看或预览功能
+                alert(`查看文件：${file.name}`);
+            }
+        }
+        
+        // 下载文件
+        function downloadFile(fileId) {
+            const file = fileData.find(f => f.id === fileId);
+            if (file) {
+                console.log('下载文件：', file.name);
+                // 这里可以实现文件下载功能
+                alert(`下载文件：${file.name}`);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>开发者中心 - ValuHub</title>
+    <meta name="description" content="ValuHub开发者中心，提供API文档、SDK下载、开发用例等资源，帮助开发者快速集成ValuHub服务。">
+    <meta name="keywords" content="ValuHub,开发者中心,API文档,SDK下载,开发用例,房产估价API">
+    
+    <!-- 引入CSS样式 -->
+    <link rel="preload" href="css/design-tokens.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="css/design-tokens.css">
+        <link rel="stylesheet" href="css/components.css">
+    </noscript>
+    
+    <!-- 页面特定样式 -->
+    <style>
+        /* 主内容区样式 */
+        .main-content {
+            padding-top: 0;
+        }
+        
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-20) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="rgba(255,255,255,.1)" fill-opacity="1" fill-rule="evenodd"/%3E%3C/svg%3E');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: var(--font-size-5xl);
+            font-weight: var(--font-weight-bold);
+            line-height: 1.2;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .hero-subtitle {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-light);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-8);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 开发者中心内容区 */
+        .developer-center {
+            padding: var(--spacing-16) 0;
+        }
+        
+        /* 卡片样式 */
+        .dev-card {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-8);
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+            margin-bottom: var(--spacing-8);
+        }
+        
+        .dev-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .dev-card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .dev-card-icon {
+            font-size: var(--font-size-3xl);
+            color: var(--color-primary);
+        }
+        
+        .dev-card-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+            margin: 0;
+        }
+        
+        /* 功能模块样式 */
+        .dev-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-8);
+            margin-bottom: var(--spacing-12);
+        }
+        
+        .dev-module {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: var(--spacing-6);
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+            border: 1px solid var(--color-border);
+        }
+        
+        .dev-module:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--color-primary);
+        }
+        
+        .dev-module-icon {
+            font-size: var(--font-size-4xl);
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .dev-module-title {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .dev-module-description {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-4);
+            line-height: 1.6;
+        }
+        
+        .dev-module-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .dev-module-link:hover {
+            gap: var(--spacing-3);
+        }
+        
+        /* SDK下载区域 */
+        .sdk-downloads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-6);
+            margin-top: var(--spacing-6);
+        }
+        
+        .sdk-item {
+            background: var(--color-bg-light);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-4);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+            border: 1px solid var(--color-border);
+        }
+        
+        .sdk-info {
+            flex: 1;
+        }
+        
+        .sdk-name {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-1);
+        }
+        
+        .sdk-version {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .sdk-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            background: var(--color-primary);
+            color: white;
+            padding: var(--spacing-2) var(--spacing-4);
+            border-radius: var(--border-radius-md);
+            text-decoration: none;
+            font-weight: var(--font-weight-medium);
+            transition: all 0.3s ease;
+            justify-content: center;
+        }
+        
+        .sdk-download-btn:hover {
+            background: var(--color-primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        /* 用例展示区域 */
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-6);
+            margin-top: var(--spacing-6);
+        }
+        
+        .use-case-item {
+            background: var(--color-bg-light);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-4);
+            border: 1px solid var(--color-border);
+        }
+        
+        .use-case-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .use-case-description {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-3);
+        }
+        
+        .use-case-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            font-size: var(--font-size-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .use-case-link:hover {
+            gap: var(--spacing-3);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .hero-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .hero-subtitle {
+                font-size: var(--font-size-base);
+            }
+            
+            .dev-modules {
+                grid-template-columns: 1fr;
+            }
+            
+            .sdk-downloads {
+                grid-template-columns: 1fr;
+            }
+            
+            .use-cases {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="navbar navbar-fixed">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ecosystem.html" class="nav-link">生态合作</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="academy.html" class="nav-link">学院中心</a>
+                    <a href="developer-center.html" class="nav-link active">开发者中心</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">开发者中心</h1>
+                <p class="hero-subtitle">一站式开发者资源平台，提供API文档、SDK下载、开发用例等资源，帮助开发者快速集成ValuHub服务</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主内容区 -->
+    <main class="developer-center">
+        <div class="container">
+            <!-- 功能模块 -->
+            <div class="dev-modules">
+                <div class="dev-module">
+                    <div class="dev-module-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="dev-module-title">API文档</h3>
+                    <p class="dev-module-description">详细的接口文档，包含所有API端点、参数说明、请求示例和响应格式，帮助开发者快速了解和使用ValuHub API。</p>
+                    <a href="api-docs.html" class="dev-module-link">
+                        查看文档 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="dev-module">
+                    <div class="dev-module-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="dev-module-title">SDK下载</h3>
+                    <p class="dev-module-description">多种编程语言的SDK客户端，简化API调用流程，提高开发效率，支持Python、JavaScript等主流语言。</p>
+                    <a href="#sdk" class="dev-module-link">
+                        下载SDK <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="dev-module">
+                    <div class="dev-module-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="dev-module-title">开发用例</h3>
+                    <p class="dev-module-description">丰富的开发用例和示例代码，覆盖常见使用场景，帮助开发者快速上手并集成ValuHub服务。</p>
+                    <a href="#use-cases" class="dev-module-link">
+                        查看用例 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- API文档卡片 -->
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <div class="dev-card-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h2 class="dev-card-title">API文档</h2>
+                </div>
+                <p>ValuHub提供了丰富的API接口，涵盖房产估价、市场分析、数据查询等功能。通过这些API，开发者可以轻松集成ValuHub的核心功能到自己的应用中。</p>
+                <div style="margin-top: var(--spacing-6);">
+                    <a href="api-docs.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-external-link-alt"></i>
+                        访问API文档
+                    </a>
+                </div>
+            </div>
+            
+            <!-- SDK下载卡片 -->
+            <div class="dev-card" id="sdk">
+                <div class="dev-card-header">
+                    <div class="dev-card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h2 class="dev-card-title">SDK下载</h2>
+                </div>
+                <p>我们提供了多种编程语言的SDK客户端，简化API调用流程，提高开发效率。选择适合您项目的SDK，快速集成ValuHub服务。</p>
+                
+                <div class="sdk-downloads">
+                    <div class="sdk-item">
+                        <div class="sdk-info">
+                            <div class="sdk-name">Python SDK</div>
+                            <div class="sdk-version">版本: 1.0.0</div>
+                            <div>支持Python 3.7+，包含完整的API封装和示例代码。</div>
+                        </div>
+                        <a href="#" class="sdk-download-btn">
+                            <i class="fas fa-download"></i>
+                            下载
+                        </a>
+                    </div>
+                    
+                    <div class="sdk-item">
+                        <div class="sdk-info">
+                            <div class="sdk-name">JavaScript SDK</div>
+                            <div class="sdk-version">版本: 1.0.0</div>
+                            <div>支持浏览器和Node.js环境，包含完整的API封装和示例代码。</div>
+                        </div>
+                        <a href="#" class="sdk-download-btn">
+                            <i class="fas fa-download"></i>
+                            下载
+                        </a>
+                    </div>
+                    
+                    <div class="sdk-item">
+                        <div class="sdk-info">
+                            <div class="sdk-name">Java SDK</div>
+                            <div class="sdk-version">版本: 1.0.0</div>
+                            <div>支持Java 8+，包含完整的API封装和示例代码。</div>
+                        </div>
+                        <a href="#" class="sdk-download-btn">
+                            <i class="fas fa-download"></i>
+                            下载
+                        </a>
+                    </div>
+                    
+                    <div class="sdk-item">
+                        <div class="sdk-info">
+                            <div class="sdk-name">Go SDK</div>
+                            <div class="sdk-version">版本: 1.0.0</div>
+                            <div>支持Go 1.16+，包含完整的API封装和示例代码。</div>
+                        </div>
+                        <a href="#" class="sdk-download-btn">
+                            <i class="fas fa-download"></i>
+                            下载
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 开发用例卡片 -->
+            <div class="dev-card" id="use-cases">
+                <div class="dev-card-header">
+                    <div class="dev-card-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h2 class="dev-card-title">开发用例</h2>
+                </div>
+                <p>我们提供了丰富的开发用例和示例代码，覆盖常见使用场景，帮助开发者快速上手并集成ValuHub服务。</p>
+                
+                <div class="use-cases">
+                    <div class="use-case-item">
+                        <div class="use-case-title">房产即时估价</div>
+                        <div class="use-case-description">使用ValuHub API实现房产即时估价功能，输入房产基本信息，快速获取估价结果。</div>
+                        <a href="#" class="use-case-link">
+                            查看示例 <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="use-case-item">
+                        <div class="use-case-title">批量估价处理</div>
+                        <div class="use-case-description">使用批量估价API处理多个房产估价请求，提高处理效率，适用于大数据量场景。</div>
+                        <a href="#" class="use-case-link">
+                            查看示例 <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="use-case-item">
+                        <div class="use-case-title">市场趋势分析</div>
+                        <div class="use-case-description">利用市场数据API获取房产价格趋势，进行数据分析和可视化展示。</div>
+                        <a href="#" class="use-case-link">
+                            查看示例 <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="use-case-item">
+                        <div class="use-case-title">房产价值监控</div>
+                        <div class="use-case-description">定期调用估价API，监控房产价值变化，生成价值趋势报告。</div>
+                        <a href="#" class="use-case-link">
+                            查看示例 <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- API密钥管理卡片 -->
+            <div class="dev-card">
+                <div class="dev-card-header">
+                    <div class="dev-card-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h2 class="dev-card-title">API密钥管理</h2>
+                </div>
+                <p>API密钥是调用ValuHub API的凭证，用于身份验证和权限控制。登录后，您可以在控制台中管理您的API密钥。</p>
+                <div style="margin-top: var(--spacing-6);">
+                    <a href="login.html" class="btn btn-primary btn-lg">
+                        <i class="fas fa-sign-in-alt"></i>
+                        登录管理API密钥
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid grid-lg">
+                <div class="grid-item grid-lg-3">
+                    <div class="footer-logo">
+                        <a href="index.html" class="navbar-brand">
+                            <img src="图片1.png" alt="ValuHub Logo">
+                            ValuHub
+                        </a>
+                        <p class="mt-4 text-sm text-text-secondary">
+                            房产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">产品与服务</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">房产估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">数据报告</a></li>
+                        <li><a href="api-docs.html">API服务</a></li>
+                        <li><a href="solutions.html">解决方案</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">解决方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">大众端</a></li>
+                        <li><a href="#">政务端</a></li>
+                        <li><a href="#">企业端</a></li>
+                        <li><a href="#">院校端</a></li>
+                        <li><a href="#">资管通</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="ecosystem.html">合作伙伴</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-3">
+                    <h4 class="footer-title">联系我们</h4>
+                    <ul class="footer-links contact-links">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市朝阳区XX大厦XX层</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@valuhub.com</span>
+                        </li>
+                    </ul>
+                    <div class="social-links mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom mt-8 pt-6 border-top">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="text-sm text-text-secondary">
+                        © 2025 ValuHub. 保留所有权利。
+                    </p>
+                    <div class="footer-bottom-links mt-3 mt-md-0">
+                        <a href="privacy-policy.html" class="text-sm text-text-secondary mr-4">隐私政策</a>
+                        <a href="terms-of-service.html" class="text-sm text-text-secondary">服务条款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 引入JavaScript -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</body>
+</html>

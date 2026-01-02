@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>价格 - ProcessOn - ValuHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-white">
+    <!-- 顶部导航 -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-gray-900">Process<span class="text-blue-600">On</span></span>
+                        <span class="ml-2 px-2 py-0.5 text-xs font-medium text-white bg-pink-500 rounded-full">AI</span>
+                    </div>
+                    <nav class="ml-8 flex space-x-8">
+                        <!-- 产品下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">产品 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-96 bg-white rounded-md shadow-lg py-2 z-10">
+                                <div class="grid grid-cols-5 gap-4 p-4">
+                                    <!-- 左侧分类 -->
+                                    <div class="col-span-1 space-y-3">
+                                        <div class="font-medium text-gray-900">流程类</div>
+                                        <div class="font-medium text-gray-900">脑图类</div>
+                                        <div class="font-medium text-gray-900">笔记类</div>
+                                        <div class="font-medium text-gray-900">实用工具</div>
+                                    </div>
+                                    <!-- 右侧内容 -->
+                                    <div class="col-span-4 grid grid-cols-4 gap-2">
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">流程图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">泳道图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">BPMN2.0</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">UML</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">架构图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">网络拓扑图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">图表/表格</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">韦恩图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">甘特图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">电路图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">平面图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">ER图</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="processon-download.html" class="text-gray-700 hover:text-blue-600 text-sm font-medium">下载</a>
+                        
+                        <!-- 企业服务下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">企业服务 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">企业业务</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">解决方案</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">API服务</a>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="text-gray-700 hover:text-blue-600 text-sm font-medium">模板社区</a>
+                        <a href="processon-pricing.html" class="text-blue-600 border-b-2 border-blue-600 text-sm font-medium">价格</a>
+                        
+                        <!-- 入门教程下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">入门教程 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">帮助中心</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">知识社区</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors border-2 border-blue-600">进入我的文件</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main>
+        <!-- 价格方案 -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h1 class="text-4xl font-bold text-purple-600 mb-4">自由选择更快、更高效率的协作方案</h1>
+                    <div class="flex justify-center items-center space-x-2 mb-6">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                            </svg>
+                            <span class="text-sm font-medium text-gray-900 ml-1">全平台多端·VIP权益互通</span>
+                        </div>
+                        <span class="text-gray-400">|</span>
+                        <span class="text-sm font-medium text-purple-600">解锁流程图+思维导图+Markdown全部会员特权</span>
+                    </div>
+                    <div class="inline-block">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            年末特惠·低至5折
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- 免费版 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-center mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">免费版</h3>
+                            <svg class="w-4 h-4 text-green-500 ml-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 mb-4">满足基础作图需求，支持协作</p>
+                        <div class="mb-6">
+                            <div class="text-4xl font-bold text-gray-900">¥0</div>
+                            <div class="text-gray-500">永久免费</div>
+                        </div>
+                        <button class="w-full bg-white hover:bg-gray-50 border-2 border-gray-300 text-gray-700 font-medium px-4 py-2 rounded-md transition-colors">立即使用</button>
+                    </div>
+                    
+                    <!-- 个人版 -->
+                    <div class="bg-white rounded-lg shadow-sm border-2 border-blue-600 p-6 hover:shadow-md transition-shadow relative">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                                推荐
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">个人版</h3>
+                        <p class="text-gray-600 mb-4">能力不设限，新功能优先体验特权</p>
+                        <div class="mb-6">
+                            <div class="text-4xl font-bold text-gray-900">¥159</div>
+                            <div class="text-gray-500">/年</div>
+                        </div>
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors mb-2">立即购买</button>
+                        <div class="text-center">
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">兑换码兑换</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 团队版 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">团队版</h3>
+                        <p class="text-gray-600 mb-4">适用于资产管理、安全管控较为严格的「成长型」企业</p>
+                        <div class="mb-6">
+                            <div class="text-4xl font-bold text-gray-900">¥259</div>
+                            <div class="text-gray-500">/人/年</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors">立即购买</button>
+                            <div class="relative">
+                                <div class="absolute -top-3 right-0">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                        15天免费试用
+                                    </span>
+                                </div>
+                                <button class="w-full bg-white hover:bg-gray-50 border-2 border-gray-300 text-gray-700 font-medium px-4 py-2 rounded-md transition-colors">创建团队</button>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <p class="text-xs text-gray-500">团队版购买咨询：010-86393609</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 私有部署版 -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">私有部署版</h3>
+                        <p class="text-gray-600 mb-4">适用于50人以上有私有云部署需求的「中大型」企业或集团</p>
+                        <div class="mb-6">
+                            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">了解详情</a>
+                        </div>
+                        <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium px-4 py-2 rounded-md transition-colors">立即咨询</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 功能对比 -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">功能对比</h2>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="py-4 px-6 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">功能</th>
+                                <th class="py-4 px-6 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">免费版</th>
+                                <th class="py-4 px-6 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">个人版</th>
+                                <th class="py-4 px-6 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">团队版</th>
+                                <th class="py-4 px-6 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">私有部署版</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <!-- 产品功能 -->
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">个人文件数量</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">9</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">协作人数</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">3</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">思维导图自定义主题风格</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">1</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">可用官方主题风格</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">部分</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">文件下载格式</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">部分</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">无水印导出</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">高清图片导出</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">流程图自定义「我的图形」</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">9</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">流程图粘贴截图</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">流程图添加自定义水印</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">思维导图粘贴截图</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">思维导图添加自定义水印</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">思维导图上传附件</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">模板市场</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">*VIP免费模板</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">在线客服</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">企业文件数量</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">项目空间数量</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">不限</td>
+                            </tr>
+                            <tr>
+                                <td class="py-4 px-6 text-sm font-medium text-gray-900">企业成员管理</td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                                <td class="py-4 px-6 text-sm text-gray-500">
+                                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 常见问题 -->
+        <section class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">常见问题</h2>
+                
+                <div class="space-y-8">
+                    <!-- 发票及开具流程 -->
+                    <div>
+                        <h3 class="text-xl font-medium text-gray-900 mb-3">发票及开具流程</h3>
+                        <div class="space-y-2">
+                            <p class="text-gray-600">我们可以为客户提供普通电子发票和增值税专用发票；</p>
+                            <p class="text-gray-600">普通电子发票开具流程：付款成功后，点击右上角个人头像，选择账户中心-交易记录，可以看到申请发票链接，点击提交发票信息即可；</p>
+                            <p class="text-gray-600">增值税专用发票开具流程：联系客服线下开具。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 支付方式 -->
+                    <div>
+                        <h3 class="text-xl font-medium text-gray-900 mb-3">支付方式</h3>
+                        <p class="text-gray-600">ProcessOn目前支持微信支付、支付宝支付、对公转账三种支付方式。</p>
+                    </div>
+                    
+                    <!-- 对公转账如何升级 -->
+                    <div>
+                        <h3 class="text-xl font-medium text-gray-900 mb-3">对公转账如何升级</h3>
+                        <div class="space-y-2">
+                            <p class="text-gray-600">团队版升级请联系：010-86393609</p>
+                            <p class="text-gray-600">个人版升级请扫描下方二维码</p>
+                            <div class="flex items-center">
+                                <div class="w-24 h-24 bg-gray-100 flex items-center justify-center mr-4">
+                                    <div class="text-gray-400 text-sm">二维码</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 支持服务 -->
+                    <div>
+                        <h3 class="text-xl font-medium text-gray-900 mb-3">支持服务</h3>
+                        <p class="text-gray-600">我们提供官网在线咨询、电话以及社群等售前售后支持服务</p>
+                    </div>
+                    
+                    <!-- 退款政策 -->
+                    <div>
+                        <h3 class="text-xl font-medium text-gray-900 mb-3">退款政策</h3>
+                        <div class="space-y-2">
+                            <p class="text-gray-600">ProcessOn会员服务属于虚拟产品，一经生效不支持退款，感谢您的支持</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800">查看更多常见问题 →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 公益组织免费服务 -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">ProcessOn为公益组织免费提供服务</h2>
+                        <p class="text-gray-600 mb-6">
+                            ProcessOn推出公益计划<br>
+                            为公益组织提供免费服务，愿为公益组织提供更多帮助<br>
+                            这个世界，需要我们这一份力量
+                        </p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">申请使用</button>
+                    </div>
+                    <div class="flex justify-center">
+                        <div class="relative">
+                            <!-- 爱心图标 -->
+                            <svg class="w-64 h-64 text-pink-300" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                            </svg>
+                            <svg class="w-48 h-48 text-yellow-300 absolute -top-8 -right-8" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                            </svg>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+                                    <span class="text-pink-600 font-bold text-xl">FREE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <!-- 每日创建文件统计 -->
+        <section class="py-16 bg-gray-800 text-white text-center">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold mb-4">每天有<span class="text-blue-400">100,000+</span>文件在ProcessOn创建</h2>
+            </div>
+        </section>
+        
+        <!-- 功能列表 -->
+        <section class="py-16 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+                    <!-- 产品 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">产品</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">思维导图</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">流程图</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">思维笔记</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Markdown</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">在线白板</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">原型设计</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 实用工具 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">实用工具</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">LaTex公式编辑器</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Geogebra</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Mermaid</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 资源 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">资源</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">模板社区</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">知识教程</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">专题频道</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">帮助中心</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">使用手册</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 支持 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">支持</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">邀请有礼</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">私有化部署</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">教育认证</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">对标Visio</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 关于 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">关于</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">关于我们</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">加入我们</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">服务条款</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 联系 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">联系</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li class="text-gray-400">邮箱: support@processon.com</li>
+                            <li class="text-gray-400">电话: 010-82796300 (个人版)</li>
+                            <li class="text-gray-400">010-86393609 (团队版)</li>
+                            <li class="text-gray-400">(工作日 9:30-18:30)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 版权信息 -->
+        <section class="py-8 bg-gray-950 text-gray-400 text-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <!-- 社交媒体 -->
+                    <div class="flex space-x-4 mb-4 md:mb-0">
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 8c0 .557.447 1.008 1 1.008s1-.45 1-1.008c0-.557-.447-1.008-1-1.008s-1 .45-1 1.008zm0 2h2v6h-2v-6zm3 0h3v2h-3v-2z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <!-- 链接 -->
+                    <div class="text-center md:text-left">
+                        <p class="mb-2">友情链接 (QQ联系393492483)：</p>
+                        <p class="text-xs">在线设计 第一PPT 简历模板 欧模网 PPT模板 自学软件设计网 壁纸 海报设计 字体视界 火星时代教育 摹客设计协作 51PPT模板网 PDF转WORD 135编辑器 标小智 AI工具集 协作白板 众图网 CRM 易鲸云零代码 爱发表 好投稿 优路教育 福昕官网 录音转思维导图</p>
+                    </div>
+                </div>
+                
+                <!-- 底部版权 -->
+                <div class="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-xs mb-4 md:mb-0">©2020 北京大麦地信息技术有限公司 京ICP备15008605号-1 | 京公网安备 11010802033154号</div>
+                    <div class="flex space-x-4">
+                        <img src="https://www.processon.com/static/img/beian.9b5f4e53.svg" alt="实名认证" class="h-8">
+                        <img src="https://www.processon.com/static/img/itrust.b4c020e8.svg" alt="安全认证" class="h-8">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>

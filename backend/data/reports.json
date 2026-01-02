@@ -1,0 +1,29 @@
+[
+  {
+    "id": "report_1766914261",
+    "user_phone": "13800138001",
+    "project_id": "test_project_123",
+    "report_path": "storage/reports\\report_1766914261.html",
+    "created_at": "2025-12-28T17:31:01.964958",
+    "download_url": "/api/v1/report/download/report_1766914261",
+    "is_paid": false
+  },
+  {
+    "id": "report_1766915047",
+    "user_phone": "13800138002",
+    "project_id": "test_project_456",
+    "report_path": "storage/reports\\report_1766915047.html",
+    "created_at": "2025-12-28T17:44:07.881523",
+    "download_url": "/api/v1/report/download/report_1766915047",
+    "is_paid": true
+  },
+  {
+    "id": "report_1766915087",
+    "user_phone": "13800138002",
+    "project_id": "test_project_456",
+    "report_path": "storage/reports\\report_1766915087.html",
+    "created_at": "2025-12-28T17:44:47.824794",
+    "download_url": "/api/v1/report/download/report_1766915087",
+    "is_paid": true
+  }
+]

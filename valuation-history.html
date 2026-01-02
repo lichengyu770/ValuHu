@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>估价历史- ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#6ea8fe',
+                        accent: '#667eea',
+                        success: '#52c41a',
+                        warning: '#faad14',
+                        danger: '#f5222d',
+                        dark: '#1a1a1a',
+                        light: '#f5f7fa'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        /* 客户端切换导航样式 */
+        .client-nav {
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .client-nav-content {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 100%;
+        }
+        
+        .client-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .client-tabs {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .client-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #666;
+            background-color: #f5f7fa;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .client-tab:hover {
+            background-color: #e6ebff;
+            color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+        
+        .client-tab.active {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-item:hover {
+            background-color: #f0f4ff;
+            color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        /* 筛选栏 */
+        .filter-bar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-item label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .filter-item input,
+        .filter-item select {
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-item input:focus,
+        .filter-item select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 操作按钮组 */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5568d3;
+        }
+        
+        /* 估价历史表格 */
+        .valuation-table {
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            background-color: #f8f9fa;
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: 1fr 120px 120px 120px 120px 150px;
+            gap: 16px;
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .table-row {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: grid;
+            grid-template-columns: 1fr 120px 120px 120px 120px 150px;
+            gap: 16px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .table-row:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        /* 状态标签 */
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .status-success {
+            background-color: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+        
+        .status-warning {
+            background-color: #fff7e6;
+            color: #faad14;
+            border: 1px solid #ffd591;
+        }
+        
+        /* 操作按钮 */
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-1px);
+        }
+        
+        .action-btn.view {
+            color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .action-btn.view:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .action-btn.report {
+            color: #52c41a;
+            border-color: #52c41a;
+        }
+        
+        .action-btn.report:hover {
+            background-color: #f6ffed;
+        }
+        
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+        
+        .page-btn {
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .page-btn.active {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        /* 图表容器 */
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        /* 对比分析模态框 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
+        
+        /* 对比表格 */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .compare-table th,
+        .compare-table td {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        
+        .compare-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-direction: row !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+        
+        .logo img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .filter-bar {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ai-valuation.html" class="nav-link">AI估价</a>
+                    <a href="market-trend.html" class="nav-link">市场趋势</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="valuation-history.html" class="nav-link">估价历史</a>
+                    <a href="report-generation.html" class="nav-link">报告生成</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>估价历史</h3>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-item active">
+                    <span>📋</span>
+                    <span>所有估价记录</span>
+                </div>
+                <div class="menu-item">
+                    <span>🏠</span>
+                    <span>住宅估价</span>
+                </div>
+                <div class="menu-item">
+                    <span>🏢</span>
+                    <span>商业地产估价</span>
+                </div>
+                <div class="menu-item">
+                    <span>📊</span>
+                    <span>估价统计</span>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <h1 class="page-title">📋 估价历史记录</h1>
+            
+            <!-- 筛选栏 -->
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <label for="filter-date">日期范围</label>
+                    <input type="date" id="filter-date" class="filter-input">
+                </div>
+                <div class="filter-item">
+                    <label for="filter-property-type">物业类型</label>
+                    <select id="filter-property-type" class="filter-select">
+                        <option value="">所有类型</option>
+                        <option value="住宅">住宅</option>
+                        <option value="写字楼">写字楼</option>
+                        <option value="商铺">商铺</option>
+                        <option value="别墅">别墅</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filter-city">城市</label>
+                    <select id="filter-city" class="filter-select">
+                        <option value="">所有城市</option>
+                        <option value="长沙">长沙</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                        <option value="深圳">深圳</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <label for="filter-price">价格范围</label>
+                    <select id="filter-price" class="filter-select">
+                        <option value="">所有价格</option>
+                        <option value="0-500000">0-50万</option>
+                        <option value="500000-1000000">50-100万</option>
+                        <option value="1000000-2000000">100-200万</option>
+                        <option value="2000000+">200万以上</option>
+                    </select>
+                </div>
+                <div class="filter-item" style="display: flex; gap: 8px; align-items: end;">
+                    <button class="btn btn-primary" onclick="applyFilters()">🔍 筛选</button>
+                    <button class="btn" onclick="resetFilters()">🔄 重置</button>
+                </div>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="btn" onclick="exportData()">📤 导出数据</button>
+                <button class="btn btn-primary" onclick="compareValuations()">📊 对比估价</button>
+            </div>
+            
+            <!-- 估价历史表格 -->
+            <div class="valuation-table">
+                <div class="table-header">
+                    <div>房产信息</div>
+                    <div>物业类型</div>
+                    <div>估价总价</div>
+                    <div>单价</div>
+                    <div>置信度</div>
+                    <div>操作</div>
+                </div>
+                <div id="valuation-list">
+                    <!-- 估价记录将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="pagination">
+                <button class="page-btn" onclick="changePage(1)">首页</button>
+                <button class="page-btn" onclick="changePage(currentPage - 1)" id="prev-btn" disabled>上一页</button>
+                <span id="page-info">第 1 页，共 1 页</span>
+                <button class="page-btn" onclick="changePage(currentPage + 1)" id="next-btn" disabled>下一页</button>
+                <button class="page-btn" onclick="changePage(totalPages)">末页</button>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 对比分析模态框 -->
+    <div id="compare-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📊 估价对比分析</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="compare-content">
+                <p>请选择要对比的估价记录...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 模拟估价历史数据
+        const valuationData = [
+            {
+                id: 1,
+                property_name: '长沙万科城',
+                property_type: '住宅',
+                address: '长沙市开福区福元西路199号',
+                price: 1536000,
+                price_per_sqm: 12800,
+                area: 120,
+                confidence: 92,
+                valuation_date: '2025-12-27',
+                status: 'success'
+            },
+            {
+                id: 2,
+                property_name: '岳麓区二手房',
+                property_type: '住宅',
+                address: '长沙市岳麓区岳麓大道',
+                price: 1200000,
+                price_per_sqm: 10000,
+                area: 120,
+                confidence: 88,
+                valuation_date: '2025-12-26',
+                status: 'success'
+            },
+            {
+                id: 3,
+                property_name: '商业地产估价',
+                property_type: '商铺',
+                address: '长沙市天心区黄兴路步行街',
+                price: 3500000,
+                price_per_sqm: 25000,
+                area: 140,
+                confidence: 85,
+                valuation_date: '2025-12-25',
+                status: 'success'
+            },
+            {
+                id: 4,
+                property_name: '湘江世纪城',
+                property_type: '住宅',
+                address: '长沙市开福区金泰路199号',
+                price: 1800000,
+                price_per_sqm: 13000,
+                area: 138,
+                confidence: 90,
+                valuation_date: '2025-12-24',
+                status: 'success'
+            },
+            {
+                id: 5,
+                property_name: '保利国际广场',
+                property_type: '写字楼',
+                address: '长沙市雨花区劳动东路222号',
+                price: 2800000,
+                price_per_sqm: 14000,
+                area: 200,
+                confidence: 87,
+                valuation_date: '2025-12-23',
+                status: 'success'
+            }
+        ];
+        
+        let currentPage = 1;
+        const pageSize = 10;
+        let filteredData = [...valuationData];
+        let totalPages = Math.ceil(filteredData.length / pageSize);
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderValuationList();
+            updatePagination();
+        });
+        
+        // 渲染估价列表
+        function renderValuationList() {
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const pageData = filteredData.slice(startIndex, endIndex);
+            
+            const valuationList = document.getElementById('valuation-list');
+            valuationList.innerHTML = '';
+            
+            pageData.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                
+                row.innerHTML = `
+                    <div>
+                        <div style="font-weight: 500; color: #333;">${item.property_name}</div>
+                        <div style="font-size: 12px; color: #666;">${item.address}</div>
+                        <div style="font-size: 12px; color: #999; margin-top: 4px;">${item.valuation_date}</div>
+                    </div>
+                    <div>${item.property_type}</div>
+                    <div style="font-weight: bold; color: #667eea;">¥${item.price.toLocaleString()}</div>
+                    <div>${item.price_per_sqm.toLocaleString()} 元/㎡</div>
+                    <div>
+                        <span class="status-tag status-success">${item.confidence}%</span>
+                    </div>
+                    <div class="table-actions">
+                        <button class="action-btn view" onclick="viewValuation(${item.id})">查看</button>
+                        <button class="action-btn report" onclick="generateReport(${item.id})">报告</button>
+                    </div>
+                `;
+                
+                valuationList.appendChild(row);
+            });
+        }
+        
+        // 更新分页信息
+        function updatePagination() {
+            totalPages = Math.ceil(filteredData.length / pageSize);
+            const pageInfo = document.getElementById('page-info');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            pageInfo.textContent = `第 ${currentPage} 页，共 ${totalPages} 页`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+        
+        // 切换页码
+        function changePage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderValuationList();
+            updatePagination();
+        }
+        
+        // 应用筛选
+        function applyFilters() {
+            const propertyType = document.getElementById('filter-property-type').value;
+            const city = document.getElementById('filter-city').value;
+            
+            filteredData = valuationData.filter(item => {
+                let match = true;
+                
+                if (propertyType && item.property_type !== propertyType) {
+                    match = false;
+                }
+                
+                if (city && !item.address.includes(city)) {
+                    match = false;
+                }
+                
+                return match;
+            });
+            
+            currentPage = 1;
+            renderValuationList();
+            updatePagination();
+        }
+        
+        // 重置筛选
+        function resetFilters() {
+            document.getElementById('filter-property-type').value = '';
+            document.getElementById('filter-city').value = '';
+            document.getElementById('filter-date').value = '';
+            document.getElementById('filter-price').value = '';
+            
+            filteredData = [...valuationData];
+            currentPage = 1;
+            renderValuationList();
+            updatePagination();
+        }
+        
+        // 查看估价详情
+        function viewValuation(id) {
+            alert(`查看估价详情: ${id}`);
+            // 这里可以跳转到估价详情页面
+        }
+        
+        // 生成估价报告
+        function generateReport(id) {
+            alert(`生成估价报告: ${id}`);
+            // 这里可以调用报告生成API
+        }
+        
+        // 导出数据
+        function exportData() {
+            alert('导出数据功能开发中...');
+        }
+        
+        // 对比估价
+        function compareValuations() {
+            const modal = document.getElementById('compare-modal');
+            modal.classList.add('active');
+            
+            const content = document.getElementById('compare-content');
+            content.innerHTML = `
+                <h3>选择要对比的估价记录</h3>
+                <div style="margin: 20px 0;">
+                    ${valuationData.map(item => `
+                        <div style="margin-bottom: 10px;">
+                            <input type="checkbox" id="compare-${item.id}" value="${item.id}" style="margin-right: 10px;">
+                            <label for="compare-${item.id}">${item.property_name} - ¥${item.price.toLocaleString()}</label>
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-primary" onclick="performComparison()" style="margin-right: 10px;">开始对比</button>
+                <button class="btn" onclick="closeModal()">取消</button>
+            `;
+        }
+        
+        // 执行对比
+        function performComparison() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.value));
+            
+            if (selectedIds.length < 2) {
+                alert('请至少选择两个估价记录进行对比');
+                return;
+            }
+            
+            const selectedData = valuationData.filter(item => selectedIds.includes(item.id));
+            
+            const content = document.getElementById('compare-content');
+            content.innerHTML = `
+                <h3>对比结果</h3>
+                <table class="compare-table">
+                    <tr>
+                        <th>项目</th>
+                        ${selectedData.map(item => `<th>${item.property_name}</th>`).join('')}
+                    </tr>
+                    <tr>
+                        <td>物业类型</td>
+                        ${selectedData.map(item => `<td>${item.property_type}</td>`).join('')}
+                    </tr>
+                    <tr>
+                        <td>建筑面积</td>
+                        ${selectedData.map(item => `<td>${item.area} ㎡</td>`).join('')}
+                    </tr>
+                    <tr>
+                        <td>估价总价</td>
+                        ${selectedData.map(item => `<td style="font-weight: bold; color: #667eea;">¥${item.price.toLocaleString()}</td>`).join('')}
+                    </tr>
+                    <tr>
+                        <td>单价</td>
+                        ${selectedData.map(item => `<td>${item.price_per_sqm.toLocaleString()} 元/㎡</td>`).join('')}
+                    </tr>
+                    <tr>
+                        <td>置信度</td>
+                        ${selectedData.map(item => `<td>${item.confidence}%</td>`).join('')}
+                    </tr>
+                    <tr>
+                        <td>估价日期</td>
+                        ${selectedData.map(item => `<td>${item.valuation_date}</td>`).join('')}
+                    </tr>
+                </table>
+                <button class="btn btn-primary" style="margin-top: 20px;" onclick="closeModal()">关闭</button>
+            `;
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            const modal = document.getElementById('compare-modal');
+            modal.classList.remove('active');
+        }
+        
+        // 客户端切换
+        document.querySelectorAll('.client-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.client-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

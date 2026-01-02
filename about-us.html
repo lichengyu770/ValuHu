@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>公司介绍 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 页面特定样式 -->
+    <style>
+      :root {
+        --color-primary: #667eea;
+        --color-secondary: #764ba2;
+        --color-success: #52c41a;
+        --color-warning: #faad14;
+        --color-error: #f5222d;
+        --color-light: #f5f7fa;
+        --color-dark: #1e293b;
+        --color-gray: #64748b;
+        --color-light-gray: #e2e8f0;
+        --card-bg: #ffffff;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 12px;
+        --transition: transform 0.3s ease, box-shadow 0.3s ease;
+        --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--color-dark);
+        background-color: var(--color-light);
+      }
+
+      /* 容器样式 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* 头部样式 */
+      .header {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+
+      /* Logo 样式 */
+      img[src="图片1.png"] {
+        max-width: 45px !important;
+        max-height: 45px !important;
+        width: 45px !important;
+        height: 45px !important;
+        object-fit: contain !important;
+        display: inline-block !important;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-item a {
+        text-decoration: none;
+        color: var(--color-dark);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-item a:hover {
+        color: var(--color-primary);
+      }
+
+      /* 登录按钮 */
+      .login-btn {
+        background-color: var(--color-primary);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background-color: #5568d3;
+        transform: translateY(-2px);
+      }
+
+      /* 主内容区 */
+      .main-content {
+        padding: 60px 0;
+      }
+
+      /* 页面标题 */
+      .page-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .page-title h1 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        color: var(--color-dark);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .page-title p {
+        font-size: 18px;
+        color: var(--color-gray);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* 内容区域 */
+      .content-section {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+        transition: var(--transition);
+      }
+
+      .content-section:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      /* 关于我们内容 */
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+        margin-bottom: 60px;
+      }
+
+      .about-text h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: var(--color-dark);
+      }
+
+      .about-text p {
+        margin-bottom: 16px;
+        color: var(--color-gray);
+        line-height: 1.8;
+      }
+
+      .about-image {
+        background: var(--gradient-primary);
+        border-radius: var(--border-radius);
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 120px;
+        color: white;
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      /* 使命愿景 */
+      .mission-vision {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .mission-item {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .mission-item:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .mission-item .icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: var(--color-primary);
+      }
+
+      .mission-item h3 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .mission-item p {
+        color: var(--color-gray);
+        line-height: 1.8;
+      }
+
+      /* 发展历程 */
+      .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background: var(--gradient-primary);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin-bottom: 50px;
+        width: 50%;
+        padding: 0 40px;
+        box-sizing: border-box;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 50%;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+      }
+
+      .timeline-content {
+        background-color: var(--card-bg);
+        padding: 30px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .timeline-content:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content {
+        margin-right: 40px;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 40px;
+      }
+
+      .timeline-date {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin-bottom: 10px;
+      }
+
+      .timeline-title {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .timeline-text {
+        color: var(--color-gray);
+        line-height: 1.8;
+      }
+
+      /* 核心团队 */
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .team-member {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .team-member:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .member-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: white;
+      }
+
+      .member-name {
+        font-size: 20px;
+        margin-bottom: 8px;
+        color: var(--color-dark);
+      }
+
+      .member-position {
+        font-size: 14px;
+        color: var(--color-primary);
+        margin-bottom: 15px;
+      }
+
+      .member-description {
+        color: var(--color-gray);
+        line-height: 1.6;
+      }
+
+      /* 页脚 */
+      .footer {
+        background-color: var(--color-dark);
+        color: white;
+        padding: 60px 0 30px;
+        margin-top: 60px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-section h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-section ul li a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section ul li a:hover {
+        color: var(--color-primary);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .about-content {
+          grid-template-columns: 1fr;
+        }
+
+        .mission-vision {
+          grid-template-columns: 1fr;
+        }
+
+        .timeline::before {
+          left: 30px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 25px;
+        }
+
+        .timeline-item:nth-child(even) {
+          left: 0;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content,
+        .timeline-item:nth-child(even) .timeline-content {
+          margin: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .page-title h1 {
+          font-size: 28px;
+        }
+
+        .content-section {
+          padding: 24px;
+        }
+
+        .nav-menu {
+          display: none;
+        }
+      }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 头部 -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo">
+          <img src="图片1.png" alt="ValuHub Logo">
+          ValuHub
+        </a>
+        <nav class="nav-menu">
+          <div class="nav-item">
+            <a href="visual-index.html">首页</a>
+          </div>
+          <div class="nav-item">
+            <a href="about-us.html">关于我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="cooperation.html">企业合作</a>
+          </div>
+          <div class="nav-item">
+            <a href="contact.html">联系我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="join.html">加入我们</a>
+          </div>
+          <a href="login.html" class="login-btn">登录/注册</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <div class="container">
+        <div class="page-title">
+          <h1>公司介绍</h1>
+          <p>了解数智估价核心引擎的发展历程、企业文化和核心团队</p>
+        </div>
+
+        <!-- 关于我们 -->
+        <div class="about-content">
+          <div class="about-text">
+            <h2>关于数智估价核心引擎</h2>
+            <p>数智估价核心引擎是一家专注于房地产智能估价技术研发与应用的高科技企业。我们致力于将人工智能、大数据、GIS等先进技术与传统房地产估价业务深度融合，为客户提供精准、高效、便捷的房地产估价解决方案。</p>
+            <p>自成立以来，我们始终坚持以技术创新为核心驱动力，不断提升产品性能和服务质量。我们的核心团队由来自国内外顶尖高校和企业的资深工程师、数据科学家和房地产领域专家组成，拥有丰富的技术积累和行业经验。</p>
+            <p>凭借强大的技术实力和优质的服务，我们已与众多房地产开发企业、金融机构、评估机构等建立了长期稳定的合作关系，赢得了客户的广泛认可和好评。</p>
+          </div>
+          <div class="about-image">
+            🏙️
+          </div>
+        </div>
+
+        <!-- 使命愿景 -->
+        <div class="mission-vision">
+          <div class="mission-item">
+            <div class="icon">🎯</div>
+            <h3>企业使命</h3>
+            <p>通过人工智能和大数据技术，革新传统房地产估价模式，提高估价效率和准确性，为客户创造更大价值，推动整个房地产评估行业的数字化、智能化转型。</p>
+          </div>
+          <div class="mission-item">
+            <div class="icon">🌐</div>
+            <h3>企业愿景</h3>
+            <p>成为全球领先的房地产智能估价技术提供商，构建一个公平、透明、高效的房地产价值评估生态系统，为行业发展和社会进步做出贡献。</p>
+          </div>
+        </div>
+
+        <!-- 发展历程 -->
+        <div class="content-section">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark);">发展历程</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-date">2020年</div>
+                <div class="timeline-title">公司成立</div>
+                <div class="timeline-text">数智估价核心引擎正式成立，专注于房地产智能估价技术研发。</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-date">2021年</div>
+                <div class="timeline-title">产品发布</div>
+                <div class="timeline-text">首款AI估价引擎产品正式发布，获得市场广泛关注。</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-date">2022年</div>
+                <div class="timeline-title">技术突破</div>
+                <div class="timeline-text">AI估价准确率突破95%，达到行业领先水平。</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-date">2023年</div>
+                <div class="timeline-title">市场拓展</div>
+                <div class="timeline-text">业务覆盖全国主要城市，服务客户超过1000家。</div>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-date">2024年</div>
+                <div class="timeline-title">生态建设</div>
+                <div class="timeline-text">构建完整的房地产估价生态系统，推出API服务和行业报告。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 核心团队 -->
+        <div class="content-section">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark);">核心团队</h2>
+          <div class="team-grid">
+            <div class="team-member">
+              <div class="member-avatar">👨💼</div>
+              <h3 class="member-name">张明</h3>
+              <p class="member-position">创始人兼CEO</p>
+              <p class="member-description">10年房地产行业经验，曾任职于国内知名房地产企业，专注于房地产数字化转型。</p>
+            </div>
+            <div class="team-member">
+              <div class="member-avatar">👩💻</div>
+              <h3 class="member-name">李娜</h3>
+              <p class="member-position">CTO</p>
+              <p class="member-description">AI领域专家，曾任职于BAT等互联网巨头，拥有丰富的人工智能研发经验。</p>
+            </div>
+            <div class="team-member">
+              <div class="member-avatar">👨📊</div>
+              <h3 class="member-name">王强</h3>
+              <p class="member-position">数据总监</p>
+              <p class="member-description">大数据领域资深专家，擅长数据挖掘和机器学习算法优化。</p>
+            </div>
+            <div class="team-member">
+              <div class="member-avatar">👩🎨</div>
+              <h3 class="member-name">刘芳</h3>
+              <p class="member-position">产品总监</p>
+              <p class="member-description">5年产品设计经验，专注于用户体验和产品创新。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>产品服务</h3>
+            <ul>
+              <li><a href="ai-valuation.html">AI估价</a></li>
+              <li><a href="reports.html">行业报告</a></li>
+              <li><a href="cases.html">案例库</a></li>
+              <li><a href="api.html">API服务</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>关于我们</h3>
+            <ul>
+              <li><a href="about-us.html">公司介绍</a></li>
+              <li><a href="join.html">加入我们</a></li>
+              <li><a href="cooperation.html">企业合作</a></li>
+              <li><a href="contact.html">联系我们</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>法律条款</h3>
+            <ul>
+              <li><a href="privacy-policy.html">隐私政策</a></li>
+              <li><a href="terms-of-service.html">服务条款</a></li>
+              <li><a href="copyright.html">版权声明</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>联系我们</h3>
+            <ul>
+              <li>电话：400-123-4567</li>
+              <li>邮箱：contact@example.com</li>
+              <li>地址：北京市海淀区中关村</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- 权限管理脚本 -->
+    <script src="js/permission.js"></script>
+  </body>
+</html>

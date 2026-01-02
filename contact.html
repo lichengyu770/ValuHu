@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>联系我们 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 页面特定样式 -->
+    <style>
+      :root {
+        --color-primary: #667eea;
+        --color-secondary: #764ba2;
+        --color-success: #52c41a;
+        --color-warning: #faad14;
+        --color-error: #f5222d;
+        --color-light: #f5f7fa;
+        --color-dark: #1e293b;
+        --color-gray: #64748b;
+        --color-light-gray: #e2e8f0;
+        --card-bg: #ffffff;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 12px;
+        --transition: transform 0.3s ease, box-shadow 0.3s ease;
+        --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--color-dark);
+        background-color: var(--color-light);
+      }
+
+      /* 容器样式 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* 头部样式 */
+      .header {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-item a {
+        text-decoration: none;
+        color: var(--color-dark);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-item a:hover {
+        color: var(--color-primary);
+      }
+
+      /* 登录按钮 */
+      .login-btn {
+        background-color: var(--color-primary);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background-color: #5568d3;
+        transform: translateY(-2px);
+      }
+
+      /* 主内容区 */
+      .main-content {
+        padding: 60px 0;
+      }
+
+      /* 页面标题 */
+      .page-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .page-title h1 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        color: var(--color-dark);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .page-title p {
+        font-size: 18px;
+        color: var(--color-gray);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* 内容区域 */
+      .content-section {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+        transition: var(--transition);
+      }
+
+      .content-section:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      /* 联系信息卡片 */
+      .contact-info-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .info-card {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        text-align: center;
+      }
+
+      .info-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .info-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: var(--color-primary);
+      }
+
+      .info-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .info-text {
+        color: var(--color-gray);
+        line-height: 1.6;
+      }
+
+      .info-link {
+        color: var(--color-primary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .info-link:hover {
+        color: var(--color-secondary);
+      }
+
+      /* 联系表单和地图 */
+      .contact-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 60px;
+      }
+
+      /* 联系表单 */
+      .contact-form {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .contact-form:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--color-dark);
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--color-light-gray);
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--color-dark);
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 150px;
+      }
+
+      .submit-button {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      /* 地图 */
+      .map-container {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .map-container:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .map-placeholder {
+        background: var(--gradient-primary);
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        color: white;
+      }
+
+      /* 常见问题 */
+      .faq-section {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .faq-section:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .faq-section h2 {
+        margin-bottom: 30px;
+        color: var(--color-dark);
+      }
+
+      .faq-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--color-light-gray);
+        padding-bottom: 20px;
+      }
+
+      .faq-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .faq-question {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .faq-question:hover {
+        color: var(--color-primary);
+      }
+
+      .faq-question i {
+        transition: transform 0.3s ease;
+      }
+
+      .faq-question.active i {
+        transform: rotate(180deg);
+      }
+
+      .faq-answer {
+        color: var(--color-gray);
+        line-height: 1.8;
+        display: none;
+      }
+
+      .faq-answer.active {
+        display: block;
+      }
+
+      /* 页脚 */
+      .footer {
+        background-color: var(--color-dark);
+        color: white;
+        padding: 60px 0 30px;
+        margin-top: 60px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-section h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-section ul li a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section ul li a:hover {
+        color: var(--color-primary);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .contact-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .page-title h1 {
+          font-size: 28px;
+        }
+
+        .content-section {
+          padding: 24px;
+        }
+
+        .nav-menu {
+          display: none;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 头部 -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+        <nav class="nav-menu">
+          <div class="nav-item">
+            <a href="visual-index.html">首页</a>
+          </div>
+          <div class="nav-item">
+            <a href="about-us.html">关于我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="cooperation.html">企业合作</a>
+          </div>
+          <div class="nav-item">
+            <a href="contact.html">联系我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="join.html">加入我们</a>
+          </div>
+          <a href="login.html" class="login-btn">登录/注册</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <div class="container">
+        <div class="page-title">
+          <h1>联系我们</h1>
+          <p>如有任何问题或需求，欢迎随时联系我们</p>
+        </div>
+
+        <!-- 联系信息卡片 -->
+        <div class="contact-info-cards">
+          <div class="info-card">
+            <div class="info-icon">📞</div>
+            <h3 class="info-title">电话咨询</h3>
+            <p class="info-text">工作日 9:00-18:00</p>
+            <p class="info-text"><a href="tel:4001234567" class="info-link">400-123-4567</a></p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">✉️</div>
+            <h3 class="info-title">邮箱联系</h3>
+            <p class="info-text">24小时内回复</p>
+            <p class="info-text"><a href="mailto:contact@example.com" class="info-link">contact@example.com</a></p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📍</div>
+            <h3 class="info-title">公司地址</h3>
+            <p class="info-text">北京市海淀区中关村</p>
+            <p class="info-text">科技园区8号楼创新大厦15层</p>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">💬</div>
+            <h3 class="info-title">在线客服</h3>
+            <p class="info-text">工作日 9:00-18:00</p>
+            <p class="info-text"><a href="#" class="info-link">点击在线咨询</a></p>
+          </div>
+        </div>
+
+        <!-- 联系表单和地图 -->
+        <div class="contact-container">
+          <!-- 联系表单 -->
+          <div class="contact-form">
+            <h2 style="margin-bottom: 30px; color: var(--color-dark);">发送消息</h2>
+            <form>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">姓名</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">邮箱地址</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="phone">联系电话</label>
+                  <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="subject">主题</label>
+                  <input type="text" id="subject" name="subject" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="message">留言内容</label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+              </div>
+              <button type="submit" class="submit-button">发送消息</button>
+            </form>
+          </div>
+
+          <!-- 地图 -->
+          <div class="map-container">
+            <div class="map-placeholder">🗺️</div>
+            <div style="padding: 20px;">
+              <h3 style="margin-bottom: 15px; color: var(--color-dark);">我们的位置</h3>
+              <p style="color: var(--color-gray); line-height: 1.6;">北京市海淀区中关村科技园区8号楼创新大厦15层</p>
+              <p style="color: var(--color-gray); line-height: 1.6;">欢迎前来参观洽谈合作！</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 常见问题 -->
+        <div class="faq-section">
+          <h2>常见问题</h2>
+          <div class="faq-item">
+            <div class="faq-question">
+              如何申请成为你们的合作伙伴？
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              您可以通过我们的企业合作页面提交合作申请，或者直接联系我们的合作经理，我们会在24小时内与您取得联系。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              你们的AI估价准确率是多少？
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              我们的AI估价准确率高达95%以上，处于行业领先水平。我们会不断优化算法，提高准确率。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              如何获取API密钥？
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              您可以登录我们的平台，在API服务页面申请API密钥，我们会在1-3个工作日内审核并发放。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              你们支持哪些城市的房产估价？
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              我们目前支持全国主要城市的房产估价，包括北京、上海、广州、深圳、杭州、成都等100多个城市。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              如何加入你们的团队？
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              您可以访问我们的"加入我们"页面，查看最新的招聘信息，或者直接将您的简历发送至我们的招聘邮箱。
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>产品服务</h3>
+            <ul>
+              <li><a href="ai-valuation.html">AI估价</a></li>
+              <li><a href="reports.html">行业报告</a></li>
+              <li><a href="cases.html">案例库</a></li>
+              <li><a href="api.html">API服务</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>关于我们</h3>
+            <ul>
+              <li><a href="about-us.html">公司介绍</a></li>
+              <li><a href="join.html">加入我们</a></li>
+              <li><a href="cooperation.html">企业合作</a></li>
+              <li><a href="contact.html">联系我们</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>法律条款</h3>
+            <ul>
+              <li><a href="privacy-policy.html">隐私政策</a></li>
+              <li><a href="terms-of-service.html">服务条款</a></li>
+              <li><a href="copyright.html">版权声明</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>联系我们</h3>
+            <ul>
+              <li>电话：400-123-4567</li>
+              <li>邮箱：contact@example.com</li>
+              <li>地址：北京市海淀区中关村</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 常见问题交互 -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+          question.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const answer = this.nextElementSibling;
+            answer.classList.toggle('active');
+          });
+        });
+      });
+    </script>
+    
+    <!-- 权限管理脚本 -->
+    <script src="js/permission.js"></script>
+  </body>
+</html>

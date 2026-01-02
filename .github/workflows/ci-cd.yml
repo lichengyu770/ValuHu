@@ -1,0 +1,165 @@
+name: CI/CD 流水线
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      deploy-environment:
+        description: '部署环境'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - 'staging'
+          - 'production'
+
+jobs:
+  # 代码检查和测试阶段
+  code-quality:
+    name: 代码质量检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: 安装依赖
+        run: npm ci
+      - name: 代码格式检查
+        run: npm run lint
+      - name: 类型检查
+        run: npm run typecheck
+      - name: 运行单元测试
+        run: npm run test:unit
+      - name: 上传测试覆盖率报告
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+
+  # 构建阶段
+  build:
+    name: 构建应用
+    needs: code-quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: 安装依赖
+        run: npm ci
+      - name: 构建生产版本
+        run: npm run build
+      - name: 验证构建产物
+        run: ls -la dist/
+      - name: 压缩构建产物
+        run: zip -r build-artifact.zip dist/
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: build-artifact.zip
+          retention-days: 7
+
+  # 部署到 staging 环境
+  deploy-staging:
+    name: 部署到 Staging 环境
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event.inputs.deploy-environment == 'staging' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
+    environment:
+      name: staging
+      url: https://staging.property-valuation.example.com
+    steps:
+      - uses: actions/checkout@v3
+      - name: 下载构建产物
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+      - name: 解压构建产物
+        run: unzip build-artifact.zip
+      - name: 部署到 Staging 服务器
+        # 这里使用 SSH 部署到 staging 服务器
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.STAGING_SERVER_HOST }}
+          username: ${{ secrets.STAGING_SERVER_USER }}
+          key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          port: ${{ secrets.STAGING_SERVER_PORT || 22 }}
+          script: |
+            # 创建部署目录
+            mkdir -p /var/www/staging.property-valuation.example.com
+            # 备份旧版本
+            cp -r /var/www/staging.property-valuation.example.com /var/www/staging.property-valuation.example.com.backup.$(date +%Y%m%d%H%M%S) || true
+            # 清理旧文件
+            rm -rf /var/www/staging.property-valuation.example.com/*
+            # 复制新文件
+            scp -r ./dist/* ${{ secrets.STAGING_SERVER_USER }}@${{ secrets.STAGING_SERVER_HOST }}:/var/www/staging.property-valuation.example.com/
+            # 重启服务（如果需要）
+            # systemctl restart nginx
+
+  # 部署到 production 环境
+  deploy-production:
+    name: 部署到 Production 环境
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event.inputs.deploy-environment == 'production' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    environment:
+      name: production
+      url: https://property-valuation.example.com
+    steps:
+      - uses: actions/checkout@v3
+      - name: 下载构建产物
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+      - name: 解压构建产物
+        run: unzip build-artifact.zip
+      - name: 部署到 Production 服务器
+        # 这里使用 SSH 部署到 production 服务器
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.PRODUCTION_SERVER_HOST }}
+          username: ${{ secrets.PRODUCTION_SERVER_USER }}
+          key: ${{ secrets.PRODUCTION_SERVER_SSH_KEY }}
+          port: ${{ secrets.PRODUCTION_SERVER_PORT || 22 }}
+          script: |
+            # 创建部署目录
+            mkdir -p /var/www/property-valuation.example.com
+            # 备份旧版本
+            cp -r /var/www/property-valuation.example.com /var/www/property-valuation.example.com.backup.$(date +%Y%m%d%H%M%S) || true
+            # 清理旧文件
+            rm -rf /var/www/property-valuation.example.com/*
+            # 复制新文件
+            scp -r ./dist/* ${{ secrets.PRODUCTION_SERVER_USER }}@${{ secrets.PRODUCTION_SERVER_HOST }}:/var/www/property-valuation.example.com/
+            # 重启服务（如果需要）
+            # systemctl restart nginx
+
+  # 通知阶段
+  notify:
+    name: 部署通知
+    needs: [deploy-staging, deploy-production]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: 发送部署结果通知
+        run: |
+          # 根据部署结果发送通知
+          if [[ "${{ needs.deploy-staging.result || needs.deploy-production.result }}" == "success" ]]; then
+            echo "部署成功！"
+            # 这里可以添加 Slack、Email 或其他通知方式
+          else
+            echo "部署失败！"
+            # 这里可以添加失败通知逻辑
+          fi

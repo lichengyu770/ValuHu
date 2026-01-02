@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>团队介绍 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <!-- 引入扩展样式 -->
+    <link rel="stylesheet" href="extend.css" />
+    <!-- 页面特定样式 -->
+    <style>
+      :root {
+        --color-primary: #1a73e8; /* 品牌蓝色 */
+        --color-primary-light: #4285f4;
+        --color-secondary: #f9a825; /* 品牌橙色 */
+        --color-secondary-light: #ffb74d;
+        --color-background: #ffffff;
+        --color-white: #ffffff;
+        --color-text: #1d2129;
+        --color-text-light: #666;
+        --color-border: #dcdfe6;
+        --border-radius: 12px;
+        --box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
+        --transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      body {
+        background-color: var(--color-white);
+        color: var(--color-text);
+      }
+
+      /* 主要内容区 */
+      .main-content {
+        margin-top: 65px;
+        padding: 40px 0;
+      }
+
+      /* 团队介绍页面特定样式 */
+      .team-intro-section {
+        background: var(--color-white);
+      }
+
+      .team-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      .team-members {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .team-member {
+        text-align: center;
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border: 1px solid rgba(26, 115, 232, 0.1);
+      }
+
+      .team-member:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--box-shadow);
+        border-color: var(--color-primary);
+      }
+
+      .member-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          rgba(26, 115, 232, 0.1),
+          rgba(249, 168, 37, 0.1)
+        );
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .team-member:hover .member-avatar {
+        transform: scale(1.05);
+      }
+
+      .member-avatar i {
+        font-size: 40px;
+        color: var(--color-primary);
+      }
+
+      .member-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--color-text);
+        margin-bottom: 5px;
+      }
+
+      .member-role {
+        font-size: 14px;
+        color: var(--color-text-light);
+        margin-bottom: 5px;
+      }
+
+      /* 封面区 */
+      .hero {
+        margin-top: 65px;
+        height: 300px;
+        background: var(--color-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 16px;
+        color: var(--color-text-light);
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 用户中心 -->
+          <a href="user-center.html" class="">用户中心</a>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="user-center.html">用户中心</a></li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 2. 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1><span>团队介绍</span></h1>
+        <p>由资深工程师、数据科学家和领域专家组成的专业团队</p>
+      </div>
+    </section>
+
+    <!-- 3. 团队介绍主要内容 -->
+    <section class="team-intro-section main-content">
+      <div class="team-content">
+        <p>
+          我们拥有一支由资深工程师、数据科学家和领域专家组成的专业团队，致力于推动智能估价技术的创新与发展。团队成员来自顶尖高校和企业，具有丰富的行业经验和技术积累。
+        </p>
+
+        <h2
+          style="
+            font-size: 24px;
+            color: var(--color-text);
+            margin-top: 40px;
+            margin-bottom: 20px;
+          "
+        >
+          团队成员
+        </h2>
+
+        <div class="team-members">
+          <div class="team-member">
+            <div class="member-avatar"><i class="fas fa-user"></i></div>
+            <div class="member-name">李成誉</div>
+            <div class="member-role">16680508457</div>
+            <div class="member-role">1558691995@qq.com</div>
+          </div>
+          <div class="team-member">
+            <div class="member-avatar"><i class="fas fa-user"></i></div>
+            <div class="member-name">代欣华</div>
+            <div class="member-role">19386925910</div>
+            <div class="member-role">2220776356@qq.com</div>
+          </div>
+          <div class="team-member">
+            <div class="member-avatar"><i class="fas fa-user"></i></div>
+            <div class="member-name">沈添华</div>
+            <div class="member-role">18573782878</div>
+            <div class="member-role">2938482846@qq.com</div>
+          </div>
+          <div class="team-member">
+            <div class="member-avatar"><i class="fas fa-user"></i></div>
+            <div class="member-name">黄有鹏</div>
+            <div class="member-role">17773252736</div>
+            <div class="member-role">1683135767@qq.com</div>
+          </div>
+          <div class="team-member">
+            <div class="member-avatar"><i class="fas fa-user"></i></div>
+            <div class="member-name">伍康</div>
+            <div class="member-role">路演支持</div>
+            <div class="member-role">18124002040</div>
+            <div class="member-role">3518534746@qq.com</div>
+          </div>
+          <div class="team-member">
+            <div class="member-avatar"><i class="fas fa-user"></i></div>
+            <div class="member-name">毛雪</div>
+            <div class="member-role">运营支持</div>
+            <div class="member-role">13789319961</div>
+            <div class="member-role">2280217697</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">成功案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">关于我们</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="api-docs.html">API文档</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助支持</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+      </div>
+      <div class="cooperation-enterprises">
+        <span
+          >合作企业：湖南智信房地产土地资产评估有限公司、长沙力智数字房产技术发展有限公司</span
+        >
+      </div>
+      <div class="copyright">
+        <p>© 2025 数智估价核心引擎 版权所有</p>
+        <p>
+          <a href="https://beian.miit.gov.cn/" target="_blank"
+            >湘ICP备2025144327号-1</a
+          >
+          |
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo"
+            target="_blank"
+            >湘公网安备43011202001203号</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <!-- 引入共享脚本 -->
+    <script type="module" src="shared.js"></script>
+  </body>
+</html>

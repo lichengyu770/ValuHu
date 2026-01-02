@@ -1,0 +1,432 @@
+/* 连接点样式文件 */
+/* 确保与index.html界面样式统一 */
+
+/* 连接点基础容器样式 */
+.connection-point {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 连接点图标按钮样式 */
+.connection-point-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #007aff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  transition: all 0.3s;
+  font-size: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.connection-point-btn:hover {
+  background-color: #0066cc;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+}
+
+.connection-point-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+}
+
+.connection-point-btn .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #e53935;
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  font-weight: bold;
+}
+
+/* 连接点面板样式 */
+.connection-panel {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 25px;
+  width: 360px;
+  position: fixed;
+  bottom: 110px;
+  right: 30px;
+  z-index: 9998;
+  transform: translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.connection-panel.visible {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+.connection-panel::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+}
+
+/* 面板头部样式 */
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.panel-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d2129;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #7f8c8d;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #f8f9fa;
+  color: #2c3e50;
+}
+
+/* 页面切换选项卡 */
+.page-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.tab-btn {
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  color: #7f8c8d;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+  color: #007aff;
+  border-bottom-color: #007aff;
+}
+
+.tab-btn:hover:not(.active) {
+  color: #2c3e50;
+}
+
+/* 页面列表样式 */
+.pages-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.page-item {
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  background-color: #f8f9fa;
+}
+
+.page-item:hover {
+  background-color: #e9ecef;
+  transform: translateX(5px);
+}
+
+.page-item.active-page {
+  background-color: #e6f2ff;
+  border-left: 4px solid #007aff;
+}
+
+.page-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-icon {
+  width: 32px;
+  height: 32px;
+  background-color: #007aff;
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.page-details h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2129;
+}
+
+.page-details p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.page-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2ecc71;
+  position: relative;
+}
+
+.page-status.inactive {
+  background-color: #95a5a6;
+}
+
+/* 数据同步面板样式 */
+.sync-panel {
+  display: none;
+}
+
+.sync-panel.active {
+  display: block;
+}
+
+.sync-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.sync-item:last-child {
+  border-bottom: none;
+}
+
+.sync-info h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d2129;
+}
+
+.sync-info p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.sync-action {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.sync-action:hover {
+  background-color: #0066cc;
+}
+
+.sync-action.secondary {
+  background-color: #95a5a6;
+}
+
+.sync-action.secondary:hover {
+  background-color: #7f8c8d;
+}
+
+/* 动画效果 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.connection-point-btn.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .connection-point {
+    bottom: 20px;
+    right: 20px;
+    gap: 10px;
+  }
+
+  .connection-point-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .connection-panel {
+    width: 90vw;
+    max-width: 320px;
+    bottom: 90px;
+    right: 20px;
+    padding: 20px;
+  }
+
+  .connection-panel::before {
+    right: 20px;
+  }
+
+  .panel-title {
+    font-size: 16px;
+  }
+
+  .pages-list {
+    max-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .connection-panel {
+    width: calc(100vw - 40px);
+    max-width: none;
+    padding: 15px;
+  }
+
+  .page-item {
+    padding: 12px;
+  }
+
+  .page-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+}
+
+/* 加载状态样式 */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 122, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #007aff;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 错误状态样式 */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  color: #e53935;
+}
+
+.error-state i {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.error-state p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* 无障碍支持 */
+@media (prefers-reduced-motion: reduce) {
+  .connection-point-btn,
+  .connection-panel,
+  .tab-btn,
+  .page-item {
+    transition: none;
+  }
+
+  .connection-point-btn.pulse,
+  .loading-spinner {
+    animation: none;
+  }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  .connection-point-btn {
+    background-color: #000080;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .connection-panel {
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .page-item {
+    border: 1px solid #cccccc;
+  }
+
+  .page-item.active-page {
+    border: 2px solid #000080;
+  }
+}

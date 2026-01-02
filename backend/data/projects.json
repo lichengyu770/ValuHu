@@ -1,0 +1,518 @@
+[
+  {
+    "id": "project_1766910580_1",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "????",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 29925.0,
+      "total_price": 2678287.5,
+      "confidence": 0.93,
+      "similar_cases": [
+        {
+          "community": "????",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 30925.0,
+          "total_price": 2922412.5,
+          "distance": "500米"
+        },
+        {
+          "community": "????二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 29425.0,
+          "total_price": 2545262.5,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 30725.0,
+          "total_price": 2995687.5,
+          "distance": "1.2公里"
+        }
+      ]
+    },
+    "created_at": "2025-12-28T16:29:40.616992",
+    "updated_at": "2025-12-28T16:29:40.617003"
+  },
+  {
+    "id": "project_1766912194_2",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 7391.77,
+      "total_price": 661563.69,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 8391.77,
+          "total_price": 793022.56,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 6891.77,
+          "total_price": 596138.38,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 8191.77,
+          "total_price": 798697.88,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T16:56:34.439388",
+    "updated_at": "2025-12-28T16:56:34.439403"
+  },
+  {
+    "id": "project_1766912255_3",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 7391.77,
+      "total_price": 661563.69,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 8391.77,
+          "total_price": 793022.56,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 6891.77,
+          "total_price": 596138.38,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 8191.77,
+          "total_price": 798697.88,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T16:57:35.879803",
+    "updated_at": "2025-12-28T16:57:35.879812"
+  },
+  {
+    "id": "project_1766912314_4",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 13305.19,
+      "total_price": 1190814.65,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 14305.19,
+          "total_price": 1351840.61,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 12805.19,
+          "total_price": 1107649.08,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 14105.19,
+          "total_price": 1375256.18,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T16:58:34.517462",
+    "updated_at": "2025-12-28T16:58:34.517503"
+  },
+  {
+    "id": "project_1766912413_5",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 13305.19,
+      "total_price": 1190814.65,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 14305.19,
+          "total_price": 1351840.61,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 12805.19,
+          "total_price": 1107649.08,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 14105.19,
+          "total_price": 1375256.18,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:00:13.299202",
+    "updated_at": "2025-12-28T17:00:13.299238"
+  },
+  {
+    "id": "project_1766912523_6",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 13305.19,
+      "total_price": 1190814.65,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 14305.19,
+          "total_price": 1351840.61,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 12805.19,
+          "total_price": 1107649.08,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 14105.19,
+          "total_price": 1375256.18,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:02:03.736521",
+    "updated_at": "2025-12-28T17:02:03.736568"
+  },
+  {
+    "id": "project_1766912577_7",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 13305.19,
+      "total_price": 1190814.65,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 14305.19,
+          "total_price": 1351840.61,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 12805.19,
+          "total_price": 1107649.08,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 14105.19,
+          "total_price": 1375256.18,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:02:57.741169",
+    "updated_at": "2025-12-28T17:02:57.741207"
+  },
+  {
+    "id": "project_1766912731_8",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 7391.77,
+      "total_price": 661563.69,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 8391.77,
+          "total_price": 793022.56,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 6891.77,
+          "total_price": 596138.38,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 8191.77,
+          "total_price": 798697.88,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:05:31.533868",
+    "updated_at": "2025-12-28T17:05:31.533906"
+  },
+  {
+    "id": "project_1766912800_9",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 7391.77,
+      "total_price": 661563.69,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 8391.77,
+          "total_price": 793022.56,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 6891.77,
+          "total_price": 596138.38,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 8191.77,
+          "total_price": 798697.88,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:06:40.569630",
+    "updated_at": "2025-12-28T17:06:40.569688"
+  },
+  {
+    "id": "project_1766912869_10",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 7391.77,
+      "total_price": 661563.69,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 8391.77,
+          "total_price": 793022.56,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 6891.77,
+          "total_price": 596138.38,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 8191.77,
+          "total_price": 798697.88,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:07:49.842858",
+    "updated_at": "2025-12-28T17:07:49.842893"
+  },
+  {
+    "id": "project_1766912974_11",
+    "user_phone": "13800138000",
+    "request_data": {
+      "city": "??",
+      "district": "???",
+      "community": "???",
+      "area": 89.5,
+      "floor": 12,
+      "total_floors": 18,
+      "age": 10
+    },
+    "result": {
+      "price_per_sqm": 12849.86,
+      "total_price": 1150062.33,
+      "confidence": 0.92,
+      "similar_cases": [
+        {
+          "community": "???",
+          "area": 94.5,
+          "floor": 14,
+          "price_per_sqm": 13849.86,
+          "total_price": 1308811.62,
+          "distance": "500米"
+        },
+        {
+          "community": "???二期",
+          "area": 86.5,
+          "floor": 11,
+          "price_per_sqm": 12349.86,
+          "total_price": 1068262.75,
+          "distance": "800米"
+        },
+        {
+          "community": "???花园",
+          "area": 97.5,
+          "floor": 17,
+          "price_per_sqm": 13649.86,
+          "total_price": 1330861.19,
+          "distance": "1.2公里"
+        }
+      ],
+      "recommendation": "建议在3个月内出售，当前市场热度较高"
+    },
+    "created_at": "2025-12-28T17:09:34.781572",
+    "updated_at": "2025-12-28T17:09:34.781611"
+  }
+]

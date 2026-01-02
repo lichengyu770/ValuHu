@@ -1,0 +1,37 @@
+/* 隐藏连接点UI元素的覆盖样式 */
+
+/* 隐藏连接点主按钮 */
+#connection-main-btn,
+.connection-point-btn {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 隐藏连接点面板 */
+#connection-point-container,
+.connection-point {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 隐藏连接面板 */
+#connection-panel,
+.connection-panel {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 防止连接点相关脚本创建的任何元素显示 */
+[class*='connection'],
+[id*='connection'] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

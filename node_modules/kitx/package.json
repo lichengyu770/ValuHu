@@ -1,0 +1,41 @@
+{
+  "name": "kitx",
+  "version": "2.2.0",
+  "description": "toolkit",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "eslint --fix lib test",
+    "test": "mocha --reporter spec --timeout 3000 test/*.test.js",
+    "test-cov": "nyc -r=lcov -r=html -r=text -r=json mocha -t 3000 -R spec test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacksonTian/kitx.git"
+  },
+  "author": "Jackson Tian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JacksonTian/kitx/issues"
+  },
+  "homepage": "https://github.com/JacksonTian/kitx#readme",
+  "keywords": [
+    "toolkit",
+    "kit"
+  ],
+  "dependencies": {
+    "@types/node": "^22.5.4"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^10.0.0",
+    "nyc": "^17.0.0"
+  },
+  "files": [
+    "lib"
+  ]
+}

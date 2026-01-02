@@ -1,0 +1,126 @@
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+}
+
+/* 调整导航栏大小 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+}
+
+.nav-menu {
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    font-size: 16px !important;
+    padding: 10px 16px !important;
+}
+
+/* 确保所有文字横向显示 */
+.data-number,
+.data-label {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    display: block !important;
+}
+
+/* 确保实时数据概览的卡片内文字横向显示 */
+.data-flow .grid-cols-4 > div {
+    writing-mode: horizontal-tb !important;
+}
+
+/* 修复文字竖向显示问题 - 确保所有主要内容区域的文字都是横向排列 */
+.hero-content,
+.map-sandbox,
+.data-flow,
+.solutions,
+.entry-selector-section,
+.section-title,
+.section-subtitle,
+.card-title,
+.card-body,
+.entry-card-title,
+.entry-card-desc,
+.data-label,
+.data-number,
+.solution-icon,
+.solution-card .card-title,
+.solution-card .card-body {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+}
+
+/* 确保所有容器元素都是横向排列 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons {
+    flex-direction: row !important;
+}
+
+/* 针对.logo类的修复（某些文件使用.logo而不是.navbar-brand） */
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    white-space: nowrap !important;
+}
+
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+}

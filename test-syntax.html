@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>语法测试 - ValuHub</title>
+  
+    <style>
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <h1>语法测试页面</h1>
+
+    <!-- 测试第一个script块 -->
+    <script src="city-selector.js"></script>
+
+    <!-- 测试第二个script块 -->
+    <script>
+      // 高级搜索页面功能增强
+      document.addEventListener('DOMContentLoaded', function () {
+        // 用户操作日志记录函数
+        function logUserAction(actionType, actionDetails) {
+          console.log(`用户操作: [${actionType}] ${actionDetails}`);
+          // 实际项目中这里可以发送请求到后端记录操作日志
+        }
+
+        // 筛选面板切换
+        const filterToggle = document.getElementById('filterToggle');
+        const filterPanel = document.getElementById('filterPanel');
+
+        if (filterToggle && filterPanel) {
+          filterToggle.addEventListener('click', function () {
+            filterPanel.classList.toggle('show');
+            logUserAction(
+              '筛选面板',
+              '筛选面板' +
+                (filterPanel.classList.contains('show') ? '展开' : '收起')
+            );
+          });
+        }
+
+        // 价格范围滑块
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+
+        if (priceRange && priceValue) {
+          priceRange.addEventListener('input', function () {
+            const value = this.value;
+            priceValue.textContent = `¥${value}万`;
+          });
+        }
+
+        // 面积范围滑块
+        const areaRange = document.getElementById('areaRange');
+        const areaValue = document.getElementById('areaValue');
+
+        if (areaRange && areaValue) {
+          areaRange.addEventListener('input', function () {
+            const value = this.value;
+            areaValue.textContent = `${value}㎡`;
+          });
+        }
+
+        // 初始化城市选择器
+        const citySelector = initCitySelector(
+          'citySelect',
+          'districtSelect',
+          'subdistrictSelect',
+          'communitySelect'
+        );
+
+        // 应用筛选按钮事件
+        const applyFiltersBtn = document.getElementById('applyFilters');
+        if (applyFiltersBtn) {
+          applyFiltersBtn.addEventListener('click', function () {
+            logUserAction('应用筛选', '用户点击了应用筛选按钮');
+            // 这里可以添加筛选逻辑
+          });
+        }
+
+        // 重置筛选按钮事件
+        const resetFiltersBtn = document.getElementById('resetFilters');
+        if (resetFiltersBtn) {
+          resetFiltersBtn.addEventListener('click', function () {
+            logUserAction('重置筛选', '用户点击了重置筛选按钮');
+            // 重置所有筛选条件
+            // 清空城市选择器
+            document.getElementById('citySelect').value = '';
+            document.getElementById('districtSelect').value = '';
+            document.getElementById('subdistrictSelect').value = '';
+            document.getElementById('communitySelect').value = '';
+          });
+        }
+
+        // 加载初始房源数据
+        function loadInitialProperties() {
+          logUserAction('加载房源', '页面初始加载房源数据');
+          // 这里可以调用后端API获取房源数据
+          // 目前使用模拟数据
+          console.log('加载初始房源数据...');
+        }
+
+        // 初始化连接点功能
+        if (window.connectionPoint) {
+          window.connectionPoint.init();
+        }
+
+        // 页面加载时初始化渲染所有房源
+        loadInitialProperties();
+      });
+    </script>
+
+    <!-- 测试第三个script块 -->
+    <script>
+      // 初始化返回顶部按钮
+      document.addEventListener('DOMContentLoaded', function () {
+        const backToTopBtn = document.getElementById('backToTop');
+
+        if (backToTopBtn) {
+          // 滚动事件处理
+          window.addEventListener('scroll', function () {
+            if (window.scrollY > 300) {
+              backToTopBtn.classList.add('show');
+            } else {
+              backToTopBtn.classList.remove('show');
+            }
+          });
+
+          // 点击事件处理
+          backToTopBtn.addEventListener('click', function () {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
+          });
+        }
+      });
+    </script>
+
+    <!-- 检查是否有多余的</script>标签 -->
+    <!-- </script> -->
+  </body>
+</html>

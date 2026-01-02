@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>登录 - ValuHub</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* 容器样式 */
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 标题样式 */
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #667eea;
+        }
+
+        /* 表单样式 */
+        .form {
+            display: none;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input.error {
+            border-color: #ff4d4f;
+        }
+
+        /* 密码显示/隐藏切换 */
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+
+        /* 验证码样式 */
+        .captcha-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .captcha-input {
+            flex: 1;
+        }
+
+        .captcha-image {
+            width: 100px;
+            height: 44px;
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 3px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #5568d3;
+        }
+
+        .btn-primary:disabled {
+            background-color: #a5b1e8;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        /* 链接样式 */
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .link {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /* 切换表单链接 */
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .switch-form a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        /* 错误提示 */
+        .error-message {
+            color: #ff4d4f;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* 加载状态 */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 倒计时样式 */
+        .countdown {
+            color: #ff4d4f;
+            font-size: 14px;
+        }
+
+        /* 确保logo始终正确显示 */
+        img[src="图片1.png"] {
+            max-width: 80px !important;
+            max-height: 80px !important;
+            width: 80px !important;
+            height: 80px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            .title {
+                font-size: 20px;
+            }
+
+            .captcha-group {
+                flex-direction: column;
+            }
+
+            .captcha-image {
+                width: 100%;
+                height: 44px;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="图片1.png" alt="ValuHub Logo" style="width: 80px; height: 80px; object-fit: contain;">
+        </div>
+        <h1 class="title">ValuHub登录</h1>
+
+        <!-- 登录表单 -->
+        <form id="loginForm" class="form active">
+            <div class="form-group">
+                <label for="loginUsername">手机号</label>
+                <input type="tel" id="loginUsername" name="phone" placeholder="请输入手机号" required>
+                <div class="error-message" id="loginUsernameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">密码</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="loginPassword" name="password" placeholder="请输入密码" required>
+                    <span class="password-toggle" onclick="togglePassword('loginPassword')">👁️</span>
+                </div>
+                <div class="error-message" id="loginPasswordError"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="loginBtn">
+                登录
+            </button>
+
+            <div class="links">
+                <a href="#" class="link" onclick="showForm('register')">注册</a>
+                <a href="#" class="link" onclick="showForm('forgot')">忘记密码</a>
+            </div>
+        </form>
+
+        <!-- 注册表单 -->
+        <form id="registerForm" class="form">
+            <div class="form-group">
+                <label for="registerPhone">手机号</label>
+                <input type="tel" id="registerPhone" name="phone" placeholder="请输入手机号" required>
+                <div class="error-message" id="registerPhoneError"></div>
+            </div>
+
+            <div class="form-group captcha-group">
+                <div style="flex: 1;">
+                    <label for="registerCaptcha">图形验证码</label>
+                    <input type="text" id="registerCaptcha" name="captcha" placeholder="请输入图形验证码" class="captcha-input" required>
+                    <div class="error-message" id="registerCaptchaError"></div>
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <div class="captcha-image" id="registerCaptchaImage" onclick="generateCaptcha('register')">点击刷新</div>
+                </div>
+            </div>
+
+            <div class="form-group captcha-group">
+                <div style="flex: 1;">
+                    <label for="registerSmsCode">手机验证码</label>
+                    <input type="text" id="registerSmsCode" name="smsCode" placeholder="请输入手机验证码" class="captcha-input" required>
+                    <div class="error-message" id="registerSmsCodeError"></div>
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <button type="button" class="btn btn-secondary" id="sendRegisterSms" onclick="sendSmsCode('register')">
+                        获取验证码
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerPassword">设置密码</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="registerPassword" name="password" placeholder="请设置密码" required>
+                    <span class="password-toggle" onclick="togglePassword('registerPassword')">👁️</span>
+                </div>
+                <div class="error-message" id="registerPasswordError"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="registerBtn">
+                注册
+            </button>
+
+            <div class="switch-form">
+                已有账号？<a href="#" onclick="showForm('login')">立即登录</a>
+            </div>
+        </form>
+
+        <!-- 忘记密码表单 -->
+        <form id="forgotForm" class="form">
+            <div class="form-group">
+                <label for="forgotPhone">手机号</label>
+                <input type="tel" id="forgotPhone" name="phone" placeholder="请输入手机号" required>
+                <div class="error-message" id="forgotPhoneError"></div>
+            </div>
+
+            <div class="form-group captcha-group">
+                <div style="flex: 1;">
+                    <label for="forgotCaptcha">图形验证码</label>
+                    <input type="text" id="forgotCaptcha" name="captcha" placeholder="请输入图形验证码" class="captcha-input" required>
+                    <div class="error-message" id="forgotCaptchaError"></div>
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <div class="captcha-image" id="forgotCaptchaImage" onclick="generateCaptcha('forgot')">点击刷新</div>
+                </div>
+            </div>
+
+            <div class="form-group captcha-group">
+                <div style="flex: 1;">
+                    <label for="forgotSmsCode">手机验证码</label>
+                    <input type="text" id="forgotSmsCode" name="smsCode" placeholder="请输入手机验证码" class="captcha-input" required>
+                    <div class="error-message" id="forgotSmsCodeError"></div>
+                </div>
+                <div>
+                    <label>&nbsp;</label>
+                    <button type="button" class="btn btn-secondary" id="sendForgotSms" onclick="sendSmsCode('forgot')">
+                        获取验证码
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="newPassword">新密码</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="newPassword" name="newPassword" placeholder="请设置新密码" required>
+                    <span class="password-toggle" onclick="togglePassword('newPassword')">👁️</span>
+                </div>
+                <div class="error-message" id="newPasswordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">确认密码</label>
+                <div class="password-input-wrapper">
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请确认新密码" required>
+                    <span class="password-toggle" onclick="togglePassword('confirmPassword')">👁️</span>
+                </div>
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="forgotBtn">
+                重置密码
+            </button>
+
+            <div class="switch-form">
+                返回登录？<a href="#" onclick="showForm('login')">立即登录</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // 全局变量
+        let currentCaptchas = {};
+        let countdownTimers = {};
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCaptcha('register');
+            generateCaptcha('forgot');
+
+            // 表单提交事件
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            document.getElementById('forgotForm').addEventListener('submit', handleForgotPassword);
+        });
+
+        // 切换表单
+        function showForm(formType) {
+            // 隐藏所有表单
+            document.querySelectorAll('.form').forEach(form => {
+                form.classList.remove('active');
+            });
+
+            // 显示指定表单
+            document.getElementById(formType + 'Form').classList.add('active');
+        }
+
+        // 切换密码显示/隐藏
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const type = input.getAttribute('type');
+            input.setAttribute('type', type === 'password' ? 'text' : 'password');
+        }
+
+        // 生成图形验证码
+        function generateCaptcha(formType) {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let captcha = '';
+            for (let i = 0; i < 4; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            // 保存验证码
+            currentCaptchas[formType] = captcha;
+
+            // 更新验证码图片
+            const captchaImage = document.getElementById(formType + 'CaptchaImage');
+            // 生成随机背景色
+            const bgColor = `rgb(${Math.floor(Math.random() * 200 + 55)}, ${Math.floor(Math.random() * 200 + 55)}, ${Math.floor(Math.random() * 200 + 55)})`;
+            captchaImage.style.backgroundColor = bgColor;
+            captchaImage.textContent = captcha;
+        }
+
+        // 发送短信验证码
+        function sendSmsCode(formType) {
+            const phoneInput = document.getElementById(formType + 'Phone');
+            const captchaInput = document.getElementById(formType + 'Captcha');
+            const sendBtn = document.getElementById('send' + formType.charAt(0).toUpperCase() + formType.slice(1) + 'Sms');
+
+            // 验证手机号
+            if (!validatePhone(phoneInput.value)) {
+                showError(formType + 'Phone', '请输入正确的手机号');
+                return;
+            }
+
+            // 验证图形验证码
+            if (captchaInput.value.toLowerCase() !== currentCaptchas[formType].toLowerCase()) {
+                showError(formType + 'Captcha', '图形验证码错误');
+                generateCaptcha(formType);
+                return;
+            }
+
+            // 开始倒计时
+            let countdown = 60;
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = `${countdown}秒后重试`;
+
+            countdownTimers[formType] = setInterval(() => {
+                countdown--;
+                sendBtn.innerHTML = `${countdown}秒后重试`;
+                if (countdown <= 0) {
+                    clearInterval(countdownTimers[formType]);
+                    sendBtn.disabled = false;
+                    sendBtn.innerHTML = '获取验证码';
+                }
+            }, 1000);
+
+            // 模拟发送短信
+            console.log('发送短信验证码到:', phoneInput.value);
+        }
+
+        // 表单验证函数
+        function validatePhone(phone) {
+            const phoneRegex = /^1[3-9]\d{9}$/;
+            return phoneRegex.test(phone);
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 6;
+        }
+
+        // 显示错误信息
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(fieldId + 'Error');
+            const inputElement = document.getElementById(fieldId);
+            errorElement.textContent = message;
+            inputElement.classList.add('error');
+        }
+
+        // 清除错误信息
+        function clearError(fieldId) {
+            const errorElement = document.getElementById(fieldId + 'Error');
+            const inputElement = document.getElementById(fieldId);
+            errorElement.textContent = '';
+            inputElement.classList.remove('error');
+        }
+
+        // 处理登录
+        async function handleLogin(e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            // 清除之前的错误
+            clearError('loginUsername');
+            clearError('loginPassword');
+
+            // 表单验证
+            let isValid = true;
+
+            if (!validatePhone(phone)) {
+                showError('loginUsername', '请输入正确的手机号');
+                isValid = false;
+            }
+
+            if (!password) {
+                showError('loginPassword', '请输入密码');
+                isValid = false;
+            } else if (!validatePassword(password)) {
+                showError('loginPassword', '密码长度不能少于6位');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            // 显示加载状态
+            loginBtn.innerHTML = '<span class="loading"></span> 登录中...';
+            loginBtn.disabled = true;
+
+            try {
+                // 模拟登录（因为后端API可能不存在）
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // 简单的模拟验证（使用用户提供的手机号和密码）
+                if (phone === '16680508457' && (password === '123456' || password === '测试了123456')) {
+                    // 登录成功，存储用户信息到localStorage
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('userPhone', phone);
+                    localStorage.setItem('userName', '测试用户');
+                    
+                    // 默认设置为普通版，专业版用户可以通过其他方式切换
+                    // 这里可以根据实际需求从后端获取或让用户选择
+                    localStorage.setItem('userVersion', 'basic');
+                    
+                    // 获取重定向URL，如果没有则默认跳转到school.html
+                    const urlParams = new URLSearchParams(window.location.search);
+                    let redirectUrl = urlParams.get('redirect') || 'school.html';
+                    
+                    // 移除file://协议和绝对路径，只保留相对路径
+                    if (redirectUrl.startsWith('file://')) {
+                        // 从file://路径中提取相对路径
+                        const url = new URL(redirectUrl);
+                        redirectUrl = url.pathname.split('/').pop();
+                    }
+                    
+                    console.log('登录成功，准备跳转');
+                    console.log('原始重定向URL:', urlParams.get('redirect'));
+                    console.log('处理后的重定向URL:', redirectUrl);
+                    
+                    // 重定向到指定页面
+                    window.location.href = redirectUrl;
+                } else {
+                    throw new Error('手机号或密码错误');
+                }
+            } catch (error) {
+                showError('loginPassword', error.message || '登录失败，请稍后重试');
+            } finally {
+                // 恢复按钮状态
+                loginBtn.innerHTML = '登录';
+                loginBtn.disabled = false;
+            }
+        }
+
+        // 处理注册
+        async function handleRegister(e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('registerPhone').value;
+            const captcha = document.getElementById('registerCaptcha').value;
+            const smsCode = document.getElementById('registerSmsCode').value;
+            const password = document.getElementById('registerPassword').value;
+            const registerBtn = document.getElementById('registerBtn');
+
+            // 清除之前的错误
+            clearError('registerPhone');
+            clearError('registerCaptcha');
+            clearError('registerSmsCode');
+            clearError('registerPassword');
+
+            // 表单验证
+            let isValid = true;
+
+            if (!validatePhone(phone)) {
+                showError('registerPhone', '请输入正确的手机号');
+                isValid = false;
+            }
+
+            if (captcha.toLowerCase() !== currentCaptchas['register'].toLowerCase()) {
+                showError('registerCaptcha', '图形验证码错误');
+                isValid = false;
+            }
+
+            // 调用后端API注册
+            if (!validatePassword(password)) {
+                showError('registerPassword', '密码长度不能少于6位');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            // 显示加载状态
+            registerBtn.innerHTML = '<span class="loading"></span> 注册中...';
+            registerBtn.disabled = true;
+
+            try {
+                // 调用后端API注册
+                const response = await fetch('http://localhost:8000/api/v1/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        phone: phone,
+                        username: 'user_' + phone.slice(-4), // 自动生成用户名
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || '注册失败，请稍后重试');
+                }
+
+                // 注册成功后切换到登录表单
+                showForm('login');
+            } catch (error) {
+                showError('registerPhone', error.message || '注册失败，请稍后重试');
+            } finally {
+                // 恢复按钮状态
+                registerBtn.innerHTML = '注册';
+                registerBtn.disabled = false;
+            }
+        }
+
+        // 处理忘记密码
+        async function handleForgotPassword(e) {
+            e.preventDefault();
+
+            const phone = document.getElementById('forgotPhone').value;
+            const captcha = document.getElementById('forgotCaptcha').value;
+            const smsCode = document.getElementById('forgotSmsCode').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const forgotBtn = document.getElementById('forgotBtn');
+
+            // 清除之前的错误
+            clearError('forgotPhone');
+            clearError('forgotCaptcha');
+            clearError('forgotSmsCode');
+            clearError('newPassword');
+            clearError('confirmPassword');
+
+            // 表单验证
+            let isValid = true;
+
+            if (!validatePhone(phone)) {
+                showError('forgotPhone', '请输入正确的手机号');
+                isValid = false;
+            }
+
+            if (captcha.toLowerCase() !== currentCaptchas['forgot'].toLowerCase()) {
+                showError('forgotCaptcha', '图形验证码错误');
+                isValid = false;
+            }
+
+            if (!smsCode || smsCode.length !== 6) {
+                showError('forgotSmsCode', '请输入6位验证码');
+                isValid = false;
+            }
+
+            if (!validatePassword(newPassword)) {
+                showError('newPassword', '密码长度不能少于6位');
+                isValid = false;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showError('confirmPassword', '两次输入的密码不一致');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            // 显示加载状态
+            forgotBtn.innerHTML = '<span class="loading"></span> 重置中...';
+            forgotBtn.disabled = true;
+
+            try {
+                // 模拟重置密码请求
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // 重置成功后切换到登录表单
+                showForm('login');
+            } catch (error) {
+                showError('forgotPhone', '密码重置失败，请稍后重试');
+            } finally {
+                // 恢复按钮状态
+                forgotBtn.innerHTML = '重置密码';
+                forgotBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

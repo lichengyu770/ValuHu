@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>现代化导航栏 - ValuHub</title>
+    <style>
+      /* 重置样式，确保iframe内容与父页面一致 */
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      /* 导航栏样式 */
+      .navbar {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .navbar-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: white;
+        font-size: 1.25rem;
+        font-weight: 700;
+        transition: transform 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 0.5rem;
+      }
+
+      .nav-item {
+        position: relative;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: white;
+        text-decoration: none;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .nav-link.active {
+        background: rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        color: #333;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        list-style: none;
+        min-width: 200px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        z-index: 1001;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: #f8f9fa;
+      }
+
+      .dropdown-link {
+        color: #333;
+        text-decoration: none;
+        display: block;
+        transition: color 0.3s ease;
+      }
+
+      .dropdown-link:hover {
+        color: #667eea;
+      }
+
+      /* 导航右侧区域 */
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      /* 搜索框 */
+      .search-box {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .search-input {
+        padding: 0.5rem 2rem 0.5rem 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        width: 200px;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.2);
+        width: 250px;
+      }
+
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .search-btn {
+        position: absolute;
+        right: 0.5rem;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+
+      .search-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      /* 按钮样式 */
+      .btn {
+        padding: 0.5rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: white;
+        color: #667eea;
+      }
+
+      .btn-primary:hover {
+        background: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 0.375rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 1024px) {
+        .search-input {
+          width: 150px;
+        }
+
+        .search-input:focus {
+          width: 180px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+
+        .nav-menu {
+          position: fixed;
+          top: 60px;
+          left: -100%;
+          flex-direction: column;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          width: 100%;
+          height: calc(100vh - 60px);
+          padding: 1rem;
+          transition: left 0.3s ease;
+          gap: 0;
+          overflow-y: auto;
+        }
+
+        .nav-menu.active {
+          left: 0;
+        }
+
+        .nav-link {
+          padding: 1rem;
+          border-radius: 8px;
+          margin-bottom: 0.5rem;
+        }
+
+        .dropdown-menu {
+          position: static;
+          background: rgba(255, 255, 255, 0.1);
+          color: white;
+          box-shadow: none;
+          margin-left: 1rem;
+          min-width: auto;
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+          display: none;
+        }
+
+        .dropdown.active .dropdown-menu {
+          display: block;
+        }
+
+        .dropdown-link {
+          color: white;
+        }
+
+        .dropdown-link:hover {
+          color: #f8f9fa;
+        }
+
+        .nav-right {
+          gap: 0.5rem;
+        }
+
+        .search-box {
+          display: none;
+        }
+
+        .btn {
+          padding: 0.4rem 1rem;
+          font-size: 0.875rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo-text {
+          display: none;
+        }
+
+        .nav-right {
+          gap: 0.25rem;
+        }
+
+        .btn {
+          padding: 0.3rem 0.8rem;
+          font-size: 0.75rem;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+          <div class="logo-icon">数</div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+
+        <!-- 移动端菜单按钮 -->
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <!-- 导航菜单 -->
+        <ul class="nav-menu" id="navMenu">
+          <!-- 产品服务 -->
+          <li class="nav-item dropdown">
+            <a href="product/core.html" class="nav-link">
+              产品服务
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M6 9L1 4L11 4L6 9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="product/core.html" class="dropdown-link">核心引擎</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="product/function.html" class="dropdown-link"
+                  >功能介绍</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a href="product/case.html" class="dropdown-link">成功案例</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="api-docs.html" class="dropdown-link">API接口</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 解决方案 -->
+          <li class="nav-item dropdown">
+            <a href="solution/index.html" class="nav-link">
+              解决方案
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M6 9L1 4L11 4L6 9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="solution/index.html" class="dropdown-link"
+                  >二手房估价</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a href="solution/index.html" class="dropdown-link"
+                  >金融机构评估</a
+                >
+              </li>
+              <li class="dropdown-item">
+                <a href="solution/index.html" class="dropdown-link"
+                  >政府土地估值</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <!-- 资源中心 -->
+          <li class="nav-item dropdown">
+            <a href="resource/news.html" class="nav-link">
+              资源中心
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M6 9L1 4L11 4L6 9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="resource/news.html" class="dropdown-link">行业动态</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="resource/help.html" class="dropdown-link">帮助中心</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="resource/doc.html" class="dropdown-link">技术文档</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="resource/whitepaper.html" class="dropdown-link"
+                  >白皮书</a
+                >
+              </li>
+            </ul>
+          </li>
+
+          <!-- 企业服务 -->
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link">
+              企业服务
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M6 9L1 4L11 4L6 9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">企业控制台</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">云市场</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">权限管理</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">数据统计</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 开发者中心 -->
+          <li class="nav-item dropdown">
+            <a href="api-docs.html" class="nav-link">
+              开发者中心
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M6 9L1 4L11 4L6 9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="api-docs.html" class="dropdown-link">开发文档</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">SDK下载</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">调试工具</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="#" class="dropdown-link">开发者社区</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 关于我们 -->
+          <li class="nav-item dropdown">
+            <a href="about/company.html" class="nav-link">
+              关于我们
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M6 9L1 4L11 4L6 9Z" fill="currentColor" />
+              </svg>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="about/company.html" class="dropdown-link">公司简介</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="about/team.html" class="dropdown-link">团队介绍</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="about/culture.html" class="dropdown-link">企业文化</a>
+              </li>
+              <li class="dropdown-item">
+                <a href="about/history.html" class="dropdown-link">发展历程</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 合作与生态 -->
+          <li class="nav-item">
+            <a href="coop/apply.html" class="nav-link">合作与生态</a>
+          </li>
+        </ul>
+
+        <!-- 导航右侧区域 -->
+        <div class="nav-right">
+          <!-- 搜索框 -->
+          <div class="search-box">
+            <input type="text" class="search-input" placeholder="搜索..." />
+            <button class="search-btn">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- 登录按钮 -->
+          <a href="#" class="btn btn-primary">登录</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- JavaScript交互 -->
+    <script>
+      // 移动端菜单切换
+      const menuToggle = document.getElementById('menuToggle');
+      const navMenu = document.getElementById('navMenu');
+
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+
+      // 移动端下拉菜单
+      const dropdowns = document.querySelectorAll('.dropdown');
+
+      dropdowns.forEach((dropdown) => {
+        const dropdownToggle = dropdown.querySelector('.nav-link');
+
+        dropdownToggle.addEventListener('click', (e) => {
+          if (window.innerWidth <= 768) {
+            e.preventDefault();
+            dropdown.classList.toggle('active');
+          }
+        });
+      });
+
+      // 关闭移动端菜单时关闭所有下拉菜单
+      navMenu.addEventListener('click', (e) => {
+        if (
+          window.innerWidth <= 768 &&
+          e.target.tagName === 'A' &&
+          !e.target.closest('.dropdown-toggle')
+        ) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          dropdowns.forEach((dropdown) => dropdown.classList.remove('active'));
+        }
+      });
+
+      // 窗口大小变化时重置菜单状态
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          dropdowns.forEach((dropdown) => dropdown.classList.remove('active'));
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!-- 统一导航栏模板 -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <img
+          src="src/assets/images/logo.svg"
+          alt="系统Logo"
+          width="32"
+          height="32"
+          style="object-fit: contain"
+          onerror="
+            this.onerror = null;
+            this.src = 'https://via.placeholder.com/32x32?text=Logo';
+            this.style.backgroundColor = '#f0f0f0';
+          "
+        />
+      </div>
+      <span class="logo-text">数智估价核心引擎</span>
+    </a>
+    <div class="nav-menu">
+      <a href="index.html" class="active">首页</a>
+      <!-- 最新活动 -->
+      <a href="#" class="hot-tag"> <span class="tag">HOT</span> 最新活动 </a>
+      <!-- 产品 -->
+      <div class="dropdown">
+        <a href="#" class="dropdown-toggle"
+          >产品 <i class="fas fa-chevron-down"></i
+        ></a>
+        <div class="dropdown-menu">
+          <a href="valuation-engine.html" class="">估价引擎</a>
+          <a href="advanced-search.html" class="">高级搜索</a>
+          <a href="product-services.html" class="">产品服务</a>
+        </div>
+      </div>
+      <!-- 解决方案 -->
+      <a href="#">解决方案</a>
+      <!-- 定价 -->
+      <a href="#">定价</a>
+      <!-- 企业中心 -->
+      <a href="#">企业中心</a>
+      <!-- 云市场 -->
+      <a href="#">云市场</a>
+      <!-- 开发者 -->
+      <a href="api-docs.html">开发者</a>
+      <!-- 客户支持 -->
+      <a href="#">客户支持</a>
+      <!-- 合作与生态 -->
+      <a href="#">合作与生态</a>
+      <!-- 了解腾云 -->
+      <a href="#" style="color: #1a73e8; font-weight: 600">了解腾云</a>
+      <!-- 登录按钮 -->
+      <button class="btn btn-primary" id="loginBtn">登录</button>
+    </div>
+    <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+  </div>
+</nav>
+
+<!-- 移动端菜单 -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="index.html" class="active">首页</a></li>
+    <li>
+      <a href="#"> <span class="tag">HOT</span> 最新活动 </a>
+    </li>
+    <li><a href="valuation-engine.html">估价引擎</a></li>
+    <li><a href="advanced-search.html">高级搜索</a></li>
+    <li><a href="product-services.html">产品服务</a></li>
+    <li><a href="#">解决方案</a></li>
+    <li><a href="#">定价</a></li>
+    <li><a href="#">企业中心</a></li>
+    <li><a href="#">云市场</a></li>
+    <li><a href="api-docs.html">开发者</a></li>
+    <li><a href="#">客户支持</a></li>
+    <li><a href="#">合作与生态</a></li>
+    <li><a href="#" style="color: #1a73e8; font-weight: 600">了解腾云</a></li>
+    <li><a href="market-analysis.html">市场分析</a></li>
+    <li><a href="comparison-tool.html">比较工具</a></li>
+    <li><a href="data-visualization.html">数据可视化</a></li>
+    <li><a href="case-study.html">客户案例</a></li>
+    <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+    <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+    <li><a href="tech-frame.html">技术框架</a></li>
+    <li><a href="team-intro.html">团队介绍</a></li>
+    <li><a href="about-us.html">关于我们</a></li>
+    <li><a href="contact.html">联系方式</a></li>
+    <li><a href="help-center.html">帮助中心</a></li>
+    <li>
+      <button
+        class="btn btn-primary login-btn"
+        id="mobileLoginBtn"
+        style="width: 100%; margin: 10px 0"
+      >
+        登录
+      </button>
+    </li>
+  </ul>
+</div>
+
+<style>
+  /* 顶部子导航栏样式 */
+  .hot-tag {
+    position: relative;
+  }
+  .hot-tag .tag {
+    position: absolute;
+    top: -8px;
+    left: -30px;
+    background: #f5222d;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+
+  /* 调整导航菜单间距 */
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* 登录按钮样式 */
+  .login-btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  /* 响应式调整 */
+  @media (max-width: 1200px) {
+    .nav-menu {
+      gap: 15px;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .nav-menu {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    .mobile-menu.active {
+      display: block;
+    }
+  }
+
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+<script>
+  // 移动端菜单切换
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', function () {
+        if (mobileMenu.classList.contains('active')) {
+          mobileMenu.classList.remove('active');
+          // 更改图标
+          menuToggle.querySelector('i').classList.remove('fa-times');
+          menuToggle.querySelector('i').classList.add('fa-bars');
+        } else {
+          mobileMenu.classList.add('active');
+          // 更改图标
+          menuToggle.querySelector('i').classList.remove('fa-bars');
+          menuToggle.querySelector('i').classList.add('fa-times');
+        }
+      });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.classList.remove('active');
+          // 恢复图标
+          menuToggle.querySelector('i').classList.remove('fa-times');
+          menuToggle.querySelector('i').classList.add('fa-bars');
+        }
+      });
+    }
+  });
+</script>

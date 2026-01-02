@@ -1,0 +1,26 @@
+{
+  "13800138000": {
+    "phone": "13800138000",
+    "username": "test_user",
+    "password": "6b74ffcc16f7ebcd15ac311da5536e91$c9859f44af08b659a2613a1a0a37088102a63e2e6964e295699ff0726f29c288",
+    "created_at": "2025-12-28T16:25:05.566027",
+    "last_login": "2025-12-28T16:56:11.805337",
+    "is_active": true
+  },
+  "13800138001": {
+    "phone": "13800138001",
+    "username": "testuser1",
+    "password": "4cfc8c4bcaa4716ea3333245b440eac8$825f0e9262381826098c2756719ab73419349c093288bbbfb23b5d900765a2b3",
+    "created_at": "2025-12-28T17:30:56.542996",
+    "last_login": "2025-12-28T17:30:58.807003",
+    "is_active": true
+  },
+  "13800138002": {
+    "phone": "13800138002",
+    "username": "testuser2",
+    "password": "8a9f4ea35bc36423b069540683ddbe5c$cfdb25e4a4bed2e9d14d82a9603c6fa62d739e8e19f8701165ce8171742120fe",
+    "created_at": "2025-12-28T17:44:02.906810",
+    "last_login": "2025-12-28T17:44:45.545648",
+    "is_active": true
+  }
+}

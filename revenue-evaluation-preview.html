@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>收益价值评估系统 - ValuHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <!-- 引入扩展样式 -->
+    <link rel="stylesheet" href="extend.css" />
+    <!-- 引入Chart.js库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 页面特定样式 -->
+    <style>
+      :root {
+        --color-primary: #1a73e8; /* 品牌蓝色 */
+        --color-primary-light: #4285f4;
+        --color-secondary: #f9a825; /* 品牌橙色 */
+        --color-secondary-light: #ffb74d;
+        --color-background: #ffffff;
+        --color-white: #ffffff;
+        --color-text: #1d2129;
+        --color-text-light: #666;
+        --color-border: #dcdfe6;
+        --border-radius: 12px;
+        --box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
+        --transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      body {
+        background-color: var(--color-white);
+        color: var(--color-text);
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+          'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+          Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 主要内容区 */
+      .main-content {
+        margin-top: 65px;
+        padding: 40px 0;
+      }
+
+      /* 收益评估页面样式 */
+      .revenue-evaluation {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .evaluation-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .evaluation-header h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .evaluation-header p {
+        font-size: 18px;
+        color: var(--color-text-light);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      /* 输入区域 */
+      .input-section {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+        margin-bottom: 40px;
+      }
+
+      .input-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .input-group label {
+        font-weight: 500;
+        color: var(--color-text);
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 16px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+        background-color: white;
+      }
+
+      .input-group input:focus,
+      .input-group select:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+      }
+
+      .calculate-btn {
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-light)
+        );
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        grid-column: 1 / -1;
+        justify-self: center;
+        margin-top: 20px;
+      }
+
+      .calculate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      }
+
+      /* 结果展示区域 */
+      .results-section {
+        margin-bottom: 40px;
+      }
+
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .result-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 25px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border: 1px solid rgba(26, 115, 232, 0.1);
+        text-align: center;
+      }
+
+      .result-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--box-shadow);
+        border-color: var(--color-primary);
+      }
+
+      .result-label {
+        font-size: 16px;
+        color: var(--color-text-light);
+        margin-bottom: 10px;
+      }
+
+      .result-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--color-primary);
+        margin-bottom: 5px;
+      }
+
+      .result-unit {
+        font-size: 14px;
+        color: var(--color-text-light);
+      }
+
+      /* 图表区域 */
+      .charts-section {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+      }
+
+      .chart-container {
+        height: 400px;
+        margin-top: 20px;
+        background: linear-gradient(
+          135deg,
+          rgba(26, 115, 232, 0.05),
+          rgba(249, 168, 37, 0.05)
+        );
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-light);
+        font-size: 18px;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 用户中心 -->
+          <a href="user-center.html" class="">用户中心</a>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="user-center.html">用户中心</a></li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+      <div class="revenue-evaluation">
+        <!-- 页面头部 -->
+        <div class="evaluation-header">
+          <h1>收益价值评估系统</h1>
+          <p>基于收益法的房产价值智能评估解决方案</p>
+        </div>
+
+        <!-- 输入区域 -->
+        <div class="input-section">
+          <h2
+            style="
+              font-size: 24px;
+              color: var(--color-text);
+              margin-bottom: 20px;
+            "
+          >
+            评估参数
+          </h2>
+          <form class="input-grid">
+            <div class="input-group">
+              <label for="property-type">房产类型</label>
+              <select id="property-type">
+                <option value="residential">住宅</option>
+                <option value="commercial">商业</option>
+                <option value="office">办公</option>
+                <option value="industrial">工业</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="area">建筑面积 (㎡)</label>
+              <input
+                type="number"
+                id="area"
+                placeholder="请输入建筑面积"
+                value="120"
+              />
+            </div>
+            <div class="input-group">
+              <label for="rent">月租金 (元/㎡)</label>
+              <input
+                type="number"
+                id="rent"
+                placeholder="请输入月租金"
+                value="60"
+              />
+            </div>
+            <div class="input-group">
+              <label for="occupancy">出租率 (%)</label>
+              <input
+                type="number"
+                id="occupancy"
+                placeholder="请输入出租率"
+                value="95"
+              />
+            </div>
+            <div class="input-group">
+              <label for="operating-cost">运营成本率 (%)</label>
+              <input
+                type="number"
+                id="operating-cost"
+                placeholder="请输入运营成本率"
+                value="20"
+              />
+            </div>
+            <div class="input-group">
+              <label for="capitalization-rate">资本化率 (%)</label>
+              <input
+                type="number"
+                id="capitalization-rate"
+                placeholder="请输入资本化率"
+                value="4.5"
+              />
+            </div>
+            <button type="submit" class="calculate-btn">计算收益价值</button>
+          </form>
+        </div>
+
+        <!-- 结果展示区域 -->
+        <h2
+          style="font-size: 24px; color: var(--color-text); margin-bottom: 20px"
+        >
+          评估结果
+        </h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <div class="result-label">年租金收入</div>
+            <div class="result-value">¥82.1</div>
+            <div class="result-unit">万元</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">年运营成本</div>
+            <div class="result-value">¥16.4</div>
+            <div class="result-unit">万元</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">年净收益</div>
+            <div class="result-value">¥65.7</div>
+            <div class="result-unit">万元</div>
+          </div>
+          <div class="result-card">
+            <div class="result-label">收益评估价值</div>
+            <div class="result-value">¥1,460</div>
+            <div class="result-unit">万元</div>
+          </div>
+        </div>
+
+        <!-- 图表展示区域 -->
+        <div class="charts-section">
+          <h2
+            style="
+              font-size: 24px;
+              color: var(--color-text);
+              margin-bottom: 20px;
+            "
+          >
+            收益趋势分析
+          </h2>
+          <div class="chart-container">
+            <canvas id="revenueTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">成功案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">关于我们</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="api-docs.html">API文档</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助支持</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+      </div>
+      <div class="cooperation-enterprises">
+        <span
+          >合作企业：湖南智信房地产土地资产评估有限公司、长沙力智数字房产技术发展有限公司</span
+        >
+      </div>
+      <div class="copyright">
+        <p>© 2025 数智估价核心引擎 版权所有</p>
+        <p>
+          <a href="https://beian.miit.gov.cn/" target="_blank"
+            >湘ICP备2025144327号-1</a
+          >
+          |
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo"
+            target="_blank"
+            >湘公网安备43011202001203号</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <!-- 引入共享脚本 -->
+    <script type="module" src="shared.js"></script>
+    <script>
+      // 移动端菜单切换
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.style.display =
+          mobileMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // 关闭移动端菜单（点击菜单项后）
+      const mobileMenuItems = mobileMenu.querySelectorAll('a');
+      mobileMenuItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          mobileMenu.style.display = 'none';
+        });
+      });
+
+      // 计算收益价值
+      document.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        // 这里可以添加收益计算逻辑
+        alert('收益价值计算中...');
+      });
+
+      // 初始化收益趋势图表
+      const ctx = document.getElementById('revenueTrendChart').getContext('2d');
+      const revenueTrendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            '2024-01',
+            '2024-02',
+            '2024-03',
+            '2024-04',
+            '2024-05',
+            '2024-06',
+            '2024-07',
+            '2024-08',
+            '2024-09',
+            '2024-10',
+            '2024-11',
+            '2024-12',
+          ],
+          datasets: [
+            {
+              label: '月租金收益（万元）',
+              data: [
+                5.5, 5.6, 5.8, 6.0, 6.2, 6.1, 6.3, 6.5, 6.7, 6.8, 7.0, 7.2,
+              ],
+              borderColor: '#1a73e8',
+              backgroundColor: 'rgba(26, 115, 232, 0.1)',
+              tension: 0.4,
+              fill: true,
+            },
+            {
+              label: '年租金收益（万元）',
+              data: [
+                66, 67.2, 69.6, 72, 74.4, 73.2, 75.6, 78, 80.4, 81.6, 84, 86.4,
+              ],
+              borderColor: '#f9a825',
+              backgroundColor: 'rgba(249, 168, 37, 0.1)',
+              tension: 0.4,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: '收益金额（万元）',
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: '月份',
+              },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

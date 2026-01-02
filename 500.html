@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>500 - 服务器错误 | ValuHub</title>
+    <!-- 引入Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* 错误页面特定样式 */
+      .error-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 80px 20px 40px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      }
+
+      .error-code {
+        font-size: 120px;
+        font-weight: 700;
+        color: #faad14;
+        background: linear-gradient(135deg, #faad14, #d48806);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+        line-height: 1;
+      }
+
+      .error-title {
+        font-size: 32px;
+        font-weight: 600;
+        color: #1d2129;
+        margin-bottom: 16px;
+      }
+
+      .error-description {
+        font-size: 18px;
+        color: #4e5969;
+        margin-bottom: 40px;
+        max-width: 600px;
+        line-height: 1.6;
+      }
+
+      .error-actions {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 60px;
+      }
+
+      .error-actions .btn {
+        min-width: 150px;
+      }
+
+      .error-illustration {
+        width: 400px;
+        height: 300px;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .error-illustration i {
+        font-size: 160px;
+        color: rgba(250, 173, 20, 0.1);
+      }
+
+      .error-suggestions {
+        max-width: 600px;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        margin-bottom: 40px;
+      }
+
+      .error-suggestions h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1d2129;
+        margin-bottom: 16px;
+      }
+
+      .suggestion-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .suggestion-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: #4e5969;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .suggestion-item i {
+        color: #faad14;
+        font-size: 18px;
+        margin-top: 4px;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .error-code {
+          font-size: 80px;
+        }
+
+        .error-title {
+          font-size: 24px;
+        }
+
+        .error-description {
+          font-size: 16px;
+        }
+
+        .error-illustration {
+          width: 280px;
+          height: 210px;
+        }
+
+        .error-illustration i {
+          font-size: 120px;
+        }
+
+        .error-suggestions {
+          padding: 20px;
+        }
+
+        .error-actions {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .error-actions .btn {
+          width: 100%;
+          max-width: 250px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .error-code {
+          font-size: 60px;
+        }
+
+        .error-title {
+          font-size: 20px;
+        }
+
+        .error-description {
+          font-size: 14px;
+        }
+
+        .error-illustration {
+          width: 200px;
+          height: 150px;
+        }
+
+        .error-illustration i {
+          font-size: 80px;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+              onerror="
+                this.onerror = null;
+                this.src = 'https://via.placeholder.com/32x32?text=Logo';
+                this.style.backgroundColor = '#f0f0f0';
+              "
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html">首页</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">客户案例</a>
+          <a href="tech-frame.html">技术框架</a>
+          <a href="api-docs.html">API文档</a>
+          <a href="contact.html" class="btn btn-primary">联系我们</a>
+        </div>
+        <button class="menu-toggle" aria-label="切换菜单">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu">
+      <ul>
+        <li><a href="index.html">首页</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li>
+          <a
+            href="contact.html"
+            class="btn btn-primary"
+            style="display: block; margin: 20px; text-align: center"
+            >联系我们</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- 500错误内容 -->
+    <main class="error-container">
+      <div class="error-illustration">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+
+      <h1 class="error-code">500</h1>
+      <h2 class="error-title">服务器内部错误</h2>
+      <p class="error-description">
+        很抱歉，服务器在处理您的请求时遇到了问题。<br />
+        我们的技术团队已经收到了错误报告，正在紧急修复中。
+      </p>
+
+      <div class="error-actions">
+        <a href="index.html" class="btn btn-primary">
+          <i class="fas fa-home"></i>
+          返回首页
+        </a>
+        <button class="btn btn-secondary" onclick="window.location.reload()">
+          <i class="fas fa-sync-alt"></i>
+          重新加载
+        </button>
+        <a href="contact.html" class="btn btn-secondary">
+          <i class="fas fa-envelope"></i>
+          联系我们
+        </a>
+      </div>
+
+      <div class="error-suggestions">
+        <h3>您可以尝试以下操作：</h3>
+        <ul class="suggestion-list">
+          <li class="suggestion-item">
+            <i class="fas fa-check-circle"></i>
+            <span>点击「重新加载」按钮刷新页面</span>
+          </li>
+          <li class="suggestion-item">
+            <i class="fas fa-check-circle"></i>
+            <span>稍后再尝试访问该页面</span>
+          </li>
+          <li class="suggestion-item">
+            <i class="fas fa-check-circle"></i>
+            <span>返回首页，从导航菜单重新访问其他功能</span>
+          </li>
+          <li class="suggestion-item">
+            <i class="fas fa-check-circle"></i>
+            <span>如果问题持续存在，请联系我们的技术支持团队</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 热门链接 -->
+      <div style="max-width: 600px; width: 100%">
+        <h3
+          style="
+            font-size: 20px;
+            font-weight: 600;
+            color: #1d2129;
+            margin-bottom: 16px;
+          "
+        >
+          热门功能
+        </h3>
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+          "
+        >
+          <a href="advanced-search.html" class="btn btn-secondary">高级搜索</a>
+          <a href="valuation-engine.html" class="btn btn-secondary">估价引擎</a>
+          <a href="market-analysis.html" class="btn btn-secondary">市场分析</a>
+          <a href="report-generator.html" class="btn btn-secondary">报告生成</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="advanced-search.html">高级搜索</a>
+          <a href="tech-frame.html">技术框架</a>
+          <a href="user-center.html">用户中心</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">公司简介</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="case-study.html">成功案例</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务项目</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="data-visualization.html">数据可视化</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助中心</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="privacy-policy.html">隐私政策</a>
+          <a href="terms-of-service.html">服务条款</a>
+        </div>
+        <div class="copyright">
+          <p>© 2024 数智估价核心引擎 版权所有</p>
+          <p>
+            <a href="https://beian.miit.gov.cn/" target="_blank"
+              >湘ICP备2025144327号-1</a
+            >
+            |
+            <a
+              href="https://beian.mps.gov.cn/#/query/webSearch?code=43011202001203"
+              target="_blank"
+              rel="noreferrer"
+              >湘公网安备43011202001203号</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 引入共享JavaScript -->
+    <script src="shared.js"></script>
+  </body>
+</html>

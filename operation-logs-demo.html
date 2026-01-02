@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>操作日志系统演示 - ValuHub</title>
+
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          'Helvetica Neue', Arial, sans-serif;
+        background-color: #000000;
+        color: #ffffff;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .header h1 {
+        color: #1890ff;
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+      .header p {
+        color: #999;
+        font-size: 16px;
+      }
+      .demo-section {
+        background-color: #1a1a1a;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+      .demo-section h2 {
+        color: #ffffff;
+        font-size: 24px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 10px;
+      }
+      .log-controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+      .btn-primary {
+        background-color: #1890ff;
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: #40a9ff;
+      }
+      .btn-secondary {
+        background-color: #444;
+        color: white;
+      }
+      .btn-secondary:hover {
+        background-color: #555;
+      }
+      .btn-danger {
+        background-color: #ff4d4f;
+        color: white;
+      }
+      .btn-danger:hover {
+        background-color: #ff7875;
+      }
+      .filter-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        align-items: end;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .form-group label {
+        font-size: 14px;
+        color: #ccc;
+      }
+      .form-control {
+        padding: 8px 12px;
+        background-color: #262626;
+        border: 1px solid #444;
+        border-radius: 6px;
+        color: white;
+        font-size: 14px;
+      }
+      .form-control:focus {
+        outline: none;
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      }
+      .log-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #1a1a1a;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .log-table thead {
+        background-color: #262626;
+      }
+      .log-table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: white;
+        border-bottom: 1px solid #333;
+      }
+      .log-table td {
+        padding: 12px;
+        border-bottom: 1px solid #333;
+        color: #ccc;
+      }
+      .log-table tr:hover {
+        background-color: #262626;
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 1000px;
+        font-size: 12px;
+      }
+      .badge-success {
+        background-color: rgba(82, 196, 26, 0.1);
+        color: #52c41a;
+      }
+      .badge-info {
+        background-color: rgba(24, 144, 255, 0.1);
+        color: #1890ff;
+      }
+      .badge-warning {
+        background-color: rgba(250, 173, 20, 0.1);
+        color: #faad14;
+      }
+      .badge-danger {
+        background-color: rgba(255, 77, 79, 0.1);
+        color: #ff4d4f;
+      }
+      .badge-purple {
+        background-color: rgba(114, 46, 209, 0.1);
+        color: #722ed1;
+      }
+      .badge-gray {
+        background-color: rgba(148, 163, 184, 0.1);
+        color: #94a3b8;
+      }
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+      }
+      .pagination button {
+        min-width: 32px;
+        height: 32px;
+        border: 1px solid #444;
+        background-color: #262626;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .pagination button:hover {
+        border-color: #1890ff;
+        color: #1890ff;
+      }
+      .pagination button.active {
+        background-color: #1890ff;
+        border-color: #1890ff;
+      }
+      .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+      }
+      .empty-state p {
+        margin: 10px 0;
+      }
+      .footer {
+        text-align: center;
+        color: #666;
+        margin-top: 40px;
+        font-size: 14px;
+      }
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+        .demo-section {
+          padding: 20px;
+        }
+        .filter-row {
+          flex-direction: column;
+        }
+        .form-group {
+          width: 100%;
+        }
+        .log-table {
+          display: block;
+          overflow-x: auto;
+        }
+        .log-controls {
+          justify-content: center;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>操作日志系统演示</h1>
+        <p>智慧房产管理系统 - 操作日志管理功能预览</p>
+      </div>
+
+      <div class="demo-section">
+        <h2>日志演示控制面板</h2>
+        <div class="log-controls">
+          <button class="btn btn-primary" onclick="generateMockLogs()">
+            生成模拟日志
+          </button>
+          <button class="btn btn-secondary" onclick="clearAllLogs()">
+            清空所有日志
+          </button>
+          <button class="btn btn-primary" onclick="exportLogs('json')">
+            导出JSON
+          </button>
+          <button class="btn btn-primary" onclick="exportLogs('csv')">
+            导出CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <h2>操作日志列表</h2>
+
+        <div class="filter-row">
+          <div class="form-group">
+            <label for="username">操作人</label>
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              placeholder="请输入操作人名称"
+            />
+          </div>
+          <div class="form-group">
+            <label for="module">模块</label>
+            <select id="module" class="form-control">
+              <option value="">全部模块</option>
+              <option value="dashboard">首页监控</option>
+              <option value="property">房源信息管理</option>
+              <option value="assessment">评估管理</option>
+              <option value="reports">统计报表</option>
+              <option value="user">用户权限</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="action">操作类型</label>
+            <select id="action" class="form-control">
+              <option value="">全部操作</option>
+              <option value="create">新增</option>
+              <option value="read">查看</option>
+              <option value="update">修改</option>
+              <option value="delete">删除</option>
+              <option value="export">导出</option>
+              <option value="login">登录</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>快速筛选</label>
+            <button class="btn btn-secondary" onclick="filterByRecent(24)">
+              最近24小时
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <button class="btn btn-primary" onclick="searchLogs()">搜索</button>
+          <button class="btn btn-secondary" onclick="resetFilters()">
+            重置
+          </button>
+          <button class="btn btn-secondary" onclick="refreshLogs()">
+            刷新
+          </button>
+        </div>
+
+        <table class="log-table" id="logTable">
+          <thead>
+            <tr>
+              <th>操作人</th>
+              <th>角色</th>
+              <th>操作</th>
+              <th>模块</th>
+              <th>详细信息</th>
+              <th>操作时间</th>
+              <th>IP地址</th>
+            </tr>
+          </thead>
+          <tbody id="logTableBody">
+            <tr>
+              <td colspan="7" class="empty-state">
+                <p>暂无日志记录</p>
+                <p>点击上方「生成模拟日志」按钮开始体验</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination" id="pagination">
+          <!-- 分页将在这里动态生成 -->
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>© 2024 智慧房产管理系统 | 操作日志系统演示</p>
+      </div>
+    </div>
+
+    <script>
+      // 操作日志系统核心类
+      class OperationLogger {
+        constructor() {
+          this.logs =
+            JSON.parse(localStorage.getItem('demoOperationLogs')) || [];
+        }
+
+        // 记录操作
+        log(action, module, details = {}) {
+          const logEntry = {
+            id: Date.now() + Math.random().toString(36).substr(2, 9),
+            timestamp: new Date().toLocaleString('zh-CN'),
+            username: details.username || '系统管理员',
+            role: details.role || 'admin',
+            action: action,
+            module: module,
+            details: details,
+            ip: this.getClientIP(),
+          };
+
+          this.logs.unshift(logEntry);
+
+          // 只保留最近1000条日志
+          if (this.logs.length > 1000) {
+            this.logs = this.logs.slice(0, 1000);
+          }
+
+          localStorage.setItem('demoOperationLogs', JSON.stringify(this.logs));
+          return logEntry;
+        }
+
+        // 获取客户端IP（模拟）
+        getClientIP() {
+          const ips = [
+            '192.168.1.100',
+            '192.168.1.101',
+            '192.168.1.102',
+            '10.0.0.1',
+            '10.0.0.2',
+          ];
+          return ips[Math.floor(Math.random() * ips.length)];
+        }
+
+        // 获取日志
+        getLogs(filter = {}, page = 1, pageSize = 10) {
+          let filteredLogs = [...this.logs];
+
+          if (filter.username) {
+            filteredLogs = filteredLogs.filter((log) =>
+              log.username.includes(filter.username)
+            );
+          }
+
+          if (filter.module) {
+            filteredLogs = filteredLogs.filter(
+              (log) => log.module === filter.module
+            );
+          }
+
+          if (filter.action) {
+            filteredLogs = filteredLogs.filter(
+              (log) => log.action === filter.action
+            );
+          }
+
+          if (filter.startTime) {
+            filteredLogs = filteredLogs.filter((log) => {
+              const logDate = new Date(log.timestamp);
+              return logDate >= filter.startTime;
+            });
+          }
+
+          // 计算分页
+          const total = filteredLogs.length;
+          const start = (page - 1) * pageSize;
+          const end = start + pageSize;
+          const paginatedLogs = filteredLogs.slice(start, end);
+
+          return {
+            logs: paginatedLogs,
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+          };
+        }
+
+        // 导出日志
+        exportLogs(format = 'json') {
+          const logs = this.logs;
+
+          if (format === 'json') {
+            const dataStr = JSON.stringify(logs, null, 2);
+            this.downloadFile(
+              dataStr,
+              'operation-logs.json',
+              'application/json'
+            );
+          } else if (format === 'csv') {
+            const csv = this.convertToCSV(logs);
+            this.downloadFile(csv, 'operation-logs.csv', 'text/csv');
+          }
+        }
+
+        // 转换为CSV
+        convertToCSV(logs) {
+          const headers = [
+            '时间',
+            '用户',
+            '角色',
+            '操作',
+            '模块',
+            '详情',
+            'IP',
+          ];
+          const rows = logs.map((log) => [
+            log.timestamp,
+            log.username,
+            log.role,
+            this.getActionText(log.action),
+            this.getModuleText(log.module),
+            log.details.description || '',
+            log.ip,
+          ]);
+
+          return [headers, ...rows]
+            .map((row) => row.map((field) => `"${field}"`).join(','))
+            .join('\n');
+        }
+
+        // 下载文件
+        downloadFile(content, filename, contentType) {
+          const blob = new Blob([content], { type: contentType });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = filename;
+          link.click();
+          URL.revokeObjectURL(url);
+        }
+
+        // 获取操作文本
+        getActionText(action) {
+          const actionMap = {
+            create: '新增',
+            read: '查看',
+            update: '修改',
+            delete: '删除',
+            export: '导出',
+            import: '导入',
+            audit: '审核',
+            login: '登录',
+            logout: '退出',
+          };
+          return actionMap[action] || action;
+        }
+
+        // 获取模块文本
+        getModuleText(module) {
+          const moduleMap = {
+            dashboard: '首页监控',
+            property: '房源信息管理',
+            'tax-assessment': '纳税评估计算',
+            assessment: '评估管理',
+            'database-stats': '数据库统计',
+            reports: '统计报表',
+            user: '用户权限',
+            config: '系统配置',
+            log: '操作日志',
+          };
+          return moduleMap[module] || module;
+        }
+
+        // 获取操作徽章样式
+        getActionBadgeClass(action) {
+          const classMap = {
+            create: 'badge-success',
+            read: 'badge-info',
+            update: 'badge-warning',
+            delete: 'badge-danger',
+            export: 'badge-purple',
+            import: 'badge-info',
+            audit: 'badge-warning',
+            login: 'badge-success',
+            logout: 'badge-gray',
+          };
+          return classMap[action] || 'badge-gray';
+        }
+
+        // 清空日志
+        clearLogs() {
+          this.logs = [];
+          localStorage.setItem('demoOperationLogs', JSON.stringify(this.logs));
+        }
+      }
+
+      // 初始化日志管理器
+      const logger = new OperationLogger();
+
+      // 当前页码
+      let currentPage = 1;
+      const pageSize = 10;
+
+      // 生成模拟日志
+      function generateMockLogs() {
+        const actions = [
+          'create',
+          'read',
+          'update',
+          'delete',
+          'export',
+          'login',
+          'logout',
+        ];
+        const modules = [
+          'dashboard',
+          'property',
+          'assessment',
+          'reports',
+          'user',
+          'config',
+          'log',
+        ];
+        const users = ['admin', 'zhangsan', 'lisi', 'wangwu', 'zhaoliu'];
+        const roles = ['admin', 'manager', 'user', 'viewer'];
+        const descriptions = [
+          '查看了首页统计数据',
+          '新增了一条房源信息',
+          '修改了用户权限配置',
+          '删除了过期的评估记录',
+          '导出了月度报表',
+          '系统登录成功',
+          '系统正常退出',
+          '查询了特定区域的房源',
+          '更新了系统配置参数',
+          '审核了评估报告',
+        ];
+
+        // 生成50条模拟日志
+        for (let i = 0; i < 50; i++) {
+          const action = actions[Math.floor(Math.random() * actions.length)];
+          const module = modules[Math.floor(Math.random() * modules.length)];
+          const user = users[Math.floor(Math.random() * users.length)];
+          const role = roles[Math.floor(Math.random() * roles.length)];
+          const description =
+            descriptions[Math.floor(Math.random() * descriptions.length)];
+
+          // 随机生成时间偏移（过去7天内）
+          const timeOffset = Math.floor(
+            Math.random() * 7 * 24 * 60 * 60 * 1000
+          );
+          const logTime = new Date(Date.now() - timeOffset);
+
+          const logEntry = {
+            id: Date.now() + i + Math.random().toString(36).substr(2, 9),
+            timestamp: logTime.toLocaleString('zh-CN'),
+            username: user,
+            role: role,
+            action: action,
+            module: module,
+            details: { description: description },
+            ip: logger.getClientIP(),
+          };
+
+          logger.logs.push(logEntry);
+        }
+
+        // 按时间倒序排序
+        logger.logs.sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        );
+
+        // 保存到localStorage
+        localStorage.setItem('demoOperationLogs', JSON.stringify(logger.logs));
+
+        // 重新加载日志
+        currentPage = 1;
+        loadLogs();
+      }
+
+      // 加载日志
+      function loadLogs() {
+        const username = document.getElementById('username').value;
+        const module = document.getElementById('module').value;
+        const action = document.getElementById('action').value;
+
+        const filter = {};
+        if (username) filter.username = username;
+        if (module) filter.module = module;
+        if (action) filter.action = action;
+
+        const result = logger.getLogs(filter, currentPage, pageSize);
+        const tbody = document.getElementById('logTableBody');
+
+        if (result.logs.length === 0) {
+          tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <p>没有找到匹配的日志记录</p>
+                            <button class="btn btn-secondary" onclick="resetFilters()">重置筛选条件</button>
+                        </td>
+                    </tr>
+                `;
+          document.getElementById('pagination').innerHTML = '';
+          return;
+        }
+
+        tbody.innerHTML = result.logs
+          .map(
+            (log) => `
+                <tr>
+                    <td>${log.username}</td>
+                    <td>${log.role}</td>
+                    <td>
+                        <span class="badge ${logger.getActionBadgeClass(log.action)}">
+                            ${logger.getActionText(log.action)}
+                        </span>
+                    </td>
+                    <td>${logger.getModuleText(log.module)}</td>
+                    <td>${log.details.description || '无详细说明'}</td>
+                    <td>${log.timestamp}</td>
+                    <td>${log.ip}</td>
+                </tr>
+            `
+          )
+          .join('');
+
+        // 生成分页
+        renderPagination(result.totalPages);
+      }
+
+      // 渲染分页
+      function renderPagination(totalPages) {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        // 上一页
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '上一页';
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => {
+          if (currentPage > 1) {
+            currentPage--;
+            loadLogs();
+          }
+        };
+        pagination.appendChild(prevBtn);
+
+        // 页码按钮
+        const startPage = Math.max(1, currentPage - 2);
+        const endPage = Math.min(totalPages, startPage + 4);
+
+        if (startPage > 1) {
+          const firstBtn = document.createElement('button');
+          firstBtn.textContent = '1';
+          firstBtn.classList.toggle('active', currentPage === 1);
+          firstBtn.onclick = () => {
+            currentPage = 1;
+            loadLogs();
+          };
+          pagination.appendChild(firstBtn);
+
+          if (startPage > 2) {
+            const dots = document.createElement('span');
+            dots.textContent = '...';
+            dots.style.margin = '0 5px';
+            pagination.appendChild(dots);
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.textContent = i;
+          pageBtn.classList.toggle('active', currentPage === i);
+          pageBtn.onclick = () => {
+            currentPage = i;
+            loadLogs();
+          };
+          pagination.appendChild(pageBtn);
+        }
+
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            const dots = document.createElement('span');
+            dots.textContent = '...';
+            dots.style.margin = '0 5px';
+            pagination.appendChild(dots);
+          }
+
+          const lastBtn = document.createElement('button');
+          lastBtn.textContent = totalPages;
+          lastBtn.classList.toggle('active', currentPage === totalPages);
+          lastBtn.onclick = () => {
+            currentPage = totalPages;
+            loadLogs();
+          };
+          pagination.appendChild(lastBtn);
+        }
+
+        // 下一页
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = '下一页';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            loadLogs();
+          }
+        };
+        pagination.appendChild(nextBtn);
+      }
+
+      // 搜索日志
+      function searchLogs() {
+        currentPage = 1;
+        loadLogs();
+      }
+
+      // 重置筛选条件
+      function resetFilters() {
+        document.getElementById('username').value = '';
+        document.getElementById('module').value = '';
+        document.getElementById('action').value = '';
+        currentPage = 1;
+        loadLogs();
+      }
+
+      // 刷新日志
+      function refreshLogs() {
+        loadLogs();
+      }
+
+      // 清空所有日志
+      function clearAllLogs() {
+        if (confirm('确定要清空所有日志吗？此操作不可恢复。')) {
+          logger.clearLogs();
+          loadLogs();
+        }
+      }
+
+      // 导出日志
+      function exportLogs(format) {
+        logger.exportLogs(format);
+      }
+
+      // 按最近时间筛选
+      function filterByRecent(hours) {
+        const startTime = new Date(Date.now() - hours * 60 * 60 * 1000);
+
+        // 过滤日志
+        const filteredLogs = logger.logs.filter((log) => {
+          const logDate = new Date(log.timestamp);
+          return logDate >= startTime;
+        });
+
+        // 临时保存当前日志
+        const originalLogs = [...logger.logs];
+
+        // 应用过滤
+        logger.logs = filteredLogs;
+        currentPage = 1;
+        loadLogs();
+
+        // 恢复原始日志（仅用于演示）
+        setTimeout(() => {
+          logger.logs = originalLogs;
+        }, 100);
+      }
+
+      // 页面加载时初始化
+      window.onload = function () {
+        // 如果有现有日志，加载它们
+        if (logger.logs.length > 0) {
+          loadLogs();
+        }
+      };
+    </script>
+  </body>
+</html>

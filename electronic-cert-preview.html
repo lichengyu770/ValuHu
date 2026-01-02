@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>电子凭证管理系统 - ValuHub</title>
+    <style>
+      /* 深色主题基础样式 */
+      :root {
+        --color-primary: #165dff;
+        --color-bg-primary: #000000;
+        --color-bg-secondary: #1d2129;
+        --color-bg-tertiary: #2c2f36;
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #86909c;
+        --color-border: #4e5969;
+        --color-success: #36d399;
+        --color-warning: #f87272;
+        --color-info: #0fc6c2;
+        --color-accent: #722ed1;
+        --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --transition-base: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+          'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+          Arial, sans-serif;
+        background-color: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* 淡入动画 */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .fade-in.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 返回顶部按钮 */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--color-primary);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(22, 93, 255, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s,
+          visibility 0.3s,
+          transform 0.3s;
+        z-index: 999;
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        transform: translateY(-5px);
+        background: #40a9ff;
+      }
+
+      @media (max-width: 480px) {
+        .back-to-top {
+          width: 40px;
+          height: 40px;
+          bottom: 20px;
+          right: 20px;
+        }
+      }
+
+      /* 导航栏样式 */
+      .navbar {
+        background-color: var(--color-bg-secondary);
+        padding: 15px 20px;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        transition:
+          background-color 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .navbar:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .navbar .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+      }
+
+      .navbar .logo:hover {
+        transform: translateX(-5px);
+      }
+
+      .navbar .logo-icon {
+        width: 28px;
+        height: 28px;
+        background-color: var(--color-primary);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+      }
+
+      .navbar h1 {
+        font-size: 20px;
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
+      .container {
+        flex: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        gap: 20px;
+      }
+
+      .header-info h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .header-info p {
+        color: var(--color-text-secondary);
+        font-size: 14px;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .button {
+        background-color: var(--color-primary);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: var(--transition-base);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .button:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(22, 93, 255, 0.3);
+      }
+
+      .button:active {
+        transform: translateY(0);
+      }
+
+      .button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.6s,
+          height 0.6s;
+      }
+
+      .button:active::after {
+        width: 300px;
+        height: 300px;
+      }
+
+      .button-secondary {
+        background-color: var(--color-bg-secondary);
+        border: 1px solid var(--color-border);
+      }
+
+      .button-secondary:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 2px 8px rgba(22, 93, 255, 0.15);
+      }
+
+      /* 表格样式 */
+      .table-card {
+        background-color: var(--color-bg-secondary);
+        border-radius: 8px;
+        box-shadow: var(--shadow-card);
+        border: 1px solid var(--color-border);
+        overflow: hidden;
+        transition: var(--transition-base);
+      }
+
+      .table-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th {
+        background-color: var(--color-bg-tertiary);
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      td {
+        padding: 12px 16px;
+        font-size: 14px;
+        border-bottom: 1px solid var(--color-border);
+        transition: background-color 0.2s ease;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:hover td {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        transition: transform 0.2s ease;
+      }
+
+      .tag:hover {
+        transform: scale(1.05);
+      }
+
+      .tag-green {
+        background-color: rgba(54, 211, 153, 0.15);
+        color: var(--color-success);
+      }
+
+      .tag-blue {
+        background-color: rgba(22, 93, 255, 0.15);
+        color: var(--color-primary);
+      }
+
+      .link-button {
+        background: none;
+        border: none;
+        color: var(--color-primary);
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-right: 12px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: var(--transition-base);
+      }
+
+      .link-button:hover {
+        background-color: rgba(22, 93, 255, 0.1);
+        transform: translateY(-1px);
+      }
+
+      /* 弹窗样式 */
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+      }
+
+      .modal-backdrop.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background-color: var(--color-bg-secondary);
+        border-radius: 8px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-backdrop.active .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        color: var(--color-text-secondary);
+        font-size: 20px;
+        cursor: pointer;
+        transition: var(--transition-base);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+      }
+
+      .modal-close:hover {
+        color: var(--color-text-primary);
+        background-color: rgba(255, 255, 255, 0.1);
+        transform: rotate(90deg);
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-footer {
+        padding: 16px 20px;
+        border-top: 1px solid var(--color-border);
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+      }
+
+      /* 凭证详情样式 */
+      .certificate-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .certificate-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: rgba(114, 46, 209, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: var(--color-accent);
+      }
+
+      .certificate-info h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .certificate-info p {
+        color: var(--color-text-secondary);
+        font-size: 14px;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+
+      .detail-item p:first-child {
+        color: var(--color-text-secondary);
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      .detail-item p:last-child {
+        font-weight: 500;
+      }
+
+      .certificate-preview {
+        background-color: var(--color-bg-tertiary);
+        border-radius: 8px;
+        padding: 20px;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition-base);
+        border: 1px solid transparent;
+      }
+
+      .certificate-preview:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .certificate-preview p {
+        color: var(--color-text-secondary);
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <nav class="navbar">
+      <a href="main.html" class="logo">
+        <div class="logo-icon">房</div>
+        <h1>房产数据管理系统</h1>
+      </a>
+      <a href="main.html" class="button">返回主页</a>
+    </nav>
+    <div class="container">
+      <!-- 页面头部 -->
+      <div class="header fade-in">
+        <div class="header-info">
+          <h2>电子凭证管理系统</h2>
+          <p>房产电子证书查询与管理</p>
+        </div>
+        <div class="header-actions">
+          <button class="button"><span>📤</span> 上传凭证</button>
+          <button class="button button-secondary">
+            <span>🔍</span> 高级搜索
+          </button>
+        </div>
+      </div>
+
+      <!-- 凭证列表表格 -->
+      <div class="table-card fade-in">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>凭证编号</th>
+                <th>凭证类型</th>
+                <th>房产编号</th>
+                <th>权利人</th>
+                <th>发证日期</th>
+                <th>状态</th>
+                <th>核验状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="certificateTable">
+              <tr>
+                <td>EC202510230001</td>
+                <td>不动产权证</td>
+                <td>PROP2025001</td>
+                <td>张三</td>
+                <td>2025-06-15</td>
+                <td><span class="tag tag-green">有效</span></td>
+                <td><span class="tag tag-blue">已核验</span></td>
+                <td>
+                  <button class="link-button" onclick="viewCertificate(this)">
+                    <span>👁️</span> 查看
+                  </button>
+                  <button class="link-button"><span>⬇️</span> 下载</button>
+                </td>
+              </tr>
+              <tr>
+                <td>EC202510230002</td>
+                <td>预售许可证</td>
+                <td>PROP2025002</td>
+                <td>长沙市房地产开发公司</td>
+                <td>2025-05-20</td>
+                <td><span class="tag tag-green">有效</span></td>
+                <td><span class="tag tag-blue">已核验</span></td>
+                <td>
+                  <button class="link-button" onclick="viewCertificate(this)">
+                    <span>👁️</span> 查看
+                  </button>
+                  <button class="link-button"><span>⬇️</span> 下载</button>
+                </td>
+              </tr>
+              <tr>
+                <td>EC202510230003</td>
+                <td>不动产权证</td>
+                <td>PROP2025003</td>
+                <td>李四</td>
+                <td>2025-04-10</td>
+                <td><span class="tag tag-green">有效</span></td>
+                <td><span class="tag tag-blue">已核验</span></td>
+                <td>
+                  <button class="link-button" onclick="viewCertificate(this)">
+                    <span>👁️</span> 查看
+                  </button>
+                  <button class="link-button"><span>⬇️</span> 下载</button>
+                </td>
+              </tr>
+              <tr>
+                <td>EC202510230004</td>
+                <td>建设工程规划许可证</td>
+                <td>PROP2025004</td>
+                <td>湖南省建筑工程公司</td>
+                <td>2025-03-25</td>
+                <td><span class="tag tag-green">有效</span></td>
+                <td><span class="tag tag-blue">已核验</span></td>
+                <td>
+                  <button class="link-button" onclick="viewCertificate(this)">
+                    <span>👁️</span> 查看
+                  </button>
+                  <button class="link-button"><span>⬇️</span> 下载</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 凭证详情弹窗 -->
+    <div id="certificateModal" class="modal-backdrop">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">凭证详情</h3>
+          <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="certificate-header">
+            <div class="certificate-icon">📄</div>
+            <div class="certificate-info">
+              <h3 id="modalCertType">不动产权证</h3>
+              <p>编号：<span id="modalCertId">EC202510230001</span></p>
+            </div>
+          </div>
+
+          <div class="detail-grid">
+            <div class="detail-item">
+              <p>房产编号</p>
+              <p id="modalPropertyId">PROP2025001</p>
+            </div>
+            <div class="detail-item">
+              <p>权利人</p>
+              <p id="modalOwner">张三</p>
+            </div>
+            <div class="detail-item">
+              <p>发证日期</p>
+              <p id="modalIssueDate">2025-06-15</p>
+            </div>
+            <div class="detail-item">
+              <p>状态</p>
+              <span class="tag tag-green" id="modalStatus">有效</span>
+            </div>
+          </div>
+
+          <div>
+            <p
+              style="
+                color: var(--color-text-secondary);
+                font-size: 14px;
+                margin-bottom: 12px;
+              "
+            >
+              凭证预览
+            </p>
+            <div class="certificate-preview">
+              <p>电子凭证预览区域</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="button button-secondary" onclick="closeModal()">
+            关闭
+          </button>
+          <button class="button"><span>⬇️</span> 下载凭证</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 凭证数据
+      const certificateData = [
+        {
+          certId: 'EC202510230001',
+          type: '不动产权证',
+          propertyId: 'PROP2025001',
+          owner: '张三',
+          issueDate: '2025-06-15',
+          status: '有效',
+        },
+        {
+          certId: 'EC202510230002',
+          type: '预售许可证',
+          propertyId: 'PROP2025002',
+          owner: '长沙市房地产开发公司',
+          issueDate: '2025-05-20',
+          status: '有效',
+        },
+        {
+          certId: 'EC202510230003',
+          type: '不动产权证',
+          propertyId: 'PROP2025003',
+          owner: '李四',
+          issueDate: '2025-04-10',
+          status: '有效',
+        },
+        {
+          certId: 'EC202510230004',
+          type: '建设工程规划许可证',
+          propertyId: 'PROP2025004',
+          owner: '湖南省建筑工程公司',
+          issueDate: '2025-03-25',
+          status: '有效',
+        },
+      ];
+
+      // 查看凭证详情
+      function viewCertificate(button) {
+        const row = button.closest('tr');
+        const certId = row.cells[0].textContent;
+        const cert = certificateData.find((c) => c.certId === certId);
+
+        if (cert) {
+          document.getElementById('modalCertType').textContent = cert.type;
+          document.getElementById('modalCertId').textContent = cert.certId;
+          document.getElementById('modalPropertyId').textContent =
+            cert.propertyId;
+          document.getElementById('modalOwner').textContent = cert.owner;
+          document.getElementById('modalIssueDate').textContent =
+            cert.issueDate;
+          document.getElementById('modalStatus').textContent = cert.status;
+
+          document.getElementById('certificateModal').classList.add('active');
+        }
+      }
+
+      // 关闭弹窗
+      function closeModal() {
+        const modal = document.getElementById('certificateModal');
+        modal.classList.remove('active');
+        // 为了更好的动画体验，延迟一点时间再移除content的transform
+        setTimeout(() => {
+          const content = modal.querySelector('.modal-content');
+          if (content) {
+            content.style.transform = 'translateY(-20px)';
+          }
+        }, 200);
+      }
+
+      // 点击弹窗外部关闭弹窗
+      document
+        .getElementById('certificateModal')
+        .addEventListener('click', function (e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+      // ESC键关闭弹窗
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+
+      // 返回顶部按钮功能
+      const backToTop = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', () => {
+        // 控制返回顶部按钮显示/隐藏
+        if (window.scrollY > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+
+        // 滚动动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (elementTop < windowHeight * 0.85) {
+            element.classList.add('active');
+          }
+        });
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // 页面加载完成后初始化
+      document.addEventListener('DOMContentLoaded', () => {
+        // 触发淡入动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach((element, index) => {
+          // 为元素添加延迟动画
+          element.style.transitionDelay = `${index * 0.1}s`;
+          setTimeout(() => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            if (elementTop < windowHeight * 0.85) {
+              element.classList.add('active');
+            }
+          }, 100);
+        });
+      });
+    </script>
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div
+        style="
+          background-color: var(--color-bg-secondary);
+          padding: 15px;
+          text-align: center;
+          border-top: 1px solid var(--color-border);
+          color: var(--color-text-secondary);
+          font-size: 14px;
+        "
+      >
+        <p>© 2024 房产数据管理系统 - 版权所有</p>
+      </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+  </body>
+</html>

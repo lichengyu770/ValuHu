@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业服务 - ProcessOn - ValuHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-white">
+    <!-- 顶部导航 -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-gray-900">Process<span class="text-blue-600">On</span></span>
+                        <span class="ml-2 px-2 py-0.5 text-xs font-medium text-white bg-pink-500 rounded-full">AI</span>
+                    </div>
+                    <nav class="ml-8 flex space-x-8">
+                        <!-- 产品下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">产品 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-96 bg-white rounded-md shadow-lg py-2 z-10">
+                                <div class="grid grid-cols-5 gap-4 p-4">
+                                    <!-- 左侧分类 -->
+                                    <div class="col-span-1 space-y-3">
+                                        <div class="font-medium text-gray-900">流程类</div>
+                                        <div class="font-medium text-gray-900">脑图类</div>
+                                        <div class="font-medium text-gray-900">笔记类</div>
+                                        <div class="font-medium text-gray-900">实用工具</div>
+                                    </div>
+                                    <!-- 右侧内容 -->
+                                    <div class="col-span-4 grid grid-cols-4 gap-2">
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">流程图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">泳道图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">BPMN2.0</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">UML</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">架构图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">网络拓扑图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">图表/表格</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">韦恩图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">甘特图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">电路图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">平面图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">ER图</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="processon-download.html" class="text-gray-700 hover:text-blue-600 text-sm font-medium">下载</a>
+                        
+                        <!-- 企业服务下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-blue-600 border-b-2 border-blue-600 flex items-center text-sm font-medium">企业服务 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="processon-enterprise.html" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-50">企业业务</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">解决方案</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">API服务</a>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="text-gray-700 hover:text-blue-600 text-sm font-medium">模板社区</a>
+                        <a href="processon-pricing.html" class="text-gray-700 hover:text-blue-600 text-sm font-medium">价格</a>
+                        
+                        <!-- 入门教程下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">入门教程 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">帮助中心</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">知识社区</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors border-2 border-blue-600">进入我的文件</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main>
+        <!-- Hero区域 -->
+        <section class="py-20 bg-gradient-to-b from-white to-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h1 class="text-4xl font-bold text-gray-900 mb-6">国产化一站式协作办公平台<br>提高团队效率</h1>
+                        <p class="text-gray-600 mb-8">ProcessOn助力团队成员共创，打造团队知识地图，实现数字化资产沉淀</p>
+                        <div class="flex space-x-4">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-md transition-colors">免费试用</button>
+                            <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600">私有化部署</button>
+                            <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600">信创客户端</button>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <!-- 协作办公平台插图 -->
+                        <div class="relative bg-white rounded-xl shadow-lg p-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <div class="text-sm text-gray-500">协作办公平台</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-blue-50 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="font-medium text-gray-900">团队空间</div>
+                                        <div class="text-xs text-gray-500">12个文件</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                            产品规划.md
+                                        </div>
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                            </svg>
+                                            项目流程图.flow
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-green-50 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="font-medium text-gray-900">知识沉淀</div>
+                                        <div class="text-xs text-gray-500">8个文件</div>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                                            </svg>
+                                            产品思维导图.mind
+                                        </div>
+                                        <div class="flex items-center text-sm text-gray-600">
+                                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                            </svg>
+                                            业务流程图.flow
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 手机预览 -->
+                        <div class="absolute -bottom-8 -right-8 bg-white rounded-xl shadow-lg p-4 w-40">
+                            <div class="flex justify-center mb-2">
+                                <div class="w-24 h-4 rounded-full bg-gray-200"></div>
+                            </div>
+                            <div class="bg-blue-50 rounded-lg p-3 h-48">
+                                <div class="font-medium text-gray-900 mb-2">团队协作</div>
+                                <div class="space-y-2">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">A</div>
+                                        <div class="text-sm text-gray-600">新增了文档</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">B</div>
+                                        <div class="text-sm text-gray-600">更新了流程图</div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">C</div>
+                                        <div class="text-sm text-gray-600">评论了思维导图</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 集成选项 -->
+        <section class="py-12 bg-white border-y border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-center space-x-4">
+                    <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        预约演示
+                    </button>
+                    <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        安装到钉钉
+                    </button>
+                    <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        安装到企业微信
+                    </button>
+                    <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600 flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        安装到飞书
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 客户展示 -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">累计服务30,000+企业</h2>
+                    <p class="text-gray-600">覆盖1,000,000+企业用户</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                    <!-- 客户logo -->
+                    <div class="flex items-center justify-center bg-gray-50 rounded-lg p-6">
+                        <div class="text-gray-500 font-medium">客户1</div>
+                    </div>
+                    <div class="flex items-center justify-center bg-gray-50 rounded-lg p-6">
+                        <div class="text-gray-500 font-medium">客户2</div>
+                    </div>
+                    <div class="flex items-center justify-center bg-gray-50 rounded-lg p-6">
+                        <div class="text-gray-500 font-medium">客户3</div>
+                    </div>
+                    <div class="flex items-center justify-center bg-gray-50 rounded-lg p-6">
+                        <div class="text-gray-500 font-medium">客户4</div>
+                    </div>
+                    <div class="flex items-center justify-center bg-gray-50 rounded-lg p-6">
+                        <div class="text-gray-500 font-medium">客户5</div>
+                    </div>
+                    <div class="flex items-center justify-center bg-gray-50 rounded-lg p-6">
+                        <div class="text-gray-500 font-medium">客户6</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 核心功能 -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">工作流程可视化，助力企业数字化第1步</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                    <!-- 流程图 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">流程图</h3>
+                    </div>
+                    <!-- 思维导图 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow border-2 border-blue-600">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">思维导图</h3>
+                    </div>
+                    <!-- 团队空间 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">团队空间</h3>
+                    </div>
+                    <!-- 权限管控 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">权限管控</h3>
+                    </div>
+                    <!-- 企业管理 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">企业管理</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 思维导图详情 -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">思维导图</h2>
+                        <p class="text-xl text-gray-600 mb-6">多功能，高颜值，云储存的专业思维导图软件，简洁好用。</p>
+                        <div class="flex space-x-4 mb-8">
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">#会议纪要</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">#项目计划</span>
+                            <span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm">#头脑风暴</span>
+                        </div>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-md transition-colors">免费试用</button>
+                    </div>
+                    <div>
+                        <!-- 思维导图编辑器截图 -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                            <div class="flex justify-between items-center bg-gray-50 px-4 py-2">
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <div class="text-sm text-gray-500">思维导图编辑器</div>
+                            </div>
+                            <div class="p-6">
+                                <div class="relative h-80 bg-blue-50 rounded-lg">
+                                    <!-- 思维导图示意图 -->
+                                    <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-md">
+                                        API接口管理系统
+                                    </div>
+                                    <div class="absolute top-16 left-1/4 bg-blue-100 px-3 py-1 rounded-md">
+                                        普通用户
+                                    </div>
+                                    <div class="absolute top-16 right-1/4 bg-blue-100 px-3 py-1 rounded-md">
+                                        管理员用户
+                                    </div>
+                                    <div class="absolute top-28 left-1/6 bg-gray-100 px-3 py-1 rounded-md">
+                                        查询权限
+                                    </div>
+                                    <div class="absolute top-28 left-1/3 bg-gray-100 px-3 py-1 rounded-md">
+                                        操作权限
+                                    </div>
+                                    <div class="absolute top-28 right-1/3 bg-gray-100 px-3 py-1 rounded-md">
+                                        审批权限
+                                    </div>
+                                    <div class="absolute top-28 right-1/6 bg-gray-100 px-3 py-1 rounded-md">
+                                        超级权限
+                                    </div>
+                                    <!-- 连接线 -->
+                                    <div class="absolute top-10 left-1/2 w-0.5 h-6 bg-blue-300"></div>
+                                    <div class="absolute top-16 left-1/2 w-0.5 h-0 bg-blue-300 transform -translate-x-1/2"></div>
+                                    <div class="absolute top-16 left-1/2 w-16 h-0.5 bg-blue-300 transform -translate-x-full"></div>
+                                    <div class="absolute top-16 left-1/2 w-16 h-0.5 bg-blue-300"></div>
+                                    <div class="absolute top-20 left-1/4 w-0.5 h-8 bg-gray-300"></div>
+                                    <div class="absolute top-20 right-1/4 w-0.5 h-8 bg-gray-300"></div>
+                                    <div class="absolute top-28 left-1/4 w-16 h-0.5 bg-gray-300 transform -translate-x-full"></div>
+                                    <div class="absolute top-28 left-1/4 w-16 h-0.5 bg-gray-300"></div>
+                                    <div class="absolute top-28 right-1/4 w-16 h-0.5 bg-gray-300 transform -translate-x-full"></div>
+                                    <div class="absolute top-28 right-1/4 w-16 h-0.5 bg-gray-300"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 编辑器特点 -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <!-- 编辑器截图 -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                            <div class="flex justify-between items-center bg-gray-50 px-4 py-2">
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                </div>
+                                <div class="text-sm text-gray-500">产品需求文档</div>
+                            </div>
+                            <div class="p-6">
+                                <div class="relative h-80 bg-white rounded-lg border border-gray-200">
+                                    <!-- 产品需求文档示意图 -->
+                                    <div class="absolute top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-2 rounded-md">
+                                        产品需求文档
+                                    </div>
+                                    <div class="absolute top-16 left-1/4 bg-blue-100 px-3 py-1 rounded-md">
+                                        文档说明
+                                    </div>
+                                    <div class="absolute top-16 right-1/4 bg-blue-100 px-3 py-1 rounded-md">
+                                        产品架构
+                                    </div>
+                                    <div class="absolute top-16 left-1/2 bg-blue-100 px-3 py-1 rounded-md">
+                                        功能说明
+                                    </div>
+                                    <div class="absolute top-16 left-3/4 bg-blue-100 px-3 py-1 rounded-md">
+                                        项目规划
+                                    </div>
+                                    <!-- 连接线 -->
+                                    <div class="absolute top-10 left-1/2 w-0.5 h-6 bg-blue-300"></div>
+                                    <div class="absolute top-16 left-1/2 w-0.5 h-0 bg-blue-300 transform -translate-x-1/2"></div>
+                                    <div class="absolute top-16 left-1/2 w-24 h-0.5 bg-blue-300 transform -translate-x-full"></div>
+                                    <div class="absolute top-16 left-1/2 w-24 h-0.5 bg-blue-300"></div>
+                                    <div class="absolute top-16 left-1/2 w-24 h-0.5 bg-blue-300 transform translate-x-1/2"></div>
+                                    <div class="absolute top-16 left-1/2 w-24 h-0.5 bg-blue-300 transform translate-x-full"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex space-x-4 mb-6">
+                            <div class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                                <div class="text-sm font-medium text-gray-900">零学习成本</div>
+                            </div>
+                            <div class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                                <div class="text-sm font-medium text-gray-900">云在线访问</div>
+                            </div>
+                            <div class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                                <div class="text-sm font-medium text-gray-900">企业级安全</div>
+                            </div>
+                            <div class="bg-white rounded-lg px-4 py-2 shadow-sm">
+                                <div class="text-sm font-medium text-gray-900">规范化流程</div>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">极简体验编辑器<br>真正的易用好用</h2>
+                        <p class="text-gray-600 mb-6">一看就懂，上手就会，团队成员快速投入生产，让团队协作更高效。</p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-md transition-colors">免费试用</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 信创生态 -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">来邦信息技术应用创新使命</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- 信创生态全栈适配 -->
+                    <div class="bg-blue-600 text-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold mb-4">信创生态全栈适配</h3>
+                        <p class="mb-6">全面适配各类国产软硬件平台和信创应用，满足党政军、国央企等信创行业办公需要。</p>
+                        <!-- 图标 -->
+                        <div class="flex justify-center">
+                            <div class="relative w-24 h-24">
+                                <div class="absolute inset-0 bg-blue-700 rounded-full flex items-center justify-center">
+                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 国产自研安全可靠 -->
+                    <div class="bg-purple-600 text-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold mb-4">国产自研安全可靠</h3>
+                        <p class="mb-6">本土化首家思维导图、流程图在线协作绘图平台，自主知识产权，通过国家相关等保资质。</p>
+                        <!-- 图标 -->
+                        <div class="flex justify-center">
+                            <div class="relative w-24 h-24">
+                                <div class="absolute inset-0 bg-purple-700 rounded-full flex items-center justify-center">
+                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 功能易用 专业强大 -->
+                    <div class="bg-yellow-500 text-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-2xl font-bold mb-4">功能易用 专业强大</h3>
+                        <p class="mb-6">赋能企业在数字时代与众不同地进行创意表达，提高生产效率。</p>
+                        <!-- 图标 -->
+                        <div class="flex justify-center">
+                            <div class="relative w-24 h-24">
+                                <div class="absolute inset-0 bg-yellow-600 rounded-full flex items-center justify-center">
+                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 部署流程 -->
+        <section class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- 流程步骤 -->
+                    <div>
+                        <!-- 客户需求 -->
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">1</div>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-medium text-gray-900 mb-2">客户需求 (私有化部署)</h3>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li>• 专属顾问对接</li>
+                                    <li>• 制定私有化方案</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 履约部署 -->
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">2</div>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-medium text-gray-900 mb-2">履约部署</h3>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li>• 远程/现场部署</li>
+                                    <li>• 专业产研团队对接</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 交付及售后 -->
+                        <div class="flex items-start mb-8">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">3</div>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-medium text-gray-900 mb-2">交付及售后</h3>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li>• 严格测试交付</li>
+                                    <li>• 售后团队跟进</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- 我们的优势 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-medium">4</div>
+                            </div>
+                            <div class="ml-6">
+                                <h3 class="text-xl font-medium text-gray-900 mb-2">我们的优势</h3>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li>• 客户私网部署，安全稳定</li>
+                                    <li>• 数据在客户侧存储</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 产品版本 -->
+                    <div>
+                        <!-- 团队版 -->
+                        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="text-xl font-medium text-gray-900">团队版</h3>
+                                    <p class="text-blue-600">适合中小型企业</p>
+                                </div>
+                                <!-- 图标 -->
+                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <ul class="space-y-1 text-gray-600 mb-6">
+                                <li>• 无需安装，点开即用</li>
+                                <li>• 上门沟通</li>
+                            </ul>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-md transition-colors w-full">免费试用</button>
+                        </div>
+                        <!-- 企业版 -->
+                        <div class="bg-white rounded-xl shadow-lg p-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <div>
+                                    <h3 class="text-xl font-medium text-gray-900">企业版(私有化部署)</h3>
+                                    <p class="text-blue-600">适合中大型企业</p>
+                                </div>
+                                <!-- 图标 -->
+                                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <ul class="space-y-1 text-gray-600 mb-6">
+                                <li>• 支持单点登录，打通组织通讯录</li>
+                                <li>• 提供咨询、实施、交付到售后维保一体化企业服务</li>
+                            </ul>
+                            <button class="bg-gray-600 hover:bg-gray-700 text-white font-medium px-6 py-3 rounded-md transition-colors w-full">私有化咨询</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 客户案例 -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">各行各业都在用</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- 客户1 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 h-48 flex items-center justify-center">
+                            <div class="text-gray-500 font-medium">互联网</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">梦加网络</h3>
+                            <p class="text-sm text-gray-600">助力梦加网络提升团队协作效率，为成员赋能</p>
+                        </div>
+                    </div>
+                    <!-- 客户2 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 h-48 flex items-center justify-center">
+                            <div class="text-gray-500 font-medium">医疗健康</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">新氧科技</h3>
+                            <p class="text-sm text-gray-600">助力新氧科技提升医美企业组织能效</p>
+                        </div>
+                    </div>
+                    <!-- 客户3 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 h-48 flex items-center justify-center">
+                            <div class="text-gray-500 font-medium">教育培训</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">南方科技大学</h3>
+                            <p class="text-sm text-gray-600">为一流高校打造专业学习辅助工具优化协作管理流程</p>
+                        </div>
+                    </div>
+                    <!-- 客户4 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 h-48 flex items-center justify-center">
+                            <div class="text-gray-500 font-medium">服务业</div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">优居</h3>
+                            <p class="text-sm text-gray-600">助力企业数字化、系统化，营销解决方案效能</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 按钮 -->
+                <div class="flex justify-center mt-12">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-md transition-colors mr-4">更多客户案例</button>
+                    <button class="bg-white hover:bg-gray-50 text-blue-600 font-medium px-6 py-3 rounded-md transition-colors border-2 border-blue-600">预约产品演示</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 海量场景模板 -->
+        <section class="py-20 bg-blue-600 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold mb-8 text-center">海量场景模板，满足企业办公各项需求</h2>
+                
+                <!-- 模板分类 -->
+                <div class="flex justify-center space-x-4 mb-8">
+                    <button class="bg-white text-blue-600 font-medium px-4 py-2 rounded-md transition-colors">产研</button>
+                    <button class="bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors">运营</button>
+                    <button class="bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors">管理</button>
+                    <button class="bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors">人力</button>
+                    <button class="bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors">通用</button>
+                </div>
+                
+                <!-- 模板展示 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- 模板1 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 p-6 h-64 flex items-center justify-center">
+                            <!-- 企业网络拓扑图 -->
+                            <div class="relative w-full h-full">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <svg class="w-32 h-32 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center">
+                            <h3 class="text-gray-900 font-medium">企业网络拓扑图</h3>
+                        </div>
+                    </div>
+                    <!-- 模板2 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 p-6 h-64 flex items-center justify-center">
+                            <!-- 完整的需求文档 -->
+                            <div class="relative w-full h-full">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <svg class="w-32 h-32 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center">
+                            <h3 class="text-gray-900 font-medium">完整的需求文档</h3>
+                        </div>
+                    </div>
+                    <!-- 模板3 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 p-6 h-64 flex items-center justify-center">
+                            <!-- 产品需求流程 -->
+                            <div class="relative w-full h-full">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <svg class="w-32 h-32 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center">
+                            <h3 class="text-gray-900 font-medium">产品需求流程</h3>
+                        </div>
+                    </div>
+                    <!-- 模板4 -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="bg-gray-100 p-6 h-64 flex items-center justify-center">
+                            <!-- 数据中台整体架构图 -->
+                            <div class="relative w-full h-full">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <svg class="w-32 h-32 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 text-center">
+                            <h3 class="text-gray-900 font-medium">数据中台整体架构图</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多模板按钮 -->
+                <div class="flex justify-center">
+                    <button class="bg-white text-blue-600 font-medium px-8 py-3 rounded-md transition-colors">更多模板 →</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 加入可视化工作方式 -->
+        <section class="py-20 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-bold mb-6">一图胜千言，欢迎加入可视化的工作方式</h2>
+                <!-- 预约演示按钮已经在右侧固定 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white">
+        <!-- 功能列表 -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+                    <!-- 产品 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">产品</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">思维导图</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">流程图</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">思维笔记</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Markdown</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">在线白板</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">原型设计</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">API服务</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 实用工具 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">实用工具</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">LaTex公式编辑器</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Geogebra</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Mermaid</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 资源 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">资源</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">模板社区</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">知识教程</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">专题频道</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">帮助中心</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">使用手册</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Markdown语法</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 支持 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">支持</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">邀请有礼</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">私有化部署</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">教育认证</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">对标Visio</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 关于 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">关于</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">关于我们</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">加入我们</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">服务条款</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 联系 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">联系</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li class="text-gray-400">邮箱: support@processon.com</li>
+                            <li class="text-gray-400">电话: 010-82796300 (个人版)</li>
+                            <li class="text-gray-400">010-86393609 (团队版)</li>
+                            <li class="text-gray-400">(工作日 9:30-18:30)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 社交媒体和版权 -->
+        <section class="py-8 bg-gray-950 text-gray-400 text-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <!-- 社交媒体 -->
+                    <div class="flex space-x-4 mb-4 md:mb-0">
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 8c0 .557.447 1.008 1 1.008s1-.45 1-1.008c0-.557-.447-1.008-1-1.008s-1 .45-1 1.008zm0 2h2v6h-2v-6zm3 0h3v2h-3v-2z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <!-- 版权信息 -->
+                    <div class="text-center md:text-right">
+                        <div class="mb-2">前往ProcessOn全球网站 →</div>
+                        <div class="mt-4 text-xs">©2020 北京大麦地信息技术有限公司 京ICP备15008605号-1 | 京公网安备 11010802033154号</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>房算云FangSuanYun - 房地产AI估价与数智平台</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="keywords" content="房地产AI估价，房算云，房价地图，投资分析，房地产案例库">
+    <meta name="description" content="房算云FangSuanYun 是连接政府、行业、学校、企业和大众的房地产数智生态平台，提供AI估价、房价预测、投资分析等专业服务。">
+    <!-- 高德地图API引用 -->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: '8fa11b2815f42423c371b6796d2e7f5a',
+        };
+    </script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=cc6cc650f37f17fa1c76e2607935a1a9"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .org_header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        
+        .n_page_con_center {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .logo .sub-title {
+            font-size: 14px;
+            font-weight: normal;
+            color: #999;
+            margin-left: 5px;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .tab {
+            display: flex;
+            align-items: center;
+        }
+        
+        .tab a {
+            text-decoration: none;
+            color: #666;
+            font-size: 16px;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+        
+        .tab a:hover {
+            color: #1890ff;
+        }
+        
+        .tab a.active {
+            color: #ff6b6b;
+            border-bottom: 2px solid #ff6b6b;
+        }
+        
+        .free-member .ac-menu {
+            color: #ff6b6b;
+        }
+        
+        .free-member span {
+            background-color: #ff6b6b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        .login-btn {
+            background-color: #1890ff;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        /* 主体内容样式 */
+        .main-content {
+            margin-top: 80px;
+            padding: 20px;
+        }
+        
+        /* 地图容器样式 */
+        #map-container {
+            width: 100%;
+            height: 600px;
+            background-color: #e8f4fd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        /* 用户类型切换样式 */
+        .user-type-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .user-type-btn {
+            padding: 10px 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .user-type-btn:hover {
+            border-color: #1890ff;
+            color: #1890ff;
+        }
+        
+        .user-type-btn.active {
+            background-color: #1890ff;
+            color: white;
+            border-color: #1890ff;
+        }
+        
+        /* 功能面板样式 */
+        .function-panel {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .panel-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        /* 搜索框样式 */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-btn {
+            padding: 10px 20px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .search-btn:hover {
+            background-color: #40a9ff;
+        }
+        
+        /* 结果展示样式 */
+        .results-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .results-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .results-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .result-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #1890ff;
+            margin-bottom: 5px;
+        }
+        
+        .result-info {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <div class="header">
+        <header class="org_header">
+            <div class="n_page_con_center">
+                <a href="#" style="display: flex; align-items: center;">
+                    <div class="logo">房算云<span class="sub-title">FangSuanYun</span></div>
+                </a>
+                <nav class="tabs">
+                    <div class="free-member tab">
+                        <a href="#" class="ac-menu active">AI估价</a>
+                        <span>Hot</span>
+                    </div>
+                    <div class="tab">
+                        <a href="#platform">房算云平台</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#reports">行业报告</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#cooperation">企业合作</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#cases">案例库</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#pricing">服务价格</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#tutorials">使用教程</a>
+                    </div>
+                    <div class="tab">
+                        <a href="login.html" class="login-btn">登录/注册</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="main-content">
+        <!-- 用户类型切换 -->
+        <div class="user-type-switcher">
+            <button class="user-type-btn active" data-user-type="school">院校端</button>
+            <button class="user-type-btn" data-user-type="government">政府端</button>
+            <button class="user-type-btn" data-user-type="public">大众端</button>
+            <button class="user-type-btn" data-user-type="enterprise">企业端</button>
+            <button class="user-type-btn" data-user-type="association">协会端</button>
+        </div>
+
+        <!-- 地图容器 -->
+        <div id="map-container"></div>
+
+        <!-- 功能面板 -->
+        <div class="function-panel">
+            <div class="panel-title">地图功能</div>
+            <div class="panel-content">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="搜索地点、小区或地址..." id="search-input">
+                    <button class="search-btn" id="search-btn">搜索</button>
+                </div>
+                <button class="search-btn" id="locate-btn">定位当前位置</button>
+                <button class="search-btn" id="draw-area-btn">绘制区域</button>
+                <button class="search-btn" id="clear-btn">清除标记</button>
+            </div>
+        </div>
+
+        <!-- 结果展示 -->
+        <div class="results-container">
+            <div class="results-title">搜索结果</div>
+            <ul class="results-list" id="results-list"></ul>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <p>房算云FangSuanYun - 房地产AI估价与数智平台</p>
+        <p>© 2025 房算云 版权所有</p>
+    </div>
+
+    <script>
+        // 全局变量
+        let map;
+        let currentUserType = 'school';
+        let markers = [];
+        let searchService;
+        let geolocation;
+
+        // 初始化地图
+        function initMap() {
+            // 创建地图实例
+            map = new AMap.Map('map-container', {
+                center: [116.397428, 39.90923], // 北京市中心坐标
+                zoom: 12,
+                viewMode: '3D',
+                buildingAnimation: true
+            });
+
+            // 添加地图控件
+            map.addControl(new AMap.ToolBar({
+                position: 'LT'
+            }));
+            map.addControl(new AMap.Scale({
+                position: 'LB'
+            }));
+            map.addControl(new AMap.MapType({
+                position: 'RT'
+            }));
+
+            // 初始化搜索服务
+            searchService = new AMap.PlaceSearch({
+                pageSize: 10,
+                pageIndex: 1,
+                city: '全国',
+                map: map,
+                panel: 'results-list',
+                autoFitView: true
+            });
+
+            // 初始化定位服务
+            geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true,
+                timeout: 10000,
+                buttonOffset: new AMap.Pixel(10, 20),
+                zoomToAccuracy: true,
+                buttonPosition: 'RB'
+            });
+
+            // 添加定位控件到地图
+            map.addControl(geolocation);
+        }
+
+        // 搜索功能
+        function search() {
+            const keyword = document.getElementById('search-input').value.trim();
+            if (keyword) {
+                searchService.search(keyword);
+            }
+        }
+
+        // 定位当前位置
+        function locate() {
+            geolocation.getCurrentPosition(function(status, result) {
+                if (status === 'complete') {
+                    onComplete(result);
+                } else {
+                    onError(result);
+                }
+            });
+        }
+
+        // 定位成功回调
+        function onComplete(data) {
+            const lnglat = [data.position.getLng(), data.position.getLat()];
+            map.setCenter(lnglat);
+            map.setZoom(16);
+            
+            // 添加定位标记
+            const marker = new AMap.Marker({
+                position: lnglat,
+                icon: new AMap.Icon({
+                    size: new AMap.Size(40, 40),
+                    image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'
+                }),
+                title: '当前位置'
+            });
+            marker.setMap(map);
+            markers.push(marker);
+        }
+
+        // 定位失败回调
+        function onError(data) {
+            alert('定位失败：' + data.message);
+        }
+
+        // 清除所有标记
+        function clearMarkers() {
+            markers.forEach(marker => {
+                marker.setMap(null);
+            });
+            markers = [];
+        }
+
+        // 切换用户类型
+        function switchUserType(userType) {
+            currentUserType = userType;
+            
+            // 更新按钮状态
+            document.querySelectorAll('.user-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-user-type="${userType}"]`).classList.add('active');
+            
+            // 根据用户类型加载不同的地图功能
+            loadUserTypeFeatures(userType);
+        }
+
+        // 根据用户类型加载功能
+        function loadUserTypeFeatures(userType) {
+            // 清除现有标记
+            clearMarkers();
+            
+            // 模拟不同用户类型的功能加载
+            switch(userType) {
+                case 'school':
+                    loadSchoolFeatures();
+                    break;
+                case 'government':
+                    loadGovernmentFeatures();
+                    break;
+                case 'public':
+                    loadPublicFeatures();
+                    break;
+                case 'enterprise':
+                    loadEnterpriseFeatures();
+                    break;
+                case 'association':
+                    loadAssociationFeatures();
+                    break;
+            }
+        }
+
+        // 加载院校端功能
+        function loadSchoolFeatures() {
+            // 模拟院校端数据
+            const schoolData = [
+                { name: '清华大学', lnglat: [116.323472, 40.00318] },
+                { name: '北京大学', lnglat: [116.305144, 39.993404] },
+                { name: '复旦大学', lnglat: [121.500515, 31.299372] },
+                { name: '上海交通大学', lnglat: [121.447364, 31.228953] },
+                { name: '浙江大学', lnglat: [120.093235, 30.258269] }
+            ];
+            
+            // 添加院校标记
+            schoolData.forEach(school => {
+                const marker = new AMap.Marker({
+                    position: school.lnglat,
+                    title: school.name,
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(30, 30),
+                        image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_sch.png'
+                    })
+                });
+                marker.setMap(map);
+                markers.push(marker);
+            });
+            
+            // 调整地图视野
+            map.setFitView(markers);
+        }
+
+        // 加载政府端功能
+        function loadGovernmentFeatures() {
+            // 模拟政府端数据
+            const governmentData = [
+                { name: '北京市政府', lnglat: [116.397428, 39.90923] },
+                { name: '上海市政府', lnglat: [121.472644, 31.231706] },
+                { name: '广州市政府', lnglat: [113.264385, 23.12911] },
+                { name: '深圳市政府', lnglat: [114.057868, 22.543099] },
+                { name: '杭州市政府', lnglat: [120.15507, 30.274085] }
+            ];
+            
+            // 添加政府标记
+            governmentData.forEach(government => {
+                const marker = new AMap.Marker({
+                    position: government.lnglat,
+                    title: government.name,
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(30, 30),
+                        image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_gov.png'
+                    })
+                });
+                marker.setMap(map);
+                markers.push(marker);
+            });
+            
+            // 调整地图视野
+            map.setFitView(markers);
+        }
+
+        // 加载大众端功能
+        function loadPublicFeatures() {
+            // 模拟大众端数据
+            const publicData = [
+                { name: '热门商圈', lnglat: [116.407428, 39.90923] },
+                { name: '地铁站', lnglat: [116.397428, 39.91923] },
+                { name: '医院', lnglat: [116.387428, 39.90923] },
+                { name: '学校', lnglat: [116.397428, 39.89923] },
+                { name: '公园', lnglat: [116.417428, 39.91923] }
+            ];
+            
+            // 添加大众端标记
+            publicData.forEach(place => {
+                const marker = new AMap.Marker({
+                    position: place.lnglat,
+                    title: place.name,
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(30, 30),
+                        image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'
+                    })
+                });
+                marker.setMap(map);
+                markers.push(marker);
+            });
+            
+            // 调整地图视野
+            map.setFitView(markers);
+        }
+
+        // 加载企业端功能
+        function loadEnterpriseFeatures() {
+            // 模拟企业端数据
+            const enterpriseData = [
+                { name: '科技园区', lnglat: [116.327428, 39.90923] },
+                { name: '工业园区', lnglat: [116.487428, 39.90923] },
+                { name: '商业中心', lnglat: [116.397428, 39.90923] },
+                { name: '物流园区', lnglat: [116.457428, 39.95923] },
+                { name: '金融中心', lnglat: [116.407428, 39.91923] }
+            ];
+            
+            // 添加企业端标记
+            enterpriseData.forEach(enterprise => {
+                const marker = new AMap.Marker({
+                    position: enterprise.lnglat,
+                    title: enterprise.name,
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(30, 30),
+                        image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_c.png'
+                    })
+                });
+                marker.setMap(map);
+                markers.push(marker);
+            });
+            
+            // 调整地图视野
+            map.setFitView(markers);
+        }
+
+        // 加载协会端功能
+        function loadAssociationFeatures() {
+            // 模拟协会端数据
+            const associationData = [
+                { name: '房地产协会', lnglat: [116.397428, 39.90923] },
+                { name: '建筑协会', lnglat: [116.407428, 39.90923] },
+                { name: '物业管理协会', lnglat: [116.397428, 39.91923] },
+                { name: '城市规划协会', lnglat: [116.387428, 39.90923] },
+                { name: '资产评估协会', lnglat: [116.417428, 39.91923] }
+            ];
+            
+            // 添加协会端标记
+            associationData.forEach(association => {
+                const marker = new AMap.Marker({
+                    position: association.lnglat,
+                    title: association.name,
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(30, 30),
+                        image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_a.png'
+                    })
+                });
+                marker.setMap(map);
+                markers.push(marker);
+            });
+            
+            // 调整地图视野
+            map.setFitView(markers);
+        }
+
+        // 绘制区域
+        function drawArea() {
+            alert('绘制区域功能开发中...');
+        }
+
+        // 事件监听
+        function addEventListeners() {
+            // 搜索按钮点击事件
+            document.getElementById('search-btn').addEventListener('click', search);
+            
+            // 搜索框回车事件
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    search();
+                }
+            });
+            
+            // 定位按钮点击事件
+            document.getElementById('locate-btn').addEventListener('click', locate);
+            
+            // 清除按钮点击事件
+            document.getElementById('clear-btn').addEventListener('click', clearMarkers);
+            
+            // 绘制区域按钮点击事件
+            document.getElementById('draw-area-btn').addEventListener('click', drawArea);
+            
+            // 用户类型切换事件
+            document.querySelectorAll('.user-type-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const userType = this.getAttribute('data-user-type');
+                    switchUserType(userType);
+                });
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化地图
+            initMap();
+            
+            // 添加事件监听
+            addEventListeners();
+            
+            // 加载初始用户类型功能
+            loadUserTypeFeatures(currentUserType);
+        });
+    </script>
+</body>
+</html>

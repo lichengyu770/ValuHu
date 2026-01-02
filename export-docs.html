@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文档导出 - ValuHub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .doc-section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #eee;
+        }
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+        .doc-title {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .doc-content {
+            font-size: 16px;
+            color: #333;
+        }
+        .doc-content h2 {
+            color: #333;
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .doc-content h3 {
+            color: #555;
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+        .doc-content p {
+            margin-bottom: 15px;
+        }
+        .doc-content ul,
+        .doc-content ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+        .doc-content li {
+            margin-bottom: 8px;
+        }
+        .doc-content code {
+            background-color: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        }
+        .doc-content pre {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        .export-btn {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .export-btn:hover {
+            background-color: #1557b0;
+        }
+        .file-list {
+            margin-bottom: 40px;
+        }
+        .file-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+        .file-item a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        .file-item a:hover {
+            text-decoration: underline;
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>文档导出页面</h1>
+        
+        <div class="file-list">
+            <h2>可用文档</h2>
+            <div class="file-item"><a href="FRONTEND_DEVELOPMENT_STRATEGY.md" target="_blank">FRONTEND_DEVELOPMENT_STRATEGY.md</a></div>
+            <div class="file-item"><a href="UPGRADE_REPORT.md" target="_blank">UPGRADE_REPORT.md</a></div>
+            <div class="file-item"><a href="CONNECTION_POINT_DOCS.md" target="_blank">CONNECTION_POINT_DOCS.md</a></div>
+            <div class="file-item"><a href="PAYMENT_IMPLEMENTATION_GUIDE.md" target="_blank">PAYMENT_IMPLEMENTATION_GUIDE.md</a></div>
+            <div class="file-item"><a href="README-EXTENSION.md" target="_blank">README-EXTENSION.md</a></div>
+            <div class="file-item"><a href="README-TESTING.md" target="_blank">README-TESTING.md</a></div>
+            <div class="file-item"><a href="README.md" target="_blank">README.md</a></div>
+        </div>
+
+        <button class="export-btn" onclick="exportToWord()">导出为Word文档</button>
+
+        <div class="doc-section">
+            <h2 class="doc-title">README.md</h2>
+            <div class="doc-content" id="readme-content">
+                <!-- README.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-title">FRONTEND_DEVELOPMENT_STRATEGY.md</h2>
+            <div class="doc-content" id="frontend-strategy-content">
+                <!-- FRONTEND_DEVELOPMENT_STRATEGY.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-title">UPGRADE_REPORT.md</h2>
+            <div class="doc-content" id="upgrade-report-content">
+                <!-- UPGRADE_REPORT.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-title">CONNECTION_POINT_DOCS.md</h2>
+            <div class="doc-content" id="connection-point-content">
+                <!-- CONNECTION_POINT_DOCS.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-title">PAYMENT_IMPLEMENTATION_GUIDE.md</h2>
+            <div class="doc-content" id="payment-guide-content">
+                <!-- PAYMENT_IMPLEMENTATION_GUIDE.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-title">README-EXTENSION.md</h2>
+            <div class="doc-content" id="readme-extension-content">
+                <!-- README-EXTENSION.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+
+        <div class="doc-section">
+            <h2 class="doc-title">README-TESTING.md</h2>
+            <div class="doc-content" id="readme-testing-content">
+                <!-- README-TESTING.md 内容将通过JavaScript加载 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 文档列表
+        const docs = [
+            { filename: 'README.md', elementId: 'readme-content' },
+            { filename: 'FRONTEND_DEVELOPMENT_STRATEGY.md', elementId: 'frontend-strategy-content' },
+            { filename: 'UPGRADE_REPORT.md', elementId: 'upgrade-report-content' },
+            { filename: 'CONNECTION_POINT_DOCS.md', elementId: 'connection-point-content' },
+            { filename: 'PAYMENT_IMPLEMENTATION_GUIDE.md', elementId: 'payment-guide-content' },
+            { filename: 'README-EXTENSION.md', elementId: 'readme-extension-content' },
+            { filename: 'README-TESTING.md', elementId: 'readme-testing-content' }
+        ];
+
+        // 加载文档内容
+        async function loadDocs() {
+            for (const doc of docs) {
+                try {
+                    const response = await fetch(doc.filename);
+                    if (response.ok) {
+                        const content = await response.text();
+                        const element = document.getElementById(doc.elementId);
+                        element.innerHTML = markdownToHtml(content);
+                    }
+                } catch (error) {
+                    console.error(`Failed to load ${doc.filename}:`, error);
+                }
+            }
+        }
+
+        // 简单的Markdown转HTML
+        function markdownToHtml(markdown) {
+            return markdown
+                // 标题
+                .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+                .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+                .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+                // 段落
+                .replace(/^(?!<h|<ul|<ol|<li|<p|<pre|<code).+$/gm, '<p>$&</p>')
+                // 列表
+                .replace(/^\* (.*$)/gm, '<li>$1</li>')
+                .replace(/^(?:<li>.*<\/li>\n)+/gm, '<ul>$&</ul>')
+                .replace(/^\d+\. (.*$)/gm, '<li>$1</li>')
+                .replace(/^(?:<li>.*<\/li>\n)+/gm, '<ol>$&</ol>')
+                // 代码
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                // 链接
+                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>')
+                // 换行
+                .replace(/\n/g, '<br>');
+        }
+
+        // 导出为Word文档
+        function exportToWord() {
+            const content = document.querySelector('.container').innerHTML;
+            const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><meta charset='utf-8'><title>文档导出</title></head><body>`;
+            const footer = '</body></html>';
+            const html = header + content + footer;
+
+            const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '文档导出_' + new Date().toISOString().slice(0, 10) + '.doc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 页面加载时加载文档
+        window.addEventListener('DOMContentLoaded', loadDocs);
+    </script>
+</body>
+</html>

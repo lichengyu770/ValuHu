@@ -1,0 +1,219 @@
+# 估值项目配置文件
+# 该文件包含项目的所有配置参数，便于统一管理和修改
+
+# 数据配置
+data:
+  raw_data_path: "data/raw/"
+  processed_data_path: "data/processed/"
+  test_data_path: "data/test/"
+  output_data_path: "data/output/"
+  features_path: "data/features/"
+  file_extension: ".csv"  # 支持的文件格式: .csv, .xlsx, .json
+  encoding: "utf-8"
+  index_col: None
+  target_column: "valuation"  # 目标变量列名
+  id_column: "id"  # 唯一标识符列名
+
+# 特征工程配置
+feature_engineering:
+  # 数值特征缩放
+  scaling:
+    enabled: true
+    method: "standard"  # 可选: standard, minmax, robust, normalize
+    columns: []  # 空列表表示自动选择所有数值列
+    save_scaler: true
+    scaler_path: "models/scalers/"
+  
+  # 类别特征编码
+  encoding:
+    enabled: true
+    categorical_columns: []  # 空列表表示自动检测所有类别列
+    methods:
+      nominal: "onehot"  # 名义变量编码方法: onehot, ordinal, target, binary
+      ordinal: "ordinal"  # 顺序变量编码方法: ordinal
+    handle_unknown: "ignore"  # 处理未知类别的方式: ignore, error
+    drop_first: true  # 对于onehot编码，是否删除第一个类别
+  
+  # 时间特征提取
+  time_features:
+    enabled: false
+    time_columns: []  # 需要提取时间特征的列
+    features_to_extract: ["year", "month", "day", "hour", "minute", "second", "dayofweek", "quarter"]
+  
+  # 特征选择
+  feature_selection:
+    enabled: true
+    method: "correlation"  # 可选: correlation, mutual_info, rfe, selectkbest
+    correlation_threshold: 0.1  # 相关系数阈值
+    k: 20  # 选择的特征数量（仅用于selectkbest和rfe）
+    estimator: "random_forest"  # 用于rfe的估算器: random_forest, gradient_boosting, linear_regression
+  
+  # PCA降维
+  pca:
+    enabled: false
+    n_components: 0.95  # 保留的方差比例，或具体的组件数量
+    whiten: false
+    save_pca: true
+    pca_path: "models/pca/"
+
+# 数据划分配置
+data_splitting:
+  test_size: 0.2  # 测试集比例
+  validation_size: 0.2  # 验证集比例（从训练集中划分）
+  random_state: 42  # 随机种子，确保结果可重现
+  shuffle: true  # 是否在划分前打乱数据
+
+# 模型配置
+models:
+  save_path: "models/trained/"
+  results_path: "reports/results/"
+  model_list: ["random_forest", "gradient_boosting", "linear_regression", "ridge", "lasso", "elastic_net"]
+  
+  # 随机森林配置
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2
+    min_samples_leaf: 1
+    max_features: "sqrt"
+    bootstrap: true
+    random_state: 42
+    n_jobs: -1  # 使用所有CPU核心
+  
+  # 梯度提升配置
+  gradient_boosting:
+    n_estimators: 100
+    learning_rate: 0.1
+    max_depth: 5
+    min_samples_split: 2
+    min_samples_leaf: 1
+    subsample: 1.0
+    max_features: "sqrt"
+    random_state: 42
+  
+  # 线性回归配置
+  linear_regression:
+    fit_intercept: true
+    normalize: false
+  
+  # Ridge回归配置
+  ridge:
+    alpha: 1.0
+    fit_intercept: true
+    normalize: false
+    random_state: 42
+  
+  # Lasso回归配置
+  lasso:
+    alpha: 1.0
+    fit_intercept: true
+    normalize: false
+    random_state: 42
+  
+  # Elastic Net配置
+  elastic_net:
+    alpha: 1.0
+    l1_ratio: 0.5
+    fit_intercept: true
+    normalize: false
+    random_state: 42
+
+# 超参数调优配置
+hyperparameter_tuning:
+  enabled: true
+  method: "grid_search"  # 可选: grid_search, random_search, bayesian_optimization
+  cv: 5  # 交叉验证折数
+  scoring: "r2"  # 评分指标: r2, neg_mean_squared_error, neg_mean_absolute_error
+  n_jobs: -1
+  verbose: 1
+  
+  # 网格搜索参数网格
+  param_grids:
+    random_forest:
+      n_estimators: [50, 100, 200]
+      max_depth: [5, 10, 15, None]
+      min_samples_split: [2, 5, 10]
+      max_features: ["sqrt", "log2", None]
+    
+    gradient_boosting:
+      n_estimators: [50, 100, 200]
+      learning_rate: [0.01, 0.1, 0.2]
+      max_depth: [3, 5, 7]
+      subsample: [0.8, 1.0]
+
+# 模型评估配置
+evaluation:
+  metrics: ["mse", "mae", "r2", "rmse"]  # 评估指标
+  save_results: true
+  results_file: "model_evaluation_results.csv"
+
+# 预测配置
+prediction:
+  input_path: "data/test/"
+  output_path: "data/output/"
+  model_path: "models/trained/"
+  model_name: "best_model.joblib"
+  output_format: ".csv"  # 支持的输出格式: .csv, .xlsx, .json
+  add_metadata: true  # 是否在预测结果中添加元数据
+
+# 可视化配置
+visualization:
+  output_path: "reports/figures/"
+  figsize: [12, 8]  # 图表尺寸
+  dpi: 300  # 图表分辨率
+  style: "whitegrid"  # 图表风格: whitegrid, darkgrid, white, dark, ticks
+  palette: "husl"  # 颜色主题
+  font_size: 12
+  
+  # 需要绘制的图表类型
+  plots:
+    histograms: true
+    boxplots: true
+    correlation_heatmap: true
+    scatter_matrix: true
+    feature_importance: true
+    model_performance: true
+    prediction_distribution: true
+    residuals: true
+    roc_curve: false  # 仅用于分类任务
+    confusion_matrix: false  # 仅用于分类任务
+    precision_recall_curve: false  # 仅用于分类任务
+
+# 日志配置
+logging:
+  enabled: true
+  level: "INFO"  # 日志级别: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  log_file: "logs/project.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+
+# Jupyter Notebook配置
+notebook:
+  template_path: "notebooks/templates/"
+  output_path: "notebooks/"
+  kernel: "python3"  # Jupyter内核名称
+  auto_save: true
+  save_html: true
+
+# 项目元数据
+project:
+  name: "valuation_project"
+  version: "1.0.0"
+  description: "企业估值预测项目"
+  author: "Your Name"
+  email: "your.email@example.com"
+  python_version: ">=3.10"
+  requirements_file: "requirements.txt"
+  
+  # 依赖包版本要求
+  dependencies:
+    pandas: ">=1.5.0"
+    numpy: ">=1.21.0"
+    scikit-learn: ">=1.1.0"
+    joblib: ">=1.2.0"
+    matplotlib: ">=3.5.0"
+    seaborn: ">=0.11.0"
+    yaml: ">=6.0"
+    openpyxl: ">=3.0.0"  # 用于读取Excel文件
+    json: ">=2.0.9"  # 用于处理JSON文件

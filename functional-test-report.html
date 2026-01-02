@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能测试报告 - ValuHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .test-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .summary-card .number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .summary-card .label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .summary-card.success .number {
+            color: #28a745;
+        }
+        
+        .summary-card.warning .number {
+            color: #ffc107;
+        }
+        
+        .summary-card.danger .number {
+            color: #dc3545;
+        }
+        
+        .test-section {
+            padding: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .test-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .test-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .test-item.pass {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .test-item.fail {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .test-item.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .test-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .test-item-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .test-item-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .test-item.pass .test-item-status {
+            background: #28a745;
+            color: white;
+        }
+        
+        .test-item.fail .test-item-status {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .test-item.warning .test-item-status {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .test-item-details {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .timestamp {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 ValuHub 功能测试报告</h1>
+            <p>全面检查网站核心功能和交互体验</p>
+        </div>
+        
+        <div class="test-summary">
+            <div class="summary-card success">
+                <div class="number" id="passCount">0</div>
+                <div class="label">通过</div>
+            </div>
+            <div class="summary-card warning">
+                <div class="number" id="warningCount">0</div>
+                <div class="label">警告</div>
+            </div>
+            <div class="summary-card danger">
+                <div class="number" id="failCount">0</div>
+                <div class="label">失败</div>
+            </div>
+            <div class="summary-card">
+                <div class="number" id="totalCount">0</div>
+                <div class="label">总测试数</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">📄 页面结构测试</h2>
+            <div id="pageStructureTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">🎨 设计系统测试</h2>
+            <div id="designSystemTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">🔗 导航与链接测试</h2>
+            <div id="navigationTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">📱 响应式设计测试</h2>
+            <div id="responsiveTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">🔍 SEO 优化测试</h2>
+            <div id="seoTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">⚡ 性能优化测试</h2>
+            <div id="performanceTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">🔒 缓存控制测试</h2>
+            <div id="cacheTests"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="section-title">🎯 交互功能测试</h2>
+            <div id="interactionTests"></div>
+        </div>
+        
+        <div class="timestamp">
+            测试时间: <span id="testTimestamp"></span>
+        </div>
+    </div>
+    
+    <script>
+        const corePages = [
+            'index.html',
+            'solutions.html',
+            'ecosystem.html',
+            'research.html',
+            'academy.html'
+        ];
+        
+        let testResults = {
+            pass: 0,
+            warning: 0,
+            fail: 0,
+            total: 0
+        };
+        
+        function addTestResult(containerId, title, status, details) {
+            const container = document.getElementById(containerId);
+            const testItem = document.createElement('div');
+            testItem.className = `test-item ${status}`;
+            
+            testItem.innerHTML = `
+                <div class="test-item-header">
+                    <div class="test-item-title">${title}</div>
+                    <div class="test-item-status">${status === 'pass' ? '通过' : status === 'fail' ? '失败' : '警告'}</div>
+                </div>
+                <div class="test-item-details">${details}</div>
+            `;
+            
+            container.appendChild(testItem);
+            
+            testResults[status]++;
+            testResults.total++;
+            updateSummary();
+        }
+        
+        function updateSummary() {
+            document.getElementById('passCount').textContent = testResults.pass;
+            document.getElementById('warningCount').textContent = testResults.warning;
+            document.getElementById('failCount').textContent = testResults.fail;
+            document.getElementById('totalCount').textContent = testResults.total;
+        }
+        
+        async function fetchPage(url) {
+            try {
+                const response = await fetch(url);
+                return {
+                    status: response.status,
+                    ok: response.ok,
+                    text: await response.text()
+                };
+            } catch (error) {
+                return {
+                    status: 0,
+                    ok: false,
+                    error: error.message
+                };
+            }
+        }
+        
+        async function runPageStructureTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasDoctype = result.text.includes('<!DOCTYPE html>');
+                    const hasHtmlTag = result.text.includes('<html');
+                    const hasHead = result.text.includes('<head>');
+                    const hasBody = result.text.includes('<body>');
+                    
+                    if (hasDoctype && hasHtmlTag && hasHead && hasBody) {
+                        addTestResult('pageStructureTests', `${page} - 页面结构`, 'pass', '包含完整的 HTML5 文档结构');
+                    } else {
+                        addTestResult('pageStructureTests', `${page} - 页面结构`, 'fail', '缺少必要的 HTML 元素');
+                    }
+                } else {
+                    addTestResult('pageStructureTests', `${page} - 页面加载`, 'fail', `无法加载页面: ${result.status}`);
+                }
+            }
+        }
+        
+        async function runDesignSystemTests() {
+            const designTokens = await fetchPage('css/design-tokens.css');
+            if (designTokens.ok) {
+                const hasColorVariables = designTokens.text.includes('--color-primary');
+                const hasSpacingVariables = designTokens.text.includes('--spacing-');
+                const hasTypographyVariables = designTokens.text.includes('--font-');
+                
+                if (hasColorVariables) {
+                    addTestResult('designSystemTests', '设计令牌 - 颜色系统', 'pass', '包含完整的颜色变量定义');
+                } else {
+                    addTestResult('designSystemTests', '设计令牌 - 颜色系统', 'fail', '缺少颜色变量定义');
+                }
+                
+                if (hasSpacingVariables) {
+                    addTestResult('designSystemTests', '设计令牌 - 间距系统', 'pass', '包含完整的间距变量定义');
+                } else {
+                    addTestResult('designSystemTests', '设计令牌 - 间距系统', 'fail', '缺少间距变量定义');
+                }
+                
+                if (hasTypographyVariables) {
+                    addTestResult('designSystemTests', '设计令牌 - 字体系统', 'pass', '包含完整的字体变量定义');
+                } else {
+                    addTestResult('designSystemTests', '设计令牌 - 字体系统', 'fail', '缺少字体变量定义');
+                }
+            } else {
+                addTestResult('designSystemTests', '设计令牌文件', 'fail', '无法加载 design-tokens.css');
+            }
+        }
+        
+        async function runNavigationTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasNavbar = result.text.includes('navbar') || result.text.includes('nav');
+                    const hasLinks = result.text.includes('href=');
+                    
+                    if (hasNavbar) {
+                        addTestResult('navigationTests', `${page} - 导航栏`, 'pass', '包含导航栏组件');
+                    } else {
+                        addTestResult('navigationTests', `${page} - 导航栏`, 'warning', '未找到导航栏组件');
+                    }
+                    
+                    if (hasLinks) {
+                        addTestResult('navigationTests', `${page} - 页面链接`, 'pass', '包含页面链接');
+                    } else {
+                        addTestResult('navigationTests', `${page} - 页面链接`, 'warning', '未找到页面链接');
+                    }
+                }
+            }
+        }
+        
+        async function runResponsiveTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasViewport = result.text.includes('viewport');
+                    const hasMediaQueries = result.text.includes('@media');
+                    
+                    if (hasViewport) {
+                        addTestResult('responsiveTests', `${page} - 视口设置`, 'pass', '包含响应式视口设置');
+                    } else {
+                        addTestResult('responsiveTests', `${page} - 视口设置`, 'fail', '缺少响应式视口设置');
+                    }
+                    
+                    if (hasMediaQueries) {
+                        addTestResult('responsiveTests', `${page} - 媒体查询`, 'pass', '包含媒体查询样式');
+                    } else {
+                        addTestResult('responsiveTests', `${page} - 媒体查询`, 'warning', '未找到媒体查询样式');
+                    }
+                }
+            }
+        }
+        
+        async function runSeoTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasTitle = result.text.includes('<title>');
+                    const hasDescription = result.text.includes('name="description"');
+                    const hasKeywords = result.text.includes('name="keywords"');
+                    const hasOgTags = result.text.includes('og:');
+                    const hasStructuredData = result.text.includes('application/ld+json');
+                    
+                    if (hasTitle) {
+                        addTestResult('seoTests', `${page} - 页面标题`, 'pass', '包含页面标题');
+                    } else {
+                        addTestResult('seoTests', `${page} - 页面标题`, 'fail', '缺少页面标题');
+                    }
+                    
+                    if (hasDescription) {
+                        addTestResult('seoTests', `${page} - Meta 描述`, 'pass', '包含 Meta 描述');
+                    } else {
+                        addTestResult('seoTests', `${page} - Meta 描述`, 'warning', '缺少 Meta 描述');
+                    }
+                    
+                    if (hasOgTags) {
+                        addTestResult('seoTests', `${page} - Open Graph`, 'pass', '包含 Open Graph 标签');
+                    } else {
+                        addTestResult('seoTests', `${page} - Open Graph`, 'warning', '缺少 Open Graph 标签');
+                    }
+                    
+                    if (hasStructuredData) {
+                        addTestResult('seoTests', `${page} - 结构化数据`, 'pass', '包含结构化数据');
+                    } else {
+                        addTestResult('seoTests', `${page} - 结构化数据`, 'warning', '缺少结构化数据');
+                    }
+                }
+            }
+        }
+        
+        async function runPerformanceTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasPreload = result.text.includes('rel="preload"');
+                    const hasAsyncScript = result.text.includes('async') || result.text.includes('defer');
+                    const hasMinified = !result.text.includes('    ') || result.text.length < 50000;
+                    
+                    if (hasPreload) {
+                        addTestResult('performanceTests', `${page} - 资源预加载`, 'pass', '使用资源预加载优化');
+                    } else {
+                        addTestResult('performanceTests', `${page} - 资源预加载`, 'warning', '未使用资源预加载');
+                    }
+                    
+                    if (hasAsyncScript) {
+                        addTestResult('performanceTests', `${page} - 异步脚本`, 'pass', '使用异步/延迟脚本加载');
+                    } else {
+                        addTestResult('performanceTests', `${page} - 异步脚本`, 'warning', '未使用异步/延迟脚本加载');
+                    }
+                }
+            }
+        }
+        
+        async function runCacheTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasCacheControl = result.text.includes('Cache-Control');
+                    const hasPragma = result.text.includes('Pragma');
+                    const hasExpires = result.text.includes('Expires');
+                    
+                    if (hasCacheControl) {
+                        addTestResult('cacheTests', `${page} - Cache-Control`, 'pass', '包含 Cache-Control 元标签');
+                    } else {
+                        addTestResult('cacheTests', `${page} - Cache-Control`, 'fail', '缺少 Cache-Control 元标签');
+                    }
+                    
+                    if (hasPragma) {
+                        addTestResult('cacheTests', `${page} - Pragma`, 'pass', '包含 Pragma 元标签');
+                    } else {
+                        addTestResult('cacheTests', `${page} - Pragma`, 'warning', '缺少 Pragma 元标签');
+                    }
+                    
+                    if (hasExpires) {
+                        addTestResult('cacheTests', `${page} - Expires`, 'pass', '包含 Expires 元标签');
+                    } else {
+                        addTestResult('cacheTests', `${page} - Expires`, 'warning', '缺少 Expires 元标签');
+                    }
+                }
+            }
+        }
+        
+        async function runInteractionTests() {
+            for (const page of corePages) {
+                const result = await fetchPage(page);
+                if (result.ok) {
+                    const hasButtons = result.text.includes('button') || result.text.includes('.btn');
+                    const hasForms = result.text.includes('<form');
+                    const hasHoverEffects = result.text.includes(':hover');
+                    const hasTransitions = result.text.includes('transition');
+                    
+                    if (hasButtons) {
+                        addTestResult('interactionTests', `${page} - 按钮组件`, 'pass', '包含按钮组件');
+                    } else {
+                        addTestResult('interactionTests', `${page} - 按钮组件`, 'warning', '未找到按钮组件');
+                    }
+                    
+                    if (hasHoverEffects) {
+                        addTestResult('interactionTests', `${page} - 悬停效果`, 'pass', '包含悬停交互效果');
+                    } else {
+                        addTestResult('interactionTests', `${page} - 悬停效果`, 'warning', '缺少悬停交互效果');
+                    }
+                    
+                    if (hasTransitions) {
+                        addTestResult('interactionTests', `${page} - 过渡动画`, 'pass', '包含过渡动画效果');
+                    } else {
+                        addTestResult('interactionTests', `${page} - 过渡动画`, 'warning', '缺少过渡动画效果');
+                    }
+                }
+            }
+        }
+        
+        async function runAllTests() {
+            document.getElementById('testTimestamp').textContent = new Date().toLocaleString('zh-CN');
+            
+            await runPageStructureTests();
+            await runDesignSystemTests();
+            await runNavigationTests();
+            await runResponsiveTests();
+            await runSeoTests();
+            await runPerformanceTests();
+            await runCacheTests();
+            await runInteractionTests();
+        }
+        
+        runAllTests();
+    </script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Import.meta.url Image Demo - ValuHub</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        color: #4f46e5;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #374151;
+        margin-top: 30px;
+      }
+      h3 {
+        color: #4b5563;
+        margin-top: 20px;
+      }
+      pre {
+        background-color: #f3f4f6;
+        padding: 16px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        border: 1px solid #e5e7eb;
+      }
+      code {
+        font-family: 'Courier New', monospace;
+        background-color: #f3f4f6;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+      .example-container {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background-color: #f9fafb;
+      }
+      .demo-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 20px 0;
+      }
+      .note {
+        background-color: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 12px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+      .steps {
+        background-color: #ecfdf5;
+        border: 1px solid #d1fae5;
+        border-radius: 6px;
+        padding: 16px;
+        margin: 20px 0;
+      }
+      .steps ol {
+        margin-top: 10px;
+      }
+      .steps li {
+        margin-bottom: 8px;
+      }
+      .comparison {
+        display: flex;
+        gap: 20px;
+        margin: 20px 0;
+      }
+      .comparison div {
+        flex: 1;
+        padding: 16px;
+        border-radius: 6px;
+      }
+      .old-way {
+        background-color: #fee2e2;
+        border: 1px solid #dc2626;
+      }
+      .new-way {
+        background-color: #d1fae5;
+        border: 1px solid #059669;
+      }
+      .comparison h3 {
+        margin-top: 0;
+      }
+      .code-example {
+        margin: 20px 0;
+      }
+      .code-example h3 {
+        margin-bottom: 10px;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <h1>Import.meta.url 图像导入演示</h1>
+
+    <div class="note">
+      <strong>注意：</strong> 本演示展示了如何使用
+      <code>import.meta.url</code>
+      来获取图像资源的URL并设置为DOM元素的src，这是现代JavaScript模块中的推荐做法。
+    </div>
+
+    <h2>基本语法</h2>
+
+    <div class="code-example">
+      <h3>使用 import.meta.url 获取图像URL</h3>
+      <pre>
+// 获取相对于当前模块的图像URL
+const imgUrl = new URL('./img.png', import.meta.url).href;
+
+// 设置DOM元素的src
+const heroImg = document.getElementById('hero-img');
+heroImg.src = imgUrl;</pre
+      >
+    </div>
+
+    <h2>实现步骤</h2>
+
+    <div class="steps">
+      <ol>
+        <li>
+          <strong>使用 URL 构造函数</strong>
+          <ul>
+            <li>第一个参数是图像的相对路径</li>
+            <li>第二个参数是当前模块的URL（<code>import.meta.url</code>）</li>
+          </ul>
+        </li>
+        <li>
+          <strong>获取 href 属性</strong>
+          <ul>
+            <li>URL 对象的 href 属性包含完整的URL字符串</li>
+          </ul>
+        </li>
+        <li>
+          <strong>设置到DOM元素</strong>
+          <ul>
+            <li>使用标准DOM API将URL设置为元素的src属性</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <h2>优势对比</h2>
+
+    <div class="comparison">
+      <div class="old-way">
+        <h3>传统方法</h3>
+        <pre>
+// 传统方法（不推荐）
+const imgUrl = './img.png';
+// 可能在构建后或不同环境中失败</pre
+        >
+        <ul>
+          <li>依赖于当前执行上下文的相对路径</li>
+          <li>在模块系统中可能不正确解析</li>
+          <li>构建工具可能无法正确处理</li>
+          <li>在不同环境中可能有不同行为</li>
+        </ul>
+      </div>
+
+      <div class="new-way">
+        <h3>使用 import.meta.url</h3>
+        <pre>
+// 推荐方法
+const imgUrl = new URL('./img.png', import.meta.url).href;
+// 在任何环境中都能正确解析</pre
+        >
+        <ul>
+          <li>基于模块文件位置的绝对解析</li>
+          <li>在所有现代模块系统中一致工作</li>
+          <li>与构建工具（如Vite）完全兼容</li>
+          <li>支持动态导入和异步模块</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>实际应用示例</h2>
+
+    <div class="example-container">
+      <h3>JavaScript 模块示例</h3>
+      <pre>
+// imageLoader.js - 作为ES模块
+
+// 使用import.meta.url加载图像
+export function loadImage(relativePath, elementId) {
+  // 解析相对于当前模块的图像路径
+  const imgUrl = new URL(relativePath, import.meta.url).href;
+  
+  // 获取DOM元素并设置src
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.src = imgUrl;
+    return true;
+  }
+  return false;
+}
+
+// 动态加载多个图像
+export async function loadImages(imageConfigs) {
+  const results = [];
+  
+  for (const { path, id } of imageConfigs) {
+    try {
+      const imgUrl = new URL(path, import.meta.url).href;
+      const element = document.getElementById(id);
+      
+      if (element) {
+        element.src = imgUrl;
+        results.push({ id, success: true });
+      } else {
+        results.push({ id, success: false, error: 'Element not found' });
+      }
+    } catch (error) {
+      results.push({ id, success: false, error: error.message });
+    }
+  }
+  
+  return results;
+}</pre
+      >
+    </div>
+
+    <h2>在Vite项目中使用</h2>
+
+    <div class="code-example">
+      <h3>Vite项目中的React组件示例</h3>
+      <pre>
+// ImageComponent.jsx
+import React, { useEffect, useRef } from 'react';
+
+function ImageComponent({ src, alt, className }) {
+  const imgRef = useRef(null);
+  
+  useEffect(() => {
+    if (imgRef.current && src) {
+      // 使用import.meta.url获取图像URL
+      const imgUrl = new URL(src, import.meta.url).href;
+      imgRef.current.src = imgUrl;
+    }
+  }, [src]);
+  
+  return (
+    &lt;img
+      ref={imgRef}
+      alt={alt || ''}
+      className={className}
+      loading="lazy"
+    /&gt;
+  );
+}
+
+export default ImageComponent;</pre
+      >
+    </div>
+
+    <div class="code-example">
+      <h3>在普通JavaScript中使用</h3>
+      <pre>
+// 直接在HTML中使用的JavaScript模块
+// 注意：需要在script标签上添加 type="module"
+
+// 获取相对于当前模块的图像URL
+const imgUrl = new URL('./img.png', import.meta.url).href;
+
+// 查找DOM元素并设置src
+const heroImg = document.getElementById('hero-img');
+if (heroImg) {
+  heroImg.src = imgUrl;
+  
+  // 可以添加加载事件处理
+  heroImg.onload = function() {
+    console.log('图像加载成功');
+    heroImg.classList.add('loaded');
+  };
+  
+  heroImg.onerror = function() {
+    console.error('图像加载失败');
+    heroImg.src = new URL('./fallback.png', import.meta.url).href;
+  };
+}</pre
+      >
+    </div>
+
+    <h2>兼容性和最佳实践</h2>
+
+    <div class="note">
+      <strong>浏览器兼容性：</strong>
+      <ul>
+        <li>所有现代浏览器都支持 <code>import.meta.url</code></li>
+        <li>不支持IE11及以下版本</li>
+        <li>对于旧浏览器，建议使用构建工具进行转译</li>
+      </ul>
+    </div>
+
+    <div class="steps">
+      <h3>最佳实践</h3>
+      <ol>
+        <li><strong>始终使用相对路径</strong> - 相对于当前模块文件的位置</li>
+        <li><strong>处理错误情况</strong> - 添加图像加载失败的回退机制</li>
+        <li><strong>考虑性能</strong> - 对大型图像使用懒加载和适当的格式</li>
+        <li>
+          <strong>结合构建工具</strong> - Vite、Webpack等会自动优化URL解析
+        </li>
+        <li>
+          <strong>使用TypeScript</strong> - 可以提供更好的类型检查和自动完成
+        </li>
+      </ol>
+    </div>
+
+    <h2>演示图像</h2>
+    <p>以下是使用上述方法加载的示例图像（在实际环境中显示）：</p>
+
+    <div class="example-container">
+      <img id="demo-img" class="demo-image" alt="演示图像" />
+      <p id="img-status">图像正在加载...</p>
+    </div>
+
+    <script type="module">
+      // 这个脚本展示了如何在浏览器中实际使用import.meta.url
+      // 注意：在本地开发环境中，这需要通过HTTP服务器运行
+
+      try {
+        // 在这个演示中，我们使用占位图URL代替实际的本地图像
+        // 在实际项目中，您应该使用真实的相对路径
+
+        // 由于这是演示页面，我们使用占位图服务
+        // const imgUrl = new URL('./img.png', import.meta.url).href;
+        const imgUrl =
+          'https://via.placeholder.com/600x400?text=Import.meta.url+Example';
+
+        const imgElement = document.getElementById('demo-img');
+        const statusElement = document.getElementById('img-status');
+
+        if (imgElement && statusElement) {
+          imgElement.src = imgUrl;
+
+          imgElement.onload = function () {
+            statusElement.textContent = '图像加载成功！';
+            statusElement.style.color = '#059669';
+          };
+
+          imgElement.onerror = function () {
+            statusElement.textContent = '图像加载失败，请检查路径是否正确。';
+            statusElement.style.color = '#dc2626';
+          };
+        }
+      } catch (error) {
+        console.error('发生错误:', error);
+      }
+    </script>
+  </body>
+</html>

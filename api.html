@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ValuHubValuHub - API服务</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --error-color: #f5222d;
+            --light-color: #f5f7fa;
+            --dark-color: #1e293b;
+            --gray-color: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--gray-color);
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active a {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.hot {
+            color: var(--error-color);
+        }
+        
+        .nav-item.hot span {
+            background-color: var(--error-color);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+            overflow-x: auto;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: var(--gray-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: var(--primary-color);
+            background-color: #f0f4ff;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 60px 0;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .content-section:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        /* 卡片标题 */
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 场景卡片网格 */
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        /* 场景卡片 */
+        .scenario-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-color);
+        }
+        
+        .scenario-card .scenario-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .scenario-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .scenario-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 流程图容器 */
+        .flowchart-container {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            margin: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flowchart {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        
+        .flow-step {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            min-width: 150px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-color);
+        }
+        
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .flow-step.active {
+            border: 2px solid var(--primary-color);
+            background-color: #f0f4ff;
+        }
+        
+        /* 沙盘容器 */
+        .sandbox-container {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+            position: relative;
+        }
+        
+        #sandbox-canvas {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--border-radius);
+            cursor: grab;
+        }
+        
+        #sandbox-canvas:active {
+            cursor: grabbing;
+        }
+        
+        /* API卡片 */
+        .api-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .api-card:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .api-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .api-method {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .api-method.get {
+            background-color: var(--success-color);
+        }
+        
+        .api-method.post {
+            background-color: var(--primary-color);
+        }
+        
+        .api-method.put {
+            background-color: var(--warning-color);
+        }
+        
+        .api-method.delete {
+            background-color: var(--error-color);
+        }
+        
+        .api-url {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        .api-description {
+            color: var(--gray-color);
+            margin-bottom: 16px;
+        }
+        
+        /* AI助手容器 */
+        .ai-assistant-container {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .ai-chat {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .chat-message {
+            margin-bottom: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+        
+        .chat-message.bot {
+            justify-content: flex-start;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            line-height: 1.6;
+        }
+        
+        .chat-message.user .message-content {
+            background: var(--gradient-primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-message.bot .message-content {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .ai-input-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .ai-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 25px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .ai-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* API集市 */
+        .api-market {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .api-categories {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .api-category {
+            padding: 10px 20px;
+            background-color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .api-category:hover,
+        .api-category.active {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .api-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        /* 实验室容器 */
+        .lab-container {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .lab-canvas {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            height: 500px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* 返回首页按钮 */
+        .back-home {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 24px;
+            }
+            
+            .scenarios-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flowchart {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .flow-step::after {
+                content: '↓';
+                right: 50%;
+                bottom: -30px;
+                top: auto;
+                transform: translateX(50%);
+            }
+            
+            .api-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 代码块样式 */
+        .code-block {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #f8fafc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                    <span>Hot</span>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html" class="active">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="smart-nav.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <a href="visual-index.html" class="back-home">返回首页</a>
+            
+            <div class="page-title">
+                <h1 id="pageTitle">API服务</h1>
+                <p id="pageDescription">场景化API体验，AI驱动的开发助手，让API调用更智能、更高效</p>
+            </div>
+            
+            <!-- 业务场景入口 -->
+            <div class="content-section">
+                <h2 class="card-title">业务场景</h2>
+                <p>按房地产业务场景划分API入口，每个场景搭配可视化的业务流程图，点击流程节点直接展示对应的API接口。</p>
+                
+                <div class="scenarios-grid">
+                    <div class="scenario-card" onclick="showScenario('new-house')">
+                        <span class="scenario-icon">🏠</span>
+                        <h3>新房开盘</h3>
+                        <p>涵盖新房项目立项、规划、开盘、销售全流程API，支持项目信息查询、销售数据统计等功能。</p>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="showScenario('second-hand')">
+                        <span class="scenario-icon">🔄</span>
+                        <h3>二手房交易</h3>
+                        <p>提供二手房房源查询、估价、交易流程管理等API，支持实时数据更新和智能匹配。</p>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="showScenario('price-trend')">
+                        <span class="scenario-icon">📈</span>
+                        <h3>房价走势分析</h3>
+                        <p>基于大数据的房价走势预测API，支持多维度分析和可视化展示，辅助投资决策。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 场景详情 -->
+            <div class="content-section" id="scenario-detail" style="display: none;">
+                <h2 class="card-title" id="scenario-title">场景详情</h2>
+                
+                <!-- 业务流程图 -->
+                <div class="flowchart-container">
+                    <h3>业务流程图</h3>
+                    <div class="flowchart" id="flowchart"></div>
+                </div>
+                
+                <!-- API列表 -->
+                <div id="api-list"></div>
+            </div>
+            
+            <!-- 交互式沙盘 -->
+            <div class="content-section">
+                <h2 class="card-title">交互式沙盘</h2>
+                <p>用轻量3D模型展示房地产数据流转链路，API接口作为链路中的"数据节点"，悬浮可看接口说明，点击可进入调试。</p>
+                
+                <div class="sandbox-container">
+                    <canvas id="sandbox-canvas"></canvas>
+                </div>
+            </div>
+            
+            <!-- AI智能API助手 -->
+            <div class="content-section">
+                <h2 class="card-title">AI智能API助手</h2>
+                <p>集成AI对话助手，用户用自然语言描述需求，AI自动匹配对应的API接口、生成调用代码，甚至直接生成低代码组件。</p>
+                
+                <div class="ai-assistant-container">
+                    <div class="ai-chat" id="ai-chat">
+                        <div class="chat-message bot">
+                            <div class="message-content">
+                                您好！我是ValuHubAPI助手，请问有什么可以帮您的？
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ai-input-container">
+                        <input type="text" class="ai-input" id="ai-input" placeholder="请输入您的需求，例如：我要获取上海浦东的新房价格数据" />
+                        <button class="btn btn-primary" onclick="sendMessage()">发送</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- API能力集市 -->
+            <div class="content-section">
+                <h2 class="card-title">API能力集市</h2>
+                <p>把API做成"能力集市"，按数据能力（查询、分析、预测）分类，用户可自由组合多个API，在"实验室"模块中可视化配置数据联动规则，实时看到组合后的数据分析结果。</p>
+                
+                <div class="api-market">
+                    <div class="api-categories">
+                        <div class="api-category active" onclick="filterAPIs('all')">全部</div>
+                        <div class="api-category" onclick="filterAPIs('query')">查询</div>
+                        <div class="api-category" onclick="filterAPIs('analysis')">分析</div>
+                        <div class="api-category" onclick="filterAPIs('prediction')">预测</div>
+                    </div>
+                    
+                    <div class="api-list" id="api-list-market">
+                        <!-- API卡片将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 数据联动实验室 -->
+            <div class="content-section">
+                <h2 class="card-title">数据联动实验室</h2>
+                <p>在实验室中可视化配置数据联动规则，将多个API连接起来，实时看到组合后的数据分析结果。</p>
+                
+                <div class="lab-container">
+                    <div class="lab-canvas" id="lab-canvas">
+                        <!-- 拖拽式API组合画布 -->
+                        <div style="text-align: center; margin-top: 200px; color: var(--gray-color);">
+                            <p>拖拽左侧API到画布中进行组合</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="runLabExperiment()">运行实验</button>
+                        <button class="btn btn-secondary" onclick="saveExperiment()">保存实验</button>
+                        <button class="btn btn-secondary" onclick="shareExperiment()">分享实验</button>
+                        <button class="btn btn-secondary" onclick="clearLabCanvas()">清空画布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>产品服务</h3>
+                    <ul>
+                        <li><a href="#">AI估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">案例库</a></li>
+                        <li><a href="#">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="smart-nav.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li>电话：16680508457</li>
+                        <li>微信：svip6763</li>
+                        <li>邮箱：contact@fangsuanyun.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 业务场景数据
+        const scenarios = {
+            'new-house': {
+                title: '新房开盘',
+                flow: ['项目立项', '规划设计', '开盘准备', '销售管理', '数据分析'],
+                apis: [
+                    {
+                        method: 'POST',
+                        url: '/api/v1/new-house/project',
+                        description: '创建新房项目',
+                        category: 'query'
+                    },
+                    {
+                        method: 'GET',
+                        url: '/api/v1/new-house/sales',
+                        description: '获取新房销售数据',
+                        category: 'analysis'
+                    },
+                    {
+                        method: 'GET',
+                        url: '/api/v1/new-house/inventory',
+                        description: '获取新房库存数据',
+                        category: 'query'
+                    }
+                ]
+            },
+            'second-hand': {
+                title: '二手房交易',
+                flow: ['房源录入', 'AI估价', '挂牌销售', '交易管理', '过户完成'],
+                apis: [
+                    {
+                        method: 'POST',
+                        url: '/api/v1/second-hand/house',
+                        description: '录入二手房源',
+                        category: 'query'
+                    },
+                    {
+                        method: 'POST',
+                        url: '/api/v1/valuation',
+                        description: 'AI估价',
+                        category: 'analysis'
+                    },
+                    {
+                        method: 'GET',
+                        url: '/api/v1/second-hand/deal',
+                        description: '获取二手房成交数据',
+                        category: 'query'
+                    }
+                ]
+            },
+            'price-trend': {
+                title: '房价走势分析',
+                flow: ['数据采集', '清洗处理', '模型训练', '走势预测', '可视化展示'],
+                apis: [
+                    {
+                        method: 'GET',
+                        url: '/api/v1/market/trend',
+                        description: '获取房价走势数据',
+                        category: 'analysis'
+                    },
+                    {
+                        method: 'GET',
+                        url: '/api/v1/market/prediction',
+                        description: '房价走势预测',
+                        category: 'prediction'
+                    },
+                    {
+                        method: 'GET',
+                        url: '/api/v1/market/comparison',
+                        description: '区域房价对比',
+                        category: 'analysis'
+                    }
+                ]
+            }
+        };
+        
+        // API市场数据
+        const apiMarketData = [
+            {
+                id: 1,
+                name: 'AI估价API',
+                description: '基于大数据和机器学习算法，提供精准的房地产估价服务',
+                category: 'analysis',
+                icon: '📊'
+            },
+            {
+                id: 2,
+                name: '市场走势API',
+                description: '提供详细的市场走势分析、供需关系等核心指标',
+                category: 'analysis',
+                icon: '📈'
+            },
+            {
+                id: 3,
+                name: '房源查询API',
+                description: '提供新房和二手房房源查询服务',
+                category: 'query',
+                icon: '🏠'
+            },
+            {
+                id: 4,
+                name: '房价预测API',
+                description: '基于历史数据预测未来房价走势',
+                category: 'prediction',
+                icon: '🔮'
+            },
+            {
+                id: 5,
+                name: '案例库API',
+                description: '百万真实房地产案例，涵盖不同地区、不同物业类型',
+                category: 'query',
+                icon: '📚'
+            },
+            {
+                id: 6,
+                name: '交易数据API',
+                description: '提供房地产交易数据查询和分析服务',
+                category: 'analysis',
+                icon: '💹'
+            }
+        ];
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置页面标题
+            document.getElementById('pageTitle').textContent = 'API服务';
+            document.getElementById('pageDescription').textContent = '场景化API体验，AI驱动的开发助手，让API调用更智能、更高效';
+            
+            // 初始化API市场
+            renderAPIMarket();
+            
+            // 初始化3D沙盘
+            initSandbox();
+        });
+        
+        // 显示场景详情
+        function showScenario(scenarioId) {
+            const scenario = scenarios[scenarioId];
+            if (!scenario) return;
+            
+            const detailSection = document.getElementById('scenario-detail');
+            const scenarioTitle = document.getElementById('scenario-title');
+            const flowchart = document.getElementById('flowchart');
+            const apiList = document.getElementById('api-list');
+            
+            // 设置场景标题
+            scenarioTitle.textContent = scenario.title;
+            
+            // 渲染流程图
+            flowchart.innerHTML = '';
+            scenario.flow.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = 'flow-step';
+                stepDiv.textContent = step;
+                stepDiv.onclick = () => highlightStep(step, scenario.apis);
+                flowchart.appendChild(stepDiv);
+            });
+            
+            // 渲染API列表
+            renderAPIs(scenario.apis, apiList);
+            
+            // 显示场景详情
+            detailSection.style.display = 'block';
+            detailSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 高亮流程图步骤
+        function highlightStep(step, apis) {
+            // 移除所有活跃状态
+            document.querySelectorAll('.flow-step').forEach(div => {
+                div.classList.remove('active');
+            });
+            
+            // 添加当前步骤活跃状态
+            event.target.classList.add('active');
+            
+            // 可以根据步骤显示对应的API
+            console.log('高亮步骤:', step, '对应的API:', apis);
+        }
+        
+        // 渲染API列表
+        function renderAPIs(apis, container) {
+            container.innerHTML = '';
+            apis.forEach(api => {
+                const apiCard = document.createElement('div');
+                apiCard.className = 'api-card';
+                apiCard.innerHTML = `
+                    <div class="api-header">
+                        <span class="api-method ${api.method.toLowerCase()}">${api.method}</span>
+                        <span class="api-url">${api.url}</span>
+                    </div>
+                    <div class="api-description">${api.description}</div>
+                    <button class="btn btn-secondary" onclick="testAPI('${api.url}')" style="margin-top: 12px;">测试API</button>
+                `;
+                container.appendChild(apiCard);
+            });
+        }
+        
+        // 测试API
+        function testAPI(url) {
+            alert(`正在测试API: ${url}`);
+            // 这里可以添加实际的API测试逻辑
+        }
+        
+        // 初始化3D沙盘
+        function initSandbox() {
+            const canvas = document.getElementById('sandbox-canvas');
+            
+            // 创建场景
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f4ff);
+            
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // 创建渲染器
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            
+            // 添加光源
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // 创建API节点
+            const apiNodes = [
+                { name: '房源API', position: { x: -2, y: 1, z: 0 }, color: 0x667eea },
+                { name: '估价API', position: { x: 0, y: 1, z: 0 }, color: 0x52c41a },
+                { name: '市场API', position: { x: 2, y: 1, z: 0 }, color: 0xfaad14 },
+                { name: '预测API', position: { x: 0, y: -1, z: 0 }, color: 0xf5222d }
+            ];
+            
+            apiNodes.forEach(node => {
+                // 创建球体
+                const geometry = new THREE.SphereGeometry(0.3, 32, 32);
+                const material = new THREE.MeshStandardMaterial({ color: node.color });
+                const sphere = new THREE.Mesh(geometry, material);
+                sphere.position.set(node.position.x, node.position.y, node.position.z);
+                scene.add(sphere);
+                
+                // 创建标签
+                const canvas2d = document.createElement('canvas');
+                canvas2d.width = 128;
+                canvas2d.height = 32;
+                const context = canvas2d.getContext('2d');
+                context.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                context.fillRect(0, 0, canvas2d.width, canvas2d.height);
+                context.fillStyle = '#000000';
+                context.font = '14px Arial';
+                context.textAlign = 'center';
+                context.fillText(node.name, canvas2d.width / 2, 20);
+                
+                const texture = new THREE.CanvasTexture(canvas2d);
+                const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+                const sprite = new THREE.Sprite(spriteMaterial);
+                sprite.position.set(node.position.x, node.position.y + 0.5, node.position.z);
+                sprite.scale.set(1, 0.25, 1);
+                scene.add(sprite);
+            });
+            
+            // 创建连接线
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-2, 1, 0),
+                new THREE.Vector3(0, 1, 0),
+                new THREE.Vector3(2, 1, 0),
+                new THREE.Vector3(0, -1, 0),
+                new THREE.Vector3(-2, 1, 0)
+            ]);
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0x667eea, linewidth: 2 });
+            const line = new THREE.Line(lineGeometry, lineMaterial);
+            scene.add(line);
+            
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // 旋转球体
+                scene.children.forEach(child => {
+                    if (child.type === 'Mesh' && child.geometry.type === 'SphereGeometry') {
+                        child.rotation.y += 0.01;
+                    }
+                });
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+        }
+        
+        // 渲染API市场
+        function renderAPIMarket() {
+            const container = document.getElementById('api-list-market');
+            container.innerHTML = '';
+            
+            apiMarketData.forEach(api => {
+                const apiCard = document.createElement('div');
+                apiCard.className = 'feature-card';
+                apiCard.innerHTML = `
+                    <span class="feature-icon">${api.icon}</span>
+                    <h3>${api.name}</h3>
+                    <p>${api.description}</p>
+                    <button class="btn" onclick="addAPIToLab(${api.id})">添加到实验室</button>
+                `;
+                container.appendChild(apiCard);
+            });
+        }
+        
+        // 过滤API
+        function filterAPIs(category) {
+            // 更新分类按钮状态
+            document.querySelectorAll('.api-category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 过滤并渲染API
+            const filteredAPIs = category === 'all' ? apiMarketData : apiMarketData.filter(api => api.category === category);
+            const container = document.getElementById('api-list-market');
+            container.innerHTML = '';
+            
+            filteredAPIs.forEach(api => {
+                const apiCard = document.createElement('div');
+                apiCard.className = 'feature-card';
+                apiCard.innerHTML = `
+                    <span class="feature-icon">${api.icon}</span>
+                    <h3>${api.name}</h3>
+                    <p>${api.description}</p>
+                    <button class="btn" onclick="addAPIToLab(${api.id})">添加到实验室</button>
+                `;
+                container.appendChild(apiCard);
+            });
+        }
+        
+        // AI助手消息发送
+        function sendMessage() {
+            const input = document.getElementById('ai-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const chatContainer = document.getElementById('ai-chat');
+            
+            // 添加用户消息
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user';
+            userMessage.innerHTML = `
+                <div class="message-content">${message}</div>
+            `;
+            chatContainer.appendChild(userMessage);
+            
+            // 清空输入框
+            input.value = '';
+            
+            // 添加机器人消息
+            const botMessage = document.createElement('div');
+            botMessage.className = 'chat-message bot';
+            botMessage.innerHTML = `
+                <div class="message-content">
+                    <div class="loading"></div>
+                </div>
+            `;
+            chatContainer.appendChild(botMessage);
+            
+            // 滚动到底部
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // 模拟AI回复
+            setTimeout(() => {
+                botMessage.innerHTML = `
+                    <div class="message-content">
+                        感谢您的提问！根据您的需求，我为您推荐以下API：<br><br>
+                        <strong>房源查询API</strong><br>
+                        - 接口地址：/api/v1/house/search<br>
+                        - 方法：GET<br>
+                        - 功能：根据条件查询房源信息<br><br>
+                        <strong>AI估价API</strong><br>
+                        - 接口地址：/api/v1/valuation<br>
+                        - 方法：POST<br>
+                        - 功能：获取房产AI估价<br><br>
+                        您可以在左侧API市场中找到这些API，或者在实验室中进行组合使用。
+                    </div>
+                `;
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1500);
+        }
+        
+        // 添加API到实验室
+        function addAPIToLab(apiId) {
+            alert(`API ${apiId} 已添加到实验室`);
+            // 这里可以实现拖拽功能
+        }
+        
+        // 运行实验室实验
+        function runLabExperiment() {
+            alert('实验已运行，正在生成结果...');
+        }
+        
+        // 保存实验
+        function saveExperiment() {
+            alert('实验已保存');
+        }
+        
+        // 分享实验
+        function shareExperiment() {
+            alert('分享链接已生成：https://example.com/experiment/123');
+        }
+        
+        // 清空实验室画布
+        function clearLabCanvas() {
+            alert('画布已清空');
+        }
+    </script>
+</body>
+</html>

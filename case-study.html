@@ -1,0 +1,2496 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功案例 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css">
+    <!-- 引入扩展样式 -->
+    <link rel="stylesheet" href="extend.css">
+    <!-- 页面特定样式 -->
+    <style>
+        /* 案例展示页面样式 */
+        .case-study {
+            padding: 40px 0;
+        }
+        
+        .case-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .case-header h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #1D2129;
+        }
+        
+        .case-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 案例分类 */
+        .case-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+        
+        .category-btn {
+            padding: 10px 25px;
+            background: #F8F9FA;
+            border: 1px solid #E5E7EB;
+            border-radius: 25px;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover {
+            background: #E8F0FE;
+            border-color: #007AFF;
+            color: #007AFF;
+        }
+        
+        .category-btn.active {
+            background: #007AFF;
+            border-color: #007AFF;
+            color: white;
+        }
+        
+        /* 案例列表 */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .case-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .case-image {
+            height: 220px;
+            background: #E5E7EB;
+            overflow: hidden;
+        }
+        
+        .case-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .case-card:hover .case-image img {
+            transform: scale(1.1);
+        }
+        
+        .case-info {
+            padding: 25px;
+        }
+        
+        .case-tag {
+            display: inline-block;
+            background: #E8F0FE;
+            color: #007AFF;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .case-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #1D2129;
+            font-weight: 600;
+        }
+        
+        .case-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            height: 72px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            line-clamp: 3;
+        }
+        
+        .case-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #007AFF;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .case-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-details {
+            color: #007AFF;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+        }
+        
+        .view-details:hover {
+            color: #0056CC;
+        }
+        
+        .view-details i {
+            margin-left: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .view-details:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* 精选案例展示 */
+        .featured-case {
+            background: #F8F9FA;
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+        }
+        
+        .featured-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .featured-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .featured-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s;
+        }
+        
+        .featured-case:hover .featured-image img {
+            transform: scale(1.03);
+        }
+        
+        .featured-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .featured-tag {
+            display: inline-block;
+            background: #007AFF;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .featured-info h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #1D2129;
+            font-weight: 700;
+        }
+        
+        .featured-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .featured-results {
+            margin-bottom: 30px;
+        }
+        
+        .result-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #007AFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .result-content h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .result-content p {
+            color: #666;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .featured-actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .case-btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .case-btn.primary {
+            background: #007AFF;
+            color: white;
+            border: 1px solid #007AFF;
+        }
+        
+        .case-btn.primary:hover {
+            background: #0056CC;
+            border-color: #0056CC;
+            transform: translateY(-2px);
+        }
+        
+        .case-btn.secondary {
+            background: white;
+            color: #007AFF;
+            border: 1px solid #007AFF;
+        }
+        
+        .case-btn.secondary:hover {
+            background: #E8F0FE;
+            transform: translateY(-2px);
+        }
+        
+        /* 客户评价 */
+        .testimonials {
+            background: white;
+            border-radius: 12px;
+            padding: 50px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .testimonials h3 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 40px;
+            color: #1D2129;
+        }
+        
+        .testimonial-slider {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-items {
+            overflow: hidden;
+        }
+        
+        .testimonial-slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 30px;
+        }
+        
+        .testimonial-item {
+            flex: 0 0 100%;
+            padding: 30px;
+            background: #F8F9FA;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .testimonial-content {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .testimonial-content:before {
+            content: '"';
+            font-size: 80px;
+            color: rgba(0,122,255,0.1);
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            font-weight: bold;
+        }
+        
+        .testimonial-text {
+            color: #666;
+            line-height: 1.8;
+            font-size: 16px;
+            padding-top: 20px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #E5E7EB;
+            margin-right: 20px;
+            overflow: hidden;
+        }
+        
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .author-info p {
+            color: #999;
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .testimonial-rating {
+            color: #F59E0B;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-rating i {
+            margin-right: 2px;
+        }
+        
+        .testimonial-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .testimonial-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #E5E7EB;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .testimonial-control.active {
+            background: #007AFF;
+        }
+        
+        .testimonial-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .testimonial-arrow:hover {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .testimonial-arrow.prev {
+            left: -20px;
+        }
+        
+        .testimonial-arrow.next {
+            right: -20px;
+        }
+        
+        /* 合作咨询 */
+        .consult-section {
+            background: linear-gradient(135deg, #007AFF, #0056CC);
+            color: white;
+            border-radius: 12px;
+            padding: 60px;
+            text-align: center;
+        }
+        
+        .consult-section h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .consult-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
+        .consult-btn {
+            background: white;
+            color: #007AFF;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .consult-btn:hover {
+            background: #F8F9FA;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .featured-content {
+                flex-direction: column;
+            }
+            
+            .featured-image,
+            .featured-info {
+                min-width: 100%;
+            }
+            
+            .testimonial-arrow {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .case-header h2 {
+                font-size: 28px;
+            }
+            
+            .case-header p {
+                font-size: 16px;
+            }
+            
+            .case-categories {
+                gap: 10px;
+            }
+            
+            .category-btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+            
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-case,
+            .testimonials {
+                padding: 30px 20px;
+            }
+            
+            .featured-info h3 {
+                font-size: 24px;
+            }
+            
+            .consult-section {
+                padding: 40px 20px;
+            }
+            
+            .consult-section h3 {
+                font-size: 24px;
+            }
+            
+            .consult-section p {
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .case-info {
+                padding: 20px;
+            }
+            
+            .case-image {
+                height: 180px;
+            }
+            
+            .featured-actions {
+                flex-direction: column;
+            }
+            
+            .case-btn {
+                width: 100%;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+        <!-- 统一导航栏CSS -->
+    <style>
+        /* 导航栏基础样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 65px;
+        }
+        
+        /* Logo样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+        
+        .logo-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #1a73e8, #f9a825);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-menu > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .nav-menu > a:hover,
+        .nav-menu > a.active {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        /* 下拉菜单 */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .dropdown-toggle:hover {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 180px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 登录按钮 */
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+        }
+        
+        /* 移动端菜单按钮 */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 65px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            max-height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-menu li {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+        
+        /* 页面内容间距 */
+        body {
+            margin-top: 65px;
+        }
+    </style>
+    
+        <!-- 统一导航栏CSS -->
+    <style>
+        /* 导航栏基础样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 65px;
+        }
+        
+        /* Logo样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+        
+        .logo-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #1a73e8, #f9a825);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-menu > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .nav-menu > a:hover,
+        .nav-menu > a.active {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        /* 下拉菜单 */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .dropdown-toggle:hover {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 180px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 登录按钮 */
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+        }
+        
+        /* 移动端菜单按钮 */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 65px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            max-height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-menu li {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+        
+        /* 页面内容间距 */
+        body {
+            margin-top: 65px;
+        }
+    </style>
+    
+        <!-- 统一导航栏CSS -->
+    <style>
+        /* 导航栏基础样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 65px;
+        }
+        
+        /* Logo样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+        
+        .logo-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #1a73e8, #f9a825);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-menu > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .nav-menu > a:hover,
+        .nav-menu > a.active {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        /* 下拉菜单 */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .dropdown-toggle:hover {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 180px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 登录按钮 */
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+        }
+        
+        /* 移动端菜单按钮 */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 65px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            max-height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-menu li {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+        
+        /* 页面内容间距 */
+        body {
+            margin-top: 65px;
+        }
+    </style>
+    
+        <!-- 统一导航栏CSS -->
+    <style>
+        /* 导航栏基础样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 65px;
+        }
+        
+        /* Logo样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-1px);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+        
+        .logo-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #1a73e8, #f9a825);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-menu > a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .nav-menu > a:hover,
+        .nav-menu > a.active {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        /* 下拉菜单 */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .dropdown-toggle:hover {
+            color: #1a73e8;
+            background: rgba(26, 115, 232, 0.1);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 0;
+            min-width: 180px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 10px 16px;
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 登录按钮 */
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+        }
+        
+        /* 移动端菜单按钮 */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 65px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            max-height: calc(100vh - 65px);
+            overflow-y: auto;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .mobile-menu li {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .mobile-menu a {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            background: rgba(26, 115, 232, 0.1);
+            color: #1a73e8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+        }
+        
+        /* 页面内容间距 */
+        body {
+            margin-top: 65px;
+        }
+    </style>
+    
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <img src="src/assets/images/logo.svg" alt="系统Logo" width="32" height="32" style="object-fit: contain;">
+                </div>
+                <span class="logo-text">数智估价核心引擎</span>
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="">首页</a>
+                <!-- 产品服务下拉菜单 -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">产品服务 <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="valuation-engine.html" class="">估价引擎</a>
+                        <a href="advanced-search.html" class="">高级搜索</a>
+                        <a href="product-services.html" class="">产品服务</a>
+                    </div>
+                </div>
+                <!-- 用户中心 -->
+                <a href="user-center.html" class="">用户中心</a>
+                <!-- 数据分析下拉菜单 -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">数据分析 <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="market-analysis.html" class="">市场分析</a>
+                        <a href="comparison-tool.html" class="">比较工具</a>
+                        <a href="data-visualization.html" class="">数据可视化</a>
+                        <a href="case-study.html" class="">客户案例</a>
+                    </div>
+                </div>
+                <!-- 评估预览下拉菜单 -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">评估预览 <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+                        <a href="revenue-evaluation-preview.html" class="">收益评估预览</a>
+                    </div>
+                </div>
+                <!-- 关于我们下拉菜单 -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">关于我们 <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="tech-frame.html" class="">技术框架</a>
+                        <a href="api-docs.html" class="">API文档</a>
+                        <a href="team-intro.html" class="">团队介绍</a>
+                        <a href="about-us.html" class="">关于我们</a>
+                    </div>
+                </div>
+                <!-- 登录按钮 -->
+                <button class="btn btn-primary" id="loginBtn">登录</button>
+            </div>
+            <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+    
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html" class="">首页</a></li>
+            <li><a href="valuation-engine.html">估价引擎</a></li>
+            <li><a href="advanced-search.html">高级搜索</a></li>
+            <li><a href="user-center.html">用户中心</a></li>
+            <li><a href="market-analysis.html">市场分析</a></li>
+            <li><a href="comparison-tool.html">比较工具</a></li>
+            <li><a href="data-visualization.html">数据可视化</a></li>
+            <li><a href="case-study.html">客户案例</a></li>
+            <li><a href="product-services.html">产品服务</a></li>
+            <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+            <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+            <li><a href="tech-frame.html">技术框架</a></li>
+            <li><a href="api-docs.html">API文档</a></li>
+            <li><a href="team-intro.html">团队介绍</a></li>
+            <li><a href="about-us.html">关于我们</a></li>
+            <li><a href="contact.html">联系方式</a></li>
+            <li><a href="help-center.html">帮助中心</a></li>
+        </ul>
+    </div>
+    
+    <!-- 导航栏JavaScript -->
+    <script>
+        // 移动端菜单切换
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // 点击外部关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+    </script>
+    
+    <!-- 导航栏JavaScript -->
+    <script>
+        // 移动端菜单切换
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // 点击外部关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+    </script>
+    
+    <!-- 导航栏JavaScript -->
+    <script>
+        // 移动端菜单切换
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // 点击外部关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+    </script>
+    
+    <!-- 导航栏JavaScript -->
+    <script>
+        // 移动端菜单切换
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // 点击外部关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- 2. 封面区 -->
+    <section class="hero">
+        <div class="container">
+            <h1><span>成功案例</span></h1>
+            <p>探索我们如何为客户提供精准、高效的房产估价解决方案，助力业务增长</p>
+            <div style="margin-top: 20px;">
+                <a href="index.html" class="btn btn-outline" style="display: inline-flex; align-items: center;">
+                    <i class="fas fa-home" style="margin-right: 8px;"></i>返回首页
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 3. 案例展示主要内容 -->
+    <div class="container case-study">
+        <!-- 案例分类 -->
+        <div class="case-categories">
+            <button class="category-btn active" data-category="all">全部案例</button>
+            <button class="category-btn" data-category="real-estate">房地产开发商</button>
+            <button class="category-btn" data-category="bank">银行金融机构</button>
+            <button class="category-btn" data-category="insurance">保险公司</button>
+            <button class="category-btn" data-category="government">政府机构</button>
+            <button class="category-btn" data-category="enterprise">企业客户</button>
+        </div>
+        
+        <!-- 精选案例展示 -->
+        <div class="featured-case">
+            <div class="featured-content">
+                <div class="featured-image">
+                    <img src="https://picsum.photos/800/600?random=1" alt="大型房地产集团智能估价平台建设">
+                </div>
+                <div class="featured-info">
+                    <span class="featured-tag">精选案例</span>
+                    <h3>大型房地产集团智能估价平台建设</h3>
+                    <p class="featured-description">为国内某TOP10房地产集团构建智能化房产估价平台，覆盖全国100+城市的房产数据采集、分析和估价服务，实现自动化估价流程，大幅提升效率和准确性。</p>
+                    
+                    <div class="featured-results">
+                        <div class="result-item">
+                            <div class="result-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="result-content">
+                                <h4>估价效率提升85%</h4>
+                                <p>从传统手动估价平均2天缩短至2小时内完成，大幅提升业务处理能力</p>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-icon">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <div class="result-content">
+                                <h4>准确率达到95%以上</h4>
+                                <p>通过AI算法优化，估价结果与实际成交价平均偏差控制在5%以内</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-actions">
+                        <a href="#" class="case-btn primary">查看详情</a>
+                        <a href="#" class="case-btn secondary">下载案例报告</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 案例列表 -->
+        <div class="case-grid">
+            <!-- 案例1 -->
+            <div class="case-card" data-category="bank">
+                <div class="case-image">
+                    <img src="https://picsum.photos/600/400?random=2" alt="国有银行抵押估价系统">
+                </div>
+                <div class="case-info">
+                    <span class="case-tag">银行金融</span>
+                    <h3 class="case-title">国有银行抵押估价系统升级</h3>
+                    <p class="case-description">为某国有银行开发智能抵押估价系统，实现房地产抵押贷款全流程自动化评估，提高风险控制能力，支持日均1000+笔评估业务。</p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">93%</div>
+                            <div class="stat-label">用户满意度</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">75%</div>
+                            <div class="stat-label">成本节约</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">准确率</div>
+                        </div>
+                    </div>
+                    <div class="case-action">
+                        <a href="#" class="view-details">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例2 -->
+            <div class="case-card" data-category="insurance">
+                <div class="case-image">
+                    <img src="https://picsum.photos/600/400?random=3" alt="保险公司资产估值平台">
+                </div>
+                <div class="case-info">
+                    <span class="case-tag">保险行业</span>
+                    <h3 class="case-title">保险公司资产估值平台构建</h3>
+                    <p class="case-description">为国内领先的财产保险公司打造不动产资产估值平台，实现保险标的快速精准估值，支持理赔、承保等核心业务场景，年处理业务量超过10万笔。</p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">10万+</div>
+                            <div class="stat-label">年处理量</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">82%</div>
+                            <div class="stat-label">效率提升</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">94%</div>
+                            <div class="stat-label">准确率</div>
+                        </div>
+                    </div>
+                    <div class="case-action">
+                        <a href="#" class="view-details">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例3 -->
+            <div class="case-card" data-category="government">
+                <div class="case-image">
+                    <img src="https://picsum.photos/600/400?random=4" alt="城市更新项目评估系统">
+                </div>
+                <div class="case-info">
+                    <span class="case-tag">政府项目</span>
+                    <h3 class="case-title">城市更新项目评估系统</h3>
+                    <p class="case-description">为某一线城市规划局开发城市更新项目评估系统，实现旧城区改造项目快速评估，辅助政府决策，已应用于30+城市更新项目的前期规划工作。</p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">30+</div>
+                            <div class="stat-label">项目应用</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">68%</div>
+                            <div class="stat-label">时间缩短</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">决策支持</div>
+                        </div>
+                    </div>
+                    <div class="case-action">
+                        <a href="#" class="view-details">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例4 -->
+            <div class="case-card" data-category="enterprise">
+                <div class="case-image">
+                    <img src="https://picsum.photos/600/400?random=5" alt="企业总部资产价值评估">
+                </div>
+                <div class="case-info">
+                    <span class="case-tag">企业服务</span>
+                    <h3 class="case-title">企业总部资产价值评估平台</h3>
+                    <p class="case-description">为国内某大型集团企业构建总部及分支机构不动产价值评估平台，实现全国范围内企业自有房产的定期评估、资产报表生成等功能，支持财务决策。</p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">分支机构</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">90%</div>
+                            <div class="stat-label">自动化率</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">合规性</div>
+                        </div>
+                    </div>
+                    <div class="case-action">
+                        <a href="#" class="view-details">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例5 -->
+            <div class="case-card" data-category="real-estate">
+                <div class="case-image">
+                    <img src="https://picsum.photos/600/400?random=6" alt="开发商营销定价系统">
+                </div>
+                <div class="case-info">
+                    <span class="case-tag">房地产开发</span>
+                    <h3 class="case-title">开发商营销定价智能系统</h3>
+                    <p class="case-description">为全国连锁房企开发营销定价智能系统，基于市场大数据分析，提供开盘定价、尾盘促销等智能定价决策支持，帮助提升销售速度和利润率。</p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">100+</div>
+                            <div class="stat-label">项目覆盖</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">25%</div>
+                            <div class="stat-label">销售加速</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">96%</div>
+                            <div class="stat-label">满意度</div>
+                        </div>
+                    </div>
+                    <div class="case-action">
+                        <a href="#" class="view-details">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例6 -->
+            <div class="case-card" data-category="bank">
+                <div class="case-image">
+                    <img src="https://picsum.photos/600/400?random=7" alt="商业银行批量评估系统">
+                </div>
+                <div class="case-info">
+                    <span class="case-tag">银行金融</span>
+                    <h3 class="case-title">商业银行批量评估系统</h3>
+                    <p class="case-description">为某股份制商业银行开发贷款抵押房产批量评估系统，支持批量数据导入、自动评估、报告生成等功能，显著提升不良资产处置效率。</p>
+                    <div class="case-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">5000+</div>
+                            <div class="stat-label">日处理量</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">90%</div>
+                            <div class="stat-label">效率提升</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">94%</div>
+                            <div class="stat-label">准确率</div>
+                        </div>
+                    </div>
+                    <div class="case-action">
+                        <a href="#" class="view-details">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 客户评价 -->
+        <div class="testimonials">
+            <h3>客户评价</h3>
+            <div class="testimonial-slider">
+                <div class="testimonial-items">
+                    <div class="testimonial-slide">
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"数智估价核心引擎为我们银行提供了高效准确的抵押估价解决方案，大大提升了我们的工作效率和风险控制能力。系统的智能化程度和数据准确性超出了我们的预期，是值得信赖的合作伙伴。"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://picsum.photos/100/100?random=10" alt="客户头像">
+                                </div>
+                                <div class="author-info">
+                                    <h4>张总监</h4>
+                                    <p>某国有银行信贷部</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"作为一家大型房地产开发企业，我们需要快速准确的市场定价支持。数智估价系统帮助我们实时把握市场动态，优化定价策略，不仅提升了销售速度，也保障了合理利润空间。"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://picsum.photos/100/100?random=11" alt="客户头像">
+                                </div>
+                                <div class="author-info">
+                                    <h4>李总</h4>
+                                    <p>某房地产集团营销总监</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <div class="testimonial-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p class="testimonial-text">"我们在城市更新项目中应用了数智估价系统，系统提供的数据分析和价值评估对政府决策起到了重要支持作用。数据准确、分析深入，大大提高了我们的工作效率和决策质量。"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">
+                                    <img src="https://picsum.photos/100/100?random=12" alt="客户头像">
+                                </div>
+                                <div class="author-info">
+                                    <h4>王主任</h4>
+                                    <p>某城市规划局</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-controls">
+                    <div class="testimonial-control active" data-index="0"></div>
+                    <div class="testimonial-control" data-index="1"></div>
+                    <div class="testimonial-control" data-index="2"></div>
+                </div>
+                
+                <div class="testimonial-arrow prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="testimonial-arrow next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 合作咨询 -->
+        <div class="consult-section">
+            <h3>想要了解更多成功案例？</h3>
+            <p>我们有丰富的行业经验和专业的解决方案，欢迎咨询定制适合您业务的估价系统</p>
+            <a href="contact.html" class="consult-btn">立即咨询</a>
+        </div>
+    </div>
+    
+    <!-- 4. 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-col">
+                <h3>关于我们</h3>
+                <a href="about-us.html">公司简介</a>
+                <a href="team-intro.html">团队介绍</a>
+                <a href="#">企业文化</a>
+                <a href="#">发展历程</a>
+            </div>
+            <div class="footer-col">
+                <h3>产品服务</h3>
+                <a href="index.html">首页</a>
+                <a href="product-services.html">核心产品</a>
+                <a href="core-function.html">功能介绍</a>
+                <a href="case-study.html">成功案例</a>
+                <a href="#">解决方案</a>
+            </div>
+            <div class="footer-col">
+                <h3>资源中心</h3>
+                <a href="industry-news.html">行业动态</a>
+                <a href="help-center.html">帮助中心</a>
+                <a href="#">技术文档</a>
+                <a href="#">白皮书</a>
+            </div>
+            <div class="footer-col">
+                <h3>联系我们</h3>
+                <a href="#"><i class="fas fa-phone-alt"></i> 400-123-4567</a>
+                <a href="#"><i class="fas fa-envelope"></i> contact@example.com</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> 北京市海淀区科技园区</a>
+            </div>
+        </div>
+        <div class="support-companies">
+            <span>合作伙伴：腾讯云、阿里云、百度AI、华为云</span>
+        </div>
+        <div class="copyright">
+            <p>© 2024 数智估价核心引擎. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 引入共享JavaScript -->
+    <script type="module" src="js/shared.js"></script>
+    <!-- 页面特定JavaScript -->
+    <script>
+        // 页面特定的初始化函数
+        function pageInit() {
+            // 初始化案例分类筛选
+            initCaseFilter();
+            
+            // 初始化案例详情点击
+            initCaseDetails();
+            
+            // 初始化客户评价轮播
+            initTestimonialSlider();
+            
+            // 记录页面访问
+            if (typeof logUserOperation === 'function') {
+                logUserOperation('成功案例', '页面访问');
+            }
+        }
+        
+        // 初始化案例分类筛选
+        function initCaseFilter() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const caseCards = document.querySelectorAll('.case-card');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 移除所有活跃状态
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // 添加当前活跃状态
+                    btn.classList.add('active');
+                    
+                    const category = btn.dataset.category;
+                    
+                    // 筛选案例
+                    caseCards.forEach(card => {
+                        if (category === 'all' || card.dataset.category === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // 记录用户操作
+                    if (typeof logUserOperation === 'function') {
+                        logUserOperation('成功案例', `筛选分类: ${btn.textContent}`);
+                    }
+                });
+            });
+        }
+        
+        // 初始化案例详情点击
+        function initCaseDetails() {
+            const viewDetailsLinks = document.querySelectorAll('.view-details');
+            
+            viewDetailsLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    const caseTitle = link.closest('.case-info').querySelector('.case-title').textContent;
+                    
+                    // 记录用户操作
+                    if (typeof logUserOperation === 'function') {
+                        logUserOperation('成功案例', `查看详情: ${caseTitle}`);
+                    }
+                    
+                    // 模拟查看详情操作
+                    showLoading(true);
+                    setTimeout(() => {
+                        showLoading(false);
+                        showMessage(`正在加载案例详情: ${caseTitle}`, 'success');
+                        // 在实际项目中，这里可以跳转到案例详情页面
+                    }, 1000);
+                });
+            });
+        }
+        
+        // 初始化客户评价轮播
+        function initTestimonialSlider() {
+            const slides = document.querySelector('.testimonial-slide');
+            const controls = document.querySelectorAll('.testimonial-control');
+            const prevBtn = document.querySelector('.testimonial-arrow.prev');
+            const nextBtn = document.querySelector('.testimonial-arrow.next');
+            let currentIndex = 0;
+            const totalSlides = controls.length;
+            
+            // 设置控制按钮点击事件
+            controls.forEach((control, index) => {
+                control.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+            });
+            
+            // 设置箭头按钮点击事件
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                goToSlide(currentIndex);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                goToSlide(currentIndex);
+            });
+            
+            // 跳转到指定幻灯片
+            function goToSlide(index) {
+                currentIndex = index;
+                
+                // 更新控制按钮状态
+                controls.forEach((control, i) => {
+                    if (i === index) {
+                        control.classList.add('active');
+                    } else {
+                        control.classList.remove('active');
+                    }
+                });
+                
+                // 移动幻灯片
+                slides.style.transform = `translateX(-${index * 100}%)`;
+                
+                // 记录用户操作
+                if (typeof logUserOperation === 'function') {
+                    logUserOperation('成功案例', `查看客户评价第${index + 1}页`);
+                }
+            }
+            
+            // 自动轮播
+            let autoPlayInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                goToSlide(currentIndex);
+            }, 5000);
+            
+            // 鼠标悬停时暂停自动轮播
+            const slider = document.querySelector('.testimonial-slider');
+            slider.addEventListener('mouseenter', () => {
+                clearInterval(autoPlayInterval);
+            });
+            
+            // 鼠标离开时恢复自动轮播
+            slider.addEventListener('mouseleave', () => {
+                autoPlayInterval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                    goToSlide(currentIndex);
+                }, 5000);
+            });
+        }
+        
+        // 等待DOM加载完成后执行初始化
+        document.addEventListener('DOMContentLoaded', pageInit);
+    </script>
+</body>
+</html>

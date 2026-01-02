@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>学院中心 - ValuHub</title>
+    <meta name="description" content="ValuHub学院中心，提供房产估价教程、API文档、教学案例包、学术资源等，赋能开发者和院校师生。">
+    <meta name="keywords" content="房产估价教程,API文档,教学案例,学术资源,ValuHub,学院中心">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ValuHub">
+    <meta name="copyright" content="© 2025 ValuHub">
+    <meta property="og:title" content="学院中心 - ValuHub">
+    <meta property="og:description" content="ValuHub学院中心，提供房产估价教程、API文档、教学案例包、学术资源等，赋能开发者和院校师生。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.valuhub.com/academy.html">
+    <meta property="og:site_name" content="ValuHub">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="学院中心 - ValuHub">
+    <meta name="twitter:description" content="ValuHub学院中心，提供房产估价教程、API文档、教学案例包、学术资源等，赋能开发者和院校师生。">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "学院中心 - ValuHub",
+      "url": "https://www.valuhub.com/academy.html",
+      "description": "ValuHub学院中心，提供房产估价教程、API文档、教学案例包、学术资源等，赋能开发者和院校师生。",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ValuHub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.valuhub.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- 引入教育端未来实验室风格样式 -->
+    <link rel="preload" href="css/design-tokens.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/education.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="css/design-tokens.css">
+        <link rel="stylesheet" href="css/education.css">
+    </noscript>
+    
+    <!-- 页面特定样式 -->
+    <style>
+        /* 强制禁用缓存 */
+        * {
+            cache-control: no-cache;
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            gap: var(--spacing-2) !important;
+            flex-direction: row !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+        
+        .navbar-brand img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+        }
+        
+        .navbar-brand span,
+        .navbar-brand a {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-16) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+            overflow: hidden;
+            box-shadow: var(--shadow-ecosystem-glow);
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: ecosystemMove 20s linear infinite;
+        }
+        
+        @keyframes ecosystemMove {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(50px, 50px) rotate(360deg);
+            }
+        }
+        
+        /* 教程卡片样式 */
+        .tutorial-card {
+            transition: var(--transition-ecosystem);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .tutorial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        .tutorial-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            color: var(--color-text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+        
+        /* 资源分类样式 */
+        .resource-category {
+            transition: var(--transition-ecosystem);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .resource-category:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-ecosystem-hover);
+            background-color: var(--color-white);
+        }
+        
+        /* 教学案例样式 */
+        .case-item {
+            transition: var(--transition-ecosystem);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .case-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        /* FAQ样式优化 */
+        .faq-item {
+            background-color: var(--color-white);
+            border: var(--border-ecosystem);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-ecosystem);
+        }
+        
+        .faq-question:hover {
+            background-color: var(--color-bg-light);
+        }
+        
+        /* 开发者社区卡片样式 */
+        .developer-community .card {
+            box-shadow: var(--shadow-ecosystem-glow);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .hero {
+                padding: var(--spacing-12) 0;
+            }
+            
+            .resource-categories,
+            .popular-tutorials,
+            .teaching-cases,
+            .faq {
+                padding: var(--spacing-12) 0;
+            }
+        }
+    </style>
+</head>
+<body class="edu-terminal">
+    <!-- 导航栏 -->
+    <header class="navbar navbar-fixed">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ai-valuation.html" class="nav-link">AI估价</a>
+                    <a href="market-trend.html" class="nav-link">市场趋势</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="valuation-history.html" class="nav-link">估价历史</a>
+                    <a href="report-generation.html" class="nav-link">报告生成</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- Hero区域 -->
+        <section class="hero edu-glass-card">
+            <div class="edu-container">
+                <h1 class="edu-title edu-light-text">学院中心</h1>
+                <p class="edu-subtitle">提供房产估价教程、API文档、教学案例包、学术资源等，赋能开发者和院校师生</p>
+            </div>
+        </section>
+        
+        <!-- 学术工坊核心功能 -->
+        <section class="resource-categories">
+            <div class="edu-container">
+                <h2 class="edu-section-title">学术工坊核心功能</h2>
+                <p class="edu-subtitle">为院校师生提供全方位的教学与实训支持</p>
+                
+                <div class="edu-portfolio-grid mt-12">
+                    <!-- 功能模块1：案例库系统 -->
+                    <a href="cases.html" class="edu-portfolio-item">
+                        <div class="w-20 h-20 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-3xl mb-6">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="edu-portfolio-title">案例库系统</h3>
+                        <p class="text-text-secondary mt-4">包含海量房产估价案例，支持按类型、难度和目标受众筛选</p>
+                        <div class="mt-6">
+                            <span class="edu-tag edu-tag-primary">住宅、写字楼、商铺等6种类型</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 功能模块2：实训项目管理 -->
+                    <a href="training-projects.html" class="edu-portfolio-item">
+                        <div class="w-20 h-20 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-3xl mb-6">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3 class="edu-portfolio-title">实训项目管理</h3>
+                        <p class="text-text-secondary mt-4">支持创建、分配和跟踪实训项目，实现师生协同管理</p>
+                        <div class="mt-6">
+                            <span class="edu-tag edu-tag-secondary">项目创建、学生分配、进度跟踪</span>
+                        </div>
+                    </a>
+                    
+                    <!-- 功能模块3：自动评分系统 -->
+                    <a href="auto-scoring.html" class="edu-portfolio-item">
+                        <div class="w-20 h-20 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-3xl mb-6">
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <h3 class="edu-portfolio-title">自动评分系统</h3>
+                        <p class="text-text-secondary mt-4">基于规则的自动评分，支持人工复核，提高评分效率</p>
+                        <div class="mt-6">
+                            <span class="edu-tag edu-tag-accent">自动评分、人工复核、评分统计</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 热门教程 -->
+        <section class="popular-tutorials">
+            <div class="edu-container">
+                <div class="d-flex justify-content-between align-items-center mb-8">
+                    <h2 class="edu-section-title">热门教程</h2>
+                    <a href="tutorials.html" class="text-primary font-medium">查看全部</a>
+                </div>
+                
+                <div class="edu-portfolio-grid">
+                    <!-- 教程1 -->
+                    <div class="edu-dark-card tutorial-card">
+                        <h3 class="edu-portfolio-title">房产估价基础教程</h3>
+                        <p class="card-body">了解房产估价的基本概念、方法和流程，适合初学者入门。</p>
+                        <div class="tutorial-meta mt-4">
+                            <span><i class="far fa-clock"></i> 2小时</span>
+                            <span><i class="far fa-eye"></i> 12,345</span>
+                            <span><i class="far fa-star"></i> 4.8</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 教程2 -->
+                    <div class="edu-dark-card tutorial-card">
+                        <h3 class="edu-portfolio-title">AI估价模型原理与实践</h3>
+                        <p class="card-body">深入学习AI技术在房产估价中的应用，包括机器学习算法和实践案例。</p>
+                        <div class="tutorial-meta mt-4">
+                            <span><i class="far fa-clock"></i> 4小时</span>
+                            <span><i class="far fa-eye"></i> 8,765</span>
+                            <span><i class="far fa-star"></i> 4.9</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 教程3 -->
+                    <div class="edu-dark-card tutorial-card">
+                        <h3 class="edu-portfolio-title">ValuHub API开发实战</h3>
+                        <p class="card-body">学习如何使用ValuHub API开发房产估价应用，包括认证、调用和数据处理。</p>
+                        <div class="tutorial-meta mt-4">
+                            <span><i class="far fa-clock"></i> 3小时</span>
+                            <span><i class="far fa-eye"></i> 6,543</span>
+                            <span><i class="far fa-star"></i> 4.7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 教学案例 -->
+        <section class="teaching-cases">
+            <div class="edu-container">
+                <div class="d-flex justify-content-between align-items-center mb-8">
+                    <h2 class="edu-section-title">教学案例</h2>
+                    <a href="teaching-cases.html" class="text-primary font-medium">查看全部</a>
+                </div>
+                
+                <div class="edu-portfolio-grid">
+                    <!-- 案例1 -->
+                    <div class="edu-dark-card case-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">城市房价趋势分析</h3>
+                                <p class="text-text-secondary mt-2">基于ValuHub数据，分析某城市房价趋势和影响因素。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例2 -->
+                    <div class="edu-dark-card case-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">区域价值评估</h3>
+                                <p class="text-text-secondary mt-2">使用ValuHub API评估不同区域的房产价值差异。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例3 -->
+                    <div class="edu-dark-card case-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">房产投资决策模型</h3>
+                                <p class="text-text-secondary mt-2">基于ValuHub数据构建房产投资决策模型。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例4 -->
+                    <div class="edu-dark-card case-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">AI估价模型比较</h3>
+                                <p class="text-text-secondary mt-2">比较不同AI模型在房产估价中的表现。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 开发者社区 -->
+        <section class="developer-community">
+            <div class="edu-container">
+                <div class="edu-glass-card p-8 text-center">
+                    <h2 class="edu-title edu-light-text text-2xl font-bold mb-4">加入开发者社区</h2>
+                    <p class="mb-6">与全球开发者和院校师生交流，共同学习和成长</p>
+                    <div class="edu-btn-group gap-4 justify-center flex-wrap">
+                        <a href="community.html" class="edu-neon-btn">进入社区</a>
+                        <a href="api-docs.html" class="edu-neon-btn edu-neon-btn-secondary">查看API文档</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 常见问题 -->
+        <section class="faq">
+            <div class="edu-container">
+                <h2 class="edu-section-title">常见问题</h2>
+                <p class="section-subtitle">解答学员和开发者关心的常见问题</p>
+                
+                <div class="max-w-4xl mx-auto mt-12">
+                    <!-- FAQ 1 -->
+                    <div class="edu-dark-card faq-item mb-4 border rounded-lg overflow-hidden">
+                        <div class="faq-question p-4 bg-bg-light d-flex justify-content-between items-center cursor-pointer">
+                            <span>如何注册成为学院会员？</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer p-4 bg-white hidden">
+                            <p class="text-text-secondary">您可以通过点击页面右上角的"免费注册"按钮，填写相关信息即可成为学院会员，享受免费的学习资源和社区服务。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="edu-dark-card faq-item mb-4 border rounded-lg overflow-hidden">
+                        <div class="faq-question p-4 bg-bg-light d-flex justify-content-between items-center cursor-pointer">
+                            <span>教程是否免费？</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer p-4 bg-white hidden">
+                            <p class="text-text-secondary">我们提供免费和付费两种教程。基础教程和部分高级教程是免费的，专业课程和认证课程需要付费购买。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="edu-dark-card faq-item mb-4 border rounded-lg overflow-hidden">
+                        <div class="faq-question p-4 bg-bg-light d-flex justify-content-between items-center cursor-pointer">
+                            <span>如何获取API密钥？</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer p-4 bg-white hidden">
+                            <p class="text-text-secondary">注册成为开发者后，您可以在控制台中创建应用并获取API密钥。免费用户有一定的API调用额度，付费用户可以获得更多额度和高级功能。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="edu-dark-card faq-item mb-4 border rounded-lg overflow-hidden">
+                        <div class="faq-question p-4 bg-bg-light d-flex justify-content-between items-center cursor-pointer">
+                            <span>是否提供教学案例包下载？</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer p-4 bg-white hidden">
+                            <p class="text-text-secondary">是的，我们为院校师生提供免费的教学案例包下载，包括PPT、数据集、代码示例等，帮助教师开展教学活动。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid grid-lg">
+                <div class="grid-item grid-lg-3">
+                    <div class="footer-logo">
+                        <a href="index.html" class="navbar-brand">
+                            <img src="图片1.png" alt="ValuHub Logo">
+                            ValuHub
+                        </a>
+                        <p class="mt-4 text-sm text-text-secondary">
+                            房产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">产品与服务</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">房产估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">数据报告</a></li>
+                        <li><a href="#">API服务</a></li>
+                        <li><a href="solutions.html">解决方案</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">解决方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">大众端</a></li>
+                        <li><a href="#">政务端</a></li>
+                        <li><a href="#">企业端</a></li>
+                        <li><a href="#">院校端</a></li>
+                        <li><a href="#">资管通</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="ecosystem.html">合作伙伴</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-3">
+                    <h4 class="footer-title">联系我们</h4>
+                    <ul class="footer-links contact-links">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市朝阳区XX大厦XX层</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@valuhub.com</span>
+                        </li>
+                    </ul>
+                    <div class="social-links mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom mt-8 pt-6 border-top">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="text-sm text-text-secondary">
+                        © 2025 ValuHub. 保留所有权利。
+                    </p>
+                    <div class="footer-bottom-links mt-3 mt-md-0">
+                        <a href="privacy-policy.html" class="text-sm text-text-secondary mr-4">隐私政策</a>
+                        <a href="terms-of-service.html" class="text-sm text-text-secondary">服务条款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 引入JavaScript - 异步加载 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+    
+    <!-- FAQ交互脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ折叠功能
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    // 切换当前FAQ的状态
+                    this.classList.toggle('bg-primary');
+                    this.classList.toggle('text-white');
+                    answer.classList.toggle('hidden');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

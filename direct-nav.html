@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>直接嵌入导航栏测试 - ValuHub</title>
+    <style>
+      :root {
+        --color-primary: #007aff;
+        --color-secondary: #0056b3;
+        --color-border: #e1e5e9;
+        --color-text: #1d2129;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 直接嵌入导航栏 -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo" data-path="home">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+              onerror="
+                this.onerror = null;
+                this.src = 'https://via.placeholder.com/32x32?text=Logo';
+                this.style.backgroundColor = '#f0f0f0';
+              "
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+
+        <!-- 移动端菜单切换按钮 -->
+        <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="nav-menu" id="navMenu">
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a
+              href="product/core.html"
+              class="dropdown-toggle"
+              data-path="product"
+              >产品服务</a
+            >
+            <div class="dropdown-menu">
+              <a href="product/core.html" data-path="product">核心引擎</a>
+              <a href="product/function.html" data-path="product">功能介绍</a>
+              <a href="product/case.html" data-path="product">成功案例</a>
+              <a href="api-docs.html" data-path="product">API接口</a>
+            </div>
+          </div>
+          <!-- 解决方案下拉菜单 -->
+          <div class="dropdown">
+            <a
+              href="solution/index.html"
+              class="dropdown-toggle"
+              data-path="solution"
+              >解决方案</a
+            >
+            <div class="dropdown-menu">
+              <a href="solution/index.html" data-path="solution">二手房估价</a>
+              <a href="solution/index.html" data-path="solution"
+                >金融机构评估</a
+              >
+              <a href="solution/index.html" data-path="solution"
+                >政府土地估值</a
+              >
+            </div>
+          </div>
+          <!-- 资源中心下拉菜单 -->
+          <div class="dropdown">
+            <a
+              href="resource/news.html"
+              class="dropdown-toggle"
+              data-path="resource"
+              >资源中心</a
+            >
+            <div class="dropdown-menu">
+              <a href="resource/news.html" data-path="resource">行业动态</a>
+              <a href="resource/help.html" data-path="resource">帮助中心</a>
+              <a href="resource/doc.html" data-path="resource">技术文档</a>
+              <a href="resource/whitepaper.html" data-path="resource">白皮书</a>
+            </div>
+          </div>
+          <!-- 企业服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-path="enterprise"
+              >企业服务</a
+            >
+            <div class="dropdown-menu">
+              <a href="#" data-path="enterprise">企业控制台</a>
+              <a href="#" data-path="enterprise">云市场</a>
+              <a href="#" data-path="enterprise">权限管理</a>
+              <a href="#" data-path="enterprise">数据统计</a>
+            </div>
+          </div>
+          <!-- 开发者中心下拉菜单 -->
+          <div class="dropdown">
+            <a
+              href="api-docs.html"
+              class="dropdown-toggle"
+              data-path="developers"
+              >开发者中心</a
+            >
+            <div class="dropdown-menu">
+              <a href="api-docs.html" data-path="developers">开发文档</a>
+              <a href="#" data-path="developers">SDK下载</a>
+              <a href="#" data-path="developers">调试工具</a>
+              <a href="#" data-path="developers">开发者社区</a>
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a
+              href="about/company.html"
+              class="dropdown-toggle"
+              data-path="about"
+              >关于我们</a
+            >
+            <div class="dropdown-menu">
+              <a href="about/company.html" data-path="about">公司简介</a>
+              <a href="about/team.html" data-path="about">团队介绍</a>
+              <a href="about/culture.html" data-path="about">企业文化</a>
+              <a href="about/history.html" data-path="about">发展历程</a>
+            </div>
+          </div>
+          <!-- 合作与生态 -->
+          <a href="coop/apply.html" data-path="cooperation">合作与生态</a>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 引入导航栏脚本 -->
+    <script src="js/nav.js"></script>
+
+    <!-- 测试内容 -->
+    <div style="padding: 20px">
+      <h1>导航栏测试页面</h1>
+      <p>这是一个测试页面，用于验证导航栏是否正常显示。</p>
+    </div>
+  </body>
+</html>

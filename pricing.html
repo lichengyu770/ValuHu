@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ValuHubValuHub - 房地产AI估价与数智平台</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --error-color: #f5222d;
+            --light-color: #f5f7fa;
+            --dark-color: #1e293b;
+            --gray-color: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--gray-color);
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active a {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.hot {
+            color: var(--error-color);
+        }
+        
+        .nav-item.hot span {
+            background-color: var(--error-color);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+            overflow-x: auto;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: var(--gray-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: var(--primary-color);
+            background-color: #f0f4ff;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 60px 0;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .content-section:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        /* 价格方案样式 */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        
+        .pricing-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 基础版样式 */
+        .pricing-card.basic {
+            border-color: var(--primary-color);
+        }
+        
+        .pricing-card.basic::before {
+            content: '免费版';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success-color);
+            color: white;
+            padding: 4px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* 团队版样式 */
+        .pricing-card.team {
+            border-color: var(--warning-color);
+        }
+        
+        /* 企业版样式 */
+        .pricing-card.enterprise {
+            background-color: var(--dark-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pricing-card.enterprise::before {
+            content: '大型企业定制';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4px 20px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .pricing-card.enterprise h3 {
+            color: white;
+        }
+        
+        /* 价格标签样式 */
+        .price-section {
+            margin-bottom: 32px;
+        }
+        
+        .price-tag {
+            background-color: rgba(102, 126, 234, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pricing-card.enterprise .price-tag {
+            background-color: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .price-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .price-amount {
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+        }
+        
+        .original-price {
+            font-size: 16px;
+            color: var(--gray-color);
+            text-decoration: line-through;
+        }
+        
+        .discount-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--error-color);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .price-period {
+            font-size: 14px;
+            color: var(--gray-color);
+        }
+        
+        .pricing-card.enterprise .price-label,
+        .pricing-card.enterprise .price-period {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 折扣标签 */
+        .discount-badge {
+            background-color: var(--error-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* 功能列表样式 */
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+            flex-grow: 1;
+        }
+        
+        .pricing-features li {
+            padding: 12px 0;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .pricing-card.enterprise .pricing-features li {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .pricing-features li.negative::before {
+            content: '✗';
+            color: var(--light-gray);
+        }
+        
+        .pricing-features li.negative {
+            color: var(--light-gray);
+        }
+        
+        .pricing-card.enterprise .pricing-features li.negative {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* 人数适配提示 */
+        .team-size {
+            background-color: rgba(250, 173, 20, 0.1);
+            color: var(--warning-color);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+            border: 1px solid rgba(250, 173, 20, 0.3);
+        }
+        
+        /* 价格对比器样式 */
+        .price-comparator {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .comparator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .comparator-tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .comparator-tab {
+            padding: 8px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        .comparator-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .comparison-table th {
+            background-color: var(--light-color);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .comparison-table td {
+            white-space: nowrap;
+        }
+        
+        /* 购买弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 5% auto;
+            padding: 32px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close {
+            color: var(--gray-color);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .close:hover {
+            color: var(--dark-color);
+        }
+        
+        .modal-section {
+            margin-bottom: 24px;
+        }
+        
+        .modal-section h3 {
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        
+        .account-info {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .account-info p {
+            margin: 8px 0;
+        }
+        
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+            margin-top: 12px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #5568d3;
+        }
+        
+        .note-template {
+            background-color: #f0f4ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border: 1px solid #d1d5db;
+        }
+        
+        .upload-section {
+            border: 2px dashed var(--light-gray);
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .upload-section:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+        
+        .upload-section input {
+            display: none;
+        }
+        
+        .contact-info {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .qrcode-section {
+            text-align: center;
+            margin: 24px 0;
+        }
+        
+        .qrcode-section img {
+            max-width: 150px;
+            margin: 16px 0;
+        }
+        
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 折扣倒计时样式 */
+        .countdown {
+            background-color: rgba(245, 34, 45, 0.1);
+            color: var(--error-color);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+        
+        .countdown-timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        
+        /* 按钮样式 */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .btn {
+            flex: 1;
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 定制报价按钮 */
+        .custom-quote-btn {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 16px;
+        }
+        
+        .custom-quote-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .pricing-card.enterprise .custom-quote-btn {
+            border-color: white;
+            color: white;
+        }
+        
+        .pricing-card.enterprise .custom-quote-btn:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        /* 功能图标 */
+        .feature-icons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+        
+        .feature-icon {
+            color: var(--primary-color);
+        }
+        
+        .pricing-card.enterprise .feature-icon {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 功能卡片网格 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        /* 功能卡片 */
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-card .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 卡片标题 */
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* 返回首页按钮 */
+        .back-home {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .pricing-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 24px;
+            }
+            
+            .pricing-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                    <span>Hot</span>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="smart-nav.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="container">
+                <a href="visual-index.html" class="back-home">返回首页</a>
+                
+                <div class="page-title">
+                    <h1 id="pageTitle">页面标题</h1>
+                    <p id="pageDescription">页面描述</p>
+                </div>
+                
+                <!-- 价格方案 - 阶梯式价格沙盘 -->
+                <div class="content-section">
+                    <h2 class="card-title">价格方案</h2>
+                    <p style="text-align: center; margin-bottom: 40px;">选择适合您的ValuHub服务方案，满足不同规模和需求的用户</p>
+                    
+                    <div class="pricing-grid">
+                        <!-- 基础版 -->
+                        <div class="pricing-card basic">
+                            <h3>基础版</h3>
+                            
+                            <!-- 折扣倒计时 -->
+                            <div class="countdown">
+                                <div>限时优惠，仅剩</div>
+                                <div class="countdown-timer" id="basic-countdown">23:59:59</div>
+                            </div>
+                            
+                            <!-- 价格标签 -->
+                            <div class="price-section">
+                                <div class="price-tag">
+                                    <div>
+                                        <div class="price-label">月付</div>
+                                        <div class="price-amount">
+                                            <span class="original-price">¥99</span>
+                                            <span class="discount-price">¥9.9</span>
+                                            <span class="price-period">/月</span>
+                                        </div>
+                                    </div>
+                                    <div class="discount-badge">省90%</div>
+                                </div>
+                                
+                                <div class="price-tag">
+                                    <div>
+                                        <div class="price-label">年付</div>
+                                        <div class="price-amount">
+                                            <span class="original-price">¥299</span>
+                                            <span class="discount-price">¥259</span>
+                                            <span class="price-period">/年</span>
+                                        </div>
+                                    </div>
+                                    <div class="discount-badge">省13%</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 功能列表 -->
+                            <ul class="pricing-features">
+                                <li>AI估价次数：100次/月</li>
+                                <li>市场数据查询</li>
+                                <li>案例库访问</li>
+                                <li>基础报告生成</li>
+                                <li>邮件支持</li>
+                                <li class="negative">API访问权限</li>
+                                <li class="negative">团队协作功能</li>
+                                <li class="negative">专属客户经理</li>
+                            </ul>
+                            
+                            <button class="btn btn-primary" onclick="showPurchaseModal('basic')">立即购买</button>
+                        </div>
+                        
+                        <!-- 团队版 -->
+                        <div class="pricing-card team">
+                            <h3>团队版</h3>
+                            
+                            <!-- 功能图标 -->
+                            <div class="feature-icons">
+                                <span class="feature-icon">👥</span>
+                                <span class="feature-icon">📤</span>
+                            </div>
+                            
+                            <!-- 价格标签 -->
+                            <div class="price-section">
+                                <div class="price-tag">
+                                    <div>
+                                        <div class="price-label">月付</div>
+                                        <div class="price-amount">
+                                            <span class="original-price">¥30</span>
+                                            <span class="discount-price">¥25.8</span>
+                                            <span class="price-period">/用户/月</span>
+                                        </div>
+                                    </div>
+                                    <div class="discount-badge">省14%</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 人数适配提示 -->
+                            <div class="team-size">
+                                ✅ 支持10人以内协作
+                            </div>
+                            
+                            <!-- 功能列表 -->
+                            <ul class="pricing-features">
+                                <li>AI估价次数：500次/月/用户</li>
+                                <li>市场数据查询</li>
+                                <li>案例库访问</li>
+                                <li>高级报告生成</li>
+                                <li>API访问权限</li>
+                                <li>团队协作功能</li>
+                                <li>在线客服支持</li>
+                                <li class="negative">专属客户经理</li>
+                            </ul>
+                            
+                            <button class="btn btn-primary" onclick="showPurchaseModal('team')">立即购买</button>
+                        </div>
+                        
+                        <!-- 企业版 -->
+                        <div class="pricing-card enterprise">
+                            <h3>企业版</h3>
+                            
+                            <!-- 价格标签 -->
+                            <div class="price-section">
+                                <div class="price-tag">
+                                    <div>
+                                        <div class="price-label">月付</div>
+                                        <div class="price-amount">
+                                            <span class="original-price">¥300</span>
+                                            <span class="discount-price">¥258</span>
+                                            <span class="price-period">/月</span>
+                                        </div>
+                                    </div>
+                                    <div class="discount-badge">省14%</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 功能列表 -->
+                            <ul class="pricing-features">
+                                <li>AI估价次数：5000次/月</li>
+                                <li>市场数据查询</li>
+                                <li>案例库访问</li>
+                                <li>定制报告生成</li>
+                                <li>API访问权限（无限调用）</li>
+                                <li>团队协作功能（20人）</li>
+                                <li>专属客户经理</li>
+                                <li>7×24小时服务</li>
+                            </ul>
+                            
+                            <button class="btn btn-primary" onclick="showPurchaseModal('enterprise')">立即购买</button>
+                            <button class="custom-quote-btn" onclick="showCustomQuote()">大型企业定制报价</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 价格对比器 -->
+                <div class="price-comparator">
+                    <div class="comparator-header">
+                        <h2 class="card-title" style="margin-bottom: 0;">版本权益对比表</h2>
+                    </div>
+                    
+                    <div class="comparator-tabs">
+                        <div class="comparator-tab active" data-tab="features">功能对比</div>
+                        <div class="comparator-tab" data-tab="data">数据权限</div>
+                        <div class="comparator-tab" data-tab="support">服务支持</div>
+                    </div>
+                    
+                    <div class="comparison-content">
+                        <!-- 功能对比 -->
+                        <div id="features-tab" class="comparison-tab-content active">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>功能</th>
+                                        <th>基础版</th>
+                                        <th>团队版</th>
+                                        <th>企业版</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>AI估价次数</td>
+                                        <td>100次/月</td>
+                                        <td>500次/月/用户</td>
+                                        <td>5000次/月</td>
+                                    </tr>
+                                    <tr>
+                                        <td>市场数据查询</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>案例库访问</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>报告生成</td>
+                                        <td>基础版</td>
+                                        <td>高级版</td>
+                                        <td>定制版</td>
+                                    </tr>
+                                    <tr>
+                                        <td>API访问权限</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓（无限调用）</td>
+                                    </tr>
+                                    <tr>
+                                        <td>团队协作功能</td>
+                                        <td>✗</td>
+                                        <td>✓（10人）</td>
+                                        <td>✓（20人）</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 数据权限 -->
+                        <div id="data-tab" class="comparison-tab-content">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>数据权限</th>
+                                        <th>基础版</th>
+                                        <th>团队版</th>
+                                        <th>企业版</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>实时房价数据</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>历史交易数据</td>
+                                        <td>近1年</td>
+                                        <td>近3年</td>
+                                        <td>近5年</td>
+                                    </tr>
+                                    <tr>
+                                        <td>土地拍卖数据</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>客户画像数据</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>竞品分析数据</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 服务支持 -->
+                        <div id="support-tab" class="comparison-tab-content">
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>服务支持</th>
+                                        <th>基础版</th>
+                                        <th>团队版</th>
+                                        <th>企业版</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>客服支持</td>
+                                        <td>邮件</td>
+                                        <td>在线客服</td>
+                                        <td>专属客户经理</td>
+                                    </tr>
+                                    <tr>
+                                        <td>响应时间</td>
+                                        <td>24小时</td>
+                                        <td>8小时</td>
+                                        <td>1小时</td>
+                                    </tr>
+                                    <tr>
+                                        <td>服务时间</td>
+                                        <td>工作日</td>
+                                        <td>7×12小时</td>
+                                        <td>7×24小时</td>
+                                    </tr>
+                                    <tr>
+                                        <td>定制化服务</td>
+                                        <td>✗</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>数据培训</td>
+                                        <td>✗</td>
+                                        <td>✓</td>
+                                        <td>✓</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 常见问题 -->
+                <div class="content-section">
+                    <h2 class="card-title">常见问题</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                        <div>
+                            <h3 style="font-size: 18px; margin-bottom: 12px;">如何选择适合我的方案？</h3>
+                            <p style="color: var(--gray-color);">根据您的使用频率和团队规模选择合适的方案。如果您是个人用户或小团队，推荐选择基础版或专业版；如果您是大型企业，需要更多的估价次数和定制化服务，推荐选择企业版。</p>
+                        </div>
+                        
+                        <div>
+                            <h3 style="font-size: 18px; margin-bottom: 12px;">可以随时升级或降级方案吗？</h3>
+                            <p style="color: var(--gray-color);">是的，您可以随时在用户中心升级或降级您的方案，升级立即生效，降级将在当前计费周期结束后生效。</p>
+                        </div>
+                        
+                        <div>
+                            <h3 style="font-size: 18px; margin-bottom: 12px;">是否提供免费试用？</h3>
+                            <p style="color: var(--gray-color);">是的，新用户注册后可享受7天免费试用专业版服务，试用期间可体验所有专业版功能。</p>
+                        </div>
+                        
+                        <div>
+                            <h3 style="font-size: 18px; margin-bottom: 12px;">如何支付？</h3>
+                            <p style="color: var(--gray-color);">支持微信支付、支付宝、银行卡等多种支付方式，支付后立即开通服务。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+    <!-- 购买模态框 -->
+    <div id="purchase-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            
+            <!-- 订单信息和对公账户 -->
+            <div id="payment-section">
+                <h2>购买确认</h2>
+                <div class="timer">订单有效期：30分钟</div>
+                
+                <div class="payment-info">
+                    <h3>订单信息</h3>
+                    <p><strong>产品：</strong><span id="product-name">基础版</span></p>
+                    <p><strong>价格：</strong><span id="product-price">¥499/年</span></p>
+                </div>
+                
+                <!-- 对公账户信息 -->
+                <div class="modal-section">
+                    <h3>对公账户信息</h3>
+                    <div class="account-info">
+                        <p><strong>户名：</strong>湘潭市房算云互联网科技有限公司</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <p><strong>账号：</strong><span id="account-number">43050163610800000782</span></p>
+                            <button class="copy-btn" onclick="copyToClipboard('account-number')">复制账号</button>
+                        </div>
+                        <p><strong>开户行：</strong>中国建设银行股份有限公司湘潭市分行</p>
+                    </div>
+                </div>
+                
+                <!-- 备注模板 -->
+                <div class="modal-section">
+                    <h3>备注模板</h3>
+                    <div class="note-template">
+                        <p id="note-template">ValuHub基础版月付-公司名称-202512</p>
+                        <button class="copy-btn" onclick="copyToClipboard('note-template')">复制备注</button>
+                    </div>
+                </div>
+                
+                <!-- 转账凭证上传 -->
+                <div class="modal-section">
+                    <h3>转账凭证上传（可选）</h3>
+                    <div class="upload-section">
+                        <input type="file" id="voucher-upload" accept="image/*">
+                        <label for="voucher-upload" style="cursor: pointer;">
+                            <div>点击或拖拽上传转账凭证</div>
+                            <div style="font-size: 12px; color: var(--gray-color); margin-top: 8px;">支持JPG、PNG格式，文件大小不超过5MB</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; display: flex; gap: 20px;">
+                    <button id="btn-cancel" style="flex: 1; padding: 14px; border: 1px solid var(--light-gray); border-radius: 25px; background-color: white; color: var(--gray-color); font-size: 16px; font-weight: 500; cursor: pointer; transition: var(--transition);">取消</button>
+                    <button id="btn-purchased" style="flex: 1; padding: 14px; background: var(--gradient-primary); color: white; border: none; border-radius: 25px; font-size: 16px; font-weight: 500; cursor: pointer; transition: var(--transition);">我已购买</button>
+                </div>
+            </div>
+            
+            <!-- 联系方式和服务开通申请 -->
+            <div id="contact-section" style="display: none;">
+                <h2>服务开通申请</h2>
+                
+                <!-- 联系方式 -->
+                <div class="modal-section">
+                    <h3>联系方式</h3>
+                    <div class="contact-info">
+                        <p><strong>客服微信：</strong>svip6763</p>
+                        <p><strong>企业微信：</strong>ValuHub-Service</p>
+                        <p><strong>对接电话：</strong>16680508457</p>
+                    </div>
+                </div>
+                
+                <!-- 扫码添加顾问 -->
+                <div class="qrcode-section">
+                    <div>扫码添加专属顾问</div>
+                    <div style="background-color: white; padding: 20px; border-radius: 8px; display: inline-block;">
+                        <svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="150" height="150" fill="white"/>
+                            <rect x="20" y="20" width="110" height="110" fill="none" stroke="black" stroke-width="2"/>
+                            <rect x="35" y="35" width="20" height="20" fill="black"/>
+                            <rect x="95" y="35" width="20" height="20" fill="black"/>
+                            <rect x="35" y="95" width="20" height="20" fill="black"/>
+                            <rect x="95" y="95" width="20" height="20" fill="black"/>
+                            <rect x="50" y="50" width="50" height="50" fill="black" rx="10"/>
+                        </svg>
+                    </div>
+                    <div style="font-size: 12px; color: var(--gray-color);">实时沟通开通进度</div>
+                </div>
+                
+                <!-- 服务开通申请表单 -->
+                <div class="modal-section">
+                    <h3>服务开通申请</h3>
+                    <form id="activation-form">
+                        <div class="form-group">
+                            <label for="company-name">公司名称</label>
+                            <input type="text" id="company-name" placeholder="请输入公司名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="transfer-amount">转账金额</label>
+                            <input type="text" id="transfer-amount" placeholder="请输入转账金额">
+                        </div>
+                        <div class="form-group">
+                            <label for="transfer-time">转账时间</label>
+                            <input type="datetime-local" id="transfer-time">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-person">联系人</label>
+                            <input type="text" id="contact-person" placeholder="请输入联系人姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-phone">联系电话</label>
+                            <input type="tel" id="contact-phone" placeholder="请输入联系电话">
+                        </div>
+                        <div class="form-group">
+                            <label for="remark">备注</label>
+                            <textarea id="remark" rows="3" placeholder="请输入其他需要说明的信息"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">提交申请</button>
+                    </form>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; gap: 20px;">
+                    <button id="btn-back" style="flex: 1; padding: 14px; border: 1px solid var(--light-gray); border-radius: 25px; background-color: white; color: var(--gray-color); font-size: 16px; font-weight: 500; cursor: pointer; transition: var(--transition);">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>产品服务</h3>
+                    <ul>
+                        <li><a href="#">AI估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">案例库</a></li>
+                        <li><a href="#">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="smart-nav.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li>电话：16680508457</li>
+                        <li>微信：svip6763</li>
+                        <li>邮箱：contact@fangsuanyun.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 根据页面文件名设置标题和描述
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageTitle = document.getElementById('pageTitle');
+            const pageDescription = document.getElementById('pageDescription');
+            
+            // 获取当前页面文件名
+            const fileName = window.location.pathname.split('/').pop().replace('.html', '');
+            
+            // 页面配置
+            const pageConfig = {
+                platform: {
+                    title: 'ValuHub平台',
+                    description: '连接政府、行业、学校、企业和大众的房地产数智生态平台'
+                },
+                reports: {
+                    title: '行业报告',
+                    description: '提供最新的房地产行业研究报告和市场分析'
+                },
+                cooperation: {
+                    title: '企业合作',
+                    description: '与企业建立深度合作关系，共同推动房地产行业数字化转型'
+                },
+                cases: {
+                    title: '案例库',
+                    description: '百万真实房地产案例，为您提供参考依据'
+                },
+                pricing: {
+                    title: '服务价格',
+                    description: '自由选择更快、更高效的ValuHub服务方案'
+                },
+                tutorials: {
+                    title: '使用教程',
+                    description: '详细的使用指南，帮助您快速上手ValuHub平台'
+                },
+                template: {
+                    title: '模板社区',
+                    description: '共享优质房地产数据模板，提高工作效率'
+                },
+                files: {
+                    title: '我的文件',
+                    description: '集中管理您的房地产数据文件'
+                },
+                api: {
+                    title: 'API服务',
+                    description: '提供开放的API接口，支持第三方系统集成'
+                },
+                solution: {
+                    title: '解决方案',
+                    description: '为不同行业提供专业的房地产数据解决方案'
+                },
+                enterprise: {
+                    title: '企业服务',
+                    description: '为企业提供专业的房地产数据服务'
+                },
+                download: {
+                    title: '下载',
+                    description: '下载ValuHub相关资源和工具'
+                },
+                school: {
+                    title: '院校端',
+                    description: '为房地产相关院校提供教学和科研支持'
+                },
+                business: {
+                    title: '企业端',
+                    description: '为房地产企业提供数据驱动的决策支持'
+                },
+                association: {
+                    title: '协会端',
+                    description: '为房地产协会提供行业数据统计和分析服务'
+                },
+                government: {
+                    title: '政府端',
+                    description: '为政府部门提供房地产市场监测和调控支持'
+                },
+                public: {
+                    title: '大众端',
+                    description: '为普通用户提供房地产信息查询和估价服务'
+                },
+                payment: {
+                    title: '支付页面',
+                    description: '安全、便捷的支付方式，支持多种支付渠道'
+                },
+                consult: {
+                    title: '预约咨询',
+                    description: '专业团队为您提供一对一的房地产数据解决方案'
+                }
+            };
+            
+            // 设置标题和描述
+            if (pageConfig[fileName]) {
+                pageTitle.textContent = pageConfig[fileName].title;
+                pageDescription.textContent = pageConfig[fileName].description;
+            } else {
+                pageTitle.textContent = '页面标题';
+                pageDescription.textContent = '页面描述';
+            }
+            
+            // 更新当前页面的导航活跃状态
+            const navLinks = document.querySelectorAll('.nav-item a');
+            navLinks.forEach(link => {
+                if (link.href.includes(fileName + '.html') || (fileName === 'visual-index' && link.href.includes('visual-index.html'))) {
+                    link.parentElement.classList.add('active');
+                }
+            });
+            
+            const subNavLinks = document.querySelectorAll('.sub-nav-item a');
+            subNavLinks.forEach(link => {
+                if (link.href.includes(fileName + '.html') || (fileName === 'visual-index' && link.href.includes('visual-index.html'))) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // 复制到剪贴板功能
+            function copyToClipboard(elementId) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    const text = element.textContent;
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('复制成功！');
+                    }).catch(err => {
+                        console.error('复制失败:', err);
+                        alert('复制失败，请手动复制');
+                    });
+                }
+            }
+            
+            // 购买模态框功能
+            const modal = document.getElementById('purchase-modal');
+            const closeBtn = document.querySelector('.close');
+            const purchaseBtns = document.querySelectorAll('.btn-primary, .btn-secondary');
+            const productName = document.getElementById('product-name');
+            const productPrice = document.getElementById('product-price');
+            const noteTemplate = document.getElementById('note-template');
+            const timer = document.querySelector('.timer');
+            
+            // 模态框各部分
+            const paymentSection = document.getElementById('payment-section');
+            const contactSection = document.getElementById('contact-section');
+            
+            // 按钮
+            const btnCancel = document.getElementById('btn-cancel');
+            const btnPurchased = document.getElementById('btn-purchased');
+            const btnBack = document.getElementById('btn-back');
+            const activationForm = document.getElementById('activation-form');
+            
+            // 打开模态框
+            purchaseBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    // 获取产品信息
+                    const card = this.closest('.pricing-card');
+                    if (card) {
+                        const title = card.querySelector('h3').textContent;
+                        const priceAmount = card.querySelector('.discount-price').textContent;
+                        const pricePeriod = card.querySelector('.price-period').textContent;
+                        productName.textContent = title;
+                        productPrice.textContent = `${priceAmount}${pricePeriod}`;
+                        
+                        // 更新备注模板
+                        const currentDate = new Date();
+                        const yearMonth = currentDate.getFullYear() + '' + String(currentDate.getMonth() + 1).padStart(2, '0');
+                        noteTemplate.textContent = `ValuHub${title}${pricePeriod.includes('月') ? '月付' : '年付'}-公司名称-${yearMonth}`;
+                    }
+                    
+                    // 显示支付部分，隐藏联系部分
+                    paymentSection.style.display = 'block';
+                    contactSection.style.display = 'none';
+                    
+                    modal.style.display = 'block';
+                    
+                    // 初始化倒计时
+                    let minutes = 30;
+                    let seconds = 0;
+                    timer.textContent = `订单有效期：${minutes}分钟${seconds}秒`;
+                    
+                    const countdown = setInterval(() => {
+                        seconds--;
+                        if (seconds < 0) {
+                            seconds = 59;
+                            minutes--;
+                        }
+                        timer.textContent = `订单有效期：${minutes}分钟${seconds}秒`;
+                        
+                        if (minutes === 0 && seconds === 0) {
+                            clearInterval(countdown);
+                            timer.textContent = '订单已过期';
+                        }
+                    }, 1000);
+                });
+            });
+            
+            // 关闭模态框
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // 取消按钮功能
+            btnCancel.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // 我已购买按钮功能
+            btnPurchased.addEventListener('click', function() {
+                // 隐藏支付部分，显示联系部分
+                paymentSection.style.display = 'none';
+                contactSection.style.display = 'block';
+            });
+            
+            // 返回按钮功能
+            btnBack.addEventListener('click', function() {
+                // 显示支付部分，隐藏联系部分
+                paymentSection.style.display = 'block';
+                contactSection.style.display = 'none';
+            });
+            
+            // 表单提交功能
+            activationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 这里可以添加表单提交逻辑
+                alert('服务开通申请已提交，我们将尽快为您处理！');
+                modal.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

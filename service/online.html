@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线客服 - 数智估价核心引擎</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="../shared.css" />
+    <style>
+      /* 页面特定样式 */
+      .content-section {
+        padding: 60px 0;
+        background: white;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 40px;
+        color: #1d2129;
+      }
+      .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .online-info {
+        line-height: 1.8;
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      .online-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .online-card {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 115, 232, 0.05),
+          rgba(249, 168, 37, 0.05)
+        );
+        border: 1px solid rgba(26, 115, 232, 0.1);
+        border-radius: 12px;
+        padding: 40px;
+        width: 100%;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      .online-card:hover {
+        box-shadow: 0 15px 30px rgba(26, 115, 232, 0.15);
+        border-color: var(--color-primary);
+      }
+      .online-icon {
+        font-size: 48px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+      }
+      .online-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #1d2129;
+      }
+      .online-desc {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 20px;
+      }
+      .online-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+      }
+      .btn {
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-dark)
+        );
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.3);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--color-primary);
+        border: 2px solid var(--color-primary);
+      }
+      .btn-outline:hover {
+        background: var(--color-primary);
+        color: white;
+      }
+      .contact-info {
+        margin-top: 60px;
+        text-align: center;
+      }
+      .contact-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #1d2129;
+      }
+      .contact-items {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+      .contact-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .contact-icon {
+        font-size: 24px;
+        color: var(--color-primary);
+      }
+      .contact-text {
+        font-size: 14px;
+        color: #666;
+      }
+      .contact-value {
+        font-size: 16px;
+        color: #1d2129;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 引入导航栏 -->
+    <iframe
+      src="../nav.html"
+      frameborder="0"
+      style="width: 100%; height: 65px; border: none; display: block"
+    ></iframe>
+
+    <!-- 主要内容 -->
+    <main>
+      <section class="content-section">
+        <div class="content-container">
+          <h1 class="section-title">在线客服</h1>
+          <div class="online-info">
+            <p>
+              欢迎使用我们的在线客服服务，我们的客服团队将竭诚为您提供帮助和支持。
+            </p>
+            <p>
+              您可以通过在线聊天、电话、邮箱等方式联系我们，我们将在24小时内回复您的咨询。
+            </p>
+          </div>
+          <div class="online-container">
+            <div class="online-card">
+              <div class="online-icon"><i class="fas fa-comments"></i></div>
+              <div class="online-title">在线聊天</div>
+              <div class="online-desc">
+                与我们的客服人员进行实时在线聊天，获取即时帮助。
+              </div>
+              <div class="online-actions">
+                <a href="#" class="btn">立即开始聊天</a>
+                <p style="font-size: 14px; color: #999; margin: 10px 0 0">
+                  客服在线时间：周一至周日 9:00-18:00
+                </p>
+              </div>
+            </div>
+            <div class="online-card">
+              <div class="online-icon"><i class="fas fa-phone"></i></div>
+              <div class="online-title">电话咨询</div>
+              <div class="online-desc">
+                拨打我们的客服热线，直接与客服人员沟通。
+              </div>
+              <div class="online-actions">
+                <a href="tel:16680508457" class="btn btn-outline"
+                  >拨打热线：16680508457</a
+                >
+                <p style="font-size: 14px; color: #999; margin: 10px 0 0">
+                  客服在线时间：周一至周五 9:00-18:00
+                </p>
+              </div>
+            </div>
+            <div class="online-card">
+              <div class="online-icon"><i class="fas fa-envelope"></i></div>
+              <div class="online-title">邮件咨询</div>
+              <div class="online-desc">
+                发送邮件至我们的客服邮箱，我们将在24小时内回复您。
+              </div>
+              <div class="online-actions">
+                <a href="mailto:1558691995@qq.com" class="btn btn-outline"
+                  >发送邮件：1558691995@qq.com</a
+                >
+                <p style="font-size: 14px; color: #999; margin: 10px 0 0">
+                  我们将在24小时内回复您的邮件
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="contact-info">
+            <h3 class="contact-title">其他联系方式</h3>
+            <div class="contact-items">
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fab fa-weixin"></i></div>
+                <div class="contact-text">微信公众号</div>
+                <div class="contact-value">数智估价核心引擎</div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fab fa-weibo"></i></div>
+                <div class="contact-text">新浪微博</div>
+                <div class="contact-value">数智估价核心引擎</div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fab fa-qq"></i></div>
+                <div class="contact-text">QQ群</div>
+                <div class="contact-value">123456789</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="../about/company.html" target="_blank">公司简介</a>
+          <a href="../about/team.html" target="_blank">团队介绍</a>
+          <a href="../about/culture.html" target="_blank">企业文化</a>
+          <a href="../about/history.html" target="_blank">发展历程</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="../product/core.html" target="_blank">核心产品</a>
+          <a href="../product/function.html" target="_blank">功能介绍</a>
+          <a href="../product/case.html" target="_blank">成功案例</a>
+          <a href="../solution/index.html" target="_blank">解决方案</a>
+        </div>
+        <div class="footer-col">
+          <h3>资源中心</h3>
+          <a href="../resource/news.html" target="_blank">行业动态</a>
+          <a href="../resource/help.html" target="_blank">帮助中心</a>
+          <a href="../resource/doc.html" target="_blank">技术文档</a>
+          <a href="../resource/whitepaper.html" target="_blank">白皮书</a>
+        </div>
+        <div class="footer-col">
+          <h3>联系我们</h3>
+          <a href="tel:16680508457"><i class="fas fa-phone"></i> 16680508457</a>
+          <a href="mailto:1558691995@qq.com"
+            ><i class="fas fa-envelope"></i> 1558691995@qq.com</a
+          >
+          <a href="#" target="_blank"
+            ><i class="fas fa-map-marker-alt"></i> 湖南湘潭区</a
+          >
+          <a href="online.html" target="_blank"
+            ><i class="fas fa-headset"></i> 在线客服</a
+          >
+        </div>
+        <div class="footer-col">
+          <h3>合作企业</h3>
+          <a href="../coop/hunanzhixin.html" target="_blank">湖南智新科技</a>
+          <a href="../coop/changshalizhi.html" target="_blank">长沙立智评估</a>
+          <a href="../coop/apply.html" target="_blank">合作申请</a>
+        </div>
+      </div>
+      <div class="copyright">
+        © 2025 湘潭市房算云互联网科技有限公司 版权所有 |
+        <a href="../policy/privacy.html" target="_blank">隐私政策</a> |
+        <a href="../policy/service.html" target="_blank">服务条款</a> |
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=43011202001203"
+          rel="noreferrer"
+          target="_blank"
+          >湘ICP备2025144327号-1 | 湘公网安备43011202001203号</a
+        >
+      </div>
+    </footer>
+
+    <!-- 引入共享脚本 -->
+    <script src="../shared.js"></script>
+  </body>
+</html>

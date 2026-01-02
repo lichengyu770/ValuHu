@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ValuHub - 房地产AI估价与数智平台</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --error-color: #f5222d;
+            --light-color: #f5f7fa;
+            --dark-color: #1e293b;
+            --gray-color: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--gray-color);
+        }
+        
+        /* Logo 样式 */
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+
+        /* 导航菜单样式 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active a {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.hot {
+            color: var(--error-color);
+        }
+        
+        .nav-item.hot span {
+            background-color: var(--error-color);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+            overflow-x: auto;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: var(--gray-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: var(--primary-color);
+            background-color: #f0f4ff;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 60px 0;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .content-section:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        /* 功能卡片网格 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        /* 功能卡片 */
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-card .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .feature-card .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .feature-card .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* 卡片标题 */
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 解决方案样式 */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .solution-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .solution-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .solution-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .solution-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .solution-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .solution-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        
+        .solution-features li {
+            padding: 8px 0;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .solution-features li::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* 返回首页按钮 */
+        .back-home {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 24px;
+            }
+            
+            .features-grid,
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                    <span>Hot</span>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html" class="active">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="smart-nav.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <main class="main-content">
+            <div class="container">
+                <a href="visual-index.html" class="back-home">返回首页</a>
+                
+                <div class="page-title">
+                    <h1 id="pageTitle">页面标题</h1>
+                    <p id="pageDescription">页面描述</p>
+                </div>
+                
+                <!-- 解决方案介绍 -->
+                <div class="content-section">
+                    <h2 class="card-title">解决方案概览</h2>
+                    <p>ValuHub平台为不同行业提供专业的房地产数据解决方案，帮助企业和机构实现数字化转型，提高决策效率和准确性。</p>
+                    
+                    <!-- 解决方案网格 -->
+                    <div class="solutions-grid">
+                        <!-- 政府端解决方案 -->
+                        <div class="solution-card">
+                            <span class="solution-icon">🏛️</span>
+                            <h3>政府端解决方案</h3>
+                            <p>为政府部门提供房地产市场监测、调控支持和数据可视化服务，帮助政府制定更加科学的房地产政策。</p>
+                            <ul class="solution-features">
+                                        <div class="widget-value">5</div>
+                                <li>政策效果评估</li>
+                                    </div>
+                                </div>
+                                <div class="dashboard-chart">
+                                    <div class="chart-placeholder">📈 政策落地效果模拟图表</div>
+                            <a href="government.html" class="btn btn-primary">查看详情</a>
+                        </div>
+                        
+                        <!-- 企业端解决方案 -->
+                        <div class="solution-card">
+                            <span class="solution-icon">🏢</span>
+                            <h3>企业端解决方案</h3>
+                            <p>为房地产企业提供AI估价、市场分析和案例参考服务，帮助企业提高工作效率和决策准确性。</p>
+                            <ul class="solution-features">
+                                        <div class="step-title">AI模型部署</div>
+                                    </div>
+                                    <div class="path-step">
+                                        <div class="step-number">3</div>
+                                        <div class="step-title">智能决策系统</div>
+                                    </div>
+                            <a href="business.html" class="btn btn-primary">查看详情</a>
+                        </div>
+                        
+                        <!-- 院校端解决方案 -->
+                        <div class="solution-card">
+                            <span class="solution-icon">🎓</span>
+                            <h3>院校端解决方案</h3>
+                            <p>为房地产相关院校提供教学和科研支持，帮助学生掌握最新的房地产数据分析技能。</p>
+                            <ul class="solution-features">
+                                <li>教学实训平台</li>
+                                <li>案例教学资源</li>
+                                <li>科研数据支持</li>
+                                <li>技能评估系统</li>
+                                <li>校企合作桥梁</li>
+                                    <div class="preview-text">🎓 虚拟仿真教学环境预览</div>
+                            <a href="school.html" class="btn btn-primary">查看详情</a>
+                        </div>
+                        
+                        <!-- 协会端解决方案 -->
+                        <div class="solution-card">
+                            <span class="solution-icon">🤝</span>
+                            <h3>协会端解决方案</h3>
+                            <p>为房地产协会提供行业数据统计、信用管理和行业报告服务，帮助协会更好地服务会员单位。</p>
+                            <ul class="solution-features">
+                                    </div>
+                                    <div class="graph-node">
+                                        <div class="node-label">标准</div>
+                                        <div class="node-connections">📋 标准制定</div>
+                                    </div>
+                                </div>
+                            <a href="association.html" class="btn btn-primary">查看详情</a>
+                        </div>
+                        
+                        <!-- 大众端解决方案 -->
+                        <div class="solution-card">
+                            <span class="solution-icon">👥</span>
+                            <h3>大众端解决方案</h3>
+                            <p>为普通用户提供房地产信息查询、房价参考和投资建议服务，帮助用户做出明智的购房决策。</p>
+                            <ul class="solution-features">
+                                        </div>
+                                    </div>
+                                    <div class="chat-input">
+                                        <input type="text" placeholder="请问有什么可以帮您？" />
+                                        <button>发送</button>
+                                    </div>
+                            <a href="smart-nav.html" class="btn btn-primary">查看详情</a>
+                        </div>
+                        
+                        <!-- 金融机构解决方案 -->
+                        <div class="solution-card">
+                            <span class="solution-icon">🏦</span>
+                            <h3>金融机构解决方案</h3>
+                            <p>为银行、保险等金融机构提供房地产评估、风险评估和押品管理服务，降低金融风险。</p>
+                            <ul class="solution-features">
+                                    </div>
+                                </div>
+                                <div class="risk-result">
+                                    <div class="result-score">85</div>
+                                    <div class="result-label">低风险</div>
+                                    <div class="result-desc">符合贷款条件</div>
+                            <a href="#" class="btn btn-primary">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                            <div class="value-content">
+                                <div class="value-number">5s</div>
+                                <div class="value-desc">评估响应时间</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sandbox-actions">
+                        <button class="btn btn-primary" onclick="showRiskSimulator()">启动风险评估</button>
+                        <button class="btn btn-secondary" onclick="customizeSolution('financial')">定制专属解决方案</button>
+                    </div>
+                </div>
+            </div>
+                
+                <!-- 解决方案优势 -->
+                <div class="content-section">
+                    <h2 class="card-title">解决方案优势</h2>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <span class="feature-icon">📊</span>
+                            <h3>数据驱动</h3>
+                            <p>基于大数据和人工智能技术，提供精准、可靠的数据支持和决策建议。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <span class="feature-icon">⚡</span>
+                            <h3>高效便捷</h3>
+                            <p>简化工作流程，提高工作效率，帮助用户快速获取所需信息和服务。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <span class="feature-icon">🔒</span>
+                            <h3>安全可靠</h3>
+                            <p>采用银行级数据加密和存储技术，确保数据的安全性和可靠性。</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <span class="feature-icon">🔌</span>
+                            <h3>灵活集成</h3>
+                            <p>支持与第三方系统的无缝集成，满足不同用户的个性化需求。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 成功案例 -->
+                <div class="content-section">
+                    <h2 class="card-title">成功案例</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                        <!-- 案例1 -->
+                        <div style="background-color: var(--light-color); padding: 24px; border-radius: 8px;">
+                            <h3 style="margin-bottom: 16px;">湖南省房地产市场监测系统</h3>
+                            <p style="color: var(--gray-color); margin-bottom: 16px;">为湖南省住建厅开发的房地产市场监测系统，实现了对全省房地产市场的实时监测和分析。</p>
+                            <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-color);">
+                                <span>🏢 客户：湖南省住建厅</span>
+                                <span>📅 时间：2025年3月</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例2 -->
+                        <div style="background-color: var(--light-color); padding: 24px; border-radius: 8px;">
+                            <h3 style="margin-bottom: 16px;">长沙市房价预测模型</h3>
+                            <p style="color: var(--gray-color); margin-bottom: 16px;">为长沙市房产局开发的房价预测模型，准确率达到92%，为政策制定提供了重要参考。</p>
+                            <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-color);">
+                                <span>🏢 客户：长沙市房产局</span>
+                                <span>📅 时间：2025年6月</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 案例3 -->
+                        <div style="background-color: var(--light-color); padding: 24px; border-radius: 8px;">
+                            <h3 style="margin-bottom: 16px;">湖南大学房地产实训平台</h3>
+                            <p style="color: var(--gray-color); margin-bottom: 16px;">为湖南大学开发的房地产实训平台，已成为该校房地产专业的核心教学工具。</p>
+                            <div style="display: flex; gap: 16px; font-size: 14px; color: var(--gray-color);">
+                                <span>🏢 客户：湖南大学</span>
+                                <span>📅 时间：2025年9月</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="#">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>产品服务</h3>
+                    <ul>
+                        <li><a href="#">AI估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">案例库</a></li>
+                        <li><a href="#">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="smart-nav.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <ul>
+        // 根据页面文件名设置标题和描述
+                        <li>微信：svip6763</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 页面加载完成后初始化交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 根据页面文件名设置标题和描述
+            const pageTitle = document.getElementById('pageTitle');
+            const pageDescription = document.getElementById('pageDescription');
+            
+            // 获取当前页面文件名
+            const fileName = window.location.pathname.split('/').pop().replace('.html', '');
+            
+            // 页面配置
+            const pageConfig = {
+                platform: {
+                    title: 'ValuHub平台',
+                    description: '连接政府、行业、学校、企业和大众的房地产数智生态平台'
+                },
+                reports: {
+                    title: '行业报告',
+                    description: '提供最新的房地产行业研究报告和市场分析'
+                },
+                cooperation: {
+                    title: '企业合作',
+                    description: '与企业建立深度合作关系，共同推动房地产行业数字化转型'
+                },
+                cases: {
+                    title: '案例库',
+                    description: '百万真实房地产案例，为您提供参考依据'
+                },
+                pricing: {
+                    title: '服务价格',
+                    description: '自由选择更快、更高效的ValuHub服务方案'
+                },
+                tutorials: {
+                    title: '使用教程',
+                    description: '详细的使用指南，帮助您快速上手ValuHub平台'
+                },
+                template: {
+                    title: '模板社区',
+                    description: '共享优质房地产数据模板，提高工作效率'
+                },
+                files: {
+                    title: '我的文件',
+                    description: '集中管理您的房地产数据文件'
+                },
+                api: {
+                    title: 'API服务',
+                    description: '提供开放的API接口，支持第三方系统集成'
+                },
+                solution: {
+                    title: '解决方案',
+                    description: '为不同行业提供专业的房地产数据解决方案'
+                },
+                enterprise: {
+                    title: '企业服务',
+                    description: '为企业提供专业的房地产数据服务'
+                },
+                download: {
+                    title: '下载',
+                    description: '下载ValuHub相关资源和工具'
+                },
+                school: {
+                    title: '院校端',
+                    description: '为房地产相关院校提供教学和科研支持'
+                },
+                business: {
+                    title: '企业端',
+                    description: '为房地产企业提供数据驱动的决策支持'
+                },
+                association: {
+                    title: '协会端',
+                    description: '为房地产协会提供行业数据统计和分析服务'
+                },
+                government: {
+                    title: '政府端',
+                    description: '为政府部门提供房地产市场监测和调控支持'
+                },
+                public: {
+                    title: '大众端',
+                    description: '为普通用户提供房地产信息查询和估价服务'
+                },
+                payment: {
+                    title: '支付页面',
+                    description: '安全、便捷的支付方式，支持多种支付渠道'
+                },
+                consult: {
+                    title: '预约咨询',
+                    description: '专业团队为您提供一对一的房地产数据解决方案'
+                }
+            };
+            
+            // 设置标题和描述
+            if (pageConfig[fileName]) {
+                pageTitle.textContent = pageConfig[fileName].title;
+                pageDescription.textContent = pageConfig[fileName].description;
+            } else {
+                pageTitle.textContent = '页面标题';
+                pageDescription.textContent = '页面描述';
+            }
+            
+            // 更新当前页面的导航活跃状态
+        });
+        // 定制专属解决方案
+        function customizeSolution(endpoint) {
+            const endpointNames = {
+                government: '政府端',
+                enterprise: '企业端',
+                education: '院校端',
+                association: '协会端',
+                public: '大众端',
+                financial: '金融机构端'
+            };
+            
+            alert(`正在为${endpointNames[endpoint]}生成专属解决方案！\n\n我们将根据您的需求提供：\n- 定制化数据接口清单\n- 专属工具配置\n- 个性化服务方案\n- 实施路径规划`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件管理 - ProcessOn - ValuHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航 -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-gray-900">Process<span class="text-blue-600">On</span></span>
+                        <span class="ml-2 px-2 py-0.5 text-xs font-medium text-white bg-pink-500 rounded-full">AI</span>
+                    </div>
+                    <nav class="ml-8 flex space-x-8">
+                        <!-- 产品下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">产品 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-96 bg-white rounded-md shadow-lg py-2 z-10">
+                                <div class="grid grid-cols-5 gap-4 p-4">
+                                    <!-- 左侧分类 -->
+                                    <div class="col-span-1 space-y-3">
+                                        <div class="font-medium text-gray-900">流程类</div>
+                                        <div class="font-medium text-gray-900">脑图类</div>
+                                        <div class="font-medium text-gray-900">笔记类</div>
+                                        <div class="font-medium text-gray-900">实用工具</div>
+                                    </div>
+                                    <!-- 右侧内容 -->
+                                    <div class="col-span-4 grid grid-cols-4 gap-2">
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">流程图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">泳道图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">BPMN2.0</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">UML</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">架构图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">网络拓扑图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">图表/表格</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">韦恩图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">甘特图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">电路图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">平面图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">ER图</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="text-gray-700 hover:text-blue-600 text-sm font-medium">下载</a>
+                        
+                        <!-- 企业服务下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">企业服务 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">企业业务</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">解决方案</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">API服务</a>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="text-gray-700 hover:text-blue-600 text-sm font-medium">模板社区</a>
+                        <a href="#" class="text-gray-700 hover:text-blue-600 text-sm font-medium">价格</a>
+                        
+                        <!-- 入门教程下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">入门教程 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">帮助中心</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">知识社区</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors border-2 border-blue-600">进入我的文件</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 顶部栏 -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-12">
+                <div class="flex items-center">
+                    <div class="relative">
+                        <select class="appearance-none bg-white border border-gray-300 text-gray-700 py-1 px-3 pr-8 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option>湘潭市房算...</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        </div>
+                    </div>
+                    <span class="ml-2 text-xs text-gray-500">试用中</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="搜索文件/文件夹" class="pl-10 pr-4 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="bg-red-500 text-white text-xs font-medium px-2 py-1 rounded-full flex items-center">
+                        双12特惠，团队版低至<span class="text-yellow-300 ml-1">5</span>折
+                        <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <button class="p-1 text-gray-500 hover:text-gray-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </button>
+                    <div class="relative">
+                        <button class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                <span class="text-blue-600 font-medium">P</span>
+                            </div>
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <!-- 下拉菜单 -->
+                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">个人文件</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">账户中心</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">交易记录</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">福利中心</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">入门教程</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">官网首页</a>
+                            <div class="border-t border-gray-100 mt-1"></div>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex space-x-4">
+            <!-- 左侧导航 -->
+            <div class="w-64 bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-4">
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors mb-2">+ 新建</button>
+                    <button class="w-full bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-medium px-4 py-2 rounded-md transition-colors">模板库</button>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="p-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">模板社区 <span class="text-xs text-blue-600">HOT</span></h3>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">推荐</button>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="p-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">我的文件</h3>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md font-medium">最近</button>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">我的空间</button>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">与我协作</button>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="p-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">团队空间</h3>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 rounded-md">+ 新建团队空间</button>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="p-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">公共空间</h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">全员</span>
+                            <button class="text-sm text-blue-600">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200">
+                    <div class="p-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">管理后台</h3>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">管理后台</button>
+                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md">更多 <span class="ml-1">▼</span></button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧文件列表 -->
+            <div class="flex-1 bg-white rounded-lg shadow-sm border border-gray-200">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 rounded-md">最近打开</button>
+                        <button class="px-3 py-1 text-sm text-gray-500 hover:bg-gray-50 rounded-md">▼</button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="p-1 text-gray-500 hover:bg-gray-50 rounded-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 文件列表 -->
+                <div class="p-4">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">今天</h3>
+                    <div class="space-y-2">
+                        <!-- 文件项 -->
+                        <div class="flex items-center p-3 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
+                            <div class="w-12 h-12 bg-blue-100 rounded-md flex items-center justify-center mr-3">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-center">
+                                    <div class="font-medium text-gray-900">未命名文件</div>
+                                    <div class="text-xs text-gray-500">2小时前</div>
+                                </div>
+                                <div class="text-xs text-gray-500">我的...</div>
+                                <div class="mt-1 flex items-center space-x-2">
+                                    <span class="text-xs text-blue-600">我的文件</span>
+                                    <span class="text-xs text-gray-500">|</span>
+                                    <button class="text-xs text-gray-500 hover:text-gray-700">打开</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

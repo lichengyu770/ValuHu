@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房算云地图估价系统演示 - ValuHub</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #667eea;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .controls {
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-group label {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .user-type-selector, #search-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .user-type-selector {
+            min-width: 120px;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #40a9ff;
+        }
+        
+        button:active {
+            background-color: #096dd9;
+        }
+        
+        #search-input {
+            width: 200px;
+        }
+        
+        #map-container {
+            width: 100%;
+            height: calc(100vh - 140px);
+            border: 1px solid #eee;
+        }
+        
+        .dashboard {
+            background: white;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .widget {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #1890ff;
+        }
+        
+        .widget h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .widget ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        
+        .widget li {
+            padding: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .widget .data-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .widget .data-label {
+            color: #666;
+        }
+        
+        .widget .data-value {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .status-indicator {
+            margin-left: auto;
+            padding: 5px 10px;
+            background-color: #52c41a;
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>房算云地图估价系统</h1>
+        <div class="status-indicator" id="status">未初始化</div>
+    </div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="user-type">用户类型:</label>
+            <select id="user-type" class="user-type-selector">
+                <option value="public" selected>大众端</option>
+                <option value="institution">院校端</option>
+                <option value="government">政府端</option>
+                <option value="enterprise">企业端</option>
+                <option value="association">协会端</option>
+            </select>
+        </div>
+        
+        <div class="control-group">
+            <button id="init-map">初始化地图</button>
+        </div>
+        
+        <div class="control-group">
+            <input type="text" id="search-input" placeholder="搜索小区/区域，如：雨湖区">
+            <button id="search-btn">搜索</button>
+        </div>
+        
+        <div class="control-group">
+            <button id="estimate-btn">估价演示</button>
+        </div>
+        
+        <div class="control-group">
+            <button id="export-data-btn">导出数据</button>
+        </div>
+        
+        <div class="control-group">
+            <button id="show-dashboard">显示仪表盘</button>
+        </div>
+    </div>
+    
+    <div id="map-container"></div>
+    
+    <div class="dashboard" id="dashboard" style="display: none;">
+        <h2>用户仪表盘</h2>
+        <div class="widgets" id="widgets-container">
+            <!-- Widgets will be dynamically generated here -->
+        </div>
+    </div>
+    
+    <!-- Include the map valuation system script -->
+    <script src="map-valuation-system.js"></script>
+    <script>
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStatus('系统已加载，等待地图初始化');
+        });
+        
+        // 更新状态指示器
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+        
+        // 初始化地图
+        document.getElementById('init-map').addEventListener('click', async () => {
+            const userType = document.getElementById('user-type').value;
+            updateStatus('正在初始化地图...');
+            
+            try {
+                await mapValuationSystem.initMap('map-container', userType);
+                updateStatus('地图初始化成功');
+                alert(`地图已为${getUserTypeName(userType)}初始化完成！`);
+            } catch (error) {
+                console.error('地图初始化失败:', error);
+                updateStatus('地图初始化失败');
+                alert('地图初始化失败，请检查控制台日志');
+            }
+        });
+        
+        // 搜索功能
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const keyword = document.getElementById('search-input').value;
+            if (!keyword.trim()) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            
+            updateStatus(`正在搜索: ${keyword}`);
+            const results = mapValuationSystem.searchPOI(keyword);
+            updateStatus(`搜索完成，找到 ${results.length} 个结果`);
+        });
+        
+        // 估价演示
+        document.getElementById('estimate-btn').addEventListener('click', () => {
+            updateStatus('正在进行估价演示...');
+            
+            const propertyData = {
+                community: '雨湖区示范小区',
+                district: '雨湖区',
+                area: 100,
+                layout: '3室2厅',
+                decoration: '简装',
+                avgPrice: 6500
+            };
+            
+            try {
+                mapValuationSystem.estimateProperty(propertyData, 'comprehensive');
+                updateStatus('估价演示完成');
+            } catch (error) {
+                console.error('估价失败:', error);
+                updateStatus('估价演示失败');
+            }
+        });
+        
+        // 导出数据
+        document.getElementById('export-data-btn').addEventListener('click', () => {
+            updateStatus('正在导出数据...');
+            mapValuationSystem.exportData('json');
+            updateStatus('数据导出完成');
+        });
+        
+        // 切换用户类型
+        document.getElementById('user-type').addEventListener('change', async (e) => {
+            const newUserType = e.target.value;
+            updateStatus(`正在切换到${getUserTypeName(newUserType)}...`);
+            
+            try {
+                await mapValuationSystem.initMap('map-container', newUserType);
+                updateStatus(`已切换到${getUserTypeName(newUserType)}`);
+                alert(`已切换到${getUserTypeName(newUserType)}！`);
+            } catch (error) {
+                console.error('切换用户类型失败:', error);
+                updateStatus('切换用户类型失败');
+            }
+        });
+        
+        // 显示/隐藏仪表盘
+        document.getElementById('show-dashboard').addEventListener('click', () => {
+            const dashboard = document.getElementById('dashboard');
+            const btn = document.getElementById('show-dashboard');
+            
+            if (dashboard.style.display === 'none') {
+                dashboard.style.display = 'block';
+                btn.textContent = '隐藏仪表盘';
+                loadDashboard();
+            } else {
+                dashboard.style.display = 'none';
+                btn.textContent = '显示仪表盘';
+            }
+        });
+        
+        // 加载仪表盘
+        function loadDashboard() {
+            try {
+                const dashboard = mapValuationSystem.getUserDashboard();
+                renderDashboard(dashboard);
+            } catch (error) {
+                console.error('加载仪表盘失败:', error);
+                alert('加载仪表盘失败');
+            }
+        }
+        
+        // 渲染仪表盘
+        function renderDashboard(dashboard) {
+            const container = document.getElementById('widgets-container');
+            container.innerHTML = '';
+            
+            dashboard.widgets.forEach(widget => {
+                const widgetDiv = document.createElement('div');
+                widgetDiv.className = 'widget';
+                widgetDiv.innerHTML = `<h3>${widget.title}</h3>`;
+                
+                if (widget.type === 'data-overview') {
+                    // 数据概览
+                    const dataContent = document.createElement('div');
+                    Object.entries(widget.data).forEach(([key, value]) => {
+                        const dataItem = document.createElement('div');
+                        dataItem.className = 'data-item';
+                        dataItem.innerHTML = `
+                            <span class="data-label">${getLabel(key)}:</span>
+                            <span class="data-value">${formatValue(key, value)}</span>
+                        `;
+                        dataContent.appendChild(dataItem);
+                    });
+                    widgetDiv.appendChild(dataContent);
+                } else if (widget.type === 'research-tools' || widget.type === 'quick-search') {
+                    // 工具列表
+                    const toolsList = document.createElement('ul');
+                    widget[widget.type === 'research-tools' ? 'tools' : 'options'].forEach(tool => {
+                        const li = document.createElement('li');
+                        li.textContent = tool;
+                        toolsList.appendChild(li);
+                    });
+                    widgetDiv.appendChild(toolsList);
+                } else if (widget.type === 'market-trends') {
+                    // 市场趋势
+                    const trendsContent = document.createElement('div');
+                    Object.entries(widget.data).forEach(([key, value]) => {
+                        const dataItem = document.createElement('div');
+                        dataItem.className = 'data-item';
+                        if (Array.isArray(value)) {
+                            dataItem.innerHTML = `
+                                <span class="data-label">${getLabel(key)}:</span>
+                                <span class="data-value">${value.join(', ')}</span>
+                            `;
+                        } else {
+                            dataItem.innerHTML = `
+                                <span class="data-label">${getLabel(key)}:</span>
+                                <span class="data-value">${formatValue(key, value)}</span>
+                            `;
+                        }
+                        trendsContent.appendChild(dataItem);
+                    });
+                    widgetDiv.appendChild(trendsContent);
+                } else if (widget.type === 'recommended-properties') {
+                    // 推荐房源
+                    const propertiesList = document.createElement('ul');
+                    widget.properties.forEach(property => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <strong>${property.name}</strong><br>
+                            区域: ${property.district}<br>
+                            价格: ¥${property.price}/㎡<br>
+                            评分: ${property.rating}★
+                        `;
+                        propertiesList.appendChild(li);
+                    });
+                    widgetDiv.appendChild(propertiesList);
+                } else {
+                    // 默认渲染
+                    const defaultContent = document.createElement('div');
+                    defaultContent.textContent = `该类型组件正在开发中: ${widget.type}`;
+                    widgetDiv.appendChild(defaultContent);
+                }
+                
+                container.appendChild(widgetDiv);
+            });
+        }
+        
+        // 获取标签名称
+        function getLabel(key) {
+            const labels = {
+                totalProperties: '总房源数',
+                totalCommunities: '总小区数',
+                totalDistricts: '总区域数',
+                avgPrice: '平均价格',
+                quarterlyGrowth: '季度增长率',
+                annualGrowth: '年度增长率',
+                hottestDistricts: '热门区域',
+                activePolicies: '有效政策',
+                newPoliciesThisYear: '今年新政策',
+                policyImpactScore: '政策影响评分',
+                totalProjects: '总项目数',
+                activeProjects: '活跃项目',
+                totalInvestment: '总投资额',
+                roi: '回报率',
+                totalMembers: '总会员数',
+                activeMembers: '活跃会员',
+                newMembersThisMonth: '本月新会员'
+            };
+            return labels[key] || key;
+        }
+        
+        // 格式化数值
+        function formatValue(key, value) {
+            if (typeof value === 'number') {
+                if (key.includes('Price') || key.includes('Investment')) {
+                    return `¥${value.toLocaleString()}`;
+                } else if (key.includes('Growth')) {
+                    return `${value}%`;
+                } else if (key.includes('Score')) {
+                    return `${value}分`;
+                } else {
+                    return value.toLocaleString();
+                }
+            }
+            return value;
+        }
+        
+        // 获取用户类型名称
+        function getUserTypeName(userType) {
+            const userTypeNames = {
+                'public': '大众端',
+                'institution': '院校端',
+                'government': '政府端',
+                'enterprise': '企业端',
+                'association': '协会端'
+            };
+            return userTypeNames[userType] || '未知用户';
+        }
+        
+        // 添加键盘事件监听
+        document.getElementById('search-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('search-btn').click();
+            }
+        });
+    </script>
+</body>
+</html>

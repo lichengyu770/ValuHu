@@ -1,0 +1,58 @@
+# 估值项目依赖包列表
+# Python 3.10+ 兼容
+
+# 核心数据处理库
+pandas>=1.5.0
+numpy>=1.21.0
+scipy>=1.7.3
+
+# 机器学习库
+scikit-learn>=1.1.0
+joblib>=1.2.0
+
+# 数据可视化库
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# 配置文件处理
+pyyaml>=6.0
+
+# 数据文件处理
+openpyxl>=3.0.0  # 用于读取Excel文件
+xlrd>=2.0.1      # 用于读取旧版Excel文件
+
+# 可选：高级机器学习算法
+xgboost>=1.6.0   # 梯度提升树算法
+lightgbm>=3.3.0  # 轻量级梯度提升树算法
+catboost>=1.0.6  # 基于类别特征的梯度提升算法
+
+# 可选：深度学习框架
+tensorflow>=2.10.0  # 深度学习框架（可选）
+keras>=2.10.0        # 深度学习高级API（可选）
+pytorch>=1.12.0     # 深度学习框架（可选）
+
+# 开发工具
+pytest>=7.0.0       # 测试框架
+black>=22.0.0       # 代码格式化工具
+flake8>=4.0.0       # 代码质量检查工具
+mypy>=0.950         # 类型检查工具
+
+# Jupyter 相关
+jupyter>=1.0.0      # Jupyter 笔记本
+ipykernel>=6.15.0   # IPython 内核
+ipywidgets>=8.0.0   # Jupyter 交互组件
+
+# 其他工具
+tqdm>=4.64.0        # 进度条工具
+
+# 版本控制
+gitpython>=3.1.27   # Git 操作库
+
+# 操作系统相关
+psutil>=5.9.0       # 系统资源监控
+platformdirs>=2.5.0 # 跨平台目录处理
+
+# 网络相关（可选，用于API部署）
+fastapi>=0.85.0     # API 框架
+uvicorn>=0.19.0     # ASGI 服务器
+requests>=2.28.0    # HTTP 请求库

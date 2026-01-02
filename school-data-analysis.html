@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>数据分析与报表 - ValuHub教育管理系统</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="keywords" content="数据分析与报表,教育管理系统,ValuHub,教学数据分析,学生数据统计,财务报表">
+    <meta name="description" content="ValuHub教育管理系统数据分析与报表功能，提供教学数据分析、学生数据统计、财务报表等核心功能，打造智能化、高效化的教育管理平台。">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --info-color: #43e97b;
+            --dark-color: #2d3748;
+            --light-color: #f7fafc;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --transition: none;
+            }
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 背景装饰元素 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #718096;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .nav-item a:hover::after,
+        .nav-item.active a::after {
+            width: 100%;
+        }
+        
+        .nav-item a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .nav-item.active a {
+            color: #667eea;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(224, 224, 224, 0.5);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        /* 主标题区域 */
+        .hero-section {
+            padding: 60px 0 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 统计卡片区域 */
+        .stats-section {
+            padding: 40px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .stat-label {
+            font-size: 14px;
+            color: #718096;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+        
+        .content-section h2 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            border-bottom: 2px solid #f0f4ff;
+            padding-bottom: 12px;
+        }
+        
+        .content-section h3 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 24px 0 16px;
+            color: var(--dark-color);
+        }
+        
+        .content-section p {
+            margin-bottom: 16px;
+            color: #718096;
+            line-height: 1.6;
+        }
+        
+        /* 图表容器 */
+        .chart-container {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            margin: 24px 0;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        /* 报表列表 */
+        .report-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .report-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .report-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+        
+        .report-item h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .report-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        /* 数据筛选区域 */
+        .filter-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+        
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: var(--dark-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
+            transform: translateY(-2px);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .data-table th {
+            background-color: #f0f4ff;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .report-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .login-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html" class="active">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="public.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <!-- 主标题区域 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">数据分析与报表</h1>
+            <p class="hero-subtitle">提供全方位数据分析与报表功能，助力院校科学决策和精细化管理</p>
+        </div>
+    </section>
+    
+    <!-- 统计卡片区域 -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">1,248</div>
+                    <div class="stat-label">生成报表数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">45</div>
+                    <div class="stat-label">报表类型</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98.5%</div>
+                    <div class="stat-label">数据准确率</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12,580</div>
+                    <div class="stat-label">学生数据</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">680</div>
+                    <div class="stat-label">教师数据</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2,340</div>
+                    <div class="stat-label">资源数据</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主要内容区域 -->
+    <section style="padding: 0 0 40px;">
+        <div class="container">
+            <!-- 数据分析概览 -->
+            <div class="content-section">
+                <h2>数据分析概览</h2>
+                <div class="filter-section">
+                    <h3>数据筛选</h3>
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="dataType">数据类型</label>
+                            <select id="dataType">
+                                <option value="all">全部数据</option>
+                                <option value="student">学生数据</option>
+                                <option value="teacher">教师数据</option>
+                                <option value="resource">教学资源</option>
+                                <option value="finance">财务数据</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="timeRange">时间范围</label>
+                            <select id="timeRange">
+                                <option value="week">近一周</option>
+                                <option value="month">近一月</option>
+                                <option value="quarter">近一季度</option>
+                                <option value="year">近一年</option>
+                                <option value="custom">自定义</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="campus">校区</label>
+                            <select id="campus">
+                                <option value="all">全部校区</option>
+                                <option value="main">主校区</option>
+                                <option value="south">南校区</option>
+                                <option value="east">东校区</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="department">部门</label>
+                            <select id="department">
+                                <option value="all">全部部门</option>
+                                <option value="jw">教务处</option>
+                                <option value="xs">学生处</option>
+                                <option value="fd">房地产学院</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary">应用筛选</button>
+                        <button class="btn btn-secondary">重置</button>
+                        <button class="btn btn-secondary">导出数据</button>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>学生增长率趋势</h3>
+                    <div class="chart-placeholder">📈 学生增长趋势图</div>
+                    <p style="text-align: center; color: #718096;">近一年学生数量增长趋势，数据更新至2025年12月</p>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>教学资源分布</h3>
+                    <div class="chart-placeholder">📊 资源分布图</div>
+                    <p style="text-align: center; color: #718096;">各类型教学资源分布情况，包括课程、教材、设备等</p>
+                </div>
+            </div>
+            
+            <!-- 学生数据分析 -->
+            <div class="content-section">
+                <h2>学生数据分析</h2>
+                
+                <div class="chart-container">
+                    <h3>学生性别比例</h3>
+                    <div class="chart-placeholder">🔄 性别比例饼图</div>
+                    <p style="text-align: center; color: #718096;">全校学生性别分布情况</p>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>学生专业分布</h3>
+                    <div class="chart-placeholder">📋 专业分布柱状图</div>
+                    <p style="text-align: center; color: #718096;">各专业学生数量分布</p>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>学生成绩分析</h3>
+                    <div class="chart-placeholder">📚 成绩分布直方图</div>
+                    <p style="text-align: center; color: #718096;">学生成绩分布情况及趋势</p>
+                </div>
+            </div>
+            
+            <!-- 教师数据分析 -->
+            <div class="content-section">
+                <h2>教师数据分析</h2>
+                
+                <div class="chart-container">
+                    <h3>教师职称分布</h3>
+                    <div class="chart-placeholder">👨‍🏫 职称分布饼图</div>
+                    <p style="text-align: center; color: #718096;">教师职称结构分布</p>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>教师年龄分布</h3>
+                    <div class="chart-placeholder">📊 年龄分布直方图</div>
+                    <p style="text-align: center; color: #718096;">教师年龄结构分析</p>
+                </div>
+            </div>
+            
+            <!-- 财务数据分析 -->
+            <div class="content-section">
+                <h2>财务数据分析</h2>
+                
+                <div class="chart-container">
+                    <h3>收支情况分析</h3>
+                    <div class="chart-placeholder">💰 收支趋势图</div>
+                    <p style="text-align: center; color: #718096;">近一年财务收支情况</p>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>经费使用分布</h3>
+                    <div class="chart-placeholder">📊 经费使用饼图</div>
+                    <p style="text-align: center; color: #718096;">各部门经费使用情况</p>
+                </div>
+            </div>
+            
+            <!-- 报表管理 -->
+            <div class="content-section">
+                <h2>报表管理</h2>
+                <div class="report-list">
+                    <div class="report-item">
+                        <h4>学生统计报表</h4>
+                        <div class="report-meta">
+                            <span>📅 2025-12-28</span>
+                            <span>📄 PDF格式</span>
+                            <span>📁 1.2MB</span>
+                        </div>
+                        <p>包含全校学生基本信息、专业分布、成绩统计等数据</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">查看</button>
+                            <button class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">下载</button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <h4>教师绩效考核报告</h4>
+                        <div class="report-meta">
+                            <span>📅 2025-12-25</span>
+                            <span>📄 PDF格式</span>
+                            <span>📁 890KB</span>
+                        </div>
+                        <p>包含教师教学评估、科研成果、考勤情况等绩效考核数据</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">查看</button>
+                            <button class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">下载</button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <h4>教学资源使用报告</h4>
+                        <div class="report-meta">
+                            <span>📅 2025-12-20</span>
+                            <span>📄 PDF格式</span>
+                            <span>📁 1.5MB</span>
+                        </div>
+                        <p>包含教学资源使用情况、利用率、更新情况等数据</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">查看</button>
+                            <button class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">下载</button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <h4>财务收支明细报表</h4>
+                        <div class="report-meta">
+                            <span>📅 2025-12-15</span>
+                            <span>📄 Excel格式</span>
+                            <span>📁 2.8MB</span>
+                        </div>
+                        <p>包含财务收支明细、经费使用情况、预算执行情况等数据</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">查看</button>
+                            <button class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">下载</button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <h4>招生情况分析报告</h4>
+                        <div class="report-meta">
+                            <span>📅 2025-12-10</span>
+                            <span>📄 PDF格式</span>
+                            <span>📁 950KB</span>
+                        </div>
+                        <p>包含招生计划完成情况、生源分布、录取分数分析等数据</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">查看</button>
+                            <button class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">下载</button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-item">
+                        <h4>学生就业情况报告</h4>
+                        <div class="report-meta">
+                            <span>📅 2025-12-05</span>
+                            <span>📄 PDF格式</span>
+                            <span>📁 1.1MB</span>
+                        </div>
+                        <p>包含毕业生就业情况、就业率、就业质量等数据</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" style="font-size: 14px; padding: 8px 16px;">查看</button>
+                            <button class="btn btn-secondary" style="font-size: 14px; padding: 8px 16px;">下载</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary">生成自定义报表</button>
+                </div>
+            </div>
+            
+            <!-- 数据导出管理 -->
+            <div class="content-section">
+                <h2>数据导出管理</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>导出任务名称</th>
+                            <th>数据类型</th>
+                            <th>导出时间</th>
+                            <th>文件格式</th>
+                            <th>文件大小</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025年学生数据</td>
+                            <td>学生数据</td>
+                            <td>2025-12-28 14:30</td>
+                            <td>Excel</td>
+                            <td>2.5MB</td>
+                            <td>已完成</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">下载</button>
+                                <button class="btn btn-secondary btn-small">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>教师信息表</td>
+                            <td>教师数据</td>
+                            <td>2025-12-27 10:15</td>
+                            <td>CSV</td>
+                            <td>850KB</td>
+                            <td>已完成</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">下载</button>
+                                <button class="btn btn-secondary btn-small">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>教学资源清单</td>
+                            <td>资源数据</td>
+                            <td>2025-12-26 16:45</td>
+                            <td>Excel</td>
+                            <td>1.8MB</td>
+                            <td>已完成</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">下载</button>
+                                <button class="btn btn-secondary btn-small">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>财务报表2025Q4</td>
+                            <td>财务数据</td>
+                            <td>2025-12-25 09:30</td>
+                            <td>PDF</td>
+                            <td>3.2MB</td>
+                            <td>已完成</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">下载</button>
+                                <button class="btn btn-secondary btn-small">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>招生数据统计</td>
+                            <td>招生数据</td>
+                            <td>2025-12-24 14:00</td>
+                            <td>Excel</td>
+                            <td>1.2MB</td>
+                            <td>已完成</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">下载</button>
+                                <button class="btn btn-secondary btn-small">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary">新建导出任务</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <!-- 每日生成报告数据 -->
+            <div style="background-color: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 12px; margin-bottom: 40px; text-align: center;">
+                <h3 style="color: white; margin-bottom: 10px; font-size: 24px;">每天有 <span style="color: #667eea; font-size: 32px; font-weight: bold;">100,000+</span> 房产估价报告在ValuHub生成</h3>
+            </div>
+            
+            <!-- 产品分类 -->
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>产品</h3>
+                    <ul>
+                        <li><a href="ai-valuation.html">AI估价</a></li>
+                        <li><a href="reports.html">行业报告</a></li>
+                        <li><a href="cases.html">案例库</a></li>
+                        <li><a href="template.html">模板社区</a></li>
+                        <li><a href="api.html">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="public.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>资源</h3>
+                    <ul>
+                        <li><a href="tutorials.html">使用教程</a></li>
+                        <li><a href="enterprise.html">企业服务</a></li>
+                        <li><a href="download.html">下载</a></li>
+                        <li><a href="files.html">我的文件</a></li>
+                        <li><a href="main.html">工作台</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="about.html">公司介绍</a></li>
+                        <li><a href="cooperation.html">企业合作</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                        <li><a href="privacy.html">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 联系信息 -->
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="color: #ccc; font-size: 14px;">
+                    <p>电话：16680508457 | 微信：svip6763</p>
+                    <p>邮箱：contact@zhihuiyun.com | 工作时间：9:00-18:00</p>
+                </div>
+                <div style="color: #ccc; font-size: 14px;">
+                    <p>地址：湖南省长沙市岳麓区高新开发区</p>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 页面加载时检查用户登录状态
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查用户登录状态（简单模拟）
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                // 如果未登录，跳转到登录页面
+                window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+            
+            console.log('数据分析与报表页面加载完成');
+        });
+    </script>
+</body>
+</html>

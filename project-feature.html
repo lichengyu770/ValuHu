@@ -1,0 +1,2418 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>项目特点 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* 基础重置与通用样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', '思源黑体', sans-serif;
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn-primary {
+        background: #007aff;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #0066cc;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1px solid #007aff;
+        color: #007aff;
+      }
+      .btn-outline:hover {
+        background: #007aff;
+        color: white;
+      }
+      section {
+        padding: 60px 0;
+      }
+      section h2 {
+        font-size: 32px;
+        color: #1d2129;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      section h3 {
+        font-size: 24px;
+        color: #1d2129;
+        margin-bottom: 20px;
+      }
+      section p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      /* 1. 导航栏（可点击跳转） */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        height: 65px;
+      }
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: #007aff;
+        color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .logo-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d2129;
+      }
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+      }
+      .nav-menu a {
+        text-decoration: none;
+        color: #4e5969;
+        font-size: 15px;
+        transition: color 0.3s;
+      }
+      .nav-menu a:hover {
+        color: #007aff;
+      }
+      .nav-menu a.active {
+        color: #007aff;
+        font-weight: 600;
+      }
+      .menu-toggle {
+        display: none;
+        font-size: 32px;
+        color: #4e5969;
+        cursor: pointer;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        display: none;
+      }
+      .mobile-menu ul {
+        list-style: none;
+        padding: 20px 0;
+      }
+      .mobile-menu li {
+        padding: 0 20px;
+      }
+      .mobile-menu a {
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        color: #4e5969;
+        font-size: 15px;
+      }
+      .mobile-menu a:hover {
+        color: #007aff;
+      }
+      .mobile-menu a.active {
+        color: #007aff;
+        font-weight: 600;
+      }
+      .mobile-menu .login-btn {
+        margin: 10px 20px 0;
+        width: calc(100% - 40px);
+      }
+
+      /* 2. 封面区 */
+      .hero {
+        margin-top: 65px;
+        height: 300px;
+        background: linear-gradient(135deg, #f5f7fa, #e9edf2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 36px;
+        color: #1d2129;
+        margin-bottom: 15px;
+      }
+      .hero h1 span {
+        color: #007aff;
+      }
+      .hero p {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* 项目特点 */
+      .project-features {
+        background: white;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .feature-item {
+        text-align: center;
+        padding: 30px 20px;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .feature-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        background: #f7f9fc;
+      }
+      .feature-item i {
+        font-size: 48px;
+        color: #007aff;
+        margin-bottom: 20px;
+        transition:
+          transform 0.3s,
+          color 0.3s;
+      }
+      .feature-item:hover i {
+        transform: scale(1.1);
+        color: #0066cc;
+      }
+      .feature-item h4 {
+        font-size: 20px;
+        color: #1d2129;
+        margin-bottom: 15px;
+        transition: color 0.3s;
+      }
+      .feature-item:hover h4 {
+        color: #007aff;
+      }
+      .feature-item p {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+        transition: color 0.3s;
+      }
+      .feature-item:hover p {
+        color: #4e5969;
+      }
+      .feature-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 4px;
+        background: #007aff;
+        transition: width 0.3s;
+      }
+      .feature-item:hover::after {
+        width: 100%;
+      }
+
+      /* 模态框 */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-content {
+        background: white;
+        border-radius: 8px;
+        max-width: 800px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        padding: 30px;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        animation: modalSlideIn 0.3s ease-out;
+      }
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .modal-header h3 {
+        margin: 0;
+        color: #007aff;
+        display: flex;
+        align-items: center;
+      }
+      .modal-header h3 i {
+        margin-right: 10px;
+      }
+      .modal-close {
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.3s;
+      }
+      .modal-close:hover {
+        color: #007aff;
+      }
+      .modal-body {
+        color: #666;
+        line-height: 1.8;
+      }
+      .modal-body p {
+        margin-bottom: 15px;
+      }
+      .modal-body ul {
+        margin: 15px 0 15px 20px;
+      }
+      .modal-body li {
+        margin-bottom: 10px;
+      }
+
+      /* 返回顶部按钮 */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #007aff;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s,
+          visibility 0.3s,
+          transform 0.3s;
+        z-index: 999;
+      }
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .back-to-top:hover {
+        transform: translateY(-5px);
+        background: #0066cc;
+      }
+
+      /* 淡入动画 */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .fade-in.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 特点详情卡片效果 */
+      .detail-card {
+        background: white;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+      }
+      .detail-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      .detail-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background: #007aff;
+      }
+
+      /* 特点详情 */
+      .feature-details {
+        background: #f5f7fa;
+        margin-top: 40px;
+        padding: 40px 0;
+      }
+      .detail-card {
+        background: white;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+      }
+      .detail-card h3 {
+        color: #007aff;
+        display: flex;
+        align-items: center;
+      }
+      .detail-card h3 i {
+        margin-right: 15px;
+      }
+      .detail-card p {
+        margin-top: 15px;
+      }
+      .detail-card ul {
+        margin: 15px 0 0 20px;
+      }
+      .detail-card li {
+        margin-bottom: 8px;
+        color: #666;
+      }
+
+      /* 优势对比 */
+      .advantage-comparison {
+        background: white;
+        padding: 40px 0;
+      }
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+      }
+      .comparison-table th,
+      .comparison-table td {
+        border: 1px solid #e9edf2;
+        padding: 15px;
+        text-align: left;
+      }
+      .comparison-table th {
+        background: #f5f7fa;
+        color: #007aff;
+        font-weight: 600;
+      }
+      .comparison-table tr:nth-child(even) {
+        background: #f5f7fa;
+      }
+      .comparison-table .check {
+        color: #52c41a;
+      }
+      .comparison-table .cross {
+        color: #ff4d4f;
+      }
+
+      /* 4. 基础页脚（可点击） */
+      .footer {
+        background: #1d2129;
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: 50px;
+      }
+      .footer .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .footer-col {
+        width: calc(25% - 20px);
+        min-width: 200px;
+      }
+      .footer-col h3 {
+        font-size: 16px;
+        color: #007aff;
+        margin-bottom: 15px;
+      }
+      .footer-col a {
+        display: block;
+        color: #c9cdd4;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 8px;
+        transition: color 0.3s;
+      }
+      .footer-col a:hover {
+        color: white;
+      }
+      .cooperation-enterprises {
+        text-align: center;
+        padding: 20px 0;
+        margin-top: 20px;
+        border-top: 1px solid #374151;
+      }
+      .cooperation-enterprises span {
+        font-size: 14px;
+        color: #c9cdd4;
+      }
+      .copyright {
+        text-align: center;
+        padding-top: 20px;
+        margin-top: 20px;
+        border-top: 1px solid #374151;
+        font-size: 13px;
+        color: #9ca3af;
+      }
+      .copyright a {
+        color: #9ca3af;
+        text-decoration: none;
+      }
+      .copyright a:hover {
+        color: white;
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .menu-toggle {
+          display: block;
+        }
+        .hero h1 {
+          font-size: 28px;
+        }
+        .footer-col {
+          width: 50%;
+        }
+        section h2 {
+          font-size: 24px;
+        }
+        .comparison-table {
+          font-size: 14px;
+        }
+        .comparison-table th,
+        .comparison-table td {
+          padding: 10px;
+        }
+        .modal-content {
+          margin: 20px;
+          width: calc(100% - 40px);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          height: 250px;
+        }
+        .hero h1 {
+          font-size: 24px;
+        }
+        .footer-col {
+          width: 100%;
+        }
+        .comparison-table {
+          font-size: 12px;
+        }
+        .back-to-top {
+          width: 40px;
+          height: 40px;
+          bottom: 20px;
+          right: 20px;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 用户中心 -->
+          <a href="user-center.html" class="">用户中心</a>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="user-center.html">用户中心</a></li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 2. 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1><span>项目特点</span></h1>
+        <p>探索我们智能估价系统的核心优势和独特特点</p>
+      </div>
+    </section>
+
+    <!-- 3. 项目特点 -->
+    <section class="project-features">
+      <div class="container">
+        <div class="features-grid">
+          <div
+            class="feature-item fade-in"
+            onclick="showFeatureDetail('高效准确')"
+          >
+            <i class="fas fa-bolt"></i>
+            <h4>高效准确</h4>
+            <p>
+              采用先进的AI算法，估价准确率达95%以上，处理速度比传统方法提升10倍。
+            </p>
+          </div>
+          <div
+            class="feature-item fade-in"
+            onclick="showFeatureDetail('安全可靠')"
+          >
+            <i class="fas fa-shield-alt"></i>
+            <h4>安全可靠</h4>
+            <p>
+              多层安全防护机制，确保数据隐私和系统稳定，通过严格的安全认证。
+            </p>
+          </div>
+          <div
+            class="feature-item fade-in"
+            onclick="showFeatureDetail('灵活扩展')"
+          >
+            <i class="fas fa-cogs"></i>
+            <h4>灵活扩展</h4>
+            <p>模块化设计，支持功能扩展和定制开发，适应不同场景的需求变化。</p>
+          </div>
+          <div
+            class="feature-item fade-in"
+            onclick="showFeatureDetail('专业团队')"
+          >
+            <i class="fas fa-users"></i>
+            <h4>专业团队</h4>
+            <p>
+              由资深工程师、数据科学家和房地产专家组成的专业团队提供技术支持。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 项目特点模态框 -->
+    <div class="modal" id="featureModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle"><i class="fas fa-bolt"></i> 项目特点详情</h3>
+          <span class="modal-close" id="closeModal">&times;</span>
+        </div>
+        <div class="modal-body" id="modalContent">
+          <!-- 模态框内容将通过JS动态填充 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- 4. 特点详情 -->
+    <section class="feature-details">
+      <div class="container">
+        <div class="detail-card fade-in">
+          <h3><i class="fas fa-bolt"></i> 高效准确</h3>
+          <p>
+            我们的系统采用业界领先的人工智能算法，结合海量历史交易数据进行深度训练，实现了高精度的估价预测。
+          </p>
+          <ul>
+            <li>估价准确率达95%以上，远超行业平均水平</li>
+            <li>单次估价处理时间仅需0.5秒，比传统方法提升10倍</li>
+            <li>支持批量估价，可同时处理上千条数据</li>
+            <li>定期更新模型参数，确保算法与市场同步</li>
+          </ul>
+        </div>
+
+        <div class="detail-card fade-in">
+          <h3><i class="fas fa-shield-alt"></i> 安全可靠</h3>
+          <p>
+            我们高度重视系统安全和数据隐私保护，建立了全方位的安全保障体系。
+          </p>
+          <ul>
+            <li>采用SSL/TLS加密传输，确保数据传输安全</li>
+            <li>数据存储采用多层加密，保护敏感信息</li>
+            <li>完善的权限管理系统，严格控制数据访问</li>
+            <li>定期进行安全审计和漏洞扫描</li>
+            <li>通过ISO27001信息安全管理体系认证</li>
+          </ul>
+        </div>
+
+        <div class="detail-card fade-in">
+          <h3><i class="fas fa-cogs"></i> 灵活扩展</h3>
+          <p>系统采用模块化设计和微服务架构，具有高度的扩展性和灵活性。</p>
+          <ul>
+            <li>基于微服务架构，各模块独立部署和扩展</li>
+            <li>提供丰富的API接口，支持与第三方系统集成</li>
+            <li>支持自定义配置和功能扩展</li>
+            <li>可根据客户需求进行定制开发</li>
+            <li>支持私有部署和云端部署两种模式</li>
+          </ul>
+        </div>
+
+        <div class="detail-card fade-in">
+          <h3><i class="fas fa-users"></i> 专业团队</h3>
+          <p>
+            我们拥有一支由多领域专家组成的专业团队，为系统提供强大的技术支持和业务指导。
+          </p>
+          <ul>
+            <li>核心技术团队成员均来自国内外顶尖高校和企业</li>
+            <li>拥有多年AI、大数据和房地产领域经验</li>
+            <li>定期与行业专家交流合作，保持技术领先性</li>
+            <li>提供7×24小时技术支持服务</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 优势对比 -->
+    <section class="advantage-comparison">
+      <div class="container">
+        <h2 class="fade-in">与传统估价方法对比</h2>
+        <div class="fade-in">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>对比项</th>
+                <th>数智估价核心引擎</th>
+                <th>传统估价方法</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>估价准确率</td>
+                <td>95%以上 <i class="fas fa-check check"></i></td>
+                <td>70-80% <i class="fas fa-times cross"></i></td>
+              </tr>
+              <tr>
+                <td>处理速度</td>
+                <td>0.5秒/次 <i class="fas fa-check check"></i></td>
+                <td>几小时至数天 <i class="fas fa-times cross"></i></td>
+              </tr>
+              <tr>
+                <td>数据维度</td>
+                <td>多维数据综合分析 <i class="fas fa-check check"></i></td>
+                <td>有限维度分析 <i class="fas fa-times cross"></i></td>
+              </tr>
+              <tr>
+                <td>更新频率</td>
+                <td>实时更新 <i class="fas fa-check check"></i></td>
+                <td>定期更新 <i class="fas fa-times cross"></i></td>
+              </tr>
+              <tr>
+                <td>成本效益</td>
+                <td>低（自动化程度高） <i class="fas fa-check check"></i></td>
+                <td>高（人工成本高） <i class="fas fa-times cross"></i></td>
+              </tr>
+              <tr>
+                <td>可追溯性</td>
+                <td>全流程可追溯 <i class="fas fa-check check"></i></td>
+                <td>依赖人工记录 <i class="fas fa-times cross"></i></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="core-function.html">核心功能</a>
+          <a href="tech-frame.html">技术框架</a>
+          <a href="project-feature.html">项目特点</a>
+        </div>
+        <div class="footer-col">
+          <h3>团队介绍</h3>
+          <a href="team-intro.html">团队成员</a>
+          <a href="about-us.html">关于我们</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="help-center.html">帮助中心</a>
+        </div>
+        <div class="footer-col">
+          <h3>联系我们</h3>
+          <a href="#">联系方式</a>
+          <a href="#">意见反馈</a>
+        </div>
+      </div>
+      <div class="cooperation-enterprises">
+        <span
+          >合作企业：湖南智信房地产土地资产评估有限公司 |
+          长沙力智数字房产技术发展有限公司</span
+        >
+      </div>
+      <div class="copyright">
+        <p>© 2024 数智估价核心引擎 版权所有</p>
+        <p>
+          <a href="https://beian.miit.gov.cn/" target="_blank"
+            >湘ICP备2025144327号-1</a
+          >
+          |
+          <a
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=43011202001203"
+            target="_blank"
+            rel="noreferrer"
+            >湘公网安备43011202001203号</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // 移动端菜单切换
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.style.display =
+          mobileMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // 关闭移动端菜单（点击菜单项后）
+      const mobileMenuItems = mobileMenu.querySelectorAll('a');
+      mobileMenuItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          mobileMenu.style.display = 'none';
+        });
+      });
+
+      // 模态框相关变量
+      const modal = document.getElementById('featureModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalContent = document.getElementById('modalContent');
+      const closeModal = document.getElementById('closeModal');
+
+      // 项目特点详情数据
+      const featureDetails = {
+        高效准确: {
+          title: '<i class="fas fa-bolt"></i> 高效准确',
+          content: `
+                    <p>我们的系统采用业界领先的人工智能算法，结合海量历史交易数据进行深度训练，实现了高精度的估价预测。</p>
+                    <p>系统基于深度学习模型，能够自动识别房产价格的关键影响因素，并建立精准的价格预测模型。通过持续优化算法，我们的估价准确率达到了95%以上，远超行业平均水平。</p>
+                    
+                    <h4>技术优势：</h4>
+                    <ul>
+                        <li><strong>深度学习技术：</strong>采用Transformer架构和图神经网络，处理复杂的空间关系数据</li>
+                        <li><strong>实时数据处理：</strong>单次估价处理时间仅需0.5秒，比传统方法提升10倍</li>
+                        <li><strong>批量处理能力：</strong>支持批量估价，可同时处理上千条数据</li>
+                        <li><strong>自适应学习：</strong>系统能够根据市场变化自动调整模型参数</li>
+                        <li><strong>多因素分析：</strong>综合考虑房产本身特性、周边环境、市场趋势等30多个关键因素</li>
+                    </ul>
+                    
+                    <h4>实际应用效果：</h4>
+                    <ul>
+                        <li>在100万+房产数据测试集中，平均估值偏差小于5%</li>
+                        <li>帮助客户节省了90%的估价时间成本</li>
+                        <li>支持快速响应市场变化，保持估价的时效性</li>
+                    </ul>
+                `,
+        },
+        安全可靠: {
+          title: '<i class="fas fa-shield-alt"></i> 安全可靠',
+          content: `
+                    <p>我们高度重视系统安全和数据隐私保护，建立了全方位的安全保障体系。从数据传输到存储，再到访问控制，每一个环节都经过严格的安全设计和测试。</p>
+                    
+                    <h4>安全保障机制：</h4>
+                    <ul>
+                        <li><strong>传输安全：</strong>采用SSL/TLS加密传输，确保数据传输安全</li>
+                        <li><strong>存储安全：</strong>数据存储采用多层加密，保护敏感信息</li>
+                        <li><strong>访问控制：</strong>完善的权限管理系统，严格控制数据访问</li>
+                        <li><strong>安全审计：</strong>定期进行安全审计和漏洞扫描</li>
+                        <li><strong>合规认证：</strong>通过ISO27001信息安全管理体系认证</li>
+                    </ul>
+                    
+                    <h4>系统可靠性保障：</h4>
+                    <ul>
+                        <li>高可用架构设计，系统可用性达99.99%</li>
+                        <li>实时监控和告警机制</li>
+                        <li>定期数据备份和灾难恢复演练</li>
+                        <li>分布式部署，避免单点故障</li>
+                    </ul>
+                    
+                    <h4>隐私保护：</h4>
+                    <ul>
+                        <li>严格遵守数据隐私法律法规</li>
+                        <li>用户数据匿名化处理</li>
+                        <li>数据访问日志全记录</li>
+                    </ul>
+                `,
+        },
+        灵活扩展: {
+          title: '<i class="fas fa-cogs"></i> 灵活扩展',
+          content: `
+                    <p>系统采用模块化设计和微服务架构，具有高度的扩展性和灵活性，能够根据不同客户的需求进行定制和扩展。</p>
+                    
+                    <h4>架构优势：</h4>
+                    <ul>
+                        <li><strong>微服务架构：</strong>各模块独立部署和扩展</li>
+                        <li><strong>API驱动：</strong>提供丰富的API接口，支持与第三方系统集成</li>
+                        <li><strong>可配置性：</strong>支持自定义配置和功能扩展</li>
+                        <li><strong>多部署模式：</strong>支持私有部署和云端部署两种模式</li>
+                        <li><strong>容器化技术：</strong>基于Docker和Kubernetes，便于快速部署和扩展</li>
+                    </ul>
+                    
+                    <h4>定制化能力：</h4>
+                    <ul>
+                        <li>可根据客户需求进行定制开发</li>
+                        <li>支持行业特定算法和模型</li>
+                        <li>灵活的界面定制，满足不同品牌需求</li>
+                        <li>支持多语言和多地区适配</li>
+                    </ul>
+                    
+                    <h4>集成能力：</h4>
+                    <ul>
+                        <li>支持与房地产交易平台集成</li>
+                        <li>支持与银行金融系统对接</li>
+                        <li>提供SDK和开发文档，便于二次开发</li>
+                    </ul>
+                `,
+        },
+        专业团队: {
+          title: '<i class="fas fa-users"></i> 专业团队',
+          content: `
+                    <p>我们拥有一支由多领域专家组成的专业团队，为系统提供强大的技术支持和业务指导。团队成员在AI、大数据和房地产领域拥有丰富的经验。</p>
+                    
+                    <h4>核心团队成员：</h4>
+                    <ul>
+                        <li><strong>李成誉：</strong>16680508457，1558691995@qq.com</li>
+                        <li><strong>代欣华：</strong>19386925910，2220776356@qq.com</li>
+                        <li><strong>沈添华：</strong>18573782878，2938482846@qq.com</li>
+                        <li><strong>黄有鹏：</strong>17773252736，1683135767@qq.com</li>
+                        <li><strong>伍康：</strong>路演支持，18124002040，3518534746@qq.com</li>
+                        <li><strong>毛雪：</strong>运营支持，13789319961，2280217697</li>
+                        <li><strong>肖隆湘：</strong>15173250693，1659059727@qq.com</li>
+                    </ul>
+                    
+                    <h4>技术实力：</h4>
+                    <ul>
+                        <li>核心技术团队成员均来自国内外顶尖高校和企业</li>
+                        <li>拥有多项人工智能和大数据相关专利</li>
+                        <li>在国际学术会议和期刊发表多篇论文</li>
+                        <li>定期参与行业标准制定和技术交流</li>
+                    </ul>
+                    
+                    <h4>服务支持：</h4>
+                    <ul>
+                        <li>提供7×24小时技术支持服务</li>
+                        <li>定期系统升级和功能更新</li>
+                        <li>定制化培训和技术咨询</li>
+                        <li>持续的算法优化和性能提升</li>
+                    </ul>
+                `,
+        },
+      };
+
+      // 显示项目特点详情
+      function showFeatureDetail(featureName) {
+        if (featureDetails[featureName]) {
+          modalTitle.innerHTML = featureDetails[featureName].title;
+          modalContent.innerHTML = featureDetails[featureName].content;
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+      }
+
+      // 关闭模态框
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+
+      // 点击模态框外部关闭
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+
+      // 返回顶部按钮
+      const backToTop = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+
+        // 滚动动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (elementTop < windowHeight * 0.85) {
+            element.classList.add('active');
+          }
+        });
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // 页面加载时检查元素是否在视窗内
+      document.addEventListener('DOMContentLoaded', () => {
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (elementTop < windowHeight * 0.85) {
+            element.classList.add('active');
+          }
+        });
+
+        // 为项目特点添加动画
+        const featureItems = document.querySelectorAll('.feature-item');
+        featureItems.forEach((item, index) => {
+          item.style.transitionDelay = `${index * 0.15}s`;
+          setTimeout(() => {
+            item.style.opacity = '1';
+          }, 100);
+        });
+      });
+    </script>
+  </body>
+</html>

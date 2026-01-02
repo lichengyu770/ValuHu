@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>招生管理 - ValuHub教育管理系统</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="keywords" content="招生管理,教育管理系统,ValuHub,招生计划,录取管理,新生管理">
+    <meta name="description" content="ValuHub教育管理系统招生管理功能，提供招生计划管理、录取管理、新生管理等核心功能，提升招生工作效率">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --success-color: #4facfe;
+            --warning-color: #fa709a;
+            --info-color: #43e97b;
+            --dark-color: #2d3748;
+            --light-color: #f7fafc;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --transition: none;
+            }
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* 背景装饰元素 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 16px 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #718096;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+            position: relative;
+        }
+        
+        /* 添加导航下划线动画 */
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .nav-item a:hover::after,
+        .nav-item.active a::after {
+            width: 100%;
+        }
+        
+        .nav-item a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .nav-item.active a {
+            color: #667eea;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(224, 224, 224, 0.5);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        /* 主标题区域 */
+        .hero-section {
+            padding: 60px 0 40px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.8s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 统计卡片区域 */
+        .stats-section {
+            padding: 40px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+        
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .stat-label {
+            font-size: 14px;
+            color: #718096;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+        
+        .content-section h2 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            border-bottom: 2px solid #f0f4ff;
+            padding-bottom: 12px;
+        }
+        
+        .content-section h3 {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 24px 0 16px;
+            color: var(--dark-color);
+        }
+        
+        .content-section p {
+            margin-bottom: 16px;
+            color: #718096;
+            line-height: 1.6;
+        }
+        
+        /* 信息管理表单 */
+        .info-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 32px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: var(--dark-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #cbd5e0;
+            transform: translateY(-2px);
+        }
+        
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .data-table th {
+            background-color: #f0f4ff;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+        
+        /* 卡片网格 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .info-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+        
+        .info-card h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+        }
+        
+        .info-card .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f4ff;
+        }
+        
+        .info-card .info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .info-card .info-label {
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .info-card .info-value {
+            color: var(--dark-color);
+            font-weight: 500;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .info-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .login-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-section {
+                padding: 20px;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html" class="active">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="public.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <!-- 主标题区域 -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">招生管理</h1>
+            <p class="hero-subtitle">全面管理招生计划、录取管理、新生管理和招生数据分析，提升招生工作效率和质量</p>
+        </div>
+    </section>
+    
+    <!-- 统计卡片区域 -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">3,200</div>
+                    <div class="stat-label">年招生计划</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">14,500</div>
+                    <div class="stat-label">报考人数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3,200</div>
+                    <div class="stat-label">实际录取</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">45%</div>
+                    <div class="stat-label">录取率</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3,150</div>
+                    <div class="stat-label">报到人数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">98.4%</div>
+                    <div class="stat-label">报到率</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 主要内容区域 -->
+    <section style="padding: 0 0 40px;">
+        <div class="container">
+            <!-- 招生计划管理 -->
+            <div class="content-section">
+                <h2>招生计划管理</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>年份</th>
+                            <th>专业</th>
+                            <th>招生计划</th>
+                            <th>实际录取</th>
+                            <th>录取率</th>
+                            <th>报到人数</th>
+                            <th>报到率</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025</td>
+                            <td>房地产估价</td>
+                            <td>600</td>
+                            <td>600</td>
+                            <td>42.8%</td>
+                            <td>592</td>
+                            <td>98.7%</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>房地产经营与管理</td>
+                            <td>550</td>
+                            <td>550</td>
+                            <td>45.1%</td>
+                            <td>545</td>
+                            <td>99.1%</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>工程造价</td>
+                            <td>650</td>
+                            <td>650</td>
+                            <td>44.5%</td>
+                            <td>642</td>
+                            <td>98.8%</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>物业管理</td>
+                            <td>500</td>
+                            <td>500</td>
+                            <td>46.2%</td>
+                            <td>495</td>
+                            <td>99.0%</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>建筑工程技术</td>
+                            <td>900</td>
+                            <td>900</td>
+                            <td>43.8%</td>
+                            <td>876</td>
+                            <td>97.3%</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary">添加招生计划</button>
+                </div>
+            </div>
+            
+            <!-- 录取管理 -->
+            <div class="content-section">
+                <h2>录取管理</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>考生号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>总分</th>
+                            <th>专业</th>
+                            <th>录取类型</th>
+                            <th>录取状态</th>
+                            <th>录取时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025010001</td>
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>585</td>
+                            <td>房地产估价</td>
+                            <td>普通类</td>
+                            <td>已录取</td>
+                            <td>2025-08-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025010002</td>
+                            <td>李四</td>
+                            <td>女</td>
+                            <td>568</td>
+                            <td>房地产经营与管理</td>
+                            <td>普通类</td>
+                            <td>已录取</td>
+                            <td>2025-08-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025010003</td>
+                            <td>王五</td>
+                            <td>男</td>
+                            <td>572</td>
+                            <td>工程造价</td>
+                            <td>普通类</td>
+                            <td>已录取</td>
+                            <td>2025-08-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025010004</td>
+                            <td>赵六</td>
+                            <td>女</td>
+                            <td>555</td>
+                            <td>物业管理</td>
+                            <td>普通类</td>
+                            <td>已录取</td>
+                            <td>2025-08-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2025010005</td>
+                            <td>孙七</td>
+                            <td>男</td>
+                            <td>560</td>
+                            <td>建筑工程技术</td>
+                            <td>普通类</td>
+                            <td>已录取</td>
+                            <td>2025-08-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary">录入录取结果</button>
+                </div>
+            </div>
+            
+            <!-- 新生管理 -->
+            <div class="content-section">
+                <h2>新生管理</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>学号</th>
+                            <th>考生号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>专业</th>
+                            <th>班级</th>
+                            <th>报到状态</th>
+                            <th>报到时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>20250001</td>
+                            <td>2025010001</td>
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>房地产估价</td>
+                            <td>估价2501班</td>
+                            <td>已报到</td>
+                            <td>2025-09-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20250002</td>
+                            <td>2025010002</td>
+                            <td>李四</td>
+                            <td>女</td>
+                            <td>房地产经营与管理</td>
+                            <td>经管2501班</td>
+                            <td>已报到</td>
+                            <td>2025-09-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20250003</td>
+                            <td>2025010003</td>
+                            <td>王五</td>
+                            <td>男</td>
+                            <td>工程造价</td>
+                            <td>工程2501班</td>
+                            <td>已报到</td>
+                            <td>2025-09-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20250004</td>
+                            <td>2025010004</td>
+                            <td>赵六</td>
+                            <td>女</td>
+                            <td>物业管理</td>
+                            <td>物业2501班</td>
+                            <td>已报到</td>
+                            <td>2025-09-01</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20250005</td>
+                            <td>2025010005</td>
+                            <td>孙七</td>
+                            <td>男</td>
+                            <td>建筑工程技术</td>
+                            <td>建工2501班</td>
+                            <td>未报到</td>
+                            <td>-</td>
+                            <td class="table-actions">
+                                <button class="btn btn-primary btn-small">编辑</button>
+                                <button class="btn btn-secondary btn-small">查看</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary">录入报到信息</button>
+                </div>
+            </div>
+            
+            <!-- 招生数据分析 -->
+            <div class="content-section">
+                <h2>招生数据分析</h2>
+                <div class="cards-grid">
+                    <div class="info-card">
+                        <h4>生源地区分布</h4>
+                        <div class="info-item">
+                            <span class="info-label">湖南省内</span>
+                            <span class="info-value">2,850 (90.0%)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">湖南省外</span>
+                            <span class="info-value">350 (10.0%)</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h4>性别分布</h4>
+                        <div class="info-item">
+                            <span class="info-label">男生</span>
+                            <span class="info-value">1,820 (57.5%)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">女生</span>
+                            <span class="info-value">1,380 (42.5%)</span>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h4>分数段分布</h4>
+                        <div class="info-item">
+                            <span class="info-label">600分以上</span>
+                            <span class="info-value">120 (3.8%)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">550-599分</span>
+                            <span class="info-value">1,850 (57.8%)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">500-549分</span>
+                            <span class="info-value">1,150 (35.9%)</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">500分以下</span>
+                            <span class="info-value">80 (2.5%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary">生成招生报表</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <!-- 每日生成报告数据 -->
+            <div style="background-color: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 12px; margin-bottom: 40px; text-align: center;">
+                <h3 style="color: white; margin-bottom: 10px; font-size: 24px;">每天有 <span style="color: #667eea; font-size: 32px; font-weight: bold;">100,000+</span> 房产估价报告在ValuHub生成</h3>
+            </div>
+            
+            <!-- 产品分类 -->
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>产品</h3>
+                    <ul>
+                        <li><a href="ai-valuation.html">AI估价</a></li>
+                        <li><a href="reports.html">行业报告</a></li>
+                        <li><a href="cases.html">案例库</a></li>
+                        <li><a href="template.html">模板社区</a></li>
+                        <li><a href="api.html">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="public.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>资源</h3>
+                    <ul>
+                        <li><a href="tutorials.html">使用教程</a></li>
+                        <li><a href="enterprise.html">企业服务</a></li>
+                        <li><a href="download.html">下载</a></li>
+                        <li><a href="files.html">我的文件</a></li>
+                        <li><a href="main.html">工作台</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="about.html">公司介绍</a></li>
+                        <li><a href="cooperation.html">企业合作</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                        <li><a href="privacy.html">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 联系信息 -->
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="color: #ccc; font-size: 14px;">
+                    <p>电话：16680508457 | 微信：svip6763</p>
+                    <p>邮箱：contact@zhihuiyun.com | 工作时间：9:00-18:00</p>
+                </div>
+                <div style="color: #ccc; font-size: 14px;">
+                    <p>地址：湖南省长沙市岳麓区高新开发区</p>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 页面加载时检查用户登录状态
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查用户登录状态（简单模拟）
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                // 如果未登录，跳转到登录页面
+                window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+                return;
+            }
+            
+            console.log('招生管理页面加载完成');
+        });
+    </script>
+</body>
+</html>

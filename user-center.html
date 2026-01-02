@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>用户中心 - ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+            overflow: hidden;
+        }
+        
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 260px;
+            background-color: #2c3e50;
+            color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        /* 侧边栏头部 */
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid #34495e;
+            background-color: #34495e;
+        }
+        
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* 用户信息区域 */
+        .user-info-section {
+            padding: 24px;
+            border-bottom: 1px solid #34495e;
+            text-align: center;
+        }
+        
+        .avatar-img {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 铁杆粉丝标识样式 */
+        .iron-fan-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+            z-index: 10;
+        }
+        
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .user-role {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+        
+        /* 粉丝信息样式 */
+        .fan-info {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .fan-level {
+            font-size: 13px;
+            color: #ffd700;
+            font-weight: 600;
+        }
+        
+        .contribution-points {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 侧边栏菜单 */
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .menu-section {
+            margin-bottom: 28px;
+        }
+        
+        .menu-item {
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: #34495e;
+            color: #667eea;
+            border-left-color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+            border-left-color: #5568d3;
+        }
+        
+        .menu-icon {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 右侧主内容区 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            height: 70px;
+            background-color: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 10;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        /* 用户信息 */
+        .nav-user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-user-info:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .nav-user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .nav-user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .nav-user-role {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        /* 内容区域 */
+        .user-center-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+        
+        .page-subtitle {
+            font-size: 15px;
+            color: #7f8c8d;
+        }
+        
+        /* 用户中心内容区域 */
+        .user-section {
+            display: none;
+        }
+        
+        .user-section.active {
+            display: block;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* 铁杆粉丝成长体系 */
+        .iron-fan-growth, .member-benefits {
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .privilege-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .privilege-title i {
+            color: #ffd700;
+            font-size: 20px;
+        }
+        
+        /* 成长等级样式 */
+        .growth-levels {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .growth-level {
+            background: white;
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .growth-level:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        
+        .level-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .level-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .level-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .level-status {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .level-status.active {
+            background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+            color: white;
+        }
+        
+        .level-status {
+            background: #f0f2f5;
+            color: #86909c;
+        }
+        
+        .level-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .level-condition {
+            color: #595959;
+        }
+        
+        .level-condition ul {
+            list-style-position: inside;
+            margin-top: 8px;
+            color: #86909c;
+        }
+        
+        .level-condition li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+        
+        .level-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .info-item {
+            color: #595959;
+        }
+        
+        /* 会员权益矩阵 */
+        .benefit-category {
+            margin-bottom: 30px;
+            background: white;
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .benefit-category h4 {
+            background: #fafbfc;
+            padding: 16px 24px;
+            margin: 0;
+            font-size: 16px;
+            color: #2c3e50;
+            border-bottom: 1px solid #e0e6ed;
+        }
+        
+        .benefit-table {
+            padding: 24px;
+            overflow-x: auto;
+        }
+        
+        .benefit-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .benefit-table th,
+        .benefit-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e0e6ed;
+        }
+        
+        .benefit-table th {
+            background: #fafbfc;
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
+        }
+        
+        .benefit-table td {
+            color: #595959;
+        }
+        
+        .benefit-yes {
+            color: #52c41a;
+            font-weight: 600;
+        }
+        
+        .benefit-no {
+            color: #ff4d4f;
+        }
+        
+        .fan-level-tag {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        /* 个人资料样式 */
+        .profile-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .profile-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .profile-value {
+            font-size: 16px;
+            color: #1d2129;
+            padding: 12px;
+            background: #f5f7fa;
+            border-radius: 6px;
+        }
+        
+        /* 评估历史样式 */
+        .assessment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .assessment-table th,
+        .assessment-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dcdfe6;
+        }
+        
+        .assessment-table th {
+            background: #f5f7fa;
+            font-weight: 600;
+            color: #1d2129;
+        }
+        
+        .assessment-table tr:hover {
+            background: #f5f7fa;
+        }
+        
+        .btn-view-report {
+            padding: 6px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-view-report:hover {
+            background: #5568d3;
+        }
+        
+        /* 收藏的房产样式 */
+        .favorite-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .favorite-card {
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .favorite-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .favorite-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 60px;
+        }
+        
+        .favorite-content {
+            padding: 20px;
+        }
+        
+        .favorite-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .favorite-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 设置样式 */
+        .settings-form {
+            max-width: 600px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background-color: white;
+        }
+        
+        .btn-save {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-save:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 通知样式 */
+        .notification-item {
+            background-color: #fafbfc;
+            padding: 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 12px;
+        }
+        
+        .notification-item:hover {
+            background-color: #f0f4ff;
+            border-color: #667eea;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .user-center-content {
+                padding: 20px;
+            }
+            
+            .profile-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .privilege-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .favorite-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* 成长体系响应式 */
+            .level-details {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            /* 权益矩阵响应式 */
+            .benefit-table {
+                padding: 16px;
+            }
+            
+            .benefit-table th,
+            .benefit-table td {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 1000;
+                height: 100vh;
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+            
+            .top-nav {
+                padding: 0 16px;
+            }
+            
+            .user-center-content {
+                padding: 16px;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 水波纹 -->
+                        <circle cx="50" cy="80" r="35" stroke="#667eea" stroke-width="2" fill="none" opacity="0.3"/>
+                        <circle cx="50" cy="80" r="28" stroke="#667eea" stroke-width="2" fill="none" opacity="0.5"/>
+                        <circle cx="50" cy="80" r="21" stroke="#667eea" stroke-width="2" fill="none" opacity="0.7"/>
+                        <circle cx="50" cy="80" r="14" stroke="#667eea" stroke-width="2" fill="none" opacity="0.9"/>
+                        <!-- 莲花花瓣 -->
+                        <path d="M50 10 Q65 35 85 50 Q65 65 50 80 Q35 65 15 50 Q35 35 50 10" fill="#ff8fab"/>
+                        <path d="M50 15 Q70 35 80 55 Q60 65 50 75 Q40 65 20 55 Q30 35 50 15" fill="#ffb3c1"/>
+                        <path d="M50 20 Q75 35 75 60 Q60 65 50 70 Q40 65 25 60 Q25 35 50 20" fill="#ffccd5"/>
+                        <!-- 箭头 -->
+                        <path d="M45 40 L55 40 L55 65 L65 65 L50 80 L35 65 L45 65 Z" fill="#e53e3e"/>
+                    </svg>
+                    <span>ValuHub</span>
+                </div>
+            </div>
+            
+            <!-- 用户信息区域 -->
+            <div class="user-info-section">
+                <div class="avatar-img">
+                    <i class="fas fa-user"></i>
+                    <!-- 铁杆粉丝标识 -->
+                    <div class="iron-fan-badge" title="铁杆粉丝">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                </div>
+                <div class="user-name">张三</div>
+                <div class="user-role">普通用户</div>
+                <!-- 粉丝等级和贡献积分 -->
+                <div class="fan-info">
+                    <div class="fan-level">LV.3 资深粉丝</div>
+                    <div class="contribution-points">贡献积分: 1280</div>
+                </div>
+            </div>
+            
+            <!-- 侧边栏菜单 -->
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">个人中心</div>
+                    <div class="menu-item active" data-section="profile">
+                        <span class="menu-icon">👤</span>
+                        <span>个人资料</span>
+                    </div>
+                    <div class="menu-item" data-section="assessments">
+                        <span class="menu-icon">📊</span>
+                        <span>评估历史</span>
+                    </div>
+                    <div class="menu-item" data-section="favorites">
+                        <span class="menu-icon">❤️</span>
+                        <span>收藏的房产</span>
+                    </div>
+                    <div class="menu-item" data-section="notifications">
+                        <span class="menu-icon">🔔</span>
+                        <span>通知中心</span>
+                    </div>
+                    <div class="menu-item" data-section="billing">
+                        <span class="menu-icon">💳</span>
+                        <span>账单管理</span>
+                    </div>
+                    <div class="menu-item" data-section="settings">
+                        <span class="menu-icon">⚙️</span>
+                        <span>设置</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <!-- 顶部导航栏 -->
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <h1 class="page-title" style="margin: 0; font-size: 20px; color: #2c3e50;">用户中心</h1>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-user-info">
+                        <div class="nav-user-avatar">张</div>
+                        <div class="nav-user-details">
+                            <div class="nav-user-name">张三</div>
+                            <div class="nav-user-role">普通用户</div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- 用户中心内容 -->
+            <div class="user-center-content">
+                <!-- 个人资料 -->
+                <section id="profile" class="user-section active">
+                    <div class="page-header">
+                        <h2 class="page-title">个人资料</h2>
+                        <p class="page-subtitle">管理您的个人信息和账户设置</p>
+                    </div>
+                    
+                    <!-- 铁杆粉丝成长体系 -->
+                    <div class="iron-fan-growth">
+                        <h3 class="privilege-title">
+                            <i class="fas fa-crown"></i>
+                            铁杆粉丝成长体系
+                        </h3>
+                        <div class="growth-levels">
+                            <div class="growth-level">
+                                <div class="level-header">
+                                    <div class="level-badge">
+                                        <span class="level-number">1</span>
+                                        <span class="level-name">新锐会员</span>
+                                    </div>
+                                    <div class="level-status active">当前等级</div>
+                                </div>
+                                <div class="level-details">
+                                    <div class="level-condition">
+                                        <strong>升级条件：</strong>
+                                        <ul>
+                                            <li>注册满30天</li>
+                                            <li>累计发布内容≥3条</li>
+                                            <li>平台内互动≥10次</li>
+                                        </ul>
+                                    </div>
+                                    <div class="level-info">
+                                        <div class="info-item">
+                                            <strong>核心定位：</strong>潜力用户
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>身份标识：</strong>新锐徽章、普通头像框
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="growth-level">
+                                <div class="level-header">
+                                    <div class="level-badge">
+                                        <span class="level-number">2</span>
+                                        <span class="level-name">精英会员</span>
+                                    </div>
+                                    <div class="level-status">待升级</div>
+                                </div>
+                                <div class="level-details">
+                                    <div class="level-condition">
+                                        <strong>升级条件：</strong>
+                                        <ul>
+                                            <li>新锐会员基础上，累计发布优质内容≥5条</li>
+                                            <li>参与平台调研/测试≥2次</li>
+                                            <li>邀请新用户≥3人</li>
+                                        </ul>
+                                    </div>
+                                    <div class="level-info">
+                                        <div class="info-item">
+                                            <strong>核心定位：</strong>活跃贡献者
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>身份标识：</strong>精英徽章、动态卡片特效
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="growth-level">
+                                <div class="level-header">
+                                    <div class="level-badge">
+                                        <span class="level-number">3</span>
+                                        <span class="level-name">专家会员</span>
+                                    </div>
+                                    <div class="level-status">待升级</div>
+                                </div>
+                                <div class="level-details">
+                                    <div class="level-condition">
+                                        <strong>升级条件：</strong>
+                                        <ul>
+                                            <li>精英会员基础上，成为平台认证专家</li>
+                                            <li>主导或参与平台知识共建</li>
+                                            <li>年度消费≥1000元</li>
+                                        </ul>
+                                    </div>
+                                    <div class="level-info">
+                                        <div class="info-item">
+                                            <strong>核心定位：</strong>行业意见领袖
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>身份标识：</strong>专家徽章、专属主页背景
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="growth-level">
+                                <div class="level-header">
+                                    <div class="level-badge">
+                                        <span class="level-number">4</span>
+                                        <span class="level-name">创始会员</span>
+                                    </div>
+                                    <div class="level-status">待升级</div>
+                                </div>
+                                <div class="level-details">
+                                    <div class="level-condition">
+                                        <strong>升级条件：</strong>
+                                        <ul>
+                                            <li>平台早期用户（注册时间前100名）</li>
+                                            <li>对平台功能/内容有重大贡献</li>
+                                            <li>年度消费≥5000元</li>
+                                        </ul>
+                                    </div>
+                                    <div class="level-info">
+                                        <div class="info-item">
+                                            <strong>核心定位：</strong>平台共建伙伴
+                                        </div>
+                                        <div class="info-item">
+                                            <strong>身份标识：</strong>创始徽章、创始人签名认证
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 会员权益矩阵 -->
+                    <div class="member-benefits">
+                        <h3 class="privilege-title">
+                            <i class="fas fa-gift"></i>
+                            会员权益矩阵
+                        </h3>
+                        
+                        <!-- 功能特权 -->
+                        <div class="benefit-category">
+                            <h4>功能特权</h4>
+                            <div class="benefit-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>权益</th>
+                                            <th>新锐会员</th>
+                                            <th>精英会员</th>
+                                            <th>专家会员</th>
+                                            <th>创始会员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>基础估价功能</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                        </tr>
+                                        <tr>
+                                            <td>高级估价模型（AI算法）</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（每月5次）</td>
+                                            <td class="benefit-yes">✅（无限次）</td>
+                                            <td class="benefit-yes">✅（无限次+定制化）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>多端数据同步</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                        </tr>
+                                        <tr>
+                                            <td>批量操作权限</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（每月10次）</td>
+                                            <td class="benefit-yes">✅（无限次）</td>
+                                            <td class="benefit-yes">✅（无限次）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>专属客服响应</td>
+                                            <td>24小时</td>
+                                            <td>12小时</td>
+                                            <td>6小时</td>
+                                            <td>1小时</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 内容特权 -->
+                        <div class="benefit-category">
+                            <h4>内容特权</h4>
+                            <div class="benefit-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>权益</th>
+                                            <th>新锐会员</th>
+                                            <th>精英会员</th>
+                                            <th>专家会员</th>
+                                            <th>创始会员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>免费查看普通内容</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                        </tr>
+                                        <tr>
+                                            <td>付费内容折扣</td>
+                                            <td>无</td>
+                                            <td>9折</td>
+                                            <td>8折</td>
+                                            <td>7折</td>
+                                        </tr>
+                                        <tr>
+                                            <td>独家行业报告</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（季度1份）</td>
+                                            <td class="benefit-yes">✅（月度1份）</td>
+                                            <td class="benefit-yes">✅（每周1份+定制报告）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>内容创作收益分成</td>
+                                            <td>无</td>
+                                            <td>10%</td>
+                                            <td>20%</td>
+                                            <td>30%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>内容优先推荐</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（1次/月）</td>
+                                            <td class="benefit-yes">✅（3次/月）</td>
+                                            <td class="benefit-yes">✅（无限次）</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 参与特权 -->
+                        <div class="benefit-category">
+                            <h4>参与特权</h4>
+                            <div class="benefit-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>权益</th>
+                                            <th>新锐会员</th>
+                                            <th>精英会员</th>
+                                            <th>专家会员</th>
+                                            <th>创始会员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>新功能测试资格</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（部分功能）</td>
+                                            <td class="benefit-yes">✅（全部功能）</td>
+                                            <td class="benefit-yes">✅（优先邀请）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>用户调研参与</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（季度1次）</td>
+                                            <td class="benefit-yes">✅（月度1次）</td>
+                                            <td class="benefit-yes">✅（随时参与）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>产品决策投票权</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（重要功能）</td>
+                                            <td class="benefit-yes">✅（核心决策）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>线下活动参与</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（年度1次）</td>
+                                            <td class="benefit-yes">✅（季度1次）</td>
+                                            <td class="benefit-yes">✅（不限次数+VIP席位）</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- 专属服务 -->
+                        <div class="benefit-category">
+                            <h4>专属服务</h4>
+                            <div class="benefit-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>权益</th>
+                                            <th>新锐会员</th>
+                                            <th>精英会员</th>
+                                            <th>专家会员</th>
+                                            <th>创始会员</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>个性化推荐</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅</td>
+                                            <td class="benefit-yes">✅（高级算法）</td>
+                                            <td class="benefit-yes">✅（人工+算法）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>账号安全保障</td>
+                                            <td>基础</td>
+                                            <td>中级</td>
+                                            <td>高级</td>
+                                            <td>顶级（专属团队）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>平台周边福利</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（年度1次）</td>
+                                            <td class="benefit-yes">✅（季度1次）</td>
+                                            <td class="benefit-yes">✅（月度1次）</td>
+                                        </tr>
+                                        <tr>
+                                            <td>创始人/团队面对面</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-no">❌</td>
+                                            <td class="benefit-yes">✅（年度1次）</td>
+                                            <td class="benefit-yes">✅（季度1次）</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info">
+                        <div class="profile-item">
+                            <span class="profile-label">用户名</span>
+                            <span class="profile-value">zhangsan</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">姓名</span>
+                            <span class="profile-value">张三</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">邮箱</span>
+                            <span class="profile-value">zhangsan@example.com</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">电话</span>
+                            <span class="profile-value">13800138000</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">注册时间</span>
+                            <span class="profile-value">2025-01-15</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">粉丝等级</span>
+                            <span class="profile-value">
+                                <span class="fan-level-tag">LV.3 资深粉丝</span>
+                            </span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">贡献积分</span>
+                            <span class="profile-value">1280</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">累计估价</span>
+                            <span class="profile-value">25次</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">最后登录</span>
+                            <span class="profile-value">2025-12-07 14:30</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">角色</span>
+                            <span class="profile-value">普通用户</span>
+                        </div>
+                        <div class="profile-item">
+                            <span class="profile-label">评估次数</span>
+                            <span class="profile-value">12次</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 评估历史 -->
+                <section id="assessments" class="user-section">
+                    <div class="page-header">
+                        <h2 class="page-title">评估历史</h2>
+                        <p class="page-subtitle">查看您的历史评估记录</p>
+                    </div>
+                    <table class="assessment-table">
+                        <thead>
+                            <tr>
+                                <th>评估编号</th>
+                                <th>房产地址</th>
+                                <th>评估日期</th>
+                                <th>评估价值</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>EV20251201001</td>
+                                <td>北京市朝阳区建国路88号</td>
+                                <td>2025-12-01</td>
+                                <td>¥8,500,000</td>
+                                <td><button class="btn-view-report">查看报告</button></td>
+                            </tr>
+                            <tr>
+                                <td>EV20251125002</td>
+                                <td>上海市浦东新区陆家嘴环路1000号</td>
+                                <td>2025-11-25</td>
+                                <td>¥12,800,000</td>
+                                <td><button class="btn-view-report">查看报告</button></td>
+                            </tr>
+                            <tr>
+                                <td>EV20251110003</td>
+                                <td>广州市天河区天河路385号</td>
+                                <td>2025-11-10</td>
+                                <td>¥6,200,000</td>
+                                <td><button class="btn-view-report">查看报告</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- 收藏的房产 -->
+                <section id="favorites" class="user-section">
+                    <div class="page-header">
+                        <h2 class="page-title">收藏的房产</h2>
+                        <p class="page-subtitle">管理您收藏的房产信息</p>
+                    </div>
+                    <div class="favorite-grid">
+                        <div class="favorite-card">
+                            <div class="favorite-image">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="favorite-content">
+                                <h3 class="favorite-title">北京市朝阳区建国路88号</h3>
+                                <div class="favorite-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> 朝阳区</span>
+                                    <span><i class="fas fa-expand-arrows-alt"></i> 120㎡</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 3室2厅</span>
+                                </div>
+                                <p>
+                                    位于北京市核心商圈，交通便利，配套设施完善，周边有多所优质学校和医院。
+                                </p>
+                                <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 20px; font-weight: bold; color: #667eea;">¥8.5万/㎡</span>
+                                    <button class="btn-view-report">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="favorite-card">
+                            <div class="favorite-image">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="favorite-content">
+                                <h3 class="favorite-title">上海市浦东新区陆家嘴环路1000号</h3>
+                                <div class="favorite-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> 浦东新区</span>
+                                    <span><i class="fas fa-expand-arrows-alt"></i> 150㎡</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 4室2厅</span>
+                                </div>
+                                <p>
+                                    位于上海陆家嘴金融中心，高端住宅社区，一线江景，配套豪华。
+                                </p>
+                                <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 20px; font-weight: bold; color: #667eea;">¥8.5万/㎡</span>
+                                    <button class="btn-view-report">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="favorite-card">
+                            <div class="favorite-image">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="favorite-content">
+                                <h3 class="favorite-title">广州市天河区天河路385号</h3>
+                                <div class="favorite-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> 天河区</span>
+                                    <span><i class="fas fa-expand-arrows-alt"></i> 98㎡</span>
+                                    <span><i class="fas fa-ruler-combined"></i> 2室2厅</span>
+                                </div>
+                                <p>
+                                    位于广州天河商圈，地铁上盖，周边商业配套齐全，生活便利。
+                                </p>
+                                <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-size: 20px; font-weight: bold; color: #667eea;">¥6.3万/㎡</span>
+                                    <button class="btn-view-report">查看详情</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 设置 -->
+                <section id="settings" class="user-section">
+                    <div class="page-header">
+                        <h2 class="page-title">设置</h2>
+                        <p class="page-subtitle">配置您的账户和系统设置</p>
+                    </div>
+                    <form class="settings-form">
+                        <div class="form-group">
+                            <label for="settingName">姓名</label>
+                            <input type="text" id="settingName" value="张三" />
+                        </div>
+                        <div class="form-group">
+                            <label for="settingEmail">邮箱</label>
+                            <input type="email" id="settingEmail" value="zhangsan@example.com" />
+                        </div>
+                        <div class="form-group">
+                            <label for="settingPhone">电话</label>
+                            <input type="tel" id="settingPhone" value="13800138000" />
+                        </div>
+                        <div class="form-group">
+                            <label for="settingPassword">修改密码</label>
+                            <input type="password" id="settingPassword" placeholder="请输入新密码" />
+                        </div>
+                        <div class="form-group">
+                            <label for="settingNotification">通知设置</label>
+                            <select id="settingNotification">
+                                <option value="all">接收所有通知</option>
+                                <option value="important">只接收重要通知</option>
+                                <option value="none">不接收通知</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="settingLanguage">语言设置</label>
+                            <select id="settingLanguage">
+                                <option value="zh-CN">简体中文</option>
+                                <option value="en-US">English</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="settingTheme">主题设置</label>
+                            <select id="settingTheme">
+                                <option value="light">浅色主题</option>
+                                <option value="dark">深色主题</option>
+                                <option value="auto">跟随系统</option>
+                            </select>
+                        </div>
+                        <div style="margin-top: 20px">
+                            <button type="submit" class="btn-save">保存设置</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- 通知中心 -->
+                <section id="notifications" class="user-section">
+                    <div class="page-header">
+                        <h2 class="page-title">通知中心</h2>
+                        <p class="page-subtitle">查看系统通知和消息</p>
+                    </div>
+                    <div class="notifications-list">
+                        <div class="notification-item">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center">
+                                    <i class="fas fa-bell" style="color: #667eea; margin-right: 10px;"></i>
+                                    <h4 style="margin: 0; font-size: 16px">评估报告已生成</h4>
+                                </div>
+                                <span style="font-size: 12px; color: #999">2025-12-01 14:30</span>
+                            </div>
+                            <p style="margin: 0 0 10px 35px; color: #666">
+                                您的房产评估报告已生成，点击查看详情。
+                            </p>
+                            <div style="margin-left: 35px">
+                                <button class="btn-view-report">查看报告</button>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center">
+                                    <i class="fas fa-gift" style="color: #faad14; margin-right: 10px;"></i>
+                                    <h4 style="margin: 0; font-size: 16px">积分奖励</h4>
+                                </div>
+                                <span style="font-size: 12px; color: #999">2025-11-25 10:00</span>
+                            </div>
+                            <p style="margin: 0 0 10px 35px; color: #666">
+                                您已获得100积分奖励，感谢您的持续使用。
+                            </p>
+                        </div>
+                        <div class="notification-item">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                                <div style="display: flex; align-items: center">
+                                    <i class="fas fa-bell" style="color: #667eea; margin-right: 10px;"></i>
+                                    <h4 style="margin: 0; font-size: 16px">系统更新通知</h4>
+                                </div>
+                                <span style="font-size: 12px; color: #999">2025-11-20 16:30</span>
+                            </div>
+                            <p style="margin: 0 0 10px 35px; color: #666">
+                                系统已完成更新，新增了多项功能，欢迎体验。
+                            </p>
+                            <div style="margin-left: 35px">
+                                <button class="btn-view-report">了解详情</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 账单管理 -->
+                <section id="billing" class="user-section">
+                    <div class="page-header">
+                        <h2 class="page-title">账单管理</h2>
+                        <p class="page-subtitle">查看您的消费记录和账户余额</p>
+                    </div>
+                    <div class="billing-info">
+                        <div class="profile-info">
+                            <div class="profile-item">
+                                <span class="profile-label">账户余额</span>
+                                <span class="profile-value">¥0.00</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">本月消费</span>
+                                <span class="profile-value">¥0.00</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">累计消费</span>
+                                <span class="profile-value">¥0.00</span>
+                            </div>
+                            <div class="profile-item">
+                                <span class="profile-label">会员状态</span>
+                                <span class="profile-value">普通会员</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 30px">
+                            <h3 style="font-size: 20px; margin-bottom: 20px; color: #2c3e50">最近账单</h3>
+                            <table class="assessment-table">
+                                <thead>
+                                    <tr>
+                                        <th>账单编号</th>
+                                        <th>消费类型</th>
+                                        <th>金额</th>
+                                        <th>日期</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>BILL20251201001</td>
+                                        <td>AI估价报告</td>
+                                        <td>¥0.00</td>
+                                        <td>2025-12-01</td>
+                                        <td>已完成</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BILL20251125002</td>
+                                        <td>AI估价报告</td>
+                                        <td>¥0.00</td>
+                                        <td>2025-11-25</td>
+                                        <td>已完成</td>
+                                    </tr>
+                                    <tr>
+                                        <td>BILL20251110003</td>
+                                        <td>AI估价报告</td>
+                                        <td>¥0.00</td>
+                                        <td>2025-11-10</td>
+                                        <td>已完成</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- 全局消息提示组件 -->
+    <div id="toast" style="position: fixed; top: 90px; right: 30px; padding: 12px 24px; background-color: #333; color: white; border-radius: 6px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 9999; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease;"></div>
+
+    <script>
+        // DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 切换用户中心内容区域
+            const menuItems = document.querySelectorAll('.menu-item');
+            const userSections = document.querySelectorAll('.user-section');
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有活动状态
+                    menuItems.forEach(menuItem => menuItem.classList.remove('active'));
+                    userSections.forEach(section => section.classList.remove('active'));
+                    
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    const sectionId = this.getAttribute('data-section');
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+            
+            // 表单提交处理
+            const settingsForm = document.querySelector('.settings-form');
+            if (settingsForm) {
+                settingsForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    showToast('设置保存成功');
+                });
+            }
+            
+            // 工具函数：显示消息提示
+            function showToast(message, duration = 3000) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-20px)';
+                }, duration);
+            }
+        });
+    </script>
+</body>
+</html>

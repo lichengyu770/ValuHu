@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+      - ./storage:/app/storage
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=your-secret-key-here-change-in-production
+    restart: always
+    networks:
+      - app-network
+
+  # 前端服务
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "80:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

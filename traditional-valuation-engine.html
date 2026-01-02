@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数智估价核心引擎 - 传统技术栈实现 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 主样式文件 -->
+    <link rel="stylesheet" href="css/traditional-valuation-style.css" />
+  
+    <style>
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 1. 导航栏 -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-cogs"></i>
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html">首页</a>
+          <a href="traditional-valuation-engine.html" class="active"
+            >估价引擎</a
+          >
+          <a href="advanced-search.html">高级搜索</a>
+          <a href="user-center.html">用户中心</a>
+          <a href="market-analysis.html">市场分析</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 2. 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1><span>数智估价核心引擎</span></h1>
+        <p>基于传统HTML+CSS+JavaScript开发的房产智能估价系统</p>
+      </div>
+    </section>
+
+    <!-- 3. 估价引擎主要内容 -->
+    <section class="valuation-section">
+      <div class="container">
+        <h2>房产估价</h2>
+
+        <div class="valuation-container">
+          <!-- 左侧：参数输入 -->
+          <div class="valuation-form-section">
+            <div class="card">
+              <div class="card-title">估价参数输入</div>
+              <div class="card-content">
+                <form id="valuationForm">
+                  <!-- 基本信息 -->
+                  <div class="form-section">
+                    <h3>基本信息</h3>
+                    <div class="form-grid">
+                      <!-- 建筑面积 -->
+                      <div class="form-group">
+                        <label for="area">建筑面积(㎡)</label>
+                        <input
+                          type="number"
+                          id="area"
+                          name="area"
+                          min="1"
+                          step="1"
+                          value="100"
+                          required
+                        />
+                      </div>
+
+                      <!-- 地理位置 -->
+                      <div class="form-group">
+                        <label for="location">地理位置</label>
+                        <select id="location" name="location" required>
+                          <option value="xjang">湘江新区</option>
+                          <option value="furong">芙蓉区</option>
+                          <option value="yuelu" selected>岳麓区</option>
+                          <option value="tianxin">天心区</option>
+                          <option value="kaifu">开福区</option>
+                        </select>
+                      </div>
+
+                      <!-- 建筑类型 -->
+                      <div class="form-group">
+                        <label for="buildingType">建筑类型</label>
+                        <select id="buildingType" name="buildingType" required>
+                          <option value="住宅" selected>住宅</option>
+                          <option value="商业">商业</option>
+                          <option value="办公">办公</option>
+                          <option value="工业">工业</option>
+                          <option value="别墅">别墅</option>
+                        </select>
+                      </div>
+
+                      <!-- 估价方法 -->
+                      <div class="form-group">
+                        <label for="valuationMethod">估价方法</label>
+                        <select
+                          id="valuationMethod"
+                          name="valuationMethod"
+                          required
+                        >
+                          <option value="市场比较法" selected>
+                            市场比较法
+                          </option>
+                          <option value="收益法">收益法</option>
+                          <option value="成本法">成本法</option>
+                          <option value="综合估价法">综合估价法</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 建筑信息 -->
+                  <div class="form-section">
+                    <h3>建筑信息</h3>
+                    <div class="form-grid">
+                      <!-- 建成年份 -->
+                      <div class="form-group">
+                        <label for="constructionYear">建成年份</label>
+                        <input
+                          type="number"
+                          id="constructionYear"
+                          name="constructionYear"
+                          min="1900"
+                          max="2025"
+                          step="1"
+                          value="2015"
+                          required
+                        />
+                      </div>
+
+                      <!-- 所在楼层 -->
+                      <div class="form-group">
+                        <label for="floor">所在楼层</label>
+                        <input
+                          type="number"
+                          id="floor"
+                          name="floor"
+                          min="1"
+                          step="1"
+                          value="5"
+                          required
+                        />
+                      </div>
+
+                      <!-- 总楼层 -->
+                      <div class="form-group">
+                        <label for="totalFloors">总楼层</label>
+                        <input
+                          type="number"
+                          id="totalFloors"
+                          name="totalFloors"
+                          min="1"
+                          step="1"
+                          value="18"
+                          required
+                        />
+                      </div>
+
+                      <!-- 装修等级 -->
+                      <div class="form-group">
+                        <label for="decorationLevel">装修等级</label>
+                        <select
+                          id="decorationLevel"
+                          name="decorationLevel"
+                          required
+                        >
+                          <option value="毛坯">毛坯</option>
+                          <option value="简装">简装</option>
+                          <option value="中等" selected>中等</option>
+                          <option value="精装">精装</option>
+                          <option value="豪华">豪华</option>
+                        </select>
+                      </div>
+
+                      <!-- 朝向 -->
+                      <div class="form-group">
+                        <label for="orientation">朝向</label>
+                        <select id="orientation" name="orientation" required>
+                          <option value="南北" selected>南北</option>
+                          <option value="南">南</option>
+                          <option value="北">北</option>
+                          <option value="东西">东西</option>
+                          <option value="东">东</option>
+                          <option value="西">西</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 小区信息 -->
+                  <div class="form-section">
+                    <h3>小区信息</h3>
+                    <div class="form-grid">
+                      <!-- 容积率 -->
+                      <div class="form-group">
+                        <label for="lotRatio">容积率</label>
+                        <input
+                          type="number"
+                          id="lotRatio"
+                          name="lotRatio"
+                          min="0.1"
+                          step="0.1"
+                          value="2.5"
+                          required
+                        />
+                      </div>
+
+                      <!-- 绿化率 -->
+                      <div class="form-group">
+                        <label for="greenRatio">绿化率(%)</label>
+                        <input
+                          type="number"
+                          id="greenRatio"
+                          name="greenRatio"
+                          min="0"
+                          max="100"
+                          step="1"
+                          value="35"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 周边配套 -->
+                  <div class="form-section">
+                    <h3>周边配套设施</h3>
+                    <div class="facilities-group">
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="地铁"
+                          checked
+                        />
+                        <span>地铁</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="学校"
+                          checked
+                        />
+                        <span>学校</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="医院"
+                          checked
+                        />
+                        <span>医院</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="商场"
+                          checked
+                        />
+                        <span>商场</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="公园"
+                        />
+                        <span>公园</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="银行"
+                        />
+                        <span>银行</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="餐饮"
+                        />
+                        <span>餐饮</span>
+                      </label>
+                      <label class="facility-item">
+                        <input
+                          type="checkbox"
+                          name="nearbyFacilities"
+                          value="娱乐"
+                        />
+                        <span>娱乐</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- 提交按钮 -->
+                  <div class="form-actions">
+                    <button
+                      type="submit"
+                      id="submitBtn"
+                      class="btn btn-primary"
+                    >
+                      <i class="fas fa-calculator"></i> 开始估价
+                    </button>
+                    <button type="reset" class="btn btn-secondary">重置</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右侧：结果展示 -->
+          <div class="valuation-result-section">
+            <!-- 加载状态 -->
+            <div
+              id="loadingIndicator"
+              class="loading-indicator"
+              style="display: none"
+            >
+              <div class="loading-spinner"></div>
+              <p>正在计算估价结果...</p>
+            </div>
+
+            <!-- 结果展示区域 -->
+            <div
+              id="valuationResult"
+              class="valuation-result"
+              style="display: none"
+            >
+              <div class="card">
+                <div class="card-title">估价结果</div>
+                <div class="card-content">
+                  <!-- 标签页导航 -->
+                  <div class="tabs">
+                    <button class="tab-btn active" data-tab="result">
+                      <i class="fas fa-calculator"></i> 基本结果
+                    </button>
+                    <button class="tab-btn" data-tab="comparable">
+                      <i class="fas fa-building"></i> 可比案例
+                    </button>
+                    <button class="tab-btn" data-tab="trend">
+                      <i class="fas fa-chart-line"></i> 趋势分析
+                    </button>
+                    <button class="tab-btn" data-tab="factors">
+                      <i class="fas fa-bar-chart"></i> 影响因素
+                    </button>
+                  </div>
+
+                  <!-- 标签页内容 -->
+                  <div class="tab-content">
+                    <!-- 基本结果 -->
+                    <div id="resultTab" class="tab-pane active">
+                      <div class="result-cards">
+                        <div class="result-card">
+                          <div class="result-label">总估价</div>
+                          <div class="result-value">
+                            <span class="currency">¥</span>
+                            <span id="totalValue">0</span>
+                          </div>
+                        </div>
+                        <div class="result-card">
+                          <div class="result-label">单价</div>
+                          <div class="result-value">
+                            <span class="currency">¥</span>
+                            <span id="unitPrice">0</span>
+                            <span class="unit">元/㎡</span>
+                          </div>
+                        </div>
+                        <div class="result-card">
+                          <div class="result-label">置信度</div>
+                          <div class="result-value">
+                            <span id="confidence">0</span>
+                            <span class="unit">%</span>
+                          </div>
+                          <div class="confidence-bar">
+                            <div
+                              id="confidenceProgress"
+                              class="confidence-progress"
+                              style="width: 0%"
+                            ></div>
+                          </div>
+                        </div>
+                        <div class="result-card">
+                          <div class="result-label">估价方法</div>
+                          <div
+                            class="result-value text-value"
+                            id="valuationMethodResult"
+                          >
+                            市场比较法
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 可比案例 -->
+                    <div id="comparableTab" class="tab-pane">
+                      <div class="table-container">
+                        <table class="comparable-table">
+                          <thead>
+                            <tr>
+                              <th>案例ID</th>
+                              <th>面积(㎡)</th>
+                              <th>单价(元/㎡)</th>
+                              <th>总价(元)</th>
+                              <th>成交日期</th>
+                              <th>相似度</th>
+                            </tr>
+                          </thead>
+                          <tbody id="comparableTableBody">
+                            <!-- 可比案例数据将动态插入 -->
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <!-- 趋势分析 -->
+                    <div id="trendTab" class="tab-pane">
+                      <div class="trend-content">
+                        <div class="trend-header">
+                          <div class="trend-stat">
+                            <div class="trend-label">年度涨幅</div>
+                            <div class="trend-value" id="yearOnYearGrowth">
+                              0%
+                            </div>
+                          </div>
+                          <div class="trend-prediction" id="trendPrediction">
+                            预计未来趋势...
+                          </div>
+                        </div>
+                        <div class="trend-chart">
+                          <canvas
+                            id="monthlyTrendChart"
+                            width="400"
+                            height="200"
+                          ></canvas>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 影响因素 -->
+                    <div id="factorsTab" class="tab-pane">
+                      <div id="factorsContent">
+                        <!-- 影响因素数据将动态插入 -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="core-function.html">核心功能</a>
+          <a href="tech-frame.html">技术框架</a>
+          <a href="project-feature.html">项目特点</a>
+        </div>
+        <div class="footer-col">
+          <h3>团队介绍</h3>
+          <a href="team-intro.html">团队成员</a>
+          <a href="about-us.html">关于我们</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="help-center.html">帮助中心</a>
+        </div>
+        <div class="footer-col">
+          <h3>联系我们</h3>
+          <a href="#">联系方式</a>
+          <a href="#">意见反馈</a>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>© 2024 数智估价核心引擎 版权所有</p>
+      </div>
+    </footer>
+
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 估价算法 -->
+    <script src="js/traditional-valuation-algorithms.js"></script>
+    <!-- 主逻辑 -->
+    <script src="js/traditional-valuation-main.js"></script>
+  </body>
+</html>

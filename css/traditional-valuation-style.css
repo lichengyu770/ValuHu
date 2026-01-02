@@ -1,0 +1,673 @@
+/* 1. 基础样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f7fa;
+}
+
+/* 2. 容器样式 */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 3. 导航栏样式 */
+.navbar {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  height: 60px;
+  z-index: 1000;
+  width: 100%;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+
+.logo-icon {
+  font-size: 24px;
+  color: #007aff;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: #007aff;
+}
+
+/* 4. 封面区样式 */
+.hero {
+  background: linear-gradient(135deg, #007aff, #0056b3);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.hero h1 span {
+  font-weight: 700;
+}
+
+.hero p {
+  font-size: 16px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* 5. 估价区域样式 */
+.valuation-section {
+  padding: 40px 0;
+}
+
+.valuation-section h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.valuation-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+/* 6. 卡片组件 */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-title {
+  padding: 20px;
+  background: linear-gradient(135deg, #007aff, #0056b3);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+/* 7. 表单样式 */
+.form-section {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.form-section h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+}
+
+/* 8. 设施选择样式 */
+.facilities-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.facility-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.facility-item:hover {
+  border-color: #007aff;
+  background-color: #f0f7ff;
+}
+
+.facility-item input[type='checkbox'] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* 9. 按钮样式 */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #007aff, #0056b3);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+/* 10. 结果展示样式 */
+.valuation-result-section {
+  min-height: 400px;
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 122, 255, 0.1);
+  border-left-color: #007aff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 11. 标签页样式 */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+}
+
+.tab-btn:hover {
+  color: #007aff;
+}
+
+.tab-btn.active {
+  color: #007aff;
+  border-bottom-color: #007aff;
+  background-color: #f0f7ff;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* 12. 结果卡片样式 */
+.result-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.result-card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.result-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.result-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #007aff;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.result-value.text-value {
+  font-size: 18px;
+  color: #333;
+}
+
+.currency {
+  font-size: 16px;
+}
+
+.unit {
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+}
+
+/* 13. 置信度进度条 */
+.confidence-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.confidence-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #2196f3, #ff9800, #f44336);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* 14. 表格样式 */
+.table-container {
+  overflow-x: auto;
+}
+
+.comparable-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.comparable-table th,
+.comparable-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.comparable-table th {
+  background-color: #f5f7fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.comparable-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* 15. 趋势分析样式 */
+.trend-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.trend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.trend-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.trend-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.trend-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #007aff;
+}
+
+.trend-prediction {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.trend-chart {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 16. 影响因素样式 */
+.factors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.factor-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.factor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.factor-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.factor-value {
+  font-weight: 600;
+  color: #007aff;
+}
+
+.factor-progress {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.factor-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50, #2196f3);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+/* 17. 页脚样式 */
+.footer {
+  background: #333;
+  color: white;
+  padding: 40px 0 20px;
+  margin-top: 60px;
+}
+
+.footer .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-col h3 {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #007aff;
+}
+
+.footer-col a {
+  display: block;
+  color: #ccc;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+
+.footer-col a:hover {
+  color: white;
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #555;
+  color: #999;
+  font-size: 13px;
+}
+
+/* 18. 响应式设计 */
+@media (max-width: 1024px) {
+  .valuation-container {
+    grid-template-columns: 1fr;
+  }
+
+  .result-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .facilities-group {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tabs {
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    white-space: nowrap;
+  }
+
+  .trend-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .valuation-section {
+    padding: 20px 0;
+  }
+
+  .card-title {
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .card-content {
+    padding: 15px;
+  }
+
+  .result-value {
+    font-size: 24px;
+  }
+}
+
+/* 19. 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 20. 表单验证样式 */
+.form-group input:invalid,
+.form-group select:invalid {
+  border-color: #dc3545;
+}
+
+.form-group input:invalid:focus,
+.form-group select:invalid:focus {
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}

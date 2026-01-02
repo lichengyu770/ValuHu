@@ -1,0 +1,87 @@
+<!-- 1. 导航栏（含登录按钮） -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+            <a href="index.html" class="ACTIVE_CLASS">首页</a>
+            <!-- 产品服务下拉菜单 -->
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">产品服务 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="valuation-engine.html" class="NAV_CLASS_VALUATION">估价引擎</a>
+                    <a href="advanced-search.html" class="NAV_CLASS_ADVANCED_SEARCH">高级搜索</a>
+                    <a href="product-services.html" class="NAV_CLASS_PRODUCT">产品服务</a>
+                </div>
+            </div>
+            <!-- 用户中心 -->
+            <a href="user-center.html" class="NAV_CLASS_USER_CENTER">用户中心</a>
+            <!-- 数据分析下拉菜单 -->
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">数据分析 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="market-analysis.html" class="NAV_CLASS_MARKET">市场分析</a>
+                    <a href="comparison-tool.html" class="NAV_CLASS_COMPARISON">比较工具</a>
+                    <a href="data-visualization.html" class="NAV_CLASS_VISUALIZATION">数据可视化</a>
+                    <a href="case-study.html" class="NAV_CLASS_CASE">客户案例</a>
+                </div>
+            </div>
+            <!-- 评估预览下拉菜单 -->
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">评估预览 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="gis-evaluation-preview.html" class="NAV_CLASS_GIS">GIS评估预览</a>
+                    <a href="revenue-evaluation-preview.html" class="NAV_CLASS_REVENUE">收益评估预览</a>
+                </div>
+            </div>
+            <!-- 关于我们下拉菜单 -->
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">关于我们 <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="tech-frame.html" class="NAV_CLASS_TECH">技术框架</a>
+                    <a href="api-docs.html" class="NAV_CLASS_API">API文档</a>
+                    <a href="team-intro.html" class="NAV_CLASS_TEAM">团队介绍</a>
+                    <a href="about-us.html" class="NAV_CLASS_ABOUT">关于我们</a>
+                </div>
+            </div>
+            <!-- 登录按钮 -->
+            <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></div>
+    </div>
+</nav>
+
+<!-- 移动端菜单 -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="index.html" class="ACTIVE_CLASS">首页</a></li>
+        <li><a href="valuation-engine.html" class="NAV_CLASS_VALUATION">估价引擎</a></li>
+        <li><a href="advanced-search.html" class="NAV_CLASS_ADVANCED_SEARCH">高级搜索</a></li>
+        <li><a href="user-center.html" class="NAV_CLASS_USER_CENTER">用户中心</a></li>
+        <li><a href="market-analysis.html" class="NAV_CLASS_MARKET">市场分析</a></li>
+        <li><a href="comparison-tool.html" class="NAV_CLASS_COMPARISON">比较工具</a></li>
+        <li><a href="data-visualization.html" class="NAV_CLASS_VISUALIZATION">数据可视化</a></li>
+        <li><a href="case-study.html" class="NAV_CLASS_CASE">客户案例</a></li>
+        <li><a href="product-services.html" class="NAV_CLASS_PRODUCT">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html" class="NAV_CLASS_GIS">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html" class="NAV_CLASS_REVENUE">收益评估预览</a></li>
+        <li><a href="tech-frame.html" class="NAV_CLASS_TECH">技术框架</a></li>
+        <li><a href="api-docs.html" class="NAV_CLASS_API">API文档</a></li>
+        <li><a href="team-intro.html" class="NAV_CLASS_TEAM">团队介绍</a></li>
+        <li><a href="about-us.html" class="NAV_CLASS_ABOUT">关于我们</a></li>
+        <li><a href="contact.html" class="NAV_CLASS_CONTACT">联系方式</a></li>
+        <li><a href="help-center.html" class="NAV_CLASS_HELP">帮助中心</a></li>
+        <li><a href="feedback.html" class="NAV_CLASS_FEEDBACK">意见反馈</a></li>
+        <li><a href="core-function.html" class="NAV_CLASS_CORE">核心功能介绍</a></li>
+        <li><a href="project-feature.html" class="NAV_CLASS_PROJECT">项目特点</a></li>
+        <li><a href="industry-news.html" class="NAV_CLASS_NEWS">行业新闻</a></li>
+        <li><a href="privacy-policy.html" class="NAV_CLASS_PRIVACY">隐私政策</a></li>
+        <li><a href="connection-showcase.html" class="NAV_CLASS_CONNECTION">连接展示</a></li>
+        <li><a href="smart-city.html" class="NAV_CLASS_SMART">智慧城市</a></li>
+        <li><button class="btn btn-primary login-btn" id="mobileLoginBtn">登录</button></li>
+    </ul>
+</div>

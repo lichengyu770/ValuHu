@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>隐私政策 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 页面特定样式 -->
+    <style>
+      :root {
+        --color-primary: #667eea;
+        --color-secondary: #764ba2;
+        --color-success: #52c41a;
+        --color-warning: #faad14;
+        --color-error: #f5222d;
+        --color-light: #f5f7fa;
+        --color-dark: #1e293b;
+        --color-gray: #64748b;
+        --color-light-gray: #e2e8f0;
+        --card-bg: #ffffff;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 12px;
+        --transition: transform 0.3s ease, box-shadow 0.3s ease;
+        --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--color-dark);
+        background-color: var(--color-light);
+      }
+
+      /* 容器样式 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* 头部样式 */
+      .header {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-item a {
+        text-decoration: none;
+        color: var(--color-dark);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-item a:hover {
+        color: var(--color-primary);
+      }
+
+      /* 登录按钮 */
+      .login-btn {
+        background-color: var(--color-primary);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background-color: #5568d3;
+        transform: translateY(-2px);
+      }
+
+      /* 主内容区 */
+      .main-content {
+        padding: 60px 0;
+      }
+
+      /* 页面标题 */
+      .page-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .page-title h1 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        color: var(--color-dark);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .page-title p {
+        font-size: 18px;
+        color: var(--color-gray);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* 内容区域 */
+      .content-section {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+        transition: var(--transition);
+      }
+
+      .content-section:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      /* 隐私政策样式 */
+      .privacy-policy {
+        padding: 40px 0;
+      }
+
+      .policy-last-updated {
+        text-align: center;
+        color: var(--color-gray);
+        margin-bottom: 40px;
+        font-size: 14px;
+      }
+
+      /* 政策内容 */
+      .policy-content {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        max-width: 1000px;
+        margin: 0 auto 60px;
+        transition: var(--transition);
+      }
+
+      .policy-content:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .policy-section {
+        margin-bottom: 40px;
+      }
+
+      .policy-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .policy-section h3 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: var(--color-dark);
+        font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+
+      .policy-section h4 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        margin-top: 30px;
+        color: var(--color-dark);
+        font-weight: 600;
+      }
+
+      .policy-section p {
+        margin-bottom: 15px;
+        color: var(--color-gray);
+        line-height: 1.8;
+      }
+
+      .policy-section ul,
+      .policy-section ol {
+        margin-bottom: 20px;
+        padding-left: 25px;
+      }
+
+      .policy-section li {
+        margin-bottom: 10px;
+        color: var(--color-gray);
+        line-height: 1.6;
+      }
+
+      /* 重点内容强调 */
+      .policy-highlight {
+        background: #f8f9fa;
+        border-left: 4px solid var(--color-primary);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .policy-highlight p {
+        margin-bottom: 0;
+        color: var(--color-dark);
+        font-weight: 500;
+      }
+
+      /* 定义列表 */
+      .policy-definition {
+        margin-bottom: 20px;
+      }
+
+      .policy-definition dt {
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: 5px;
+      }
+
+      .policy-definition dd {
+        margin-bottom: 15px;
+        color: var(--color-gray);
+        line-height: 1.6;
+        padding-left: 20px;
+      }
+
+      /* 常见问题 */
+      .policy-faq {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        max-width: 1000px;
+        margin: 0 auto 60px;
+        transition: var(--transition);
+      }
+
+      .policy-faq:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .policy-faq h3 {
+        font-size: 24px;
+        margin-bottom: 30px;
+        color: var(--color-dark);
+        text-align: center;
+      }
+
+      .policy-faq-items {
+        margin-bottom: 30px;
+      }
+
+      .policy-faq-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--color-light-gray);
+        padding-bottom: 20px;
+      }
+
+      .policy-faq-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .policy-faq-question {
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .policy-faq-question:before {
+        content: 'Q: ';
+        color: var(--color-primary);
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .policy-faq-answer {
+        color: var(--color-gray);
+        line-height: 1.6;
+        padding-left: 30px;
+        font-size: 15px;
+      }
+
+      /* 联系部分 */
+      .policy-contact {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        max-width: 800px;
+        margin: 0 auto;
+        transition: var(--transition);
+      }
+
+      .policy-contact:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .policy-contact h3 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: var(--color-dark);
+      }
+
+      .policy-contact p {
+        color: var(--color-gray);
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
+      .contact-policy-btn {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .contact-policy-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      /* 文档导航 */
+      .policy-nav {
+        position: sticky;
+        top: 20px;
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 20px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+      }
+
+      .policy-nav h4 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .policy-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .policy-nav li {
+        margin-bottom: 10px;
+      }
+
+      .policy-nav a {
+        color: var(--color-gray);
+        text-decoration: none;
+        display: block;
+        padding: 8px 15px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+      }
+
+      .policy-nav a:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+        color: var(--color-primary);
+      }
+
+      .policy-nav a.active {
+        background-color: var(--color-primary);
+        color: white;
+      }
+
+      /* 主布局 */
+      .policy-main {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* 页脚 */
+      .footer {
+        background-color: var(--color-dark);
+        color: white;
+        padding: 60px 0 30px;
+        margin-top: 60px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-section h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-section ul li a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section ul li a:hover {
+        color: var(--color-primary);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .policy-main {
+          grid-template-columns: 1fr;
+        }
+
+        .policy-nav {
+          position: static;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .page-title h1 {
+          font-size: 28px;
+        }
+
+        .page-title p {
+          font-size: 16px;
+        }
+
+        .content-section,
+        .policy-content,
+        .policy-faq,
+        .policy-contact {
+          padding: 30px 20px;
+        }
+
+        .policy-section h3 {
+          font-size: 22px;
+        }
+
+        .policy-section h4 {
+          font-size: 18px;
+        }
+
+        .nav-menu {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .policy-content,
+        .policy-faq,
+        .policy-contact {
+          padding: 20px 15px;
+        }
+
+        .policy-faq-answer {
+          padding-left: 15px;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 头部 -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+        <nav class="nav-menu">
+          <div class="nav-item">
+            <a href="visual-index.html">首页</a>
+          </div>
+          <div class="nav-item">
+            <a href="about-us.html">关于我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="cooperation.html">企业合作</a>
+          </div>
+          <div class="nav-item">
+            <a href="contact.html">联系我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="join.html">加入我们</a>
+          </div>
+          <a href="login.html" class="login-btn">登录/注册</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <div class="container">
+        <div class="page-title">
+          <h1>隐私政策</h1>
+          <p>了解我们如何收集、使用和保护您的个人信息，以及您享有的相关权利</p>
+        </div>
+
+        <div class="policy-last-updated">
+          <p>最后更新日期：2024年1月15日</p>
+        </div>
+
+        <div class="policy-main">
+          <!-- 左侧导航 -->
+          <div class="policy-nav">
+            <h4>文档导航</h4>
+            <ul>
+              <li><a href="#intro" class="active">简介</a></li>
+              <li><a href="#information-collection">信息收集</a></li>
+              <li><a href="#information-usage">信息使用</a></li>
+              <li><a href="#information-sharing">信息共享</a></li>
+              <li><a href="#data-security">数据安全</a></li>
+              <li><a href="#user-rights">用户权利</a></li>
+              <li><a href="#policy-updates">政策更新</a></li>
+              <li><a href="#contact-us">联系我们</a></li>
+            </ul>
+          </div>
+
+          <!-- 右侧内容 -->
+          <div>
+            <div class="policy-content">
+              <!-- 简介 -->
+              <div class="policy-section" id="intro">
+                <h3>1. 简介</h3>
+                <p>
+                  数智估价核心引擎（以下简称"我们"）非常重视用户隐私保护。本隐私政策旨在向您说明我们如何收集、使用、存储和保护您的个人信息，以及您享有的相关权利。请您仔细阅读本隐私政策，了解我们的隐私保护实践。
+                </p>
+
+                <div class="policy-highlight">
+                  <p>
+                    您使用我们的服务，即表示您同意我们按照本隐私政策的规定收集、使用、存储和保护您的信息。
+                  </p>
+                </div>
+              </div>
+
+              <!-- 信息收集 -->
+              <div class="policy-section" id="information-collection">
+                <h3>2. 信息收集</h3>
+                <p>我们收集的信息可能包括但不限于以下类型：</p>
+
+                <h4>2.1 个人信息</h4>
+                <p>
+                  当您注册账户、使用我们的服务或联系我们时，我们可能会收集您提供的个人信息，包括但不限于：
+                </p>
+                <ul>
+                  <li>基本信息：姓名、性别、出生日期、身份证号码等</li>
+                  <li>联系方式：电子邮件地址、电话号码、通讯地址等</li>
+                  <li>账户信息：用户名、密码、安全问题及答案等</li>
+                  <li>业务信息：房产信息、估价需求、交易历史等</li>
+                </ul>
+
+                <h4>2.2 使用信息</h4>
+                <p>
+                  当您使用我们的服务时，我们可能会自动收集与您使用服务相关的信息，包括但不限于：
+                </p>
+                <ul>
+                  <li>
+                    设备信息：设备型号、操作系统版本、唯一设备标识符、MAC地址等
+                  </li>
+                  <li>
+                    日志信息：您的搜索查询内容、IP地址、浏览器类型、访问日期和时间、停留时长等
+                  </li>
+                  <li>
+                    位置信息：在您允许的情况下，我们可能会收集您的精确位置信息
+                  </li>
+                  <li>网络信息：移动网络信息、WiFi接入点等</li>
+                </ul>
+
+                <h4>2.3 第三方信息</h4>
+                <p>我们可能从第三方获取有关您的信息，包括但不限于：</p>
+                <ul>
+                  <li>从我们的合作伙伴获取的信息</li>
+                  <li>从公共数据库获取的信息</li>
+                  <li>从社交媒体平台获取的信息（在您授权的情况下）</li>
+                </ul>
+              </div>
+
+              <!-- 信息使用 -->
+              <div class="policy-section" id="information-usage">
+                <h3>3. 信息使用</h3>
+                <p>我们收集和使用您的个人信息主要用于以下目的：</p>
+
+                <div class="policy-definition">
+                  <dt>3.1 提供、维护和改进我们的服务</dt>
+                  <dd>
+                    包括处理您的请求、提供技术支持、解决问题、优化用户体验等。
+                  </dd>
+
+                  <dt>3.2 个性化服务</dt>
+                  <dd>
+                    根据您的偏好和使用习惯，为您提供个性化的服务和内容推荐。
+                  </dd>
+
+                  <dt>3.3 安全保障</dt>
+                  <dd>用于身份验证、防止欺诈行为、保护用户数据安全等。</dd>
+
+                  <dt>3.4 市场营销</dt>
+                  <dd>
+                    在征得您同意的情况下，向您发送有关我们产品和服务的信息。
+                  </dd>
+
+                  <dt>3.5 法律合规</dt>
+                  <dd>
+                    遵守适用的法律法规，响应政府或执法机构的要求，保护我们的合法权益。
+                  </dd>
+                </div>
+              </div>
+
+              <!-- 信息共享 -->
+              <div class="policy-section" id="information-sharing">
+                <h3>4. 信息共享</h3>
+                <p>
+                  我们重视您的个人信息安全，不会随意共享您的个人信息，但在以下情况下可能会共享：
+                </p>
+
+                <ol>
+                  <li>
+                    <strong>获得您的明确同意</strong>
+                    >：在获得您的明确同意后，我们可能会与第三方共享您的个人信息。
+                  </li>
+                  <li>
+                    <strong>服务提供商</strong>
+                    >：我们可能会与为我们提供服务的第三方共享您的个人信息，如技术服务提供商、支付处理商、数据存储服务提供商等。
+                  </li>
+                  <li>
+                    <strong>法律要求</strong>
+                    >：在法律、法规、法律程序或政府要求的情况下，我们可能会共享您的个人信息。
+                  </li>
+                  <li>
+                    <strong>业务转让</strong>
+                    >：在涉及合并、收购、资产转让或类似的交易时，您的个人信息可能会作为转让资产的一部分被转移。
+                  </li>
+                  <li>
+                    <strong>保护权益</strong>
+                    >：为了保护我们、我们的用户或公众的权利、财产或安全，我们可能会共享您的个人信息。
+                  </li>
+                </ol>
+
+                <div class="policy-highlight">
+                  <p>
+                    我们会要求第三方服务提供商按照我们的要求保护您的个人信息，并且仅用于提供特定服务的目的。
+                  </p>
+                </div>
+              </div>
+
+              <!-- 数据安全 -->
+              <div class="policy-section" id="data-security">
+                <h3>5. 数据安全</h3>
+                <p>
+                  我们采取了合理可行的安全措施来保护您的个人信息，防止其遭到未经授权的访问、使用、披露、修改、损坏或丢失。我们的安全措施包括但不限于：
+                </p>
+
+                <h4>5.1 技术措施</h4>
+                <ul>
+                  <li>数据加密：使用加密技术保护数据的传输和存储</li>
+                  <li>
+                    访问控制：实施严格的访问控制机制，确保只有授权人员才能访问个人信息
+                  </li>
+                  <li>安全审计：定期进行安全审计和漏洞评估</li>
+                  <li>恶意代码防护：使用安全软件防止恶意软件和网络攻击</li>
+                </ul>
+
+                <h4>5.2 组织措施</h4>
+                <ul>
+                  <li>员工培训：定期对员工进行隐私保护和数据安全培训</li>
+                  <li>保密协议：与员工和服务提供商签订保密协议</li>
+                  <li>安全事件响应：建立安全事件响应机制，及时处理安全事件</li>
+                </ul>
+
+                <h4>5.3 数据存储</h4>
+                <p>
+                  我们会在法律规定的期限内保留您的个人信息，或者为了实现本隐私政策中所述的目的所必需的时间内保留您的个人信息。超出保留期限后，我们会采取措施安全地删除您的个人信息或将其匿名化处理。
+                </p>
+              </div>
+
+              <!-- 用户权利 -->
+              <div class="policy-section" id="user-rights">
+                <h3>6. 用户权利</h3>
+                <p>根据适用的法律法规，您可能享有以下权利：</p>
+
+                <div class="policy-definition">
+                  <dt>6.1 访问权</dt>
+                  <dd>您有权访问我们持有的关于您的个人信息。</dd>
+
+                  <dt>6.2 更正权</dt>
+                  <dd>
+                    如果您认为我们持有的关于您的个人信息不准确或不完整，您有权要求我们更正或补充。
+                  </dd>
+
+                  <dt>6.3 删除权</dt>
+                  <dd>在特定情况下，您有权要求我们删除您的个人信息。</dd>
+
+                  <dt>6.4 限制处理权</dt>
+                  <dd>在特定情况下，您有权限制我们对您个人信息的处理。</dd>
+
+                  <dt>6.5 数据可携带权</dt>
+                  <dd>
+                    您有权以结构化、常用和机器可读的格式接收您提供给我们的个人信息。
+                  </dd>
+
+                  <dt>6.6 反对权</dt>
+                  <dd>在特定情况下，您有权反对我们处理您的个人信息。</dd>
+
+                  <dt>6.7 撤回同意权</dt>
+                  <dd>
+                    如果我们基于您的同意处理您的个人信息，您有权随时撤回您的同意。
+                  </dd>
+                </div>
+
+                <p>
+                  如果您想行使上述权利，请通过本隐私政策末尾提供的联系方式与我们联系。我们会在合理的时间内回应您的请求。
+                </p>
+              </div>
+
+              <!-- 政策更新 -->
+              <div class="policy-section" id="policy-updates">
+                <h3>7. 政策更新</h3>
+                <p>
+                  我们可能会不时更新本隐私政策。当我们进行重大变更时，我们会在我们的网站上发布更新后的隐私政策，并在必要时通过电子邮件或其他适当方式通知您。我们鼓励您定期查看本隐私政策，了解我们的隐私保护实践。
+                </p>
+                <p>
+                  本隐私政策的最新版本更新日期为页面顶部所示日期，取代了之前的所有版本。
+                </p>
+              </div>
+
+              <!-- 联系我们 -->
+              <div class="policy-section" id="contact-us">
+                <h3>8. 联系我们</h3>
+                <p>
+                  如果您对本隐私政策有任何问题、意见或建议，或者您想行使您的数据主体权利，请通过以下方式与我们联系：
+                </p>
+                <ul>
+                  <li>电子邮件：privacy@example.com</li>
+                  <li>电话：400-123-4567</li>
+                  <li>地址：北京市海淀区中关村科技园区8号楼创新大厦15层</li>
+                </ul>
+                <p>我们会在收到您的请求后的30天内回应您的询问。</p>
+              </div>
+            </div>
+
+            <!-- 常见问题 -->
+            <div class="policy-faq">
+              <h3>隐私政策常见问题</h3>
+              <div class="policy-faq-items">
+                <div class="policy-faq-item">
+                  <div class="policy-faq-question">
+                    我们收集哪些类型的个人信息？
+                  </div>
+                  <div class="policy-faq-answer">
+                    我们收集的个人信息包括但不限于您提供的基本信息（如姓名、联系方式）、账户信息、业务信息（如房产信息、估价需求）以及使用我们服务时自动收集的信息（如设备信息、日志信息、位置信息等）。
+                  </div>
+                </div>
+
+                <div class="policy-faq-item">
+                  <div class="policy-faq-question">
+                    我们如何保护您的个人信息？
+                  </div>
+                  <div class="policy-faq-answer">
+                    我们采取了多种安全措施来保护您的个人信息，包括数据加密、访问控制、安全审计、恶意代码防护等技术措施，以及员工培训、保密协议、安全事件响应等组织措施，确保您的个人信息安全。
+                  </div>
+                </div>
+
+                <div class="policy-faq-item">
+                  <div class="policy-faq-question">
+                    我们会与第三方共享您的个人信息吗？
+                  </div>
+                  <div class="policy-faq-answer">
+                    我们不会随意共享您的个人信息，但在获得您的明确同意、与服务提供商合作、遵守法律要求、进行业务转让或保护权益的情况下，我们可能会共享您的个人信息。我们会要求第三方服务提供商保护您的个人信息。
+                  </div>
+                </div>
+
+                <div class="policy-faq-item">
+                  <div class="policy-faq-question">您如何行使数据主体权利？</div>
+                  <div class="policy-faq-answer">
+                    如果您想访问、更正、删除您的个人信息，或者行使其他数据主体权利，请通过我们的联系方式与我们联系。我们会在合理的时间内回应您的请求。
+                  </div>
+                </div>
+
+                <div class="policy-faq-item">
+                  <div class="policy-faq-question">
+                    我们会保留您的个人信息多长时间？
+                  </div>
+                  <div class="policy-faq-answer">
+                    我们会在法律规定的期限内保留您的个人信息，或者为了实现本隐私政策中所述的目的所必需的时间内保留您的个人信息。超出保留期限后，我们会安全地删除您的个人信息或将其匿名化处理。
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 联系部分 -->
+            <div class="policy-contact">
+              <h3>有任何问题？</h3>
+              <p>
+                如果您对我们的隐私政策有任何疑问或需要进一步的信息，请随时联系我们的隐私团队
+              </p>
+              <a href="contact.html" class="contact-policy-btn">联系我们</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>产品服务</h3>
+            <ul>
+              <li><a href="ai-valuation.html">AI估价</a></li>
+              <li><a href="reports.html">行业报告</a></li>
+              <li><a href="cases.html">案例库</a></li>
+              <li><a href="api.html">API服务</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>关于我们</h3>
+            <ul>
+              <li><a href="about-us.html">公司介绍</a></li>
+              <li><a href="join.html">加入我们</a></li>
+              <li><a href="cooperation.html">企业合作</a></li>
+              <li><a href="contact.html">联系我们</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>法律条款</h3>
+            <ul>
+              <li><a href="privacy-policy.html">隐私政策</a></li>
+              <li><a href="terms-of-service.html">服务条款</a></li>
+              <li><a href="copyright.html">版权声明</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>联系我们</h3>
+            <ul>
+              <li>电话：400-123-4567</li>
+              <li>邮箱：contact@example.com</li>
+              <li>地址：北京市海淀区中关村</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- 权限管理脚本 -->
+    <script src="js/permission.js"></script>
+  </body>
+</html>

@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>协会控制台 - ValuHub</title>
+    <!-- 引入Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Tailwind配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#6ea8fe',
+                    },
+                },
+            }
+        }
+    </script>
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-item-active {
+                @apply bg-primary text-white;
+            }
+            .nav-item-active {
+                @apply text-primary border-b-2 border-primary;
+            }
+        }
+    </style>
+    <!-- 确保logo始终正确显示 -->
+    <style>
+        img[src="图片1.png"] {
+            max-width: 32px !important;
+            max-height: 32px !important;
+            width: 32px !important;
+            height: 32px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- 主容器 -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- 左侧侧边栏 -->
+        <aside class="w-64 bg-white shadow-md flex flex-col fixed h-full z-10" aria-label="侧边导航">
+            <!-- 侧边栏头部 -->
+            <div class="p-4 border-b flex items-center">
+                <img src="图片1.png" alt="ValuHub Logo" class="w-6 h-6 mr-3 object-contain">
+                <h1 class="text-xl font-bold text-primary">ValuHub 协会控制台</h1>
+            </div>
+            
+            <!-- 侧边栏菜单 -->
+            <nav class="flex-1 overflow-y-auto p-4" aria-label="侧边栏导航">
+                <ul class="space-y-1">
+                    <!-- 首页 -->
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 数据表盘 - 高亮 -->
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-2 rounded-md sidebar-item-active transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span>数据表盘</span>
+                        </a>
+                    </li>
+                    
+                    <!-- 资产管理 -->
+                    <li>
+                        <div class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>资产管理</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <!-- 子菜单 -->
+                        <ul class="ml-10 mt-1 space-y-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产列表</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产录入</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">资产统计</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 数据管务 -->
+                    <li>
+                        <div class="flex items-center justify-between px-4 py-2 rounded-md hover:bg-gray-100 cursor-pointer transition-colors">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                                <span>数据管务</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <!-- 子菜单 -->
+                        <ul class="ml-10 mt-1 space-y-1">
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据录入</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据审核</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors">数据导出</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 数据分析 -->
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-2 rounded-md hover:bg-gray-100 transition-colors">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            <span>数据分析</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- 侧边栏底部 -->
+            <div class="p-4 border-t">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white mr-3">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-medium">管理员</div>
+                        <div class="text-xs text-gray-500">协会端</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <div class="flex-1 ml-64 flex flex-col">
+            <!-- 顶部导航栏 -->
+            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-6">
+                <!-- 左侧logo -->
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-primary">协会控制台</h1>
+                </div>
+                
+                <!-- 右侧导航 -->
+                <nav aria-label="顶部导航">
+                    <ul class="flex space-x-8">
+                        <li>
+                            <a href="#" class="text-primary border-b-2 border-primary py-4 px-1 font-medium">首页</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">资产管理</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">团队协作</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-600 hover:text-primary py-4 px-1 font-medium transition-colors">数据分析</a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <!-- 操作按钮 -->
+                <div class="flex items-center space-x-4">
+                    <button id="undo-btn" type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md transition-colors" aria-label="撤销操作">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        撤销
+                    </button>
+                    <button id="redo-btn" type="button" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md transition-colors" aria-label="重做操作">
+                        <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                        重做
+                    </button>
+                </div>
+            </header>
+            
+            <!-- 主内容 -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- 页面标题 -->
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">数据表盘</h2>
+                
+                <!-- 关键指标卡片组 -->
+                <div class="grid grid-cols-4 gap-6 mb-6">
+                    <!-- 卡片1 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">总资产</p>
+                                <h3 class="text-2xl font-bold text-primary">¥8,600,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-green-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    +4.2%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片2 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">已估价资产</p>
+                                <h3 class="text-2xl font-bold text-primary">¥6,020,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-green-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    +2.6%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片3 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">未估价资产</p>
+                                <h3 class="text-2xl font-bold text-primary">¥2,580,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-red-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                    -1.8%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 卡片4 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm mb-1">本月低价金额</p>
+                                <h3 class="text-2xl font-bold text-primary">¥650,000</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-secondary bg-opacity-10 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-center">
+                                <span class="text-green-500 text-sm flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    +5.9%
+                                </span>
+                                <span class="text-gray-500 text-sm ml-2">较上月</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图表区域 -->
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <!-- 资产总量环图 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">资产总量分布</h3>
+                        <div class="h-80 flex items-center justify-center">
+                            <canvas id="asset-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- 本月低价金额折线图 -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">本月低价金额趋势</h3>
+                        <div class="h-80">
+                            <canvas id="low-price-trend-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 待处理任务进度条 -->
+                <div class="bg-white rounded-lg shadow-sm p-6 transition-all hover:shadow-md">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">待处理任务</h3>
+                    
+                    <!-- 任务1 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-gray-700">资产审核</span>
+                            <span class="text-sm text-gray-500">65%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full w-[65%]"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务2 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-gray-700">数据录入</span>
+                            <span class="text-sm text-gray-500">40%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full w-[40%]"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务3 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-gray-700">报表生成</span>
+                            <span class="text-sm text-gray-500">78%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full w-[78%]"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 任务4 -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm font-medium text-gray-700">系统维护</span>
+                            <span class="text-sm text-gray-500">25%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full w-[25%]"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Toast消息容器 -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    
+    <!-- 图表初始化脚本 -->
+    <script>
+        // 操作历史记录类
+        class OperationHistory {
+            constructor() {
+                this.operations = [];
+                this.currentIndex = -1;
+            }
+            
+            // 记录操作
+            recordOperation(operation) {
+                // 如果当前不是最新操作，清除后面的操作
+                if (this.currentIndex < this.operations.length - 1) {
+                    this.operations = this.operations.slice(0, this.currentIndex + 1);
+                }
+                
+                this.operations.push(operation);
+                this.currentIndex++;
+            }
+            
+            // 撤销操作
+            undo() {
+                if (this.currentIndex >= 0) {
+                    const operation = this.operations[this.currentIndex];
+                    operation.undo();
+                    this.currentIndex--;
+                    return true;
+                }
+                return false;
+            }
+            
+            // 重做操作
+            redo() {
+                if (this.currentIndex < this.operations.length - 1) {
+                    this.currentIndex++;
+                    const operation = this.operations[this.currentIndex];
+                    operation.redo();
+                    return true;
+                }
+                return false;
+            }
+        }
+        
+        // Toast消息系统
+        const Toast = {
+            // 显示toast消息
+            show(message, type = 'info', duration = 3000) {
+                const container = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                
+                // 设置样式
+                toast.className = `px-4 py-3 rounded-md shadow-lg transition-all transform translate-x-full opacity-0`;
+                
+                // 根据类型设置背景色
+                switch(type) {
+                    case 'success':
+                        toast.classList.add('bg-green-500', 'text-white');
+                        break;
+                    case 'error':
+                        toast.classList.add('bg-red-500', 'text-white');
+                        break;
+                    case 'warning':
+                        toast.classList.add('bg-yellow-500', 'text-white');
+                        break;
+                    default:
+                        toast.classList.add('bg-blue-500', 'text-white');
+                }
+                
+                toast.textContent = message;
+                container.appendChild(toast);
+                
+                // 添加动画
+                setTimeout(() => {
+                    toast.classList.remove('translate-x-full', 'opacity-0');
+                    toast.classList.add('translate-x-0', 'opacity-100');
+                }, 10);
+                
+                // 自动移除
+                setTimeout(() => {
+                    toast.classList.remove('translate-x-0', 'opacity-100');
+                    toast.classList.add('translate-x-full', 'opacity-0');
+                    
+                    setTimeout(() => {
+                        container.removeChild(toast);
+                    }, 300);
+                }, duration);
+            },
+            
+            success(message, duration) {
+                this.show(message, 'success', duration);
+            },
+            
+            error(message, duration) {
+                this.show(message, 'error', duration);
+            },
+            
+            warning(message, duration) {
+                this.show(message, 'warning', duration);
+            },
+            
+            info(message, duration) {
+                this.show(message, 'info', duration);
+            }
+        };
+        
+        // 初始化操作历史
+        const operationHistory = new OperationHistory();
+        
+        // 页面加载完成后初始化图表和事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            // 资产总量环图
+            const assetCtx = document.getElementById('asset-distribution-chart').getContext('2d');
+            new Chart(assetCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['已估价资产', '未估价资产'],
+                    datasets: [{
+                        data: [70, 30],
+                        backgroundColor: [
+                            '#0056b3',
+                            '#6ea8fe'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.parsed}%`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%',
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+            
+            // 本月低价金额折线图
+            const lowPriceCtx = document.getElementById('low-price-trend-chart').getContext('2d');
+            new Chart(lowPriceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['100', '200', '400', '600', '800'],
+                    datasets: [{
+                        label: '低价金额 (万元)',
+                        data: [150, 400, 650, 550, 500],
+                        borderColor: '#0056b3',
+                        backgroundColor: 'rgba(110, 168, 254, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#0056b3',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#0056b3',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}万`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: '时间节点',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: '金额 (万元)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '万';
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+            
+            // 初始化撤销/重做按钮事件监听
+            const undoBtn = document.getElementById('undo-btn');
+            const redoBtn = document.getElementById('redo-btn');
+            
+            undoBtn.addEventListener('click', function() {
+                if (operationHistory.undo()) {
+                    Toast.success('已撤销操作');
+                } else {
+                    Toast.warning('没有更多可撤销的操作');
+                }
+            });
+            
+            redoBtn.addEventListener('click', function() {
+                if (operationHistory.redo()) {
+                    Toast.success('已重做操作');
+                } else {
+                    Toast.warning('没有更多可重做的操作');
+                }
+            });
+            
+            // 示例：为任务进度条添加点击交互，可记录操作历史
+            const progressBars = document.querySelectorAll('.bg-primary.h-2.5');
+            progressBars.forEach((bar, index) => {
+                bar.addEventListener('click', function() {
+                    const originalWidth = bar.style.width || bar.className.match(/w-\[(\d+)%\]/)[1] + '%';
+                    const newWidth = Math.min(100, Math.max(0, parseInt(originalWidth) + 10)) + '%';
+                    
+                    // 创建操作对象
+                    const operation = {
+                        undo: () => {
+                            bar.style.width = originalWidth;
+                        },
+                        redo: () => {
+                            bar.style.width = newWidth;
+                        }
+                    };
+                    
+                    // 记录操作
+                    operationHistory.recordOperation(operation);
+                    
+                    // 执行操作
+                    operation.redo();
+                    Toast.success('任务进度已更新');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

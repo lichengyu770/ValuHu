@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ValuHub - 房地产AI估价与数智平台</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --error-color: #f5222d;
+            --light-color: #f5f7fa;
+            --dark-color: #1e293b;
+            --gray-color: #64748b;
+            --light-gray: #e2e8f0;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: var(--gray-color);
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active a {
+            color: var(--primary-color);
+        }
+        
+        .nav-item.hot {
+            color: var(--error-color);
+        }
+        
+        .nav-item.hot span {
+            background-color: var(--error-color);
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+            overflow-x: auto;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar {
+            height: 4px;
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        .sub-nav-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: var(--gray-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: var(--primary-color);
+            background-color: #f0f4ff;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            padding: 60px 0;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .page-title p {
+            font-size: 18px;
+            color: var(--gray-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 内容区域 */
+        .content-section {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .content-section:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        /* 功能卡片网格 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        /* 功能卡片 */
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: var(--primary-color);
+        }
+        
+        .feature-card .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 卡片标题 */
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 服务内容网格 */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        
+        /* 服务卡片 */
+        .service-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .service-card h3::before {
+            content: '📌';
+            font-size: 24px;
+        }
+        
+        .service-card ul {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        
+        .service-card ul li {
+            padding: 8px 0;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .service-card ul li::before {
+            content: '✓';
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        /* 优势部分 */
+        .advantages-section {
+            background: linear-gradient(135deg, var(--light-color) 0%, #f0f4ff 100%);
+            border-radius: var(--border-radius);
+            padding: 60px 40px;
+            margin: 60px 0;
+        }
+        
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+        
+        .advantage-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .advantage-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .advantage-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .advantage-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .advantage-card p {
+            color: var(--gray-color);
+            line-height: 1.6;
+        }
+        
+        /* 联系表单 */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+        
+        /* 返回首页按钮 */
+        .back-home {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-home:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 企业类型选择器 */
+        .enterprise-selector {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .enterprise-selector h3 {
+            margin-bottom: 24px;
+            color: var(--dark-color);
+        }
+        
+        .enterprise-types {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .enterprise-type {
+            padding: 20px 32px;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: var(--light-color);
+            min-width: 150px;
+        }
+        
+        .enterprise-type:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+        
+        .enterprise-type.active {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 数据驾驶舱样式 */
+        .data-cockpit {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .cockpit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        
+        .cockpit-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .cockpit-tabs {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .cockpit-tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .cockpit-tab:hover {
+            color: var(--primary-color);
+        }
+        
+        .cockpit-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .cockpit-content {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 24px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .dashboard-widget {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+        
+        .dashboard-widget:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .widget-title {
+            font-size: 12px;
+            color: var(--gray-color);
+            margin-bottom: 8px;
+        }
+        
+        .widget-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 4px;
+        }
+        
+        .widget-change {
+            font-size: 12px;
+        }
+        
+        .widget-change.positive {
+            color: var(--success-color);
+        }
+        
+        .widget-change.negative {
+            color: var(--error-color);
+        }
+        
+        .dashboard-chart {
+            background-color: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-color);
+        }
+        
+        /* 数据服务工作台样式 */
+        .data-workbench {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .workbench-header {
+            margin-bottom: 32px;
+        }
+        
+        .workbench-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 12px;
+        }
+        
+        .workbench-description {
+            color: var(--gray-color);
+        }
+        
+        .workbench-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 32px;
+        }
+        
+        .drag-drop-panel {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 24px;
+        }
+        
+        .drag-drop-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+        }
+        
+        .data-dimensions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .data-dimension {
+            padding: 12px;
+            background-color: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            cursor: grab;
+            transition: var(--transition);
+        }
+        
+        .data-dimension:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+        
+        .drop-zone {
+            border: 2px dashed var(--light-gray);
+            border-radius: 8px;
+            padding: 32px;
+            text-align: center;
+            transition: var(--transition);
+            min-height: 200px;
+        }
+        
+        .drop-zone:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+        
+        .drop-zone.active {
+            border-color: var(--primary-color);
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+        
+        .report-panel {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 24px;
+        }
+        
+        .report-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+        }
+        
+        .report-settings {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 150px;
+        }
+        
+        .setting-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .setting-select {
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background-color: white;
+        }
+        
+        .custom-dashboard {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-color);
+        }
+        
+        /* 案例库样式 */
+        .case-library {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+        }
+        
+        .case-header {
+            margin-bottom: 32px;
+        }
+        
+        .case-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 12px;
+        }
+        
+        .case-description {
+            color: var(--gray-color);
+        }
+        
+        .case-filters {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .case-filter {
+            padding: 8px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: white;
+        }
+        
+        .case-filter:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .case-filter.active {
+            border-color: var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+        
+        .case-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+        
+        .case-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .case-card-header {
+            padding: 24px;
+            background-color: white;
+        }
+        
+        .case-card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+        }
+        
+        .case-card-company {
+            color: var(--gray-color);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .case-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .case-metric {
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: var(--gray-color);
+            margin-top: 4px;
+        }
+        
+        .case-card-content {
+            padding: 24px;
+        }
+        
+        .case-card-footer {
+            padding: 20px 24px;
+            background-color: white;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .toolkit-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .toolkit-btn {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        
+        .toolkit-btn:hover {
+            background-color: #5568d3;
+        }
+        
+        /* 数据试用入口 */
+        .data-trial {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            padding: 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .trial-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .trial-description {
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+        
+        .trial-form {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        
+        .trial-input {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            min-width: 300px;
+            font-size: 14px;
+        }
+        
+        .trial-btn {
+            padding: 12px 32px;
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .trial-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 在线客服样式 */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+            transition: var(--transition);
+            z-index: 1000;
+        }
+        
+        .chatbot-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            right: 32px;
+            width: 350px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        
+        .chatbot-container.active {
+            display: flex;
+        }
+        
+        .chatbot-header {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .chatbot-messages {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .chat-message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+        }
+        
+        .chat-message.bot {
+            align-self: flex-start;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            border-bottom-left-radius: 4px;
+        }
+        
+        .chat-message.user {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chatbot-input {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            gap: 12px;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+        }
+        
+        .chatbot-input button {
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 28px;
+            }
+            
+            .content-section {
+                padding: 24px;
+            }
+            
+            .features-grid,
+            .services-grid,
+            .advantages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form {
+                padding: 24px;
+            }
+            
+            .enterprise-types {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cockpit-tabs {
+                overflow-x: auto;
+            }
+            
+            .workbench-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .trial-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .trial-input {
+                min-width: 100%;
+            }
+            
+            .chatbot-container {
+                width: calc(100% - 64px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                    <span>Hot</span>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="smart-nav.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <a href="visual-index.html" class="back-home">返回首页</a>
+            
+            <div class="page-title">
+                <h1 id="pageTitle">页面标题</h1>
+                <p id="pageDescription">页面描述</p>
+            </div>
+            
+            <!-- 企业类型选择器 -->
+            <div class="enterprise-selector">
+                <h3>请选择您的企业类型</h3>
+                <div class="enterprise-types">
+                    <div class="enterprise-type active" data-type="developer">房企</div>
+                    <div class="enterprise-type" data-type="agency">中介</div>
+                    <div class="enterprise-type" data-type="consultant">咨询机构</div>
+                </div>
+            </div>
+            
+            <!-- 房企业务场景数据驾驶舱 -->
+            <div class="data-cockpit">
+                <div class="cockpit-header">
+                    <h2 class="cockpit-title">房企业务场景数据驾驶舱</h2>
+                    <button class="btn btn-primary">上传地块信息</button>
+                </div>
+                
+                <div class="cockpit-tabs">
+                    <div class="cockpit-tab active" data-tab="land">拿地决策</div>
+                    <div class="cockpit-tab" data-tab="development">开发管理</div>
+                    <div class="cockpit-tab" data-tab="sales">销售运营</div>
+                    <div class="cockpit-tab" data-tab="operation">资产管理</div>
+                </div>
+                
+                <div class="cockpit-content">
+                    <!-- 拿地决策模块 -->
+                    <div id="land-tab" class="tab-content active">
+                        <div class="dashboard-grid">
+                            <div class="dashboard-widget">
+                                <div class="widget-title">土拍市场热度</div>
+                                <div class="widget-value">12,589</div>
+                                <div class="widget-change positive">+15.2%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">平均溢价率</div>
+                                <div class="widget-value">28.5%</div>
+                                <div class="widget-change negative">-3.1%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">竞品拿地数量</div>
+                                <div class="widget-value">45</div>
+                                <div class="widget-change positive">+8</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">潜在地块</div>
+                                <div class="widget-value">102</div>
+                                <div class="widget-change positive">+12</div>
+                            </div>
+                        </div>
+                        <div class="dashboard-chart">
+                            📈 拿地决策分析图表 - 展示目标城市土拍数据、竞品拿地趋势、成本测算模型
+                        </div>
+                    </div>
+                    
+                    <!-- 开发管理模块 -->
+                    <div id="development-tab" class="tab-content">
+                        <div class="dashboard-grid">
+                            <div class="dashboard-widget">
+                                <div class="widget-title">在开发项目</div>
+                                <div class="widget-value">15</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">平均开发周期</div>
+                                <div class="widget-value">18.5月</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">成本控制率</div>
+                                <div class="widget-value">92.3%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">质量合格率</div>
+                                <div class="widget-value">98.7%</div>
+                            </div>
+                        </div>
+                        <div class="dashboard-chart">
+                            📊 开发管理分析图表 - 展示项目进度、成本控制、质量监控等数据
+                        </div>
+                    </div>
+                    
+                    <!-- 销售运营模块 -->
+                    <div id="sales-tab" class="tab-content">
+                        <div class="dashboard-grid">
+                            <div class="dashboard-widget">
+                                <div class="widget-title">去化率</div>
+                                <div class="widget-value">78.5%</div>
+                                <div class="widget-change positive">+5.2%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">客户到访量</div>
+                                <div class="widget-value">1,245</div>
+                                <div class="widget-change positive">+18.7%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">成交均价</div>
+                                <div class="widget-value">15,800元/㎡</div>
+                                <div class="widget-change positive">+3.5%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">本月销售额</div>
+                                <div class="widget-value">2.8亿</div>
+                                <div class="widget-change positive">+12.3%</div>
+                            </div>
+                        </div>
+                        <div class="dashboard-chart">
+                            📉 销售运营分析图表 - 联动展示楼盘去化率、客户画像、房价走势的实时数据
+                        </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="exportSalesStrategy()">一键导出销售策略建议</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 资产管理模块 -->
+                    <div id="operation-tab" class="tab-content">
+                        <div class="dashboard-grid">
+                            <div class="dashboard-widget">
+                                <div class="widget-title">资产总量</div>
+                                <div class="widget-value">56.8亿</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">资产收益率</div>
+                                <div class="widget-value">8.2%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">空置率</div>
+                                <div class="widget-value">5.8%</div>
+                            </div>
+                            <div class="dashboard-widget">
+                                <div class="widget-title">运营成本</div>
+                                <div class="widget-value">1.2亿/年</div>
+                            </div>
+                        </div>
+                        <div class="dashboard-chart">
+                            📋 资产管理分析图表 - 展示资产分布、收益情况、运营成本等数据
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 企业定制化数据服务工作台 -->
+            <div class="data-workbench">
+                <div class="workbench-header">
+                    <h2 class="workbench-title">企业定制化数据服务工作台</h2>
+                    <p class="workbench-description">打造低代码数据配置工具，让企业用户无需技术背景也能自定义数据需求</p>
+                </div>
+                
+                <div class="workbench-content">
+                    <!-- 数据维度选择面板 -->
+                    <div class="drag-drop-panel">
+                        <h3 class="drag-drop-title">拖拽选择数据维度</h3>
+                        <div class="data-dimensions">
+                            <div class="data-dimension" draggable="true" data-dimension="region">区域</div>
+                            <div class="data-dimension" draggable="true" data-dimension="house-type">户型</div>
+                            <div class="data-dimension" draggable="true" data-dimension="price-range">价格段</div>
+                            <div class="data-dimension" draggable="true" data-dimension="time">时间周期</div>
+                            <div class="data-dimension" draggable="true" data-dimension="developer">开发商</div>
+                            <div class="data-dimension" draggable="true" data-dimension="property-type">物业类型</div>
+                        </div>
+                        <div class="drop-zone" id="drop-zone">
+                            <p>拖拽数据维度到此处，自动生成定制化数据看板</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 定制化报告面板 -->
+                    <div class="report-panel">
+                        <h3 class="report-title">定制化数据看板</h3>
+                        <div class="report-settings">
+                            <div class="setting-group">
+                                <label class="setting-label">更新频率</label>
+                                <select class="setting-select" id="update-frequency">
+                                    <option value="realtime">实时</option>
+                                    <option value="daily">每日</option>
+                                    <option value="weekly">每周</option>
+                                    <option value="monthly">每月</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label class="setting-label">推送渠道</label>
+                                <select class="setting-select" id="push-channel">
+                                    <option value="email">企业邮箱</option>
+                                    <option value="dingtalk">钉钉</option>
+                                    <option value="wechat">企业微信</option>
+                                    <option value="all">全部</option>
+                                </select>
+                            </div>
+                            <div class="setting-group">
+                                <label class="setting-label">数据格式</label>
+                                <select class="setting-select" id="data-format">
+                                    <option value="dashboard">数据看板</option>
+                                    <option value="excel">Excel报告</option>
+                                    <option value="api">API接口</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="custom-dashboard" id="custom-dashboard">
+                            <p>拖拽数据维度到左侧面板，自动生成您的定制化数据看板</p>
+                        </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="generateCustomReport()">生成定制化报告</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 房企数字化转型案例库+工具包 -->
+            <div class="case-library">
+                <div class="case-header">
+                    <h2 class="case-title">房企数字化转型案例库+工具包</h2>
+                    <p class="case-description">精选行业领先房企数字化转型成功案例，提供可直接落地的工具包</p>
+                </div>
+                
+                <div class="case-filters">
+                    <div class="case-filter active" data-filter="all">全部案例</div>
+                    <div class="case-filter" data-filter="developer">房企案例</div>
+                    <div class="case-filter" data-filter="agency">中介案例</div>
+                    <div class="case-filter" data-filter="consultant">咨询机构案例</div>
+                </div>
+                
+                <div class="cases-grid">
+                    <!-- 案例1 -->
+                    <div class="case-card">
+                        <div class="case-card-header">
+                            <h3 class="case-card-title">某TOP10房企数字化拿地决策系统</h3>
+                            <p class="case-card-company">XX地产集团</p>
+                            <div class="case-metrics">
+                                <div class="case-metric">
+                                    <div class="metric-value">30%</div>
+                                    <div class="metric-label">拿地决策效率提升</div>
+                                </div>
+                                <div class="case-metric">
+                                    <div class="metric-value">25%</div>
+                                    <div class="metric-label">成本测算准确率提升</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-card-content">
+                            <p>该房企通过引入ValuHub数字化拿地决策系统，实现了从土地获取到项目开发的全流程数字化管理，大幅提升了决策效率和准确性。</p>
+                        </div>
+                        <div class="case-card-footer">
+                            <div class="toolkit-buttons">
+                                <button class="toolkit-btn">查看详情</button>
+                                <button class="toolkit-btn">下载工具包</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例2 -->
+                    <div class="case-card">
+                        <div class="case-card-header">
+                            <h3 class="case-card-title">某连锁中介数字化运营平台</h3>
+                            <p class="case-card-company">XX房产中介</p>
+                            <div class="case-metrics">
+                                <div class="case-metric">
+                                    <div class="metric-value">40%</div>
+                                    <div class="metric-label">房源管理效率提升</div>
+                                </div>
+                                <div class="case-metric">
+                                    <div class="metric-value">35%</div>
+                                    <div class="metric-label">客户转化率提升</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-card-content">
+                            <p>该中介机构利用ValuHub数字化运营平台，实现了房源管理、客户管理、交易流程的全数字化，显著提升了运营效率和客户满意度。</p>
+                        </div>
+                        <div class="case-card-footer">
+                            <div class="toolkit-buttons">
+                                <button class="toolkit-btn">查看详情</button>
+                                <button class="toolkit-btn">下载工具包</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例3 -->
+                    <div class="case-card">
+                        <div class="case-card-header">
+                            <h3 class="case-card-title">某咨询机构数字化报告生成系统</h3>
+                            <p class="case-card-company">XX咨询</p>
+                            <div class="case-metrics">
+                                <div class="case-metric">
+                                    <div class="metric-value">50%</div>
+                                    <div class="metric-label">报告生成时间缩短</div>
+                                </div>
+                                <div class="case-metric">
+                                    <div class="metric-value">45%</div>
+                                    <div class="metric-label">数据分析深度提升</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="case-card-content">
+                            <p>该咨询机构通过ValuHub数字化报告生成系统，实现了从数据采集、分析到报告生成的全自动化流程，大幅提升了报告质量和交付效率。</p>
+                        </div>
+                        <div class="case-card-footer">
+                            <div class="toolkit-buttons">
+                                <button class="toolkit-btn">查看详情</button>
+                                <button class="toolkit-btn">下载工具包</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="图片1.png" alt="ValuHub Logo">
+                        ValuHub
+                    </div>
+                    <p style="margin-top: 16px; color: #94a3b8;">
+                        房地产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3>产品与服务</h3>
+                    <ul>
+                        <li><a href="visual-index.html">AI估价</a></li>
+                        <li><a href="platform.html">ValuHub平台</a></li>
+                        <li><a href="reports.html">行业报告</a></li>
+                        <li><a href="cooperation.html">企业合作</a></li>
+                        <li><a href="cases.html">案例库</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="smart-nav.html">大众端</a></li>
+                        <li><a href="government.html">政务端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="team-intro.html">团队介绍</a></li>
+                        <li><a href="news-detail.html">新闻动态</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p style="text-align: center; color: #94a3b8;">
+                    © 2025 ValuHub. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 在线客服 -->
+    <div class="chatbot-widget" onclick="toggleChatbot()">
+        💬
+    </div>
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chatbot-header">
+            <h3>ValuHub智能客服</h3>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <div class="chat-message bot">
+                <p>您好！我是ValuHub智能客服，有什么可以帮助您的吗？</p>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="请输入您的问题..." id="chatbot-input">
+            <button onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+    
+    <script>
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置页面标题和描述
+            document.getElementById('pageTitle').textContent = '企业服务';
+            document.getElementById('pageDescription').textContent = '为房企、中介、咨询机构提供定制化的数据服务和解决方案';
+            
+            // 企业类型切换
+            const enterpriseTypes = document.querySelectorAll('.enterprise-type');
+            enterpriseTypes.forEach(type => {
+                type.addEventListener('click', function() {
+                    enterpriseTypes.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const type = this.dataset.type;
+                    updatePageContent(type);
+                });
+            });
+            
+            // 驾驶舱标签切换
+            const cockpitTabs = document.querySelectorAll('.cockpit-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            cockpitTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    cockpitTabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    this.classList.add('active');
+                    const tabId = this.dataset.tab;
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+            
+            // 案例过滤
+            const caseFilters = document.querySelectorAll('.case-filter');
+            caseFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    caseFilters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    const filterValue = this.dataset.filter;
+                    filterCases(filterValue);
+                });
+            });
+            
+            // 拖拽功能
+            const dataDimensions = document.querySelectorAll('.data-dimension');
+            const dropZone = document.getElementById('drop-zone');
+            
+            dataDimensions.forEach(dimension => {
+                dimension.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.dataset.dimension);
+                });
+            });
+            
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('active');
+            });
+            
+            dropZone.addEventListener('dragleave', function() {
+                this.classList.remove('active');
+            });
+            
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('active');
+                const dimension = e.dataTransfer.getData('text/plain');
+                addDimensionToDashboard(dimension);
+            });
+        });
+        
+        // 更新页面内容
+        function updatePageContent(type) {
+            const pageTitle = document.getElementById('pageTitle');
+            const pageDescription = document.getElementById('pageDescription');
+            
+            switch(type) {
+                case 'developer':
+                    pageTitle.textContent = '房企服务';
+                    pageDescription.textContent = '为房地产开发企业提供拿地决策、开发管理、销售运营等全流程解决方案';
+                    break;
+                case 'agency':
+                    pageTitle.textContent = '中介服务';
+                    pageDescription.textContent = '为房地产中介机构提供房源管理、客户管理、交易流程优化等解决方案';
+                    break;
+                case 'consultant':
+                    pageTitle.textContent = '咨询机构服务';
+                    pageDescription.textContent = '为房地产咨询机构提供数据分析、报告生成、市场研究等解决方案';
+                    break;
+            }
+        }
+        
+        // 过滤案例
+        function filterCases(filter) {
+            const caseCards = document.querySelectorAll('.case-card');
+            caseCards.forEach(card => {
+                card.style.display = 'block';
+            });
+        }
+        
+        // 添加维度到仪表盘
+        function addDimensionToDashboard(dimension) {
+            const dashboard = document.getElementById('custom-dashboard');
+            const dimensionNames = {
+                'region': '区域',
+                'house-type': '户型',
+                'price-range': '价格段',
+                'time': '时间周期',
+                'developer': '开发商',
+                'property-type': '物业类型'
+            };
+            dashboard.innerHTML = `<p>已添加维度: ${dimensionNames[dimension]}，正在生成定制化数据看板...</p>`;
+        }
+        
+        // 生成定制化报告
+        function generateCustomReport() {
+            showNotification('定制化报告正在生成中，请稍后查看');
+        }
+        
+        // 导出销售策略建议
+        function exportSalesStrategy() {
+            showNotification('销售策略建议正在导出中');
+        }
+        
+        // 显示通知
+        function showNotification(message) {
+            // 简单的通知实现
+            alert(message);
+        }
+        
+        // 在线客服功能
+        function toggleChatbot() {
+            const chatbotContainer = document.getElementById('chatbot-container');
+            chatbotContainer.classList.toggle('active');
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('chatbot-input');
+            const message = input.value.trim();
+            if (message) {
+                const messagesContainer = document.getElementById('chatbot-messages');
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chat-message user';
+                userMessage.innerHTML = `<p>${message}</p>`;
+                messagesContainer.appendChild(userMessage);
+                
+                input.value = '';
+                
+                // 滚动到底部
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                // 模拟机器人回复
+                setTimeout(() => {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'chat-message bot';
+                    botMessage.innerHTML = `<p>感谢您的咨询，我们会尽快回复您的问题！</p>`;
+                    messagesContainer.appendChild(botMessage);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 1000);
+            }
+        }
+        
+        // 回车键发送消息
+        document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

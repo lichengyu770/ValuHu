@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>生态合作 - ValuHub</title>
+    <meta name="description" content="ValuHub生态合作伙伴计划，与政府、企业、院校、服务机构等建立合作关系，共同构建完整的房产价值生态系统。">
+    <meta name="keywords" content="ValuHub,生态合作,合作伙伴,房产价值生态,合作模式">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ValuHub">
+    <meta name="copyright" content="© 2025 ValuHub">
+    <meta property="og:title" content="生态合作 - ValuHub">
+    <meta property="og:description" content="ValuHub生态合作伙伴计划，与政府、企业、院校、服务机构等建立合作关系，共同构建完整的房产价值生态系统。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.valuhub.com/ecosystem.html">
+    <meta property="og:site_name" content="ValuHub">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="生态合作 - ValuHub">
+    <meta name="twitter:description" content="ValuHub生态合作伙伴计划，与政府、企业、院校、服务机构等建立合作关系，共同构建完整的房产价值生态系统。">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "生态合作 - ValuHub",
+      "url": "https://www.valuhub.com/ecosystem.html",
+      "description": "ValuHub生态合作伙伴计划，与政府、企业、院校、服务机构等建立合作关系，共同构建完整的房产价值生态系统。",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ValuHub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.valuhub.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- 引入CSS样式 - 预加载关键CSS -->
+    <link rel="preload" href="css/design-tokens.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="css/design-tokens.css">
+        <link rel="stylesheet" href="css/components.css">
+    </noscript>
+    
+    <!-- 页面特定样式 -->
+    <style>
+        /* 强制禁用缓存 */
+        * {
+            cache-control: no-cache;
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            gap: var(--spacing-2) !important;
+            flex-direction: row !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+        
+        .navbar-brand img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+        }
+        
+        .navbar-brand span,
+        .navbar-brand a {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-16) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+        }
+        
+        /* 合作伙伴Logo样式 */
+        .partner-logo {
+            width: 120px;
+            height: 80px;
+            margin: 0 auto var(--spacing-4);
+            background-color: var(--color-bg-light);
+            border-radius: var(--border-radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xl);
+            color: var(--color-primary);
+        }
+        
+        /* 合作模式图标样式 */
+        .mode-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(26, 95, 223, 0.1);
+            border-radius: var(--border-radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .mode-icon i {
+            font-size: var(--font-size-2xl);
+            color: var(--color-primary);
+        }
+        
+        /* 加入步骤样式 */
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            margin: 0 auto var(--spacing-4);
+        }
+        
+        /* 联系表单样式 */
+        .form-control {
+            width: 100%;
+            padding: var(--spacing-3) var(--spacing-4);
+            border: var(--border-width-1) var(--border-style-solid) var(--border-color-base);
+            border-radius: var(--border-radius-base);
+            font-size: var(--font-size-base);
+            transition: var(--transition-base);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(26, 95, 223, 0.2);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* 成功案例自定义样式 */
+        .story-header {
+            padding: var(--spacing-6);
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+        
+        /* FAQ样式 */
+        .faq-item {
+            background-color: var(--color-white);
+            border: var(--border-width-1) var(--border-style-solid) var(--border-color-light);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-4);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: var(--spacing-4) var(--spacing-6);
+            background-color: var(--color-bg-light);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition-base);
+        }
+        
+        .faq-question:hover {
+            background-color: var(--color-bg-secondary);
+        }
+        
+        .faq-question.active {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+        
+        .faq-answer {
+            padding: var(--spacing-6);
+            display: none;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .hero {
+                padding: var(--spacing-12) 0;
+            }
+            
+            .partners,
+            .cooperation-modes,
+            .join-ecosystem,
+            .success-stories,
+            .faq {
+                padding: var(--spacing-12) 0;
+            }
+            
+            .partner-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="navbar navbar-fixed">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ecosystem.html" class="nav-link active">生态合作</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="academy.html" class="nav-link">学院中心</a>
+                    <div class="d-flex gap-4 ml-8">
+                        <a href="residential.html" class="nav-link">个人用户</a>
+                        <a href="government.html" class="nav-link">政府人员</a>
+                        <a href="enterprise.html" class="nav-link">企业客户</a>
+                        <a href="academy.html" class="nav-link">院校师生</a>
+                    </div>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- Hero区域 -->
+        <section class="hero py-16 bg-gradient-to-r from-primary to-secondary text-white relative overflow-hidden">
+            <div class="container relative z-10">
+                <h1 class="text-5xl font-bold mb-4">构建房产价值生态系统</h1>
+                <p class="text-xl max-w-3xl">与政府、企业、院校、服务机构等建立长期稳定的合作关系，共同构建完整的房产价值生态系统，实现互利共赢</p>
+            </div>
+        </section>
+        
+        <!-- 合作伙伴展示 -->
+        <section class="partners py-16">
+            <div class="container">
+                <h2 class="section-title">我们的合作伙伴</h2>
+                <p class="section-subtitle">与各领域优秀机构建立长期稳定的合作关系，共同推动房产价值生态发展</p>
+                
+                <!-- 政府机构 -->
+                <div class="partner-category mt-12">
+                    <h3 class="text-2xl font-semibold mb-6">政府机构</h3>
+                    <div class="grid grid-cols-4 gap-8">
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-building text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">住房和城乡建设部</h4>
+                            <p class="text-sm text-text-secondary mt-2">政策指导与合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-building text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">自然资源部</h4>
+                            <p class="text-sm text-text-secondary mt-2">数据共享与合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-building text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">国家税务总局</h4>
+                            <p class="text-sm text-text-secondary mt-2">税收征管合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-building text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">北京市规划和自然资源委员会</h4>
+                            <p class="text-sm text-text-secondary mt-2">地方合作试点</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 金融机构 -->
+                <div class="partner-category mt-16">
+                    <h3 class="text-2xl font-semibold mb-6">金融机构</h3>
+                    <div class="grid grid-cols-4 gap-8">
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-university text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">中国工商银行</h4>
+                            <p class="text-sm text-text-secondary mt-2">金融服务合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-university text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">中国建设银行</h4>
+                            <p class="text-sm text-text-secondary mt-2">抵押贷款合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-university text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">招商银行</h4>
+                            <p class="text-sm text-text-secondary mt-2">金融科技合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-university text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">平安银行</h4>
+                            <p class="text-sm text-text-secondary mt-2">互联网金融合作</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 科技企业 -->
+                <div class="partner-category mt-16">
+                    <h3 class="text-2xl font-semibold mb-6">科技企业</h3>
+                    <div class="grid grid-cols-4 gap-8">
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-microchip text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">阿里巴巴集团</h4>
+                            <p class="text-sm text-text-secondary mt-2">云计算与AI合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-microchip text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">腾讯科技</h4>
+                            <p class="text-sm text-text-secondary mt-2">大数据与地图合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-microchip text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">百度智能云</h4>
+                            <p class="text-sm text-text-secondary mt-2">AI技术合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-microchip text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">华为技术</h4>
+                            <p class="text-sm text-text-secondary mt-2">智能计算合作</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 高等院校 -->
+                <div class="partner-category mt-16">
+                    <h3 class="text-2xl font-semibold mb-6">高等院校</h3>
+                    <div class="grid grid-cols-4 gap-8">
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">清华大学</h4>
+                            <p class="text-sm text-text-secondary mt-2">学术研究合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">北京大学</h4>
+                            <p class="text-sm text-text-secondary mt-2">数据科学合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">中国人民大学</h4>
+                            <p class="text-sm text-text-secondary mt-2">房地产研究合作</p>
+                        </div>
+                        <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-6 text-center">
+                            <div class="partner-logo bg-primary/10 text-primary rounded-lg w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-xl"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">同济大学</h4>
+                            <p class="text-sm text-text-secondary mt-2">城市规划合作</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 合作模式 -->
+        <section class="cooperation-modes py-16 bg-light">
+            <div class="container">
+                <h2 class="section-title">合作模式</h2>
+                <p class="section-subtitle">多样化的合作模式，满足不同合作伙伴的需求</p>
+                
+                <div class="grid grid-cols-3 gap-8 mt-12">
+                    <!-- 数据合作 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-8">
+                        <div class="mode-icon bg-primary/10 text-primary rounded-xl w-16 h-16 flex items-center justify-center mb-6">
+                            <i class="fas fa-database text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">数据合作</h3>
+                        <p class="card-body text-text-secondary mb-6">共享和交换房产相关数据，共同构建完整的房产数据库</p>
+                        <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                            <li>数据共享与交换</li>
+                            <li>数据标准化处理</li>
+                            <li>数据质量控制</li>
+                            <li>联合数据研究</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 技术合作 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-8">
+                        <div class="mode-icon bg-primary/10 text-primary rounded-xl w-16 h-16 flex items-center justify-center mb-6">
+                            <i class="fas fa-cogs text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">技术合作</h3>
+                        <p class="card-body text-text-secondary mb-6">共同研发房产估价技术、AI模型和数据分析工具</p>
+                        <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                            <li>AI模型研发</li>
+                            <li>算法优化</li>
+                            <li>系统集成</li>
+                            <li>技术创新</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 业务合作 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-8">
+                        <div class="mode-icon bg-primary/10 text-primary rounded-xl w-16 h-16 flex items-center justify-center mb-6">
+                            <i class="fas fa-handshake text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">业务合作</h3>
+                        <p class="card-body text-text-secondary mb-6">在房产估价、市场分析、咨询服务等领域开展业务合作</p>
+                        <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                            <li>联合服务提供</li>
+                            <li>市场推广合作</li>
+                            <li>客户资源共享</li>
+                            <li>业务流程对接</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 学术合作 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-8">
+                        <div class="mode-icon bg-primary/10 text-primary rounded-xl w-16 h-16 flex items-center justify-center mb-6">
+                            <i class="fas fa-book text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">学术合作</h3>
+                        <p class="card-body text-text-secondary mb-6">与高等院校开展学术研究、人才培养、课题合作等</p>
+                        <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                            <li>联合研究项目</li>
+                            <li>人才培养计划</li>
+                            <li>学术交流活动</li>
+                            <li>成果转化合作</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 投资合作 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-8">
+                        <div class="mode-icon bg-primary/10 text-primary rounded-xl w-16 h-16 flex items-center justify-center mb-6">
+                            <i class="fas fa-chart-line text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">投资合作</h3>
+                        <p class="card-body text-text-secondary mb-6">共同投资房产价值生态相关项目，实现资本与资源的结合</p>
+                        <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                            <li>项目投资</li>
+                            <li>股权合作</li>
+                            <li>战略投资</li>
+                            <li>产业基金</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 生态合作 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 p-8">
+                        <div class="mode-icon bg-primary/10 text-primary rounded-xl w-16 h-16 flex items-center justify-center mb-6">
+                            <i class="fas fa-leaf text-2xl"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">生态合作</h3>
+                        <p class="card-body text-text-secondary mb-6">加入ValuHub生态系统，共享生态资源和服务</p>
+                        <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                            <li>生态系统接入</li>
+                            <li>API服务调用</li>
+                            <li>生态资源共享</li>
+                            <li>联合生态活动</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 加入生态系统 -->
+        <section class="join-ecosystem py-16">
+            <div class="container">
+                <h2 class="section-title">加入我们的生态系统</h2>
+                <p class="section-subtitle">填写合作申请，我们将尽快与您联系</p>
+                
+                <!-- 加入流程 -->
+                <div class="grid grid-cols-5 gap-8 mt-12">
+                    <div class="step-item text-center">
+                        <div class="step-number bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+                        <h3 class="text-lg font-semibold mb-2">提交申请</h3>
+                        <p class="text-text-secondary">填写合作申请表，提供基本信息</p>
+                    </div>
+                    <div class="step-item text-center">
+                        <div class="step-number bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+                        <h3 class="text-lg font-semibold mb-2">初步审核</h3>
+                        <p class="text-text-secondary">我们将对您的申请进行初步审核</p>
+                    </div>
+                    <div class="step-item text-center">
+                        <div class="step-number bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+                        <h3 class="text-lg font-semibold mb-2">深度沟通</h3>
+                        <p class="text-text-secondary">与您进行深度沟通，了解合作需求</p>
+                    </div>
+                    <div class="step-item text-center">
+                        <div class="step-number bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">4</div>
+                        <h3 class="text-lg font-semibold mb-2">合作签约</h3>
+                        <p class="text-text-secondary">签订合作协议，正式建立合作关系</p>
+                    </div>
+                    <div class="step-item text-center">
+                        <div class="step-number bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">5</div>
+                        <h3 class="text-lg font-semibold mb-2">实施落地</h3>
+                        <p class="text-text-secondary">合作项目实施，共同推进生态发展</p>
+                    </div>
+                </div>
+                
+                <!-- 联系表单 -->
+                <div class="contact-form mt-16 max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold mb-6 text-center">合作申请表</h3>
+                    <form action="#" method="POST">
+                        <div class="form-row grid grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="company-name" class="block text-sm font-medium text-text-primary mb-2">机构名称</label>
+                                <input type="text" id="company-name" name="company-name" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入机构名称" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-person" class="block text-sm font-medium text-text-primary mb-2">联系人</label>
+                                <input type="text" id="contact-person" name="contact-person" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入联系人姓名" required>
+                            </div>
+                        </div>
+                        <div class="form-row grid grid-cols-2 gap-6 mt-6">
+                            <div class="form-group">
+                                <label for="phone" class="block text-sm font-medium text-text-primary mb-2">联系电话</label>
+                                <input type="tel" id="phone" name="phone" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入联系电话" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="block text-sm font-medium text-text-primary mb-2">电子邮箱</label>
+                                <input type="email" id="email" name="email" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入电子邮箱" required>
+                            </div>
+                        </div>
+                        <div class="form-row grid grid-cols-2 gap-6 mt-6">
+                            <div class="form-group">
+                                <label for="industry" class="block text-sm font-medium text-text-primary mb-2">所属行业</label>
+                                <select id="industry" name="industry" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                    <option value="">请选择所属行业</option>
+                                    <option value="government">政府机构</option>
+                                    <option value="finance">金融机构</option>
+                                    <option value="real-estate">房地产企业</option>
+                                    <option value="technology">科技企业</option>
+                                    <option value="education">教育机构</option>
+                                    <option value="other">其他行业</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cooperation-type" class="block text-sm font-medium text-text-primary mb-2">合作类型</label>
+                                <select id="cooperation-type" name="cooperation-type" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" required>
+                                    <option value="">请选择合作类型</option>
+                                    <option value="data">数据合作</option>
+                                    <option value="technology">技术合作</option>
+                                    <option value="business">业务合作</option>
+                                    <option value="academic">学术合作</option>
+                                    <option value="investment">投资合作</option>
+                                    <option value="ecosystem">生态合作</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mt-6">
+                            <label for="description" class="block text-sm font-medium text-text-primary mb-2">合作需求描述</label>
+                            <textarea id="description" name="description" rows="5" class="form-control border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请详细描述您的合作需求和期望"></textarea>
+                        </div>
+                        <div class="text-center mt-8">
+                            <button type="submit" class="btn btn-primary btn-lg px-8 py-3 rounded-lg text-white font-semibold bg-primary hover:bg-primary-dark transition-colors duration-300">提交申请</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 成功案例 -->
+        <section class="success-stories py-16 bg-light">
+            <div class="container">
+                <h2 class="section-title">成功案例</h2>
+                <p class="section-subtitle">与合作伙伴共同取得的成功成果</p>
+                
+                <div class="grid grid-cols-3 gap-8 mt-12">
+                    <!-- 案例1 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                        <div class="story-header bg-primary text-white p-6">
+                            <h3 class="text-xl font-semibold">与某城市规划局的合作</h3>
+                            <p class="text-sm opacity-90 mt-2">城市规划与房产估价数据整合</p>
+                        </div>
+                        <div class="story-body p-6">
+                            <p class="text-text-secondary mb-6">与某城市规划局合作，整合房产估价数据与城市规划数据，为城市规划决策提供科学依据。</p>
+                            <h4 class="font-medium mb-3">合作成果：</h4>
+                            <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                                <li>建立了城市规划与房产估价数据共享机制</li>
+                                <li>开发了城市规划辅助决策系统</li>
+                                <li>提高了城市规划决策的科学性和准确性</li>
+                                <li>推动了城市可持续发展</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例2 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                        <div class="story-header bg-primary text-white p-6">
+                            <h3 class="text-xl font-semibold">与某金融机构的合作</h3>
+                            <p class="text-sm opacity-90 mt-2">抵押贷款估价服务</p>
+                        </div>
+                        <div class="story-body p-6">
+                            <p class="text-text-secondary mb-6">为某金融机构提供抵押贷款估价服务，提高了贷款审批效率和风险管理能力。</p>
+                            <h4 class="font-medium mb-3">合作成果：</h4>
+                            <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                                <li>实现了抵押贷款估价自动化</li>
+                                <li>提高了贷款审批效率300%</li>
+                                <li>降低了不良贷款率15%</li>
+                                <li>增强了金融机构的风险管理能力</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 案例3 -->
+                    <div class="card bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                        <div class="story-header bg-primary text-white p-6">
+                            <h3 class="text-xl font-semibold">与某高校的合作</h3>
+                            <p class="text-sm opacity-90 mt-2">学术研究与人才培养</p>
+                        </div>
+                        <div class="story-body p-6">
+                            <p class="text-text-secondary mb-6">与某高校合作开展房产估价领域的学术研究和人才培养，共同推动行业发展。</p>
+                            <h4 class="font-medium mb-3">合作成果：</h4>
+                            <ul class="list-disc pl-6 text-text-secondary space-y-2">
+                                <li>共同发表学术论文10余篇</li>
+                                <li>培养了50余名房产估价专业人才</li>
+                                <li>研发了2项房产估价新技术</li>
+                                <li>建立了产学研合作基地</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 常见问题 -->
+        <section class="faq py-16">
+            <div class="container">
+                <h2 class="section-title">常见问题</h2>
+                <p class="section-subtitle">解答合作伙伴关心的常见问题</p>
+                
+                <div class="max-w-4xl mx-auto mt-12">
+                    <!-- FAQ 1 -->
+                    <div class="faq-item bg-white rounded-xl overflow-hidden shadow-md mb-4">
+                        <div class="faq-question p-6 bg-primary/10 cursor-pointer flex justify-between items-center transition-all duration-300 hover:bg-primary/20">
+                            <span class="font-medium">如何加入ValuHub生态系统？</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer p-6 bg-white text-text-secondary">
+                            <p>您可以通过填写我们的合作申请表，提交您的合作意愿和需求，我们的合作团队将在3个工作日内与您联系，进行进一步沟通和洽谈。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 2 -->
+                    <div class="faq-item bg-white rounded-xl overflow-hidden shadow-md mb-4">
+                        <div class="faq-question p-6 bg-primary/10 cursor-pointer flex justify-between items-center transition-all duration-300 hover:bg-primary/20">
+                            <span class="font-medium">加入生态系统需要什么条件？</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer p-6 bg-white text-text-secondary">
+                            <p>我们欢迎各领域优秀机构加入我们的生态系统，具体条件包括：</p>
+                            <ul class="list-disc pl-6 mt-2 space-y-1">
+                                <li>具有合法的经营资质</li>
+                                <li>在所属领域具有一定的影响力</li>
+                                <li>具有良好的信誉和口碑</li>
+                                <li>认同ValuHub的价值观和发展理念</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 3 -->
+                    <div class="faq-item bg-white rounded-xl overflow-hidden shadow-md mb-4">
+                        <div class="faq-question p-6 bg-primary/10 cursor-pointer flex justify-between items-center transition-all duration-300 hover:bg-primary/20">
+                            <span class="font-medium">合作周期一般是多久？</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer p-6 bg-white text-text-secondary">
+                            <p>合作周期根据具体合作项目而定，一般为1-3年。我们也欢迎长期战略合作伙伴，共同推动房产价值生态的长期发展。</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 4 -->
+                    <div class="faq-item bg-white rounded-xl overflow-hidden shadow-md mb-4">
+                        <div class="faq-question p-6 bg-primary/10 cursor-pointer flex justify-between items-center transition-all duration-300 hover:bg-primary/20">
+                            <span class="font-medium">如何保障合作过程中的数据安全？</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer p-6 bg-white text-text-secondary">
+                            <p>我们高度重视数据安全，采取了一系列措施保障合作过程中的数据安全：</p>
+                            <ul class="list-disc pl-6 mt-2 space-y-1">
+                                <li>签订严格的数据安全协议</li>
+                                <li>采用加密技术保护数据传输和存储</li>
+                                <li>建立完善的数据访问控制机制</li>
+                                <li>定期进行数据安全审计和评估</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ 5 -->
+                    <div class="faq-item bg-white rounded-xl overflow-hidden shadow-md mb-4">
+                        <div class="faq-question p-6 bg-primary/10 cursor-pointer flex justify-between items-center transition-all duration-300 hover:bg-primary/20">
+                            <span class="font-medium">合作过程中遇到问题如何解决？</span>
+                            <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                        </div>
+                        <div class="faq-answer p-6 bg-white text-text-secondary">
+                            <p>我们建立了完善的合作服务体系，为合作伙伴提供全方位的支持和服务：</p>
+                            <ul class="list-disc pl-6 mt-2 space-y-1">
+                                <li>设立专门的合作服务团队</li>
+                                <li>建立定期沟通机制</li>
+                                <li>提供技术支持和培训</li>
+                                <li>建立问题快速响应机制</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid grid-lg">
+                <div class="grid-item grid-lg-3">
+                    <div class="footer-logo">
+                        <a href="index.html" class="navbar-brand">
+                            <img src="图片1.png" alt="ValuHub Logo">
+                            ValuHub
+                        </a>
+                        <p class="mt-4 text-sm text-text-secondary">
+                            房产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">产品与服务</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">房产估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">数据报告</a></li>
+                        <li><a href="#">API服务</a></li>
+                        <li><a href="solutions.html">解决方案</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">解决方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">大众端</a></li>
+                        <li><a href="#">政务端</a></li>
+                        <li><a href="#">企业端</a></li>
+                        <li><a href="#">院校端</a></li>
+                        <li><a href="#">资管通</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="ecosystem.html">合作伙伴</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-3">
+                    <h4 class="footer-title">联系我们</h4>
+                    <ul class="footer-links contact-links">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市朝阳区XX大厦XX层</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@valuhub.com</span>
+                        </li>
+                    </ul>
+                    <div class="social-links mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom mt-8 pt-6 border-top">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="text-sm text-text-secondary">
+                        © 2025 ValuHub. 保留所有权利。
+                    </p>
+                    <div class="footer-bottom-links mt-3 mt-md-0">
+                        <a href="privacy-policy.html" class="text-sm text-text-secondary mr-4">隐私政策</a>
+                        <a href="terms-of-service.html" class="text-sm text-text-secondary">服务条款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 引入JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <!-- FAQ交互脚本 -->
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ折叠功能
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    // 切换当前FAQ的状态
+                    this.classList.toggle('active');
+                    answer.classList.toggle('active');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+/* ========== 企业端暗色主题样式 ========== */
+
+/* 基础样式 */
+.terminal-biz.dark-mode {
+  background-color: var(--terminal-enterprise-dark-bg-primary);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+/* 容器样式 */
+.terminal-biz.dark-mode .dashboard-container {
+  background-color: var(--terminal-enterprise-dark-bg-primary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+}
+
+/* 标题样式 */
+.terminal-biz.dark-mode .dashboard-title {
+  color: var(--terminal-enterprise-dark-text-primary);
+  border-left: 4px solid var(--terminal-enterprise-dark-primary-color);
+  padding-left: 12px;
+}
+
+.terminal-biz.dark-mode .dashboard-title::before {
+  background: linear-gradient(180deg, var(--terminal-enterprise-dark-primary-color) 0%, var(--terminal-enterprise-dark-secondary-color) 100%);
+}
+
+/* 统计卡片网格 */
+.terminal-biz.dark-mode .stats-grid {
+  gap: var(--spacing-6);
+}
+
+/* 统计卡片 */
+.terminal-biz.dark-mode .stat-card {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+  color: var(--terminal-enterprise-dark-text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz.dark-mode .stat-card:hover {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  box-shadow: 0 8px 30px rgba(26, 95, 223, 0.2);
+  transform: translateY(-4px);
+}
+
+.terminal-biz.dark-mode .stat-card::before {
+  background: linear-gradient(135deg, var(--terminal-enterprise-dark-primary-color) 0%, var(--terminal-enterprise-dark-secondary-color) 100%);
+}
+
+.terminal-biz.dark-mode .stat-title {
+  color: var(--terminal-enterprise-dark-text-secondary);
+}
+
+.terminal-biz.dark-mode .stat-value {
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .stat-icon {
+  background: linear-gradient(135deg, var(--terminal-enterprise-dark-primary-color) 0%, var(--terminal-enterprise-dark-secondary-color) 100%);
+  color: var(--color-white);
+}
+
+.terminal-biz.dark-mode .stat-change.positive {
+  color: var(--terminal-enterprise-dark-success-color);
+}
+
+.terminal-biz.dark-mode .stat-change.negative {
+  color: var(--terminal-enterprise-dark-danger-color);
+}
+
+.terminal-biz.dark-mode .stat-description {
+  color: var(--terminal-enterprise-dark-text-secondary);
+  border-top: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+/* 仪表板网格 */
+.terminal-biz.dark-mode .dashboard-grid {
+  gap: var(--spacing-6);
+}
+
+/* 仪表板卡片 */
+.terminal-biz.dark-mode .dashboard-card {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .dashboard-card:hover {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  box-shadow: 0 8px 30px rgba(26, 95, 223, 0.2);
+  transform: translateY(-4px);
+}
+
+.terminal-biz.dark-mode .dashboard-card::before {
+  background: linear-gradient(135deg, var(--terminal-enterprise-dark-primary-color) 0%, var(--terminal-enterprise-dark-secondary-color) 100%);
+}
+
+.terminal-biz.dark-mode .dashboard-card-title {
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .dashboard-card-icon {
+  color: var(--terminal-enterprise-dark-primary-color);
+}
+
+.terminal-biz.dark-mode .dashboard-card-action {
+  color: var(--terminal-enterprise-dark-primary-color);
+}
+
+.terminal-biz.dark-mode .dashboard-card-action:hover {
+  color: var(--terminal-enterprise-dark-secondary-color);
+  text-decoration: underline;
+}
+
+.terminal-biz.dark-mode .dashboard-card-footer {
+  color: var(--terminal-enterprise-dark-text-secondary);
+  border-top: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+/* 资产卡片系统 */
+.terminal-biz.dark-mode .asset-cards {
+  gap: var(--spacing-6);
+}
+
+/* 资产卡片 */
+.terminal-biz.dark-mode .asset-card {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .asset-card:hover {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  box-shadow: 0 8px 30px rgba(26, 95, 223, 0.2);
+  transform: translateY(-4px);
+}
+
+.terminal-biz.dark-mode .asset-card::before {
+  background: linear-gradient(135deg, var(--terminal-enterprise-dark-primary-color) 0%, var(--terminal-enterprise-dark-secondary-color) 100%);
+}
+
+.terminal-biz.dark-mode .asset-card-title {
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .asset-card-subtitle {
+  color: var(--terminal-enterprise-dark-text-secondary);
+}
+
+.terminal-biz.dark-mode .asset-card-status {
+  font-weight: 600;
+}
+
+.terminal-biz.dark-mode .asset-card-status.active {
+  background-color: rgba(82, 196, 26, 0.2);
+  color: var(--terminal-enterprise-dark-success-color);
+}
+
+.terminal-biz.dark-mode .asset-card-status.pending {
+  background-color: rgba(250, 173, 20, 0.2);
+  color: var(--terminal-enterprise-dark-warning-color);
+}
+
+.terminal-biz.dark-mode .asset-card-status.inactive {
+  background-color: rgba(112, 117, 122, 0.2);
+  color: var(--terminal-enterprise-dark-text-tertiary);
+}
+
+/* 资产卡片指标 */
+.terminal-biz.dark-mode .asset-metrics {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+.terminal-biz.dark-mode .asset-metric-label {
+  color: var(--terminal-enterprise-dark-text-secondary);
+}
+
+.terminal-biz.dark-mode .asset-metric-value {
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .asset-metric-unit {
+  color: var(--terminal-enterprise-dark-text-secondary);
+}
+
+/* 资产卡片操作 */
+.terminal-biz.dark-mode .asset-card-actions {
+  border-top: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+.terminal-biz.dark-mode .asset-card-btn {
+  background-color: transparent;
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz.dark-mode .asset-card-btn:hover {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(26, 95, 223, 0.3);
+}
+
+.terminal-biz.dark-mode .asset-card-btn.primary {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+}
+
+.terminal-biz.dark-mode .asset-card-btn.primary:hover {
+  background-color: var(--terminal-enterprise-dark-secondary-color);
+  border-color: var(--terminal-enterprise-dark-secondary-color);
+  box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3);
+}
+
+/* 批量操作进度可视化 */
+.terminal-biz.dark-mode .batch-progress-container {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .batch-progress-title {
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .batch-progress-stats {
+  color: var(--terminal-enterprise-dark-text-secondary);
+}
+
+.terminal-biz.dark-mode .particle-progress {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+.terminal-biz.dark-mode .particle-progress-bar {
+  background: linear-gradient(90deg, var(--terminal-enterprise-dark-primary-color) 0%, var(--terminal-enterprise-dark-secondary-color) 100%);
+}
+
+/* 报告预览3D翻页效果 */
+.terminal-biz.dark-mode .report-preview-container {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+}
+
+.terminal-biz.dark-mode .report-page {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  color: var(--terminal-enterprise-dark-text-primary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-biz.dark-mode .report-page::before {
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.terminal-biz.dark-mode .report-navigation {
+  gap: var(--spacing-6);
+}
+
+.terminal-biz.dark-mode .report-nav-btn {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz.dark-mode .report-nav-btn:hover:not(:disabled) {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(26, 95, 223, 0.3);
+}
+
+.terminal-biz.dark-mode .report-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  border-color: var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-tertiary);
+}
+
+/* 表单元素 */
+.terminal-biz.dark-mode input,
+.terminal-biz.dark-mode select,
+.terminal-biz.dark-mode textarea {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz.dark-mode input:focus,
+.terminal-biz.dark-mode select:focus,
+.terminal-biz.dark-mode textarea:focus {
+  outline: none;
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  box-shadow: 0 0 0 2px rgba(26, 95, 223, 0.2);
+}
+
+.terminal-biz.dark-mode input::placeholder,
+.terminal-biz.dark-mode select::placeholder,
+.terminal-biz.dark-mode textarea::placeholder {
+  color: var(--terminal-enterprise-dark-text-tertiary);
+}
+
+/* 按钮样式 */
+.terminal-biz.dark-mode .btn {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.terminal-biz.dark-mode .btn:hover {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(26, 95, 223, 0.3);
+}
+
+.terminal-biz.dark-mode .btn-primary {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+}
+
+.terminal-biz.dark-mode .btn-primary:hover {
+  background-color: var(--terminal-enterprise-dark-secondary-color);
+  border-color: var(--terminal-enterprise-dark-secondary-color);
+  box-shadow: 0 6px 20px rgba(0, 184, 148, 0.3);
+}
+
+.terminal-biz.dark-mode .btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid var(--terminal-enterprise-dark-primary-color);
+  color: var(--terminal-enterprise-dark-primary-color);
+}
+
+.terminal-biz.dark-mode .btn-outline-primary:hover {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+}
+
+/* 表格样式 */
+.terminal-biz.dark-mode table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+.terminal-biz.dark-mode th,
+.terminal-biz.dark-mode td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode th {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  font-weight: 600;
+  color: var(--terminal-enterprise-dark-text-primary);
+  border-bottom: 2px solid var(--terminal-enterprise-dark-primary-color);
+}
+
+.terminal-biz.dark-mode tr:hover {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+}
+
+/* 分页样式 */
+.terminal-biz.dark-mode .pagination {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.terminal-biz.dark-mode .pagination button {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz.dark-mode .pagination button:hover:not(:disabled) {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+}
+
+.terminal-biz.dark-mode .pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  color: var(--terminal-enterprise-dark-text-tertiary);
+}
+
+/* 加载状态 */
+.terminal-biz.dark-mode .loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(26, 95, 223, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--terminal-enterprise-dark-primary-color);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 通知样式 */
+.terminal-biz.dark-mode .notification {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+}
+
+.terminal-biz.dark-mode .notification.success {
+  border-left: 4px solid var(--terminal-enterprise-dark-success-color);
+  background-color: rgba(82, 196, 26, 0.1);
+}
+
+.terminal-biz.dark-mode .notification.warning {
+  border-left: 4px solid var(--terminal-enterprise-dark-warning-color);
+  background-color: rgba(250, 173, 20, 0.1);
+}
+
+.terminal-biz.dark-mode .notification.error {
+  border-left: 4px solid var(--terminal-enterprise-dark-danger-color);
+  background-color: rgba(245, 34, 45, 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .terminal-biz.dark-mode .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .terminal-biz.dark-mode .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .terminal-biz.dark-mode .asset-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .terminal-biz.dark-mode .asset-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 滚动条样式 */
+.terminal-biz.dark-mode ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.terminal-biz.dark-mode ::-webkit-scrollbar-track {
+  background: var(--terminal-enterprise-dark-bg-secondary);
+  border-radius: 4px;
+}
+
+.terminal-biz.dark-mode ::-webkit-scrollbar-thumb {
+  background: var(--terminal-enterprise-dark-border);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.terminal-biz.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-enterprise-dark-primary-color);
+}
+
+/* 选择文本样式 */
+.terminal-biz.dark-mode ::selection {
+  background: rgba(26, 95, 223, 0.3);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode ::-moz-selection {
+  background: rgba(26, 95, 223, 0.3);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+/* 工具提示 */
+.terminal-biz.dark-mode .tooltip {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+  z-index: 1000;
+}
+
+/* 模态框 */
+.terminal-biz.dark-mode .modal {
+  background-color: var(--terminal-enterprise-dark-bg-primary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .modal-header {
+  border-bottom: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .modal-footer {
+  border-top: 1px solid var(--terminal-enterprise-dark-border);
+}
+
+/* 数据可视化图表 */
+.terminal-biz.dark-mode .chart-container {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  box-shadow: var(--terminal-enterprise-dark-shadow);
+}
+
+.terminal-biz.dark-mode .chart-title {
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .chart-subtitle {
+  color: var(--terminal-enterprise-dark-text-secondary);
+}
+
+/* 深色主题切换按钮 */
+.theme-toggle {
+  background-color: var(--terminal-enterprise-dark-bg-secondary);
+  border: 1px solid var(--terminal-enterprise-dark-border);
+  color: var(--terminal-enterprise-dark-text-primary);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle:hover {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+}
+
+.theme-toggle.dark {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  color: var(--color-white);
+  border-color: var(--terminal-enterprise-dark-primary-color);
+}
+
+.theme-toggle.dark:hover {
+  background-color: var(--terminal-enterprise-dark-secondary-color);
+  border-color: var(--terminal-enterprise-dark-secondary-color);
+}
+
+/* 粒子动画 */
+.terminal-biz.dark-mode .particle {
+  background-color: var(--terminal-enterprise-dark-primary-color);
+  opacity: 0.7;
+}
+
+/* 3D翻页效果 */
+.terminal-biz.dark-mode .report-page.flipped {
+  background-color: var(--terminal-enterprise-dark-bg-tertiary);
+  color: var(--terminal-enterprise-dark-text-primary);
+}
+
+/* 数据流动效果 */
+.terminal-biz.dark-mode .anim-data-flow {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(26, 95, 223, 0.2) 50%, 
+    transparent 100%);
+}
+
+.terminal-biz.dark-mode .anim-data-flow::before,
+.terminal-biz.dark-mode .anim-data-flow::after {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(26, 95, 223, 0.3) 50%, 
+    transparent 100%);
+}

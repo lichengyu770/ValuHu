@@ -1,0 +1,119 @@
+# 估值项目 .gitignore 文件
+# 排除不应纳入版本控制的文件和目录
+
+# Python 虚拟环境
+venv/
+env/
+.env/
+environments/
+*.venv/
+
+# IDE 配置
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 日志文件
+logs/
+*.log
+log.txt
+
+# 数据文件
+# 注意：如果需要共享示例数据，可以将其放在 data/sample/ 目录下
+# 并在 .gitignore 中添加 !data/sample/
+
+# 排除所有数据目录（根据项目实际情况调整）
+data/raw/
+data/processed/
+data/test/
+data/output/
+data/features/
+
+# 仅排除特定文件类型（如果需要保留目录结构）
+# data/**/*.csv
+data/**/*.xlsx
+data/**/*.json
+data/**/*.pickle
+
+# 模型文件
+models/trained/
+models/scalers/
+models/pca/
+*.pkl
+*.joblib
+*.model
+
+# 输出文件
+reports/figures/
+reports/results/
+
+# 临时文件
+*.tmp
+*.temp
+__pycache__/
+*.pyc
+*.pyo
+*.pyc~n
+
+# 环境变量和配置文件
+.env
+.env.local
+.env.*.local
+configs/local.yaml
+
+# 测试和覆盖率报告
+.pytest_cache/
+htmlcov/
+coverage.xml
+.pytest_cache/
+
+# 构建和部署
+.build/
+dist/
+*.egg-info/
+*.egg
+
+# 操作系统文件
+Thumbs.db
+.DS_Store
+
+# 可选：如果使用 Docker
+Dockerfile
+.dockerignore
+
+# 可选：如果使用 Makefile
+Makefile
+
+# 可选：如果使用 API 部署
+*.pid
+*.pid.lock
+*.sock
+
+# 可选：大型依赖包（如果使用 poetry 或 pipenv）
+poetry.lock
+Pipfile.lock
+
+# 可选：Jupyter 笔记本检查点
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# 可选：文档生成
+_build/
+*.pdf
+*.docx
+
+# 可选：CI/CD 配置文件（如果在单独的仓库中管理）
+.gitlab-ci.yml
+.github/workflows/
+.travis.yml
+.circleci/
+
+# 可选：敏感信息
+*.key
+*.pem
+*.crt
+*.pfx
+*.jks

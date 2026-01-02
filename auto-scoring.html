@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>自动评分系统 - ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Logo 样式 */
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+            overflow: hidden;
+        }
+        
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 260px;
+            background-color: #2c3e50;
+            color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        /* 侧边栏头部 */
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid #34495e;
+            background-color: #34495e;
+        }
+        
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* 侧边栏菜单 */
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .menu-section {
+            margin-bottom: 28px;
+        }
+        
+        .menu-section-title {
+            padding: 0 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #95a5a6;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item {
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: #34495e;
+            color: #667eea;
+            border-left-color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+            border-left-color: #5568d3;
+        }
+        
+        .menu-icon {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 右侧主内容区 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            height: 70px;
+            background-color: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 10;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* 搜索框 */
+        .search-box {
+            position: relative;
+            width: 350px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 44px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background-color: white;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+        
+        /* 导航操作项 */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-action-item {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+        }
+        
+        .nav-action-item:hover {
+            color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        /* 通知徽章 */
+        .notification-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background-color: #ff4d4f;
+            color: white;
+            font-size: 11px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        /* 用户信息 */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-info:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        /* 内容区 */
+        .scoring-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .analysis-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+        
+        .analysis-subtitle {
+            font-size: 15px;
+            color: #7f8c8d;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            padding: 24px;
+            border-bottom: 1px solid #e9ecef;
+            background-color: #fafbfc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .card-content {
+            padding: 24px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5568d3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: #38a169;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #2f855a;
+        }
+        
+        .btn-warning {
+            background-color: #ed8936;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #dd6b20;
+        }
+        
+        .btn-danger {
+            background-color: #e53e3e;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+        
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .stat-change {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .stat-change.positive {
+            color: #38a169;
+        }
+        
+        .stat-change.negative {
+            color: #e53e3e;
+        }
+        
+        /* 筛选和搜索区域 */
+        .filter-search-section {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 表格样式 */
+        .scoring-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .scoring-table thead {
+            background-color: #fafbfc;
+        }
+        
+        .scoring-table th {
+            padding: 16px 24px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .scoring-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0f2f5;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .scoring-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .scoring-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* 状态标签 */
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-tag.pending {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .status-tag.auto-scored {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-tag.reviewing {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-tag.completed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* 评分显示 */
+        .score-display {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .score-display.excellent {
+            color: #10b981;
+        }
+        
+        .score-display.good {
+            color: #3b82f6;
+        }
+        
+        .score-display.average {
+            color: #f59e0b;
+        }
+        
+        .score-display.poor {
+            color: #ef4444;
+        }
+        
+        /* 操作按钮组 */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background-color: white;
+            color: #666;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        /* 复核按钮 */
+        .review-btn {
+            background-color: #f59e0b;
+            color: white;
+            border: none;
+        }
+        
+        .review-btn:hover {
+            background-color: #d97706;
+        }
+        
+        /* 评分详情模态框 */
+        .score-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .score-detail-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80%;
+            overflow-y: auto;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        .score-detail-header {
+            padding: 24px;
+            border-bottom: 1px solid #e9ecef;
+            background-color: #fafbfc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .score-detail-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #e53e3e;
+        }
+        
+        .score-detail-body {
+            padding: 24px;
+        }
+        
+        .detail-section {
+            margin-bottom: 24px;
+        }
+        
+        .detail-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .detail-value {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        /* 评分项列表 */
+        .score-items-list {
+            list-style: none;
+        }
+        
+        .score-item {
+            padding: 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background-color: #fafbfc;
+        }
+        
+        .score-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .score-item-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .score-item-weight {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .score-item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .score-item-score {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .score-item-description {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* 人工复核表单 */
+        .review-form {
+            margin-top: 24px;
+            padding: 20px;
+            background-color: #fafbfc;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 评分统计图表 */
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+        }
+        
+        /* 分页 */
+        .pagination {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .pagination-buttons {
+            display: inline-flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 1000;
+                height: 100vh;
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+            
+            .scoring-content {
+                padding: 20px;
+            }
+            
+            .top-nav {
+                padding: 0 16px;
+            }
+            
+            .nav-right {
+                gap: 12px;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+            
+            .filter-search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .scoring-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .score-detail-content {
+                width: 95%;
+                max-height: 90%;
+            }
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 水波纹 -->
+                        <circle cx="50" cy="80" r="35" stroke="#667eea" stroke-width="2" fill="none" opacity="0.3"/>
+                        <circle cx="50" cy="80" r="28" stroke="#667eea" stroke-width="2" fill="none" opacity="0.5"/>
+                        <circle cx="50" cy="80" r="21" stroke="#667eea" stroke-width="2" fill="none" opacity="0.7"/>
+                        <circle cx="50" cy="80" r="14" stroke="#667eea" stroke-width="2" fill="none" opacity="0.9"/>
+                        <!-- 莲花花瓣 -->
+                        <path d="M50 10 Q65 35 85 50 Q65 65 50 80 Q35 65 15 50 Q35 35 50 10" fill="#ff8fab"/>
+                        <path d="M50 15 Q70 35 80 55 Q60 65 50 75 Q40 65 20 55 Q30 35 50 15" fill="#ffb3c1"/>
+                        <path d="M50 20 Q75 35 75 60 Q60 65 50 70 Q40 65 25 60 Q25 35 50 20" fill="#ffccd5"/>
+                        <!-- 箭头 -->
+                        <path d="M45 40 L55 40 L55 65 L65 65 L50 80 L35 65 L45 65 Z" fill="#e53e3e"/>
+                    </svg>
+                    <span>ValuHub</span>
+                </div>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">核心功能</div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        <span>工作台</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🤖</span>
+                        <span>AI估价</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🗺️</span>
+                        <span>房价地图</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📈</span>
+                        <span>市场分析</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📋</span>
+                        <span>案例库</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🎓</span>
+                        <span>实训项目管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📑</span>
+                        <span>报告管理</span>
+                    </div>
+                </div>
+                <div class="menu-section">
+                    <div class="menu-section-title">学术工坊</div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📚</span>
+                        <span>案例库系统</span>
+                    </div>
+                    <div class="menu-item active">
+                        <span class="menu-icon">🏆</span>
+                        <span>自动评分系统</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">👨‍🏫</span>
+                        <span>教师管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">👩‍🎓</span>
+                        <span>学生管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        <span>成绩统计</span>
+                    </div>
+                </div>
+                <div class="menu-section">
+                    <div class="menu-section-title">系统设置</div>
+                    <div class="menu-item">
+                        <span class="menu-icon">⚙️</span>
+                        <span>账号设置</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🔒</span>
+                        <span>权限管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">💬</span>
+                        <span>帮助中心</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <!-- 顶部导航栏 -->
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <h1 class="page-title">自动评分系统</h1>
+                    <div class="search-box">
+                        <i>🔍</i>
+                        <input type="text" placeholder="搜索评分记录...">
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-actions">
+                        <div class="nav-action-item" title="消息中心">
+                            <i>💬</i>
+                            <span class="notification-badge">5</span>
+                        </div>
+                        <div class="nav-action-item" title="通知中心">
+                            <i>📢</i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <div class="nav-action-item" title="日历">
+                            <i>📅</i>
+                        </div>
+                        <div class="nav-action-item" title="设置">
+                            <i>⚙️</i>
+                        </div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-avatar">张</div>
+                        <div class="user-details">
+                            <div class="user-name">张三</div>
+                            <div class="user-role">教师</div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- 自动评分内容区 -->
+            <div class="scoring-content">
+                <!-- 页面标题 -->
+                <div class="page-header">
+                    <h1 class="analysis-title">自动评分系统</h1>
+                    <p class="analysis-subtitle">基于规则的自动评分，支持人工复核，提高评分效率</p>
+                </div>
+                
+                <!-- 统计卡片 -->
+                <div class="stats-grid">
+                    <!-- 统计卡片1 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">总评分记录</span>
+                            <div class="stat-icon" style="background-color: #dbeafe;">
+                                📋
+                            </div>
+                        </div>
+                        <div class="stat-value">128</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 18%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片2 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">自动评分完成</span>
+                            <div class="stat-icon" style="background-color: #d1fae5;">
+                                ✅
+                            </div>
+                        </div>
+                        <div class="stat-value">96</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 22%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片3 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">待人工复核</span>
+                            <div class="stat-icon" style="background-color: #fef3c7;">
+                                ⏳
+                            </div>
+                        </div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 8%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片4 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">平均分</span>
+                            <div class="stat-icon" style="background-color: #fce7f3;">
+                                📊
+                            </div>
+                        </div>
+                        <div class="stat-value">82.5</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 3.2%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 筛选和搜索区域 -->
+                <div class="filter-search-section">
+                    <div class="filter-group">
+                        <label class="filter-label">状态：</label>
+                        <select class="filter-select">
+                            <option value="">全部</option>
+                            <option value="pending">待评分</option>
+                            <option value="auto-scored">自动评分完成</option>
+                            <option value="reviewing">人工复核中</option>
+                            <option value="completed">评分完成</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">项目：</label>
+                        <select class="filter-select">
+                            <option value="">全部</option>
+                            <option value="project1">住宅估价实训项目</option>
+                            <option value="project2">写字楼估价实训项目</option>
+                            <option value="project3">商铺估价实训项目</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">案例：</label>
+                        <select class="filter-select">
+                            <option value="">全部</option>
+                            <option value="case1">长沙市岳麓区保利天禧</option>
+                            <option value="case2">长沙市芙蓉区五一广场IFS</option>
+                            <option value="case3">株洲市天元区神农城商铺</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group" style="margin-left: auto;">
+                        <button class="btn btn-primary">
+                            <i>🔄</i> 重置
+                        </button>
+                        <button class="btn btn-success">
+                            <i>📊</i> 生成统计报告
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 评分记录表格 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">评分记录列表</h3>
+                    </div>
+                    <div class="card-content">
+                        <table class="scoring-table">
+                            <thead>
+                                <tr>
+                                    <th>学生姓名</th>
+                                    <th>项目名称</th>
+                                    <th>案例名称</th>
+                                    <th>提交时间</th>
+                                    <th>状态</th>
+                                    <th>自动评分</th>
+                                    <th>人工评分</th>
+                                    <th>最终评分</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 评分记录1 -->
+                                <tr>
+                                    <td>李四</td>
+                                    <td>住宅估价实训项目</td>
+                                    <td>长沙市岳麓区保利天禧</td>
+                                    <td>2026-01-05 14:30</td>
+                                    <td>
+                                        <span class="status-tag completed">评分完成</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display good">85</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display good">88</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display good">88</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn" onclick="viewScoreDetail('1')">详情</button>
+                                            <button class="action-btn">查看提交</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 评分记录2 -->
+                                <tr>
+                                    <td>王五</td>
+                                    <td>住宅估价实训项目</td>
+                                    <td>长沙市岳麓区保利天禧</td>
+                                    <td>2026-01-05 13:45</td>
+                                    <td>
+                                        <span class="status-tag completed">评分完成</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display excellent">92</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display excellent">95</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display excellent">95</span>
+                                    </td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn" onclick="viewScoreDetail('2')">详情</button>
+                                            <button class="action-btn">查看提交</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 评分记录3 -->
+                                <tr>
+                                    <td>赵六</td>
+                                    <td>住宅估价实训项目</td>
+                                    <td>长沙市岳麓区保利天禧</td>
+                                    <td>2026-01-05 12:20</td>
+                                    <td>
+                                        <span class="status-tag reviewing">人工复核中</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display average">76</span>
+                                    </td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn" onclick="viewScoreDetail('3')">详情</button>
+                                            <button class="action-btn review-btn">人工复核</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 评分记录4 -->
+                                <tr>
+                                    <td>孙七</td>
+                                    <td>住宅估价实训项目</td>
+                                    <td>长沙市岳麓区保利天禧</td>
+                                    <td>2026-01-05 11:15</td>
+                                    <td>
+                                        <span class="status-tag auto-scored">自动评分完成</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display good">84</span>
+                                    </td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn" onclick="viewScoreDetail('4')">详情</button>
+                                            <button class="action-btn review-btn">人工复核</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 评分记录5 -->
+                                <tr>
+                                    <td>周八</td>
+                                    <td>住宅估价实训项目</td>
+                                    <td>长沙市岳麓区保利天禧</td>
+                                    <td>2026-01-05 10:30</td>
+                                    <td>
+                                        <span class="status-tag auto-scored">自动评分完成</span>
+                                    </td>
+                                    <td>
+                                        <span class="score-display poor">62</span>
+                                    </td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn" onclick="viewScoreDetail('5')">详情</button>
+                                            <button class="action-btn review-btn">人工复核</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="pagination">
+                    <div class="pagination-buttons">
+                        <button class="btn btn-secondary" disabled>
+                            <i>←</i> 上一页
+                        </button>
+                        <button class="btn btn-primary">1</button>
+                        <button class="btn btn-secondary">2</button>
+                        <button class="btn btn-secondary">3</button>
+                        <button class="btn btn-secondary">4</button>
+                        <button class="btn btn-secondary">5</button>
+                        <button class="btn btn-secondary">
+                            下一页 <i>→</i>
+                        </button>
+                    </div>
+                    <div class="pagination-info">
+                        共 128 条记录，当前显示第 1-5 条
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 评分详情模态框 -->
+    <div id="scoreDetailModal" class="score-detail-modal">
+        <div class="score-detail-content">
+            <div class="score-detail-header">
+                <h3 class="score-detail-title">评分详情</h3>
+                <button class="close-btn" onclick="closeScoreDetail()">&times;</button>
+            </div>
+            <div class="score-detail-body">
+                <div class="detail-section">
+                    <h4 class="detail-title">基本信息</h4>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">学生姓名</span>
+                            <span class="detail-value">李四</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">项目名称</span>
+                            <span class="detail-value">住宅估价实训项目</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">案例名称</span>
+                            <span class="detail-value">长沙市岳麓区保利天禧</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">提交时间</span>
+                            <span class="detail-value">2026-01-05 14:30</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">状态</span>
+                            <span class="detail-value">
+                                <span class="status-tag completed">评分完成</span>
+                            </span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">评分规则</span>
+                            <span class="detail-value">住宅估价评分规则 V1.0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h4 class="detail-title">评分结果</h4>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">自动评分</span>
+                            <span class="detail-value score-display good">85</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">人工评分</span>
+                            <span class="detail-value score-display good">88</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">最终评分</span>
+                            <span class="detail-value score-display good">88</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">评分时间</span>
+                            <span class="detail-value">2026-01-05 15:45</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h4 class="detail-title">评分详情</h4>
+                    <ul class="score-items-list">
+                        <!-- 评分项1 -->
+                        <li class="score-item">
+                            <div class="score-item-header">
+                                <span class="score-item-name">房源信息完整性</span>
+                                <span class="score-item-weight">权重：20%</span>
+                            </div>
+                            <div class="score-item-details">
+                                <span class="score-display good">90</span>
+                                <span class="score-item-description">包含了所有必要的房源信息，包括地址、面积、户型等</span>
+                            </div>
+                        </li>
+                        
+                        <!-- 评分项2 -->
+                        <li class="score-item">
+                            <div class="score-item-header">
+                                <span class="score-item-name">市场数据准确性</span>
+                                <span class="score-item-weight">权重：25%</span>
+                            </div>
+                            <div class="score-item-details">
+                                <span class="score-display good">85</span>
+                                <span class="score-item-description">市场数据基本准确，部分数据来源需要进一步验证</span>
+                            </div>
+                        </li>
+                        
+                        <!-- 评分项3 -->
+                        <li class="score-item">
+                            <div class="score-item-header">
+                                <span class="score-item-name">估价方法合理性</span>
+                                <span class="score-item-weight">权重：30%</span>
+                            </div>
+                            <div class="score-item-details">
+                                <span class="score-display average">78</span>
+                                <span class="score-item-description">估价方法选择合理，但参数设置需要进一步优化</span>
+                            </div>
+                        </li>
+                        
+                        <!-- 评分项4 -->
+                        <li class="score-item">
+                            <div class="score-item-header">
+                                <span class="score-item-name">报告规范性</span>
+                                <span class="score-item-weight">权重：25%</span>
+                            </div>
+                            <div class="score-item-details">
+                                <span class="score-display excellent">95</span>
+                                <span class="score-item-description">报告格式规范，内容完整，逻辑清晰</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="detail-section">
+                    <h4 class="detail-title">评分反馈</h4>
+                    <div class="review-form">
+                        <div class="form-group">
+                            <label class="form-label">自动评分反馈</label>
+                            <textarea class="form-textarea" readonly>房源信息完整，市场数据基本准确，估价方法选择合理，但参数设置需要进一步优化。报告格式规范，内容完整，逻辑清晰。</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">人工复核反馈</label>
+                            <textarea class="form-textarea" readonly>整体表现优秀，房源信息完整，市场数据准确，估价方法选择合理，报告格式规范。在参数设置方面有小的优化空间，已调整评分。</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全局消息提示组件 -->
+    <div id="toast" style="position: fixed; top: 90px; right: 30px; padding: 12px 24px; background-color: #333; color: white; border-radius: 6px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 9999; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease;"></div>
+    
+    <script>
+        // DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 工具函数：显示消息提示
+            function showToast(message, duration = 3000) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-20px)';
+                }, duration);
+            }
+            
+            // 操作按钮事件
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.textContent;
+                    if (action !== '详情' && action !== '人工复核') {
+                        showToast(`执行${action}操作`);
+                    }
+                });
+            });
+            
+            // 生成统计报告按钮事件
+            const reportBtn = document.querySelector('.filter-search-section .btn-success');
+            reportBtn.addEventListener('click', function() {
+                showToast('生成统计报告功能开发中，敬请期待！');
+            });
+            
+            // 筛选器变化事件
+            const filterSelects = document.querySelectorAll('.filter-select');
+            filterSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const filterName = this.previousElementSibling.textContent;
+                    const filterValue = this.value;
+                    if (filterValue) {
+                        showToast(`${filterName}${filterValue}`);
+                    }
+                });
+            });
+            
+            // 重置按钮事件
+            const resetBtn = document.querySelector('.filter-search-section .btn-primary');
+            resetBtn.addEventListener('click', function() {
+                filterSelects.forEach(select => {
+                    select.value = '';
+                });
+                showToast('筛选条件已重置');
+            });
+            
+            // 侧边栏菜单点击功能
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    // 添加active类到当前点击项
+                    this.classList.add('active');
+                });
+            });
+        });
+        
+        // 查看评分详情
+        function viewScoreDetail(id) {
+            const modal = document.getElementById('scoreDetailModal');
+            modal.style.display = 'flex';
+        }
+        
+        // 关闭评分详情
+        function closeScoreDetail() {
+            const modal = document.getElementById('scoreDetailModal');
+            modal.style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('scoreDetailModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

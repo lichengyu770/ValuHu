@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>企业合作 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 页面特定样式 -->
+    <style>
+      :root {
+        --color-primary: #667eea;
+        --color-secondary: #764ba2;
+        --color-success: #52c41a;
+        --color-warning: #faad14;
+        --color-error: #f5222d;
+        --color-light: #f5f7fa;
+        --color-dark: #1e293b;
+        --color-gray: #64748b;
+        --color-light-gray: #e2e8f0;
+        --card-bg: #ffffff;
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        --border-radius: 12px;
+        --transition: transform 0.3s ease, box-shadow 0.3s ease;
+        --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--color-dark);
+        background-color: var(--color-light);
+      }
+
+      /* 容器样式 */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* 头部样式 */
+      .header {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-item a {
+        text-decoration: none;
+        color: var(--color-dark);
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-item a:hover {
+        color: var(--color-primary);
+      }
+
+      /* 登录按钮 */
+      .login-btn {
+        background-color: var(--color-primary);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .login-btn:hover {
+        background-color: #5568d3;
+        transform: translateY(-2px);
+      }
+
+      /* 主内容区 */
+      .main-content {
+        padding: 60px 0;
+      }
+
+      /* 页面标题 */
+      .page-title {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .page-title h1 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        color: var(--color-dark);
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .page-title p {
+        font-size: 18px;
+        color: var(--color-gray);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      /* 内容区域 */
+      .content-section {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 30px;
+        transition: var(--transition);
+      }
+
+      .content-section:hover {
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      /* 合作优势 */
+      .advantages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .advantage-item {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        text-align: center;
+      }
+
+      .advantage-item:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .advantage-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: var(--color-primary);
+      }
+
+      .advantage-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .advantage-description {
+        color: var(--color-gray);
+        line-height: 1.6;
+      }
+
+      /* 合作模式 */
+      .cooperation-modes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .mode-item {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mode-item:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .mode-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--gradient-primary);
+      }
+
+      .mode-icon {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: var(--color-primary);
+      }
+
+      .mode-title {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .mode-description {
+        color: var(--color-gray);
+        margin-bottom: 20px;
+        line-height: 1.8;
+      }
+
+      .mode-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .mode-features li {
+        color: var(--color-gray);
+        margin-bottom: 10px;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .mode-features li::before {
+        content: '�?;
+        position: absolute;
+        left: 0;
+        color: var(--color-success);
+        font-weight: bold;
+      }
+
+      .mode-button {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .mode-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      /* 成功案例 */
+      .cases-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+
+      .case-item {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+      }
+
+      .case-item:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+      }
+
+      .case-image {
+        background: var(--gradient-primary);
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 80px;
+        color: white;
+      }
+
+      .case-content {
+        padding: 25px;
+      }
+
+      .case-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: var(--color-dark);
+      }
+
+      .case-description {
+        color: var(--color-gray);
+        margin-bottom: 15px;
+        line-height: 1.6;
+      }
+
+      .case-meta {
+        display: flex;
+        gap: 20px;
+        color: var(--color-gray);
+        font-size: 14px;
+      }
+
+      /* 合作流程 */
+      .process-steps {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 60px;
+        flex-wrap: wrap;
+      }
+
+      .process-step {
+        flex: 1;
+        min-width: 200px;
+        text-align: center;
+        position: relative;
+      }
+
+      .step-number {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--gradient-primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0 auto 20px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .step-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--color-dark);
+      }
+
+      .step-description {
+        color: var(--color-gray);
+        line-height: 1.6;
+      }
+
+      /* 联系表单 */
+      .contact-form {
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--card-shadow);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--color-dark);
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--color-light-gray);
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--color-dark);
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      .submit-button {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+      }
+
+      .submit-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      /* 页脚 */
+      .footer {
+        background-color: var(--color-dark);
+        color: white;
+        padding: 60px 0 30px;
+        margin-top: 60px;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+
+      .footer-section h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: white;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 10px;
+      }
+
+      .footer-section ul li a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-section ul li a:hover {
+        color: var(--color-primary);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid #334155;
+        color: #94a3b8;
+      }
+
+      /* 响应式设�?*/
+      @media (max-width: 768px) {
+        .page-title h1 {
+          font-size: 28px;
+        }
+
+        .content-section {
+          padding: 24px;
+        }
+
+        .nav-menu {
+          display: none;
+        }
+
+        .process-steps {
+          flex-direction: column;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 头部 -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+        <nav class="nav-menu">
+          <div class="nav-item">
+            <a href="visual-index.html">首页</a>
+          </div>
+          <div class="nav-item">
+            <a href="about-us.html">关于我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="cooperation.html">企业合作</a>
+          </div>
+          <div class="nav-item">
+            <a href="contact.html">联系我们</a>
+          </div>
+          <div class="nav-item">
+            <a href="join.html">加入我们</a>
+          </div>
+          <a href="login.html" class="login-btn">登录/注册</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <div class="container">
+        <div class="page-title">
+          <h1>企业合作</h1>
+          <p>与数智估价核心引擎携手合作，共同推动房地产行业数字化转型</p>
+        </div>
+
+        <!-- 合作优势 -->
+        <div class="content-section">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark);">合作优势</h2>
+          <div class="advantages-grid">
+            <div class="advantage-item">
+              <div class="advantage-icon">📊</div>
+              <h3 class="advantage-title">技术领�?/h3>
+              <p class="advantage-description">拥有行业领先的AI估价技术，准确率高�?5%以上，为合作伙伴提供强大的技术支持�?/p>
+            </div>
+            <div class="advantage-item">
+              <div class="advantage-icon">💼</div>
+              <h3 class="advantage-title">资源丰富</h3>
+              <p class="advantage-description">拥有海量房地产数据资源，覆盖全国主要城市，为合作伙伴提供数据支持�?/p>
+            </div>
+            <div class="advantage-item">
+              <div class="advantage-icon">�?/div>
+              <h3 class="advantage-title">高效服务</h3>
+              <p class="advantage-description">提供7×24小时技术支持，快速响应合作伙伴需求，确保服务质量�?/p>
+            </div>
+            <div class="advantage-item">
+              <div class="advantage-icon">🤝</div>
+              <h3 class="advantage-title">互利共赢</h3>
+              <p class="advantage-description">灵活的合作模式，合理的收益分配机制，确保合作伙伴获得可观收益�?/p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 合作模式 -->
+        <div class="content-section">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark);">合作模式</h2>
+          <div class="cooperation-modes">
+            <div class="mode-item">
+              <div class="mode-icon">🌐</div>
+              <h3 class="mode-title">渠道合作</h3>
+              <p class="mode-description">成为我们的渠道合作伙伴，推广我们的产品和服务，获取丰厚的佣金回报�?/p>
+              <ul class="mode-features">
+                <li>高佣金比例，激励机制完�?/li>
+                <li>提供专业培训和营销支持</li>
+                <li>专属渠道经理对接</li>
+                <li>灵活的合作政�?/li>
+              </ul>
+              <a href="#contact" class="mode-button">申请合作</a>
+            </div>
+            <div class="mode-item">
+              <div class="mode-icon">🔧</div>
+              <h3 class="mode-title">技术合�?/h3>
+              <p class="mode-description">与我们进行技术合作，共同开发新产品或集成现有系统，实现技术互补�?/p>
+              <ul class="mode-features">
+                <li>开放API接口，支持系统集�?/li>
+                <li>联合研发新产品和解决方案</li>
+                <li>共享技术专利和知识产权</li>
+                <li>技术团队深度协�?/li>
+              </ul>
+              <a href="#contact" class="mode-button">了解详情</a>
+            </div>
+            <div class="mode-item">
+              <div class="mode-icon">📈</div>
+              <h3 class="mode-title">数据合作</h3>
+              <p class="mode-description">共享房地产相关数据资源，共同构建完善的数据生态系统�?/p>
+              <ul class="mode-features">
+                <li>数据资源共享与交�?/li>
+                <li>联合开展数据研究和分析</li>
+                <li>共同发布行业数据报告</li>
+                <li>数据安全保障机制</li>
+              </ul>
+              <a href="#contact" class="mode-button">合作咨询</a>
+            </div>
+            <div class="mode-item">
+              <div class="mode-icon">📣</div>
+              <h3 class="mode-title">营销合作</h3>
+              <p class="mode-description">共同开展营销活动，提升品牌知名度和市场影响力�?/p>
+              <ul class="mode-features">
+                <li>联合举办线上线下活动</li>
+                <li>内容营销和品牌推广合�?/li>
+                <li>社交媒体和新媒体合作</li>
+                <li>行业展会和论坛合�?/li>
+              </ul>
+              <a href="#contact" class="mode-button">联系我们</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 成功案例 -->
+        <div class="content-section">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark);">成功案例</h2>
+          <div class="cases-grid">
+            <div class="case-item">
+              <div class="case-image">🏢</div>
+              <div class="case-content">
+                <h3 class="case-title">某大型地产公�?/h3>
+                <p class="case-description">通过集成我们的AI估价引擎，大幅提高了估价效率，降低了人力成本�?/p>
+                <div class="case-meta">
+                  <span>📅 2023�?/span>
+                  <span>🏆 技术合�?/span>
+                </div>
+              </div>
+            </div>
+            <div class="case-item">
+              <div class="case-image">🏦</div>
+              <div class="case-content">
+                <h3 class="case-title">某银行金融机�?/h3>
+                <p class="case-description">利用我们的数据资源和估价服务，优化了房贷审批流程，提高了风险管理能力�?/p>
+                <div class="case-meta">
+                  <span>📅 2024�?/span>
+                  <span>🏆 数据合作</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-item">
+              <div class="case-image">🔍</div>
+              <div class="case-content">
+                <h3 class="case-title">某评估机�?/h3>
+                <p class="case-description">通过渠道合作，接入我们的估价平台，拓展了业务范围，增加了收入来源�?/p>
+                <div class="case-meta">
+                  <span>📅 2024�?/span>
+                  <span>🏆 渠道合作</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 合作流程 -->
+        <div class="content-section">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark);">合作流程</h2>
+          <div class="process-steps">
+            <div class="process-step">
+              <div class="step-number">1</div>
+              <h3 class="step-title">提交申请</h3>
+              <p class="step-description">填写合作申请表格，提交相关信�?/p>
+            </div>
+            <div class="process-step">
+              <div class="step-number">2</div>
+              <h3 class="step-title">初步沟�?/h3>
+              <p class="step-description">我们的合作经理与您联系，了解具体需�?/p>
+            </div>
+            <div class="process-step">
+              <div class="step-number">3</div>
+              <h3 class="step-title">方案定制</h3>
+              <p class="step-description">根据您的需求，定制专属合作方案</p>
+            </div>
+            <div class="process-step">
+              <div class="step-number">4</div>
+              <h3 class="step-title">签订合同</h3>
+              <p class="step-description">双方确认合作细节，签订合作合�?/p>
+            </div>
+            <div class="process-step">
+              <div class="step-number">5</div>
+              <h3 class="step-title">合作实施</h3>
+              <p class="step-description">按照合同约定，开始合作实�?/p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 联系表单 -->
+        <div class="content-section" id="contact">
+          <h2 style="margin-bottom: 40px; color: var(--color-dark); text-align: center;">联系我们</h2>
+          <div class="contact-form">
+            <form>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">姓名</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="company">公司名称</label>
+                  <input type="text" id="company" name="company" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="phone">联系电话</label>
+                  <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">邮箱地址</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cooperation-type">合作类型</label>
+                <select id="cooperation-type" name="cooperation-type" required>
+                  <option value="">请选择合作类型</option>
+                  <option value="channel">渠道合作</option>
+                  <option value="technology">技术合�?/option>
+                  <option value="data">数据合作</option>
+                  <option value="marketing">营销合作</option>
+                  <option value="other">其他合作</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">合作需�?/label>
+                <textarea id="message" name="message" rows="6" required></textarea>
+              </div>
+              <button type="submit" class="submit-button">提交申请</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>产品服务</h3>
+            <ul>
+              <li><a href="ai-valuation.html">AI估价</a></li>
+              <li><a href="reports.html">行业报告</a></li>
+              <li><a href="cases.html">案例�?/a></li>
+              <li><a href="api.html">API服务</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>关于我们</h3>
+            <ul>
+              <li><a href="about-us.html">公司介绍</a></li>
+              <li><a href="join.html">加入我们</a></li>
+              <li><a href="cooperation.html">企业合作</a></li>
+              <li><a href="contact.html">联系我们</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>法律条款</h3>
+            <ul>
+              <li><a href="privacy-policy.html">隐私政策</a></li>
+              <li><a href="terms-of-service.html">服务条款</a></li>
+              <li><a href="copyright.html">版权声明</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>联系我们</h3>
+            <ul>
+              <li>电话�?00-123-4567</li>
+              <li>邮箱：contact@example.com</li>
+              <li>地址：北京市海淀区中关村</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- 权限管理脚本 -->
+    <script src="js/permission.js"></script>
+  </body>
+</html>

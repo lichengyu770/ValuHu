@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProcessOn团队版行业解决方案 企业服务客户案例_ProcessOn思维导图流程图 - ValuHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        .po-icons {
+            font-family: 'po-icons';
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body class="bg-white">
+    <!-- 顶部导航 -->
+    <header class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <span class="text-2xl font-bold text-gray-900">Process<span class="text-blue-600">On</span></span>
+                        <span class="ml-2 px-2 py-0.5 text-xs font-medium text-white bg-pink-500 rounded-full">AI</span>
+                    </div>
+                    <nav class="ml-8 flex space-x-8">
+                        <!-- 产品下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">产品 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-96 bg-white rounded-md shadow-lg py-2 z-10">
+                                <div class="grid grid-cols-5 gap-4 p-4">
+                                    <!-- 左侧分类 -->
+                                    <div class="col-span-1 space-y-3">
+                                        <div class="font-medium text-gray-900">流程类</div>
+                                        <div class="font-medium text-gray-900">脑图类</div>
+                                        <div class="font-medium text-gray-900">笔记类</div>
+                                        <div class="font-medium text-gray-900">实用工具</div>
+                                    </div>
+                                    <!-- 右侧内容 -->
+                                    <div class="col-span-4 grid grid-cols-4 gap-2">
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">流程图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">泳道图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">BPMN2.0</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">UML</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">架构图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">网络拓扑图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">图表/表格</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">韦恩图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">甘特图</a>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">电路图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">平面图</a>
+                                            <a href="#" class="block text-sm text-gray-700 hover:text-blue-600">ER图</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="processon-download.html" class="text-gray-700 hover:text-blue-600 text-sm font-medium">下载</a>
+                        
+                        <!-- 企业服务下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-blue-600 border-b-2 border-blue-600 flex items-center text-sm font-medium">企业服务 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="processon-enterprise.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">企业业务</a>
+                                <a href="processon-solution.html" class="block px-4 py-2 text-sm text-blue-600 hover:bg-gray-50">解决方案</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">API服务</a>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="text-gray-700 hover:text-blue-600 text-sm font-medium">模板社区</a>
+                        <a href="processon-pricing.html" class="text-gray-700 hover:text-blue-600 text-sm font-medium">价格</a>
+                        
+                        <!-- 入门教程下拉菜单 -->
+                        <div class="relative">
+                            <button class="text-gray-700 hover:text-blue-600 flex items-center text-sm font-medium">入门教程 <span class="ml-1 text-xs">▼</span></button>
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">帮助中心</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">知识社区</a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div class="flex items-center">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors border-2 border-blue-600">进入我的文件</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main>
+        <!-- Banner -->
+        <section class="py-20 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-4xl font-bold text-center">为企业各项工作流程赋能，低成本投入，突破增效阈值</h1>
+            </div>
+        </section>
+        
+        <!-- 解决方案和客户案例标签页 -->
+        <section class="py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex border-b border-gray-200">
+                    <button class="py-4 px-6 text-xl font-medium text-blue-600 border-b-2 border-blue-600">行业解决方案</button>
+                    <button class="py-4 px-6 text-xl font-medium text-gray-500 hover:text-gray-700">客户案例</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 行业解决方案内容 -->
+        <section class="py-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- 行业切换标签 -->
+                <div class="flex space-x-4 mb-12 overflow-x-auto pb-4">
+                    <button class="px-6 py-2 bg-blue-600 text-white rounded-full font-medium">互联网</button>
+                    <button class="px-6 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100">教育/培训</button>
+                    <button class="px-6 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100">法律咨询</button>
+                    <button class="px-6 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100">银行/金融</button>
+                    <button class="px-6 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100">医疗健康</button>
+                    <button class="px-6 py-2 bg-white text-gray-700 rounded-full font-medium hover:bg-gray-100">生产制造</button>
+                </div>
+                
+                <!-- 互联网行业解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <!-- 顶部内容 -->
+                    <div class="p-8 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">互联网行业解决方案</h2>
+                        <p class="text-gray-600 mb-8">互联网行业具有高速发展和高度创新的特点，企业需要不断创新以保持竞争力。提高跨部门的业务流转效率和人员的沟通效率是高速发展的前提。</p>
+                        
+                        <!-- 面临的挑战 -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-medium text-gray-900 mb-4">互联网企业面临的业务挑战</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">1</div>
+                                    <p class="text-gray-600">跨部门协作效率低，管理混乱</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">2</div>
+                                    <p class="text-gray-600">业务逻辑复杂，文字表述抽象难以理解</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">3</div>
+                                    <p class="text-gray-600">工作流程繁多，无法统一集中管理</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">4</div>
+                                    <p class="text-gray-600">人员离职，知识资产继承困难</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价值 -->
+                    <div class="p-8">
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">ProcessOn对互联网企业的价值</h3>
+                        
+                        <!-- 价值点1 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">跨部门流程图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">跨部门流程图，职责明确</h4>
+                                <p class="text-gray-600 mb-4">通过制定跨部门流程图，明确工作流程中每个节点的责任人</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点2 -->
+                        <div class="flex flex-col md:flex-row-reverse mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">业务流程图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">业务流程图，高效表达</h4>
+                                <p class="text-gray-600 mb-4">将复杂的业务逻辑通过图形化的形式展现，沟通效率加倍</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点3 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">团队空间示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">专属团队空间，统一管理</h4>
+                                <p class="text-gray-600 mb-4">按照部门、项目创建团队空间，所有流程文档统一管理</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点4 -->
+                        <div class="flex flex-col md:flex-row-reverse">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">知识继承示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">离职交接，保驾护航</h4>
+                                <p class="text-gray-600 mb-4">将离职人的文件一键交接给其他同事，保障企业知识资产不流失</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 教育/培训行业解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+                    <!-- 顶部内容 -->
+                    <div class="p-8 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">教育/培训行业解决方案</h2>
+                        <p class="text-gray-600 mb-8">教育/培训行业需要不断创新教学方式、课程内容等，以适应学生的需求。通过可视化图表的方式能够极大提高信息传达效率和直观性，满足当下数字化授课的需要。</p>
+                        
+                        <!-- 面临的挑战 -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-medium text-gray-900 mb-4">教育/培训面临的业务挑战</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">1</div>
+                                    <p class="text-gray-600">学习的知识较为零散，体系化不强</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">2</div>
+                                    <p class="text-gray-600">实验课操作流程复杂，逻辑性强，学生上手困难</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">3</div>
+                                    <p class="text-gray-600">教学方式单一，师生互动少，学生缺乏学习兴趣</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">4</div>
+                                    <p class="text-gray-600">依赖线下授课，学生课后缺少获取知识的渠道</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价值 -->
+                    <div class="p-8">
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">ProcessOn对教育/培训的价值</h3>
+                        
+                        <!-- 价值点1 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">知识地图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">构建知识地图，课程内容一目了然</h4>
+                                <p class="text-gray-600 mb-4">将课程内容梳理为思维导图，标记学习重点，对所学知识拥有全局视角。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点2 -->
+                        <div class="flex flex-col md:flex-row-reverse mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">实验流程图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">实验流程图，逻辑清晰展现</h4>
+                                <p class="text-gray-600 mb-4">将复杂的实验步骤梳理为流程图，提高学生逻辑思维能力。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点3 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">在线协作示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">在线协作，师生互动</h4>
+                                <p class="text-gray-600 mb-4">创建思维导图进行头脑风暴，师生共同参与趣味多。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点4 -->
+                        <div class="flex flex-col md:flex-row-reverse">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">班级知识库示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">班级知识库，带得走的知识库</h4>
+                                <p class="text-gray-600 mb-4">学习资料保存在团队空间，学生课后也能随时方便取用。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 法律咨询行业解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+                    <!-- 顶部内容 -->
+                    <div class="p-8 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">法律咨询行业解决方案</h2>
+                        <p class="text-gray-600 mb-8">法律咨询行业是一个高度专业化的领域，需要从业人员具备丰富的法律知识和经验，对法律风险有着敏锐的洞察力和判断力，以便在提供咨询服务时尽可能降低客户面临的法律风险。</p>
+                        
+                        <!-- 面临的挑战 -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-medium text-gray-900 mb-4">法律咨询行业面临的业务挑战</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">1</div>
+                                    <p class="text-gray-600">案件人物关系复杂，需要清晰梳理</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">2</div>
+                                    <p class="text-gray-600">法律程序复杂，客户理解困难</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">3</div>
+                                    <p class="text-gray-600">案件材料繁多、分散，取用麻烦</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">4</div>
+                                    <p class="text-gray-600">与客户沟通效率低</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价值 -->
+                    <div class="p-8">
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">ProcessOn对法律咨询行业的价值</h3>
+                        
+                        <!-- 价值点1 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">人物关系图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">人物关系一图掌握</h4>
+                                <p class="text-gray-600 mb-4">使用关系图厘清案件中的人物关系，方便自己理解。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点2 -->
+                        <div class="flex flex-col md:flex-row-reverse mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">法律程序可视化示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">法律程序可视化</h4>
+                                <p class="text-gray-600 mb-4">将冗长的法律程序以流程图的形式直观展现给客户。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点3 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">文档归集示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">文档归集，快速取用</h4>
+                                <p class="text-gray-600 mb-4">将当前案件涉及的所有文件和材料收集到一张图上，查找方便。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点4 -->
+                        <div class="flex flex-col md:flex-row-reverse">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">高效沟通示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">标记重点，高效沟通</h4>
+                                <p class="text-gray-600 mb-4">使用思维导图向客户介绍案件细节、法律程序等，沟通思路和重点内容清晰展现。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 金融行业解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+                    <!-- 顶部内容 -->
+                    <div class="p-8 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">金融行业解决方案</h2>
+                        <p class="text-gray-600 mb-8">金融行业具有高风险、高流动性、信息不对称、监管严格和技术变革等特点。这些特点使得该行业机遇和挑战并存，逻辑严谨、科学决策是金融业从业人员的必备素养。</p>
+                        
+                        <!-- 面临的挑战 -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-medium text-gray-900 mb-4">金融行业面临的业务挑战</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">1</div>
+                                    <p class="text-gray-600">业务流程复杂，急需规范的流程文档</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">2</div>
+                                    <p class="text-gray-600">市场瞬息万变，科学决策尤为关键</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">3</div>
+                                    <p class="text-gray-600">风险控制困难，难以定位责任人</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">4</div>
+                                    <p class="text-gray-600">业务知识点繁多，新人培训困难</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价值 -->
+                    <div class="p-8">
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">ProcessOn对金融行业的价值</h3>
+                        
+                        <!-- 价值点1 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">标准流程梳理示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">标准流程梳理，工作井井有条</h4>
+                                <p class="text-gray-600 mb-4">将工作内容沉淀为标准流程，降低员工出错概率。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点2 -->
+                        <div class="flex flex-col md:flex-row-reverse mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">对比分析示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">对比分析，科学决策</h4>
+                                <p class="text-gray-600 mb-4">使用思维导图剖析内外环境，找到问题最优解。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点3 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">跨部门流程图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">跨部门流程图，快速定位责任人</h4>
+                                <p class="text-gray-600 mb-4">关键流程节点注明责任人，职责清晰明了。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点4 -->
+                        <div class="flex flex-col md:flex-row-reverse">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">知识导航示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">知识导航，快速查阅</h4>
+                                <p class="text-gray-600 mb-4">新人必看材料，一图掌握。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 医疗健康行业解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+                    <!-- 顶部内容 -->
+                    <div class="p-8 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">医疗健康行业解决方案</h2>
+                        <p class="text-gray-600 mb-8">医疗健康行业服务对象广泛，包括患者、家属、医生、医护人员、管理人员等，服务形式和流程繁多，管理难度大。</p>
+                        
+                        <!-- 面临的挑战 -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-medium text-gray-900 mb-4">医疗健康行业面临的业务挑战</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">1</div>
+                                    <p class="text-gray-600">医疗流程需要标准化</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">2</div>
+                                    <p class="text-gray-600">医疗信息化系统建设</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">3</div>
+                                    <p class="text-gray-600">医学知识点庞杂，记忆困难</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">4</div>
+                                    <p class="text-gray-600">患者病情复杂，需共同探讨治疗方案</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价值 -->
+                    <div class="p-8">
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">ProcessOn对医疗健康行业的价值</h3>
+                        
+                        <!-- 价值点1 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">标准流程示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">标准流程规范医疗管理</h4>
+                                <p class="text-gray-600 mb-4">通过既定的医疗流程规范，提升流程流转效率。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点2 -->
+                        <div class="flex flex-col md:flex-row-reverse mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">医疗信息化架构图示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">医疗信息化架构图</h4>
+                                <p class="text-gray-600 mb-4">优化医疗信息化架构，更好地支撑线上医疗服务。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点3 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">知识框架示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">知识框架梳理，方便记忆</h4>
+                                <p class="text-gray-600 mb-4">将庞杂的医学知识点归纳为一个简单框架，帮助医疗工作者更好地记忆。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点4 -->
+                        <div class="flex flex-col md:flex-row-reverse">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">多人会诊示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">多人会诊，综合决策</h4>
+                                <p class="text-gray-600 mb-4">多名医生共同在线探讨最优治疗方案。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 生产制造行业解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-8">
+                    <!-- 顶部内容 -->
+                    <div class="p-8 border-b border-gray-200">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">生产制造行业解决方案</h2>
+                        <p class="text-gray-600 mb-8">制造业生产过程通常包含多个环节，每个环节都需要严格的规划和控制，同时要保证生产效率，以满足市场需求和降低生产成本，这其中流程优化是十分重要的一环。</p>
+                        
+                        <!-- 面临的挑战 -->
+                        <div class="mb-10">
+                            <h3 class="text-xl font-medium text-gray-900 mb-4">生产制造行业面临的业务挑战</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">1</div>
+                                    <p class="text-gray-600">生产效率低，需要优化生产流程</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">2</div>
+                                    <p class="text-gray-600">设计开发新产品阶段需要集思广益</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">3</div>
+                                    <p class="text-gray-600">员工生产经验没有沉淀，知识管理困难</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">4</div>
+                                    <p class="text-gray-600">产品质量控制严格复杂，需要清晰的文档</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 价值 -->
+                    <div class="p-8">
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">ProcessOn对生产制造行业的价值</h3>
+                        
+                        <!-- 价值点1 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">生产流程再梳理示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">生产流程再梳理</h4>
+                                <p class="text-gray-600 mb-4">梳理当前生产流程存在的问题，找出低效的流程节点，提高生产效率</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点2 -->
+                        <div class="flex flex-col md:flex-row-reverse mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">头脑风暴示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">碰撞产品新idea</h4>
+                                <p class="text-gray-600 mb-4">设计新产品需要很多创意点子，发动全员用思维导图来一场头脑风暴。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点3 -->
+                        <div class="flex flex-col md:flex-row mb-12">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:mr-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">经验沉淀示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">优秀经验共同学习</h4>
+                                <p class="text-gray-600 mb-4">生产中优秀的管理经验及时记录下来，其他员工也能一起进步</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 价值点4 -->
+                        <div class="flex flex-col md:flex-row-reverse">
+                            <div class="md:w-1/2 mb-6 md:mb-0 md:ml-8">
+                                <div class="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+                                    <div class="text-gray-500">质控文档示例</div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">质控文档清晰展现</h4>
+                                <p class="text-gray-600 mb-4">通过思维导图梳理质量管理手册，快速定位到所需信息。</p>
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors">免费试用团队版</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 客户案例 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-12">
+                    <div class="p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-8">客户案例</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- 案例1 -->
+                            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                    <div class="text-gray-500">客户案例1</div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mb-3">互联网</div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">助力梦加网络提升团队协作效率，为成员赋能</h3>
+                                    <div class="h-8 bg-gray-200 rounded w-24"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- 案例2 -->
+                            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                    <div class="text-gray-500">客户案例2</div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="inline-block bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded mb-3">医疗健康</div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">助力新氧科技提升医美企业组织能效</h3>
+                                    <div class="h-8 bg-gray-200 rounded w-24"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- 案例3 -->
+                            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                    <div class="text-gray-500">客户案例3</div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="inline-block bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded mb-3">教育培训</div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">为一流高校打造专业学习辅助工具优化协作管理流程</h3>
+                                    <div class="h-8 bg-gray-200 rounded w-24"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- 案例4 -->
+                            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                    <div class="text-gray-500">客户案例4</div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="inline-block bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded mb-3">服务业</div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">助力企业数字化转型，提升数字营销解决方案效能</h3>
+                                    <div class="h-8 bg-gray-200 rounded w-24"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- 案例5 -->
+                            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                    <div class="text-gray-500">客户案例5</div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="inline-block bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded mb-3">服务业</div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">助力缦图摄影打造更高质的摄影服务体验</h3>
+                                    <div class="h-8 bg-gray-200 rounded w-24"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- 案例6 -->
+                            <div class="bg-gray-50 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+                                <div class="h-40 bg-gray-200 flex items-center justify-center">
+                                    <div class="text-gray-500">客户案例6</div>
+                                </div>
+                                <div class="p-4">
+                                    <div class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded mb-3">零售</div>
+                                    <h3 class="text-lg font-medium text-gray-900 mb-2">深入一线业务，ProcessOn帮助永辉超市降本增效</h3>
+                                    <div class="h-8 bg-gray-200 rounded w-24"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 按角色划分的解决方案 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mt-12">
+                    <div class="p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-8">按角色划分的解决方案</h2>
+                        
+                        <!-- 角色标签 -->
+                        <div class="flex overflow-x-auto pb-4 mb-8 space-x-3">
+                            <button class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm font-medium whitespace-nowrap">产品研发</button>
+                            <button class="px-5 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">运营</button>
+                            <button class="px-5 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">设计</button>
+                            <button class="px-5 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">测试</button>
+                            <button class="px-5 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">市场营销</button>
+                            <button class="px-5 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">人力</button>
+                            <button class="px-5 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium whitespace-nowrap hover:bg-gray-200">通用</button>
+                        </div>
+                        
+                        <!-- 产品研发解决方案 -->
+                        <div class="space-y-6">
+                            <div class="p-6 bg-gray-50 rounded-lg">
+                                <h3 class="text-xl font-medium text-gray-900 mb-4">产品研发</h3>
+                                <p class="text-gray-600">为产品研发团队提供可视化协作工具，帮助团队更好地梳理产品需求、设计产品架构、规划开发流程，提高团队协作效率和产品质量。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white">
+        <!-- 功能列表 -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+                    <!-- 产品 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">产品</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">思维导图</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">流程图</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">思维笔记</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Markdown</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">在线白板</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">原型设计</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">API服务</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 实用工具 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">实用工具</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">LaTex公式编辑器</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Geogebra</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Mermaid</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 资源 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">资源</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">模板社区</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">知识教程</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">专题频道</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">帮助中心</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">使用手册</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Markdown语法</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 支持 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">支持</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">邀请有礼</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">私有化部署</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">教育认证</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">对标Visio</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 关于 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">关于</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a href="#" class="text-gray-400 hover:text-white">关于我们</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">加入我们</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">服务条款</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">隐私政策</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 联系 -->
+                    <div>
+                        <h3 class="text-lg font-medium mb-4">联系</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li class="text-gray-400">邮箱: support@processon.com</li>
+                            <li class="text-gray-400">电话: 010-82796300 (个人版)</li>
+                            <li class="text-gray-400">010-86393609 (团队版)</li>
+                            <li class="text-gray-400">(工作日 9:30-18:30)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 社交媒体和版权 -->
+        <section class="py-8 bg-gray-950 text-gray-400 text-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <!-- 社交媒体 -->
+                    <div class="flex space-x-4 mb-4 md:mb-0">
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 8c0 .557.447 1.008 1 1.008s1-.45 1-1.008c0-.557-.447-1.008-1-1.008s-1 .45-1 1.008zm0 2h2v6h-2v-6zm3 0h3v2h-3v-2z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    
+                    <!-- 版权信息 -->
+                    <div class="text-center md:text-right">
+                        <div class="mb-2">前往ProcessOn全球网站 →</div>
+                        <div class="mt-4 text-xs">©2020 北京大麦地信息技术有限公司 京ICP备15008605号-1 | 京公网安备 11010802033154号</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+</body>
+</html>

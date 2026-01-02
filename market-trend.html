@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>市场趋势分析- ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#6ea8fe',
+                        accent: '#667eea',
+                        success: '#52c41a',
+                        warning: '#faad14',
+                        danger: '#f5222d',
+                        dark: '#1a1a1a',
+                        light: '#f5f7fa'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        /* 客户端切换导航样式 */
+        .client-nav {
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .client-nav-content {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 100%;
+        }
+        
+        .client-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .client-tabs {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .client-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #666;
+            background-color: #f5f7fa;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .client-tab:hover {
+            background-color: #e6ebff;
+            color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+        
+        .client-tab.active {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-item:hover {
+            background-color: #f0f4ff;
+            color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        /* 筛选栏 */
+        .filter-bar {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+        
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .filter-item label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .filter-item input,
+        .filter-item select {
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-item input:focus,
+        .filter-item select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 操作按钮组 */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5568d3;
+        }
+        
+        /* 图表容器 */
+        .chart-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+        
+        /* 数据卡片 */
+        .data-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .data-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .data-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        
+        .card-change {
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .card-change.positive {
+            color: #52c41a;
+        }
+        
+        .card-change.negative {
+            color: #f5222d;
+        }
+        
+        /* 市场热点区域 */
+        .hot-spots {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .hot-spots h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .hot-spot-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .hot-spot-item {
+            padding: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .hot-spot-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+        
+        .hot-spot-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .hot-spot-info {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        
+        .hot-spot-stats {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        /* 市场概览 */
+        .market-overview {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .market-overview h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .overview-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .overview-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .overview-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .overview-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            flex-direction: row !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+            font-size: 24px !important;
+        }
+        
+        .logo img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 50px !important;
+            max-height: 50px !important;
+            width: 50px !important;
+            height: 50px !important;
+            object-fit: contain !important;
+        }
+        
+        /* 调整导航栏大小 */
+        .header {
+            height: 80px !important;
+            padding: 16px 24px !important;
+            background-color: white !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        }
+        
+        .nav-menu {
+            gap: 12px !important;
+        }
+        
+        .nav-link {
+            font-size: 16px !important;
+            padding: 10px 16px !important;
+        }
+        
+        /* 确保所有文字横向显示 */
+        * {
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .filter-bar {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ai-valuation.html" class="nav-link">AI估价</a>
+                    <a href="market-trend.html" class="nav-link">市场趋势</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="valuation-history.html" class="nav-link">估价历史</a>
+                    <a href="report-generation.html" class="nav-link">报告生成</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>市场趋势</h3>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-item active">
+                    <span>📊</span>
+                    <span>市场概览</span>
+                </div>
+                <div class="menu-item">
+                    <span>📈</span>
+                    <span>价格走势</span>
+                </div>
+                <div class="menu-item">
+                    <span>🔥</span>
+                    <span>市场热点</span>
+                </div>
+                <div class="menu-item">
+                    <span>🏙️</span>
+                    <span>区域分析</span>
+                </div>
+                <div class="menu-item">
+                    <span>📋</span>
+                    <span>数据分析报告</span>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <h1 class="page-title">📊 市场趋势分析</h1>
+            
+            <!-- 筛选栏 -->
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <label for="filter-city">选择城市</label>
+                    <select id="filter-city" class="filter-select">
+                        <option value="长沙">长沙</option>
+                        <option value="北京">北京</option>
+                        <option value="上海">上海</option>
+                        <option value="广州">广州</option>
+                        <option value="深圳">深圳</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="filter-property-type">物业类型</label>
+                    <select id="filter-property-type" class="filter-select">
+                        <option value="all">所有类型</option>
+                        <option value="住宅">住宅</option>
+                        <option value="写字楼">写字楼</option>
+                        <option value="商铺">商铺</option>
+                        <option value="别墅">别墅</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="filter-time-range">时间范围</label>
+                    <select id="filter-time-range" class="filter-select">
+                        <option value="1m">近1个月</option>
+                        <option value="3m">近3个月</option>
+                        <option value="6m" selected>近6个月</option>
+                        <option value="1y">近1年</option>
+                        <option value="3y">近3年</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="filter-area">区域</label>
+                    <select id="filter-area" class="filter-select">
+                        <option value="all">所有区域</option>
+                        <option value="开福区">开福区</option>
+                        <option value="岳麓区">岳麓区</option>
+                        <option value="天心区">天心区</option>
+                        <option value="雨花区">雨花区</option>
+                        <option value="芙蓉区">芙蓉区</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item" style="display: flex; gap: 8px; align-items: end;">
+                    <button class="btn btn-primary" onclick="updateCharts()">🔍 应用筛选</button>
+                    <button class="btn" onclick="exportData()">📤 导出数据</button>
+                </div>
+            </div>
+            
+            <!-- 数据卡片 -->
+            <div class="data-cards">
+                <div class="data-card">
+                    <div class="card-title">平均房价</div>
+                    <div class="card-value">¥12,800</div>
+                    <div class="card-change positive">+2.5%</div>
+                </div>
+                <div class="data-card">
+                    <div class="card-title">成交量</div>
+                    <div class="card-value">12,568</div>
+                    <div class="card-change positive">+1.8%</div>
+                </div>
+                <div class="data-card">
+                    <div class="card-title">市场活跃度</div>
+                    <div class="card-value">85.2</div>
+                    <div class="card-change positive">+3.1%</div>
+                </div>
+                <div class="data-card">
+                    <div class="card-title">库存周期</div>
+                    <div class="card-value">8.3 个月</div>
+                    <div class="card-change negative">-2.1%</div>
+                </div>
+            </div>
+            
+            <!-- 价格走势图表 -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h3 class="chart-title">价格走势</h3>
+                    <div class="chart-actions">
+                        <button class="btn" onclick="toggleChartType('line')">📈 折线图</button>
+                        <button class="btn" onclick="toggleChartType('bar')">📊 柱状图</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="price-trend-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 市场分布图表 -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <h3 class="chart-title">市场分布</h3>
+                    <div class="chart-actions">
+                        <button class="btn" onclick="toggleChartType('pie')">🥧 饼图</button>
+                        <button class="btn" onclick="toggleChartType('doughnut')">🍩 环形图</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="market-distribution-chart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 市场热点区域 -->
+            <div class="hot-spots">
+                <h3>🔥 市场热点区域</h3>
+                <div class="hot-spot-list">
+                    <div class="hot-spot-item">
+                        <div class="hot-spot-name">开福区福元路</div>
+                        <div class="hot-spot-info">近3个月成交量增长28%</div>
+                        <div class="hot-spot-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">13,500</div>
+                                <div class="stat-label">均价(元/㎡)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">+5.2%</div>
+                                <div class="stat-label">涨幅</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">1,256</div>
+                                <div class="stat-label">成交量</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hot-spot-item">
+                        <div class="hot-spot-name">岳麓区梅溪湖</div>
+                        <div class="hot-spot-info">近3个月成交量增长18%</div>
+                        <div class="hot-spot-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">14,800</div>
+                                <div class="stat-label">均价(元/㎡)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">+3.8%</div>
+                                <div class="stat-label">涨幅</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">987</div>
+                                <div class="stat-label">成交量</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hot-spot-item">
+                        <div class="hot-spot-name">天心区南湖新城</div>
+                        <div class="hot-spot-info">近3个月成交量增长22%</div>
+                        <div class="hot-spot-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">13,200</div>
+                                <div class="stat-label">均价(元/㎡)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">+4.5%</div>
+                                <div class="stat-label">涨幅</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">856</div>
+                                <div class="stat-label">成交量</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hot-spot-item">
+                        <div class="hot-spot-name">雨花区高铁新城</div>
+                        <div class="hot-spot-info">近3个月成交量增长35%</div>
+                        <div class="hot-spot-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">12,800</div>
+                                <div class="stat-label">均价(元/㎡)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">+6.2%</div>
+                                <div class="stat-label">涨幅</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">1,567</div>
+                                <div class="stat-label">成交量</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 市场概览 -->
+            <div class="market-overview">
+                <h3>📋 市场概览</h3>
+                <div class="overview-content">
+                    <div class="overview-item">
+                        <div class="overview-label">当前均价</div>
+                        <div class="overview-value">¥12,800 元/㎡</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">同比增长</div>
+                        <div class="overview-value" style="color: #52c41a;">+5.2%</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">环比增长</div>
+                        <div class="overview-value" style="color: #52c41a;">+0.8%</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">在售房源</div>
+                        <div class="overview-value">25,689 套</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">平均成交周期</div>
+                        <div class="overview-value">45 天</div>
+                    </div>
+                    <div class="overview-item">
+                        <div class="overview-label">市场热度指数</div>
+                        <div class="overview-value">85.2</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // 模拟价格走势数据
+        const priceTrendData = {
+            labels: ['2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12'],
+            datasets: [
+                {
+                    label: '住宅',
+                    data: [12500, 12600, 12700, 12800, 12850, 12900],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                },
+                {
+                    label: '写字楼',
+                    data: [11800, 11900, 12000, 12100, 12150, 12200],
+                    borderColor: '#52c41a',
+                    backgroundColor: 'rgba(82, 196, 26, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                },
+                {
+                    label: '商铺',
+                    data: [18500, 18600, 18700, 18800, 18850, 18900],
+                    borderColor: '#faad14',
+                    backgroundColor: 'rgba(250, 173, 20, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }
+            ]
+        };
+        
+        // 模拟市场分布数据
+        const marketDistributionData = {
+            labels: ['住宅', '写字楼', '商铺', '别墅'],
+            datasets: [
+                {
+                    data: [65, 15, 12, 8],
+                    backgroundColor: [
+                        '#667eea',
+                        '#52c41a',
+                        '#faad14',
+                        '#f5222d'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }
+            ]
+        };
+        
+        // 全局图表实例
+        let priceTrendChart = null;
+        let marketDistributionChart = null;
+        
+        // 页面加载完成后初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            
+            // 监听筛选条件变化
+            document.getElementById('filter-city').addEventListener('change', updateCharts);
+            document.getElementById('filter-property-type').addEventListener('change', updateCharts);
+            document.getElementById('filter-time-range').addEventListener('change', updateCharts);
+            document.getElementById('filter-area').addEventListener('change', updateCharts);
+        });
+        
+        // 初始化图表
+        function initCharts() {
+            // 价格走势图表
+            const priceTrendCtx = document.getElementById('price-trend-chart').getContext('2d');
+            priceTrendChart = new Chart(priceTrendCtx, {
+                type: 'line',
+                data: priceTrendData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: '价格 (元/㎡)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '时间'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 市场分布图表
+            const marketDistributionCtx = document.getElementById('market-distribution-chart').getContext('2d');
+            marketDistributionChart = new Chart(marketDistributionCtx, {
+                type: 'pie',
+                data: marketDistributionData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value}% (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 更新图表数据
+        function updateCharts() {
+            // 获取筛选条件
+            const city = document.getElementById('filter-city').value;
+            const propertyType = document.getElementById('filter-property-type').value;
+            const timeRange = document.getElementById('filter-time-range').value;
+            const area = document.getElementById('filter-area').value;
+            
+            // 这里可以根据筛选条件从API获取数据，现在使用模拟数据
+            console.log('更新图表:', { city, propertyType, timeRange, area });
+            
+            // 模拟更新效果
+            priceTrendChart.update();
+            marketDistributionChart.update();
+        }
+        
+        // 切换图表类型
+        function toggleChartType(chartType) {
+            if (chartType === 'line' || chartType === 'bar') {
+                // 更新价格走势图表类型
+                priceTrendChart.config.type = chartType;
+                priceTrendChart.update();
+            } else if (chartType === 'pie' || chartType === 'doughnut') {
+                // 更新市场分布图表类型
+                marketDistributionChart.config.type = chartType;
+                marketDistributionChart.update();
+            }
+        }
+        
+        // 导出数据
+        function exportData() {
+            const city = document.getElementById('filter-city').value;
+            const propertyType = document.getElementById('filter-property-type').value;
+            const timeRange = document.getElementById('filter-time-range').value;
+            
+            alert(`导出数据功能开发中...\n城市: ${city}\n物业类型: ${propertyType === 'all' ? '所有类型' : propertyType}\n时间范围: ${timeRange}`);
+        }
+        
+        // 侧边栏菜单点击事件
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // 更新侧边栏激活状态
+                document.querySelectorAll('.menu-item').forEach(menuItem => {
+                    menuItem.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // 根据菜单类型显示不同内容
+                const menuText = this.querySelector('span:last-child').textContent;
+                console.log('菜单点击:', menuText);
+            });
+        });
+    </script>
+</body>
+</html>

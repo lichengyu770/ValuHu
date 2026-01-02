@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Paint Worklet Demo - ValuHub</title>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      h1 {
+        color: #4f46e5;
+        border-bottom: 2px solid #e5e7eb;
+        padding-bottom: 10px;
+      }
+
+      h2 {
+        color: #374151;
+        margin-top: 30px;
+      }
+
+      pre {
+        background-color: #f3f4f6;
+        padding: 16px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        border: 1px solid #e5e7eb;
+      }
+
+      code {
+        font-family: 'Courier New', monospace;
+        background-color: #f3f4f6;
+        padding: 2px 4px;
+        border-radius: 3px;
+      }
+
+      .example-container {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background-color: #f9fafb;
+      }
+
+      .note {
+        background-color: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 12px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+
+      .code-section {
+        margin-top: 20px;
+      }
+
+      .code-section h3 {
+        margin-bottom: 10px;
+        color: #4b5563;
+      }
+
+      .steps {
+        background-color: #ecfdf5;
+        border: 1px solid #d1fae5;
+        border-radius: 6px;
+        padding: 16px;
+        margin: 20px 0;
+      }
+
+      .steps ol {
+        margin-top: 10px;
+      }
+
+      .steps li {
+        margin-bottom: 8px;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+
+  <body>
+    <h1>CSS Paint Worklet Demo</h1>
+
+    <div class="note">
+      <strong>Note:</strong> This demo shows how to properly import and use CSS
+      Paint Worklets with the <code>?url</code>
+      suffix in a Vite project.
+    </div>
+
+    <h2>Import Syntax for CSS Paint Worklets</h2>
+
+    <div class="code-section">
+      <h3>JavaScript Import Syntax</h3>
+      <pre>
+import workletURL from 'extra-scalloped-border/worklet.js?url';
+
+// Then register the worklet
+if ('paintWorklet' in CSS) {
+  CSS.paintWorklet.addModule(workletURL);
+}</pre
+      >
+    </div>
+
+    <h2>Implementation Steps</h2>
+
+    <div class="steps">
+      <ol>
+        <li>
+          <strong>Update Vite Configuration</strong>
+          <ul>
+            <li>
+              Add <code>assetsInclude: ['**/*.worklet.js']</code> to handle
+              worklet files
+            </li>
+            <li>Configure server.fs.allow to serve from node_modules</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Install Required Packages</strong>
+          <pre>npm install extra-scalloped-border</pre>
+        </li>
+        <li>
+          <strong>Import the Worklet with ?url Suffix</strong>
+          <ul>
+            <li>
+              This tells Vite to return the URL instead of trying to bundle the
+              worklet
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Register the Worklet</strong>
+          <ul>
+            <li>Use <code>CSS.paintWorklet.addModule(workletURL)</code></li>
+            <li>Add browser support check for <code>paintWorklet</code></li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <h2>React Component Example</h2>
+
+    <div class="code-section">
+      <h3>PaintWorkletExample.jsx</h3>
+      <pre>
+import React, { useEffect } from 'react';
+import workletURL from 'extra-scalloped-border/worklet.js?url';
+
+const PaintWorkletExample = () => {
+  useEffect(() => {
+    // Load the CSS Paint Worklet
+    if ('paintWorklet' in CSS) {
+      try {
+        CSS.paintWorklet.addModule(workletURL);
+        console.log('CSS Paint Worklet loaded successfully:', workletURL);
+      } catch (error) {
+        console.error('Failed to load CSS Paint Worklet:', error);
+      }
+    } else {
+      console.warn('CSS Paint Worklet is not supported in this browser');
+    }
+  }, []);
+
+  return (
+    &lt;div 
+      className="h-32 w-full"
+      style={{background:'paint(scalloped-border)',backgroundColor:'#f3f4f6','--scallop-color':'#4F46E5','--scallop-size':'20px'}}
+    &gt;
+      {/* Content here */}
+    &lt;/div&gt;
+  );
+};
+
+export default PaintWorkletExample;</pre
+      >
+    </div>
+
+    <h2>Vite Configuration</h2>
+
+    <div class="code-section">
+      <h3>vite.config.js</h3>
+      <pre>
+// Add these to your existing Vite configuration
+export default defineConfig({
+  // ... existing config
+  
+  // Configure static asset handling for worklets
+  assetsInclude: ['**/*.worklet.js'],
+  
+  // Set server configuration for development
+  server: {
+    fs: {
+      // Allow serving files from node_modules for CSS worklets
+      allow: ['..']
+    }
+  }
+})</pre
+      >
+    </div>
+
+    <div class="note">
+      <strong>Browser Support:</strong> CSS Paint API is supported in Chrome,
+      Edge, and Opera. For Firefox, you need to enable the
+      <code>layout.css.paint-api.enabled</code> flag in about:config.
+    </div>
+
+    <script>
+      // Example of using the worklet in vanilla JavaScript
+      // This would be in a separate JavaScript file
+      /*
+    import workletURL from 'extra-scalloped-border/worklet.js?url';
+    
+    if ('paintWorklet' in CSS) {
+      CSS.paintWorklet.addModule(workletURL).then(() => {
+        console.log('Worklet loaded!');
+      }).catch(error => {
+        console.error('Worklet loading error:', error);
+      });
+    }
+    */
+    </script>
+  </body>
+</html>

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>表单提交测试 - ValuHub</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0d47a1;
+      }
+      #sampleModal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      #sampleModal .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+      }
+      #sampleContent {
+        width: 100%;
+        min-height: 200px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 14px;
+        resize: vertical;
+        margin-bottom: 20px;
+      }
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <h1>表单提交测试</h1>
+    <form id="testForm">
+      <div class="form-group">
+        <label for="name">姓名</label>
+        <input type="text" id="name" name="name" value="张三" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">电话</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value="13800138000"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="email">邮箱</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="zhangsan@example.com"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="message">留言</label>
+        <textarea id="message" name="message" rows="5">
+这是一条测试留言</textarea
+        >
+      </div>
+      <button type="submit">提交表单</button>
+    </form>
+
+    <!-- 示例模态框 -->
+    <div id="sampleModal">
+      <div class="modal-content">
+        <h2>模态框示例</h2>
+        <div id="sampleContent">这里是模态框内容</div>
+        <div class="modal-actions">
+          <button id="closeModal">关闭</button>
+          <button id="saveContent">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 表单提交处理
+      document
+        .getElementById('testForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const data = Object.fromEntries(formData);
+
+          console.log('表单提交数据:', data);
+          alert('表单提交成功！数据已在控制台输出');
+        });
+
+      // 模态框处理
+      document
+        .getElementById('openModal')
+        ?.addEventListener('click', function () {
+          document.getElementById('sampleModal').style.display = 'block';
+        });
+
+      document
+        .getElementById('closeModal')
+        .addEventListener('click', function () {
+          document.getElementById('sampleModal').style.display = 'none';
+        });
+
+      document
+        .getElementById('saveContent')
+        .addEventListener('click', function () {
+          const content = document.getElementById('sampleContent').value;
+          console.log('保存的内容:', content);
+          alert('内容已保存！');
+          document.getElementById('sampleModal').style.display = 'none';
+        });
+
+      // 点击模态框外部关闭
+      window.addEventListener('click', function (e) {
+        const modal = document.getElementById('sampleModal');
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    </script>
+  </body>
+</html>

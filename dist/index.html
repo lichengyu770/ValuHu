@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ValuHub - 房产价值生态引擎</title>
+    <meta name="description" content="ValuHub是专业的房产价值生态引擎，提供AI估价、市场分析、数据报告等服务，服务大众、政务、企业、院校等多个终端，构建完整的房产价值生态系统。">
+    <meta name="keywords" content="房产估价,AI估价,市场分析,数据报告,ValuHub,房产价值生态引擎">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ValuHub">
+    <meta name="copyright" content="© 2025 ValuHub">
+    <meta property="og:title" content="ValuHub - 房产价值生态引擎">
+    <meta property="og:description" content="ValuHub是专业的房产价值生态引擎，提供AI估价、市场分析、数据报告等服务，服务大众、政务、企业、院校等多个终端，构建完整的房产价值生态系统。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.valuhub.com">
+    <meta property="og:site_name" content="ValuHub">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ValuHub - 房产价值生态引擎">
+    <meta name="twitter:description" content="ValuHub是专业的房产价值生态引擎，提供AI估价、市场分析、数据报告等服务，服务大众、政务、企业、院校等多个终端，构建完整的房产价值生态系统。">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ValuHub",
+      "url": "https://www.valuhub.com",
+      "description": "专业的房产价值生态引擎，提供AI估价、市场分析、数据报告等服务",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ValuHub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.valuhub.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- 引入CSS样式 - 预加载关键CSS -->
+    <noscript>
+    </noscript>
+    
+    <!-- 页面特定样式 -->
+    <style>
+        /* 强制禁用缓存 */
+        * {
+            cache-control: no-cache;
+        }
+        
+        /* 主内容区样式 */
+        .main-content {
+            padding-top: 0;
+        }
+        
+        /* 确保所有文字横向显示 */
+        * {
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-20) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+            overflow: hidden;
+            box-shadow: var(--shadow-ecosystem-glow);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="rgba(255,255,255,.1)" fill-opacity="1" fill-rule="evenodd"/%3E%3C/svg%3E');
+            opacity: 0.3;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: ecosystemMove 20s linear infinite;
+        }
+        
+        @keyframes ecosystemMove {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(50px, 50px) rotate(360deg);
+            }
+        }
+        
+        /* 数据概览区域样式 */
+        .data-flow {
+            background: var(--bg-ecosystem-pattern);
+        }
+        
+        /* 自定义按钮样式 - Hero区域白色按钮 */
+        .btn-white {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            border-color: var(--color-white);
+        }
+        
+        .btn-white:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--color-primary);
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .btn-outline-white {
+            background-color: transparent;
+            color: var(--color-white);
+            border-color: var(--color-white);
+        }
+        
+        .btn-outline-white:hover {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            gap: var(--spacing-2) !important;
+            flex-direction: row !important;
+            white-space: nowrap !important;
+        }
+        
+        .navbar-brand img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 50px !important;
+            max-height: 50px !important;
+            width: 50px !important;
+            height: 50px !important;
+            object-fit: contain !important;
+        }
+        
+        .navbar-brand span,
+        .navbar-brand a {
+            display: inline-block !important;
+            vertical-align: middle !important;
+        }
+        
+        /* 确保所有文字横向显示 */
+        .data-number,
+        .data-label {
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            display: block !important;
+        }
+        
+        /* 确保实时数据概览的卡片内文字横向显示 */
+        .data-flow .grid-cols-4 > div {
+            writing-mode: horizontal-tb !important;
+        }
+        
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-20) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+            overflow: hidden;
+            box-shadow: var(--shadow-ecosystem-glow);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="rgba(255,255,255,.1)" fill-opacity="1" fill-rule="evenodd"/%3E%3C/svg%3E');
+            opacity: 0.3;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: ecosystemMove 20s linear infinite;
+        }
+        
+        @keyframes ecosystemMove {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(50px, 50px) rotate(360deg);
+            }
+        }
+        
+        /* 数据概览区域样式 */
+        .data-flow {
+            background: var(--bg-ecosystem-pattern);
+        }
+        
+        /* 卡片样式增强 */
+        .card {
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        /* 入口卡片样式增强 */
+        .entry-card {
+            box-shadow: var(--shadow-ecosystem-card);
+            border: var(--border-ecosystem);
+        }
+        
+        .entry-card:hover {
+            box-shadow: var(--shadow-ecosystem-hover);
+            border: var(--border-ecosystem-hover);
+        }
+        
+        /* 应用场景卡片样式 */
+        .solutions .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* 修复文字竖向显示问题 - 确保所有主要内容区域的文字都是横向排列 */
+        .hero-content,
+        .map-sandbox,
+        .data-flow,
+        .solutions,
+        .entry-selector-section,
+        .section-title,
+        .section-subtitle,
+        .card-title,
+        .card-body,
+        .entry-card-title,
+        .entry-card-desc,
+        .data-label,
+        .data-number,
+        .solution-icon,
+        .solution-card .card-title,
+        .solution-card .card-body {
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* 确保所有容器元素都是横向排列 */
+        .grid,
+        .grid-cols-4,
+        .grid-cols-3,
+        .d-flex,
+        .align-items-center,
+        .justify-content-between,
+        .justify-content-center,
+        .hero-buttons {
+            flex-direction: row !important;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: var(--font-size-5xl);
+            font-weight: var(--font-weight-bold);
+            line-height: 1.2;
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .hero-subtitle {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-light);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-8);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 地图沙盘区域 */
+        .map-sandbox {
+            position: relative;
+            padding: var(--spacing-16) 0;
+            background-color: var(--color-bg-primary);
+        }
+        
+        .map-container {
+            position: relative;
+            height: 600px;
+            border-radius: var(--border-radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-ecosystem);
+            background: linear-gradient(135deg, var(--color-light) 0%, var(--color-white) 100%);
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 自定义按钮样式 - Hero区域白色按钮 */
+        .btn-white {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+            border-color: var(--color-white);
+        }
+        
+        .btn-white:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--color-primary);
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .btn-outline-white {
+            background-color: transparent;
+            color: var(--color-white);
+            border-color: var(--color-white);
+        }
+        
+        .btn-outline-white:hover {
+            background-color: var(--color-white);
+            color: var(--color-primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .hero-title {
+                font-size: var(--font-size-3xl);
+            }
+            
+            .hero-subtitle {
+                font-size: var(--font-size-base);
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .map-container {
+                height: 400px;
+            }
+            
+            .data-flow,
+            .solutions,
+            .entry-selector {
+                padding: var(--spacing-12) 0;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+  <link rel="stylesheet" crossorigin href="/assets/index-CFN8FrIr.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="navbar navbar-fixed">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand">
+                    <img src="/assets/%E5%9B%BE%E7%89%871-DsjiXpHK.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ai-valuation.html" class="nav-link">AI估价</a>
+                    <a href="market-trend.html" class="nav-link">市场趋势</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="valuation-history.html" class="nav-link">估价历史</a>
+                    <a href="report-generation.html" class="nav-link">报告生成</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none" type="button" aria-label="打开菜单">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 预热宣传横幅 -->
+    <div class="prelaunch-banner bg-gradient-to-r from-primary to-secondary text-white py-4 px-6">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="banner-content">
+                <h3 class="font-bold text-lg">📣 ValuHub 即将登场！</h3>
+                <p class="text-sm opacity-90">品牌造势与行业渗透，敬请期待</p>
+            </div>
+            <div class="banner-actions">
+                <a href="#prelaunch" class="btn btn-white btn-sm">了解更多</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- Hero区域 -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">房产价值生态引擎</h1>
+                    <p class="hero-subtitle">ValuHub利用AI技术和大数据分析，为您提供专业、可靠的房产估价服务，服务大众、政务、企业、院校等多个终端，构建完整的房产价值生态系统。</p>
+                    <div class="hero-buttons d-flex gap-4 justify-center flex-wrap">
+                        <a href="solutions.html" class="btn btn-white btn-lg">了解解决方案</a>
+                        <a href="register.html" class="btn btn-outline-white btn-lg">免费注册</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 多入口转换 -->
+        <section class="entry-selector-section py-16 bg-light">
+            <div class="container">
+                <h2 class="section-title">选择您的身份</h2>
+                <p class="section-subtitle">根据您的身份和需求，选择对应的服务入口</p>
+                <div class="entry-selector grid grid-cols-4 gap-8 mt-12">
+                    <a href="residential.html" class="entry-card p-8 bg-white border border-primary/20 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-4 group">
+                        <div class="entry-card-icon text-4xl text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="entry-card-title text-xl font-semibold mb-2 text-text-primary">个人用户</h3>
+                        <p class="entry-card-desc text-text-secondary">我是个人用户，需要房产估价服务</p>
+                    </a>
+                    <a href="government.html" class="entry-card p-8 bg-white border border-primary/20 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-4 group">
+                        <div class="entry-card-icon text-4xl text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="entry-card-title text-xl font-semibold mb-2 text-text-primary">政府人员</h3>
+                        <p class="entry-card-desc text-text-secondary">我是政府人员，需要政务服务</p>
+                    </a>
+                    <a href="enterprise.html" class="entry-card p-8 bg-white border border-primary/20 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-4 group">
+                        <div class="entry-card-icon text-4xl text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="entry-card-title text-xl font-semibold mb-2 text-text-primary">企业客户</h3>
+                        <p class="entry-card-desc text-text-secondary">我是企业客户，需要企业服务</p>
+                    </a>
+                    <a href="academy.html" class="entry-card p-8 bg-white border border-primary/20 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-4 group">
+                        <div class="entry-card-icon text-4xl text-primary mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="entry-card-title text-xl font-semibold mb-2 text-text-primary">院校师生</h3>
+                        <p class="entry-card-desc text-text-secondary">我是院校师生，需要学术服务</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 交互式地图沙盘 -->
+        <section class="map-sandbox py-16">
+            <div class="container">
+                <h2 class="section-title">全国房产估价数据沙盘</h2>
+                <p class="section-subtitle">实时展示全国房产估价数据，可视化呈现市场趋势</p>
+                <div class="map-container rounded-2xl overflow-hidden shadow-xl mt-12">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 数据流展示 -->
+        <section class="data-flow py-16 bg-light">
+            <div class="container">
+                <h2 class="section-title">实时数据概览</h2>
+                <div class="grid grid-cols-4 gap-8 mt-8">
+                    <div class="card text-center p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="data-number text-3xl font-bold text-primary mb-2" id="valuation-count">1,234,567</div>
+                        <div class="data-label text-text-secondary">累计估价次数</div>
+                    </div>
+                    <div class="card text-center p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="data-number text-3xl font-bold text-primary mb-2" id="city-count">32</div>
+                        <div class="data-label text-text-secondary">覆盖城市数量</div>
+                    </div>
+                    <div class="card text-center p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="data-number text-3xl font-bold text-primary mb-2" id="data-points">50,000,000+</div>
+                        <div class="data-label text-text-secondary">数据点数量</div>
+                    </div>
+                    <div class="card text-center p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="data-number text-3xl font-bold text-primary mb-2" id="accuracy">98.5%</div>
+                        <div class="data-label text-text-secondary">估价准确率</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 应用场景 -->
+        <section class="solutions py-16">
+            <div class="container">
+                <h2 class="section-title">全终端解决方案</h2>
+                <p class="section-subtitle">为不同用户群体提供定制化解决方案</p>
+                <div class="grid grid-cols-3 gap-8 mt-12">
+                    <div class="card p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="solution-icon text-4xl text-primary mb-6">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">ValuHub·安居版</h3>
+                        <p class="card-body text-text-secondary mb-6">面向大众用户，提供房产估价、市场分析、投资建议等服务，帮助用户了解房产价值，做出明智决策。</p>
+                        <a href="solutions.html#residential" class="text-primary font-medium hover:underline flex items-center gap-2">了解详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="solution-icon text-4xl text-primary mb-6">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">ValuHub·政务版</h3>
+                        <p class="card-body text-text-secondary mb-6">面向政府部门，提供房产评估、税收征管、城市规划等服务，提升政务效率，支持政策制定。</p>
+                        <a href="solutions.html#government" class="text-primary font-medium hover:underline flex items-center gap-2">了解详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="solution-icon text-4xl text-primary mb-6">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">ValuHub·企业版</h3>
+                        <p class="card-body text-text-secondary mb-6">面向企业用户，提供批量估价、资产清查、风险管理等服务，助力企业高效管理房产资产。</p>
+                        <a href="solutions.html#enterprise" class="text-primary font-medium hover:underline flex items-center gap-2">了解详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 col-span-3 md:col-span-2 lg:col-span-1">
+                        <div class="solution-icon text-4xl text-primary mb-6">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">ValuHub·学术工坊</h3>
+                        <p class="card-body text-text-secondary mb-6">面向院校师生，提供数据研究、案例分析、实训项目等服务，支持学术研究和人才培养。</p>
+                        <a href="solutions.html#academy" class="text-primary font-medium hover:underline flex items-center gap-2">了解详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 col-span-3 md:col-span-1">
+                        <div class="solution-icon text-4xl text-primary mb-6">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title text-xl font-semibold mb-4">ValuHub·资管通</h3>
+                        <p class="card-body text-text-secondary mb-6">面向资产管理机构，提供资产估值、绩效分析、风险监控等服务，优化资产管理流程。</p>
+                        <a href="solutions.html#asset-management" class="text-primary font-medium hover:underline flex items-center gap-2">了解详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid grid-lg">
+                <div class="grid-item grid-lg-3">
+                    <div class="footer-logo">
+                        <a href="index.html" class="navbar-brand">
+                            <img src="/assets/%E5%9B%BE%E7%89%871-DsjiXpHK.png" alt="ValuHub Logo">
+                            ValuHub
+                        </a>
+                        <p class="mt-4 text-sm text-text-secondary">
+                            房产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">产品与服务</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">房产估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">数据报告</a></li>
+                        <li><a href="#">API服务</a></li>
+                        <li><a href="#">解决方案</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">解决方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">大众端</a></li>
+                        <li><a href="#">政务端</a></li>
+                        <li><a href="#">企业端</a></li>
+                        <li><a href="#">院校端</a></li>
+                        <li><a href="#">资管通</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="ecosystem.html">合作伙伴</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-3">
+                    <h4 class="footer-title">联系我们</h4>
+                    <ul class="footer-links contact-links">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市朝阳区XX大厦XX层</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@valuhub.com</span>
+                        </li>
+                    </ul>
+                    <div class="social-links mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom mt-8 pt-6 border-top">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="text-sm text-text-secondary">
+                        © 2025 ValuHub. 保留所有权利。
+                    </p>
+                    <div class="footer-bottom-links mt-3 mt-md-0">
+                        <a href="privacy-policy.html" class="text-sm text-text-secondary mr-4">隐私政策</a>
+                        <a href="terms-of-service.html" class="text-sm text-text-secondary">服务条款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 字体显示策略 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" media="print" onload="this.media='all'">
+    
+    <!-- 引入JavaScript - 延迟加载非关键脚本 -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <!-- 页面特定脚本 - 延迟执行 -->
+    <script>
+        // 数据动画效果
+        function animateNumbers() {
+            function animate(element, start, end, duration) {
+                let startTime = null;
+                const step = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    element.textContent = value.toLocaleString();
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                };
+                requestAnimationFrame(step);
+            }
+            
+            // 启动数据动画
+            setTimeout(() => {
+                animate(document.getElementById('valuation-count'), 0, 1234567, 2000);
+                animate(document.getElementById('city-count'), 0, 32, 1000);
+                animate(document.getElementById('data-points'), 0, 50000000, 2500);
+                animate(document.getElementById('accuracy'), 0, 98.5, 1500);
+            }, 500);
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 启动数据动画
+            animateNumbers();
+            
+            // 创建一个现代化的地图占位符
+            const mapElement = document.getElementById('map');
+            if (mapElement) {
+                mapElement.innerHTML = `
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ed 100%); position: relative; overflow: hidden;">
+                        <!-- 背景装饰 -->
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.1;">
+                            <div style="position: absolute; top: 20%; left: 20%; width: 60%; height: 60%; border: 2px dashed #1a5fd3; border-radius: 50%; animation: rotate 20s linear infinite;"></div>
+                            <div style="position: absolute; top: 30%; left: 30%; width: 40%; height: 40%; border: 2px dashed #00b894; border-radius: 50%; animation: rotate 15s linear reverse infinite;"></div>
+                        </div>
+                        
+                        <!-- 地图轮廓 -->
+                        <div style="position: relative; width: 80%; height: 80%; max-width: 800px; display: flex; align-items: center; justify-content: center;">
+                            <!-- 模拟中国地图轮廓 -->
+                            <svg viewBox="0 0 800 600" style="width: 100%; height: 100%; opacity: 0.8;">
+                                <path d="M400,100 Q500,150 600,200 Q700,250 750,350 Q700,450 600,500 Q500,550 400,500 Q300,450 250,350 Q200,250 300,200 Q400,150 400,100" 
+                                      fill="rgba(26, 95, 223, 0.2)" 
+                                      stroke="#1a5fd3" 
+                                      stroke-width="2" 
+                                      style="transition: all 0.3s ease;"></path>
+                                
+                                <!-- 数据点 -->
+                                <circle cx="400" cy="250" r="8" fill="#f5222d" stroke="white" stroke-width="2" style="animation: pulse 2s infinite;"></circle>
+                                <circle cx="500" cy="350" r="6" fill="#52c41a" stroke="white" stroke-width="2" style="animation: pulse 2s infinite 0.5s;"></circle>
+                                <circle cx="300" cy="350" r="7" fill="#faad14" stroke="white" stroke-width="2" style="animation: pulse 2s infinite 1s;"></circle>
+                                <circle cx="600" cy="250" r="5" fill="#1a5fd3" stroke="white" stroke-width="2" style="animation: pulse 2s infinite 1.5s;"></circle>
+                                <circle cx="450" cy="400" r="6" fill="#00b894" stroke="white" stroke-width="2" style="animation: pulse 2s infinite 0.25s;"></circle>
+                            </svg>
+                            
+                            <!-- 文字说明 -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #1a5fd3; z-index: 1;">
+                                <h3 style="font-size: 28px; margin-bottom: 12px; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">全国房产估价数据沙盘</h3>
+                                <p style="font-size: 16px; opacity: 0.8; max-width: 400px;">实时展示全国房产估价数据，可视化呈现市场趋势</p>
+                            </div>
+                            
+                            <!-- 数据统计卡片 -->
+                            <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(255, 255, 255, 0.9); padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);">
+                                <div style="display: flex; gap: 24px;">
+                                    <div>
+                                        <div style="font-size: 24px; font-weight: 700; color: #1a5fd3;">32</div>
+                                        <div style="font-size: 14px; color: #666; margin-top: 4px;">覆盖城市</div>
+                                    </div>
+                                    <div style="border-left: 1px solid #e4e7ed; padding-left: 24px;">
+                                        <div style="font-size: 24px; font-weight: 700; color: #00b894;">1.2M+</div>
+                                        <div style="font-size: 14px; color: #666; margin-top: 4px;">估价次数</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 动画效果 -->
+                        <style>
+                            @keyframes rotate {
+                                from { transform: rotate(0deg); }
+                                to { transform: rotate(360deg); }
+                            }
+                            
+                            @keyframes pulse {
+                                0% { transform: scale(1); opacity: 1; }
+                                50% { transform: scale(1.5); opacity: 0.7; }
+                                100% { transform: scale(1); opacity: 1; }
+                            }
+                        </style>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

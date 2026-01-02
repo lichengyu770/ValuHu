@@ -1,0 +1,28 @@
+{
+  "name": "valuation-backend",
+  "version": "1.0.0",
+  "description": "数智估价核心引擎后端服务",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^8.2.1",
+    "express-validator": "^7.3.1",
+    "helmet": "^8.1.0",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.0",
+    "sqlite3": "^5.1.7"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "docx": "^9.5.1",
+    "markdown-it": "^14.1.0"
+  }
+}

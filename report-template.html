@@ -1,0 +1,1669 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据报告模板 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <!-- 页面特定样式 -->
+    <style>
+      /* 报告模板样式 */
+      .report-container {
+        background: white;
+        max-width: 1200px;
+        margin: 80px auto;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      .report-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #007aff;
+      }
+
+      .report-title {
+        font-size: 28px;
+        color: #1d2129;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .report-subtitle {
+        font-size: 16px;
+        color: #666;
+      }
+
+      /* 报告工具条 */
+      .report-toolbar {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .report-toolbar .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .report-toolbar .btn-primary {
+        background: #007aff;
+        color: white;
+      }
+
+      .report-toolbar .btn-primary:hover {
+        background: #0056b3;
+      }
+
+      .report-toolbar .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+
+      .report-toolbar .btn-secondary:hover {
+        background: #545b62;
+      }
+
+      .report-section {
+        margin-bottom: 40px;
+      }
+
+      .report-section h2 {
+        font-size: 24px;
+        color: #007aff;
+        margin-bottom: 20px;
+        border-left: 4px solid #007aff;
+        padding-left: 15px;
+        font-weight: bold;
+      }
+
+      .report-section h3 {
+        font-size: 20px;
+        color: #1d2129;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .report-section h4 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      /* 表格样式 */
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .report-table th {
+        background: linear-gradient(135deg, #007aff, #0056b3);
+        color: white;
+        padding: 14px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .report-table td {
+        padding: 14px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        vertical-align: top;
+      }
+
+      .report-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      .report-table tr:hover {
+        background: #e8f0fe;
+        transition: background-color 0.3s ease;
+      }
+
+      /* 图片容器样式 */
+      .image-container {
+        margin: 25px 0;
+        text-align: center;
+      }
+
+      .image-placeholder {
+        width: 100%;
+        max-width: 700px;
+        height: 350px;
+        background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+        border: 2px dashed #cbd5e0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4a5568;
+        font-size: 16px;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+      }
+
+      .image-placeholder:hover {
+        background: linear-gradient(135deg, #e2e8f0, #cbd5e0);
+        border-color: #a0aec0;
+      }
+
+      .image-placeholder i {
+        font-size: 56px;
+        margin-bottom: 15px;
+        color: #007aff;
+      }
+
+      .image-caption {
+        margin-top: 12px;
+        color: #4a5568;
+        font-size: 14px;
+        font-style: italic;
+      }
+
+      /* 目录样式 */
+      .report-toc {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 1px solid #e2e8f0;
+      }
+
+      .report-toc h3 {
+        color: #007aff;
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      .report-toc ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .report-toc li {
+        margin: 10px 0;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .report-toc li::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: #007aff;
+        font-size: 12px;
+      }
+
+      .report-toc a {
+        color: #007aff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 14px;
+      }
+
+      .report-toc a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+      }
+
+      /* 优劣势分析样式 */
+      .swot-analysis {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin: 25px 0;
+      }
+
+      .swot-item {
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .swot-strengths {
+        background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+        border-left: 5px solid #4caf50;
+      }
+
+      .swot-weaknesses {
+        background: linear-gradient(135deg, #ffebee, #ffcdd2);
+        border-left: 5px solid #f44336;
+      }
+
+      .swot-item h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .swot-item ul {
+        padding-left: 20px;
+      }
+
+      .swot-item li {
+        margin: 8px 0;
+        font-size: 14px;
+      }
+
+      /* 建议样式 */
+      .recommendations {
+        background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+        padding: 25px;
+        border-radius: 8px;
+        border-left: 5px solid #ff9800;
+        margin: 25px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .recommendations h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+      }
+
+      .recommendations p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      /* 投标文件样式 */
+      .bid-document {
+        background: #f5f7fa;
+        padding: 25px;
+        border-radius: 8px;
+        margin: 30px 0;
+        border: 1px solid #e0e0e0;
+      }
+
+      .bid-document h2 {
+        color: #007aff;
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+
+      .bid-section {
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .bid-section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .bid-section h3 {
+        color: #007aff;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+
+      .bid-section h4 {
+        color: #1d2129;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+
+      .bid-section ul {
+        padding-left: 20px;
+      }
+
+      .bid-section li {
+        margin: 10px 0;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .bid-section strong {
+        color: #007aff;
+      }
+
+      /* 报告封面样式 */
+      .report-cover {
+        background: linear-gradient(135deg, #007aff, #0056b3);
+        color: white;
+        padding: 60px 40px;
+        text-align: center;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .report-cover h1 {
+        font-size: 32px;
+        margin: 0 0 20px 0;
+        font-weight: bold;
+      }
+
+      .report-cover .report-meta {
+        font-size: 16px;
+        margin: 15px 0;
+        opacity: 0.9;
+      }
+
+      .report-cover .report-version {
+        font-size: 14px;
+        margin-top: 30px;
+        opacity: 0.8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .report-container {
+          margin: 60px 10px;
+          padding: 15px;
+        }
+
+        .swot-analysis {
+          grid-template-columns: 1fr;
+        }
+
+        .report-table {
+          font-size: 12px;
+        }
+
+        .report-table th,
+        .report-table td {
+          padding: 10px;
+        }
+
+        .image-placeholder {
+          height: 250px;
+          max-width: 100%;
+        }
+
+        .report-toolbar {
+          flex-direction: column;
+        }
+
+        .report-toolbar .btn {
+          width: 100%;
+        }
+      }
+
+      /* 打印样式 */
+      @media print {
+        .report-container {
+          margin: 0;
+          box-shadow: none;
+          padding: 0;
+        }
+
+        .report-toolbar {
+          display: none;
+        }
+
+        .navbar,
+        .mobile-menu,
+        .footer,
+        #backToTop {
+          display: none;
+        }
+
+        .report-cover {
+          background: white;
+          color: #007aff;
+          border: 2px solid #007aff;
+        }
+
+        .swot-item,
+        .recommendations,
+        .bid-section {
+          box-shadow: none;
+          border: 1px solid #ddd;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 3D价格展示 -->
+          <div
+            class="price-3d-container"
+            style="
+              position: relative;
+              display: inline-block;
+              perspective: 800px;
+              width: 80px;
+              height: 40px;
+            "
+          >
+            <!-- 3D 矩形 -->
+            <div
+              class="price-cube"
+              style="
+                width: 80px;
+                height: 40px;
+                position: relative;
+                transform-style: preserve-3d;
+                animation: rotateCube 5s infinite linear;
+              "
+            >
+              <!-- 正面 -->
+              <div
+                class="cube-face front"
+                style="
+                  position: absolute;
+                  width: 80px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: translateZ(20px);
+                  border-radius: 4px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                住宅
+                <span style="font-size: 10px">¥12,500</span>
+              </div>
+              <!-- 背面 -->
+              <div
+                class="cube-face back"
+                style="
+                  position: absolute;
+                  width: 80px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #f9a825, #f57c00);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(180deg) translateZ(20px);
+                  border-radius: 4px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                商业
+                <span style="font-size: 10px">¥35,800</span>
+              </div>
+              <!-- 左侧面 -->
+              <div
+                class="cube-face left"
+                style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #34a853, #166900);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(-90deg) translateZ(40px);
+                  border-radius: 4px;
+                  font-size: 10px;
+                  font-weight: bold;
+                "
+              >
+                工业
+                <span style="font-size: 8px">¥8,900</span>
+              </div>
+              <!-- 右侧面 -->
+              <div
+                class="cube-face right"
+                style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #ea4335, #c5221f);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(90deg) translateZ(40px);
+                  border-radius: 4px;
+                  font-size: 10px;
+                  font-weight: bold;
+                "
+              >
+                别墅
+                <span style="font-size: 8px">¥28,600</span>
+              </div>
+            </div>
+          </div>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li>
+          <!-- 移动端3D价格展示 -->
+          <div
+            class="price-3d-container"
+            style="
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              perspective: 800px;
+              width: 100%;
+              height: 60px;
+              padding: 10px;
+            "
+          >
+            <!-- 3D 矩形 -->
+            <div
+              class="price-cube"
+              style="
+                width: 120px;
+                height: 60px;
+                position: relative;
+                transform-style: preserve-3d;
+                animation: rotateCube 5s infinite linear;
+              "
+            >
+              <!-- 正面 -->
+              <div
+                class="cube-face front"
+                style="
+                  position: absolute;
+                  width: 120px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: translateZ(30px);
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: bold;
+                "
+              >
+                住宅
+                <span style="font-size: 12px">¥12,500</span>
+              </div>
+              <!-- 背面 -->
+              <div
+                class="cube-face back"
+                style="
+                  position: absolute;
+                  width: 120px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #f9a825, #f57c00);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(180deg) translateZ(30px);
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: bold;
+                "
+              >
+                商业
+                <span style="font-size: 12px">¥35,800</span>
+              </div>
+              <!-- 左侧面 -->
+              <div
+                class="cube-face left"
+                style="
+                  position: absolute;
+                  width: 60px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #34a853, #166900);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(-90deg) translateZ(60px);
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                工业
+                <span style="font-size: 10px">¥8,900</span>
+              </div>
+              <!-- 右侧面 -->
+              <div
+                class="cube-face right"
+                style="
+                  position: absolute;
+                  width: 60px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #ea4335, #c5221f);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(90deg) translateZ(60px);
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                别墅
+                <span style="font-size: 10px">¥28,600</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 2. 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1><span>数据报告模板</span></h1>
+        <p>包含小区数据报告和通用投标文件模板，可直接套用</p>
+      </div>
+    </section>
+
+    <!-- 3. 报告模板内容 -->
+    <div class="container report-container">
+      <!-- 报告工具条 -->
+      <div class="report-toolbar">
+        <button class="btn btn-primary" onclick="window.print()">
+          <i class="fas fa-print"></i> 打印报告
+        </button>
+        <button class="btn btn-secondary" onclick="location.reload()">
+          <i class="fas fa-sync-alt"></i> 刷新
+        </button>
+        <button
+          class="btn btn-secondary"
+          onclick="document.documentElement.scrollTop = 0"
+        >
+          <i class="fas fa-arrow-up"></i> 返回顶部
+        </button>
+      </div>
+
+      <!-- 一、湘潭岳塘区碧桂园·潭州府数据报告 -->
+      <section class="report-section">
+        <h2>一、湘潭岳塘区碧桂园·潭州府数据报告（含图片、表格）</h2>
+
+        <!-- 报告封面 -->
+        <div class="report-section">
+          <h3>报告封面</h3>
+          <div class="report-cover">
+            <h1>湘潭岳塘区碧桂园·潭州府小区数据报告</h1>
+            <p class="report-meta">2025年12月</p>
+            <div class="report-meta">
+              <p>编制单位：数智估价核心引擎</p>
+              <p>编制日期：2025年12月17日</p>
+            </div>
+            <p class="report-version">版本号：V1.0</p>
+          </div>
+
+          <!-- 封面图片 -->
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-image"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>小区正门实景图</p>
+              </div>
+            </div>
+            <div class="image-caption">图1：小区正门实景图</div>
+          </div>
+
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-image"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>小区整体鸟瞰图</p>
+              </div>
+            </div>
+            <div class="image-caption">图2：小区整体鸟瞰图</div>
+          </div>
+        </div>
+
+        <!-- 目录 -->
+        <div class="report-section">
+          <h3>目录</h3>
+          <div class="report-toc">
+            <ul>
+              <li><a href="#basic-info">1. 小区基础信息</a></li>
+              <li><a href="#architecture">2. 建筑与规划数据</a></li>
+              <li><a href="#supporting-facilities">3. 配套与物业数据</a></li>
+              <li><a href="#market-price">4. 市场与价格数据</a></li>
+              <li><a href="#swot-analysis">5. 优劣势分析与建议</a></li>
+              <li><a href="#appendix">6. 附录（图片、证件等）</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 小区基础信息 -->
+        <div class="report-section" id="basic-info">
+          <h3>1. 小区基础信息</h3>
+          <table class="report-table">
+            <tr>
+              <th>指标</th>
+              <th>数值</th>
+              <th>备注</th>
+            </tr>
+            <tr>
+              <td>小区名称</td>
+              <td>碧桂园·潭州府</td>
+              <td>岳塘区热门楼盘</td>
+            </tr>
+            <tr>
+              <td>位置</td>
+              <td>福星中路与宝塔路交汇处</td>
+              <td>元怡美术馆旁</td>
+            </tr>
+            <tr>
+              <td>建成时间</td>
+              <td>2020年</td>
+              <td>较新次新房</td>
+            </tr>
+            <tr>
+              <td>开发商</td>
+              <td>碧桂园集团</td>
+              <td>品牌房企</td>
+            </tr>
+            <tr>
+              <td>总户数</td>
+              <td>约1200户</td>
+              <td>以物业登记为准</td>
+            </tr>
+            <tr>
+              <td>容积率</td>
+              <td>约2.5</td>
+              <td>中等密度</td>
+            </tr>
+            <tr>
+              <td>绿化率</td>
+              <td>约35%</td>
+              <td>绿化较好</td>
+            </tr>
+            <tr>
+              <td>物业</td>
+              <td>碧桂园物业</td>
+              <td>一级资质</td>
+            </tr>
+            <tr>
+              <td>均价</td>
+              <td>约6800元/㎡（2025年12月）</td>
+              <td>参考市场挂牌价</td>
+            </tr>
+          </table>
+
+          <!-- 配图 -->
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-map-marker-alt"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>小区区位图</p>
+              </div>
+            </div>
+            <div class="image-caption">图3：小区区位图</div>
+          </div>
+
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-building"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>楼栋分布图</p>
+              </div>
+            </div>
+            <div class="image-caption">图4：楼栋分布图</div>
+          </div>
+        </div>
+
+        <!-- 建筑与规划数据 -->
+        <div class="report-section" id="architecture">
+          <h3>2. 建筑与规划数据</h3>
+          <table class="report-table">
+            <tr>
+              <th>类别</th>
+              <th>详情</th>
+              <th>配图</th>
+            </tr>
+            <tr>
+              <td>建筑类型</td>
+              <td>高层住宅</td>
+              <td>楼栋外观实景图</td>
+            </tr>
+            <tr>
+              <td>主力户型</td>
+              <td>95㎡（3居）、125㎡（4居）、140㎡（4居）</td>
+              <td>户型结构图</td>
+            </tr>
+            <tr>
+              <td>车位配比</td>
+              <td>1:1.2</td>
+              <td>地下车库实景图</td>
+            </tr>
+            <tr>
+              <td>建筑风格</td>
+              <td>现代简约</td>
+              <td>小区景观实景图</td>
+            </tr>
+          </table>
+
+          <!-- 配图 -->
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-home"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>楼栋外观实景图</p>
+              </div>
+            </div>
+            <div class="image-caption">图5：楼栋外观实景图</div>
+          </div>
+
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-sitemap"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>户型结构图</p>
+              </div>
+            </div>
+            <div class="image-caption">图6：户型结构图</div>
+          </div>
+        </div>
+
+        <!-- 配套与物业数据 -->
+        <div class="report-section" id="supporting-facilities">
+          <h3>3. 配套与物业数据</h3>
+          <table class="report-table">
+            <tr>
+              <th>配套类型</th>
+              <th>具体内容</th>
+              <th>配图</th>
+            </tr>
+            <tr>
+              <td>内部配套</td>
+              <td>儿童游乐区、健身区、中心园林、泳池</td>
+              <td>配套实景图</td>
+            </tr>
+            <tr>
+              <td>外部配套</td>
+              <td>万达商圈、宝塔公园、湘潭市一医院、育才小学</td>
+              <td>周边配套示意图</td>
+            </tr>
+            <tr>
+              <td>物业服务</td>
+              <td>24小时安保、保洁、维修、智能门禁</td>
+              <td>物业中心照片</td>
+            </tr>
+            <tr>
+              <td>物业费</td>
+              <td>2.2元/㎡/月</td>
+              <td>收费标准公示</td>
+            </tr>
+          </table>
+
+          <!-- 配图 -->
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-swimming-pool"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>内部配套实景图</p>
+              </div>
+            </div>
+            <div class="image-caption">图7：内部配套实景图</div>
+          </div>
+
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-map-marked-alt"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>周边配套示意图</p>
+              </div>
+            </div>
+            <div class="image-caption">图8：周边配套示意图</div>
+          </div>
+        </div>
+
+        <!-- 市场与价格数据 -->
+        <div class="report-section" id="market-price">
+          <h3>4. 市场与价格数据</h3>
+          <h4>近1年价格走势</h4>
+          <p>2025年1-12月，均价从6500元/㎡涨至6800元/㎡，涨幅约4.6%</p>
+
+          <!-- 价格趋势图 -->
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i class="fas fa-chart-line"></i>
+                <p>价格趋势折线图</p>
+              </div>
+            </div>
+            <div class="image-caption">图9：2025年1-12月价格趋势折线图</div>
+          </div>
+
+          <!-- 价格走势表格 -->
+          <table class="report-table">
+            <tr>
+              <th>月份</th>
+              <th>均价（元/㎡）</th>
+              <th>环比涨幅</th>
+              <th>同比涨幅</th>
+            </tr>
+            <tr>
+              <td>2025年1月</td>
+              <td>6,500</td>
+              <td>0.8%</td>
+              <td>3.2%</td>
+            </tr>
+            <tr>
+              <td>2025年6月</td>
+              <td>6,700</td>
+              <td>0.5%</td>
+              <td>4.0%</td>
+            </tr>
+            <tr>
+              <td>2025年12月</td>
+              <td>6,800</td>
+              <td>0.3%</td>
+              <td>4.6%</td>
+            </tr>
+          </table>
+
+          <h4>竞品对比</h4>
+          <table class="report-table">
+            <tr>
+              <th>小区名称</th>
+              <th>均价（元/㎡）</th>
+              <th>建成时间</th>
+              <th>绿化率</th>
+              <th>容积率</th>
+            </tr>
+            <tr>
+              <td>碧桂园·潭州府</td>
+              <td>6,800</td>
+              <td>2020年</td>
+              <td>35%</td>
+              <td>2.5</td>
+            </tr>
+            <tr>
+              <td>东方名苑</td>
+              <td>6,395</td>
+              <td>2018年</td>
+              <td>32%</td>
+              <td>2.8</td>
+            </tr>
+            <tr>
+              <td>长房上层国际</td>
+              <td>7,200</td>
+              <td>2019年</td>
+              <td>38%</td>
+              <td>2.2</td>
+            </tr>
+          </table>
+
+          <h4>成交情况</h4>
+          <table class="report-table">
+            <tr>
+              <th>时间段</th>
+              <th>成交套数</th>
+              <th>主力户型</th>
+              <th>平均成交单价（元/㎡）</th>
+            </tr>
+            <tr>
+              <td>近1个月</td>
+              <td>12</td>
+              <td>125㎡（4居）</td>
+              <td>6,750</td>
+            </tr>
+            <tr>
+              <td>近3个月</td>
+              <td>30</td>
+              <td>125㎡（4居）</td>
+              <td>6,720</td>
+            </tr>
+            <tr>
+              <td>近6个月</td>
+              <td>68</td>
+              <td>125㎡（4居）、95㎡（3居）</td>
+              <td>6,680</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 优劣势分析与建议 -->
+        <div class="report-section" id="swot-analysis">
+          <h3>5. 优劣势分析与建议</h3>
+
+          <div class="swot-analysis">
+            <div class="swot-item swot-strengths">
+              <h4>优势</h4>
+              <ul>
+                <li>品牌房企，品质有保障</li>
+                <li>物业优质，一级资质</li>
+                <li>配套成熟，生活便利</li>
+                <li>户型实用，适合刚需和改善</li>
+                <li>小区环境优美，绿化率高</li>
+              </ul>
+            </div>
+            <div class="swot-item swot-weaknesses">
+              <h4>劣势</h4>
+              <ul>
+                <li>临近主干道，部分楼栋有噪音</li>
+                <li>周边商圈人流大，高峰期拥堵</li>
+                <li>车位紧张，部分业主反映停车困难</li>
+                <li>部分户型朝向不佳</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="recommendations">
+            <h4>建议</h4>
+            <p>
+              适合刚需、改善型购房者，注重生活便利性与物业品质者优先选择。建议关注125㎡4居户型，性价比最高。对于在意噪音的购房者，建议选择远离主干道的楼栋。
+            </p>
+          </div>
+        </div>
+
+        <!-- 附录 -->
+        <div class="report-section" id="appendix">
+          <h3>6. 附录（图片、证件等）</h3>
+          <ul>
+            <li>小区产权证明复印件</li>
+            <li>物业资质证书</li>
+            <li>实景图高清合集</li>
+            <li>户型图原件</li>
+            <li>开发商营业执照复印件</li>
+            <li>建设工程规划许可证</li>
+          </ul>
+
+          <!-- 附录图片 -->
+          <div class="image-container">
+            <div class="image-placeholder">
+              <div>
+                <i
+                  class="fas fa-file-alt"
+                  style="font-size: 48px; margin-bottom: 10px"
+                ></i>
+                <p>产权证明复印件</p>
+              </div>
+            </div>
+            <div class="image-caption">图10：小区产权证明复印件</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 二、通用投标文件模板 -->
+      <section class="report-section">
+        <h2>二、通用投标文件模板（适用于小区相关项目，如物业、改造等）</h2>
+
+        <div class="bid-document">
+          <!-- 投标文件封面 -->
+          <div class="bid-section">
+            <h3>投标文件封面</h3>
+            <div
+              style="
+                background: white;
+                padding: 40px;
+                text-align: center;
+                border: 2px solid #007aff;
+                border-radius: 8px;
+              "
+            >
+              <h2 style="color: #007aff; margin: 0">
+                项目名称：[小区XX项目]投标文件
+              </h2>
+              <p style="margin: 15px 0">招标编号：[XXX]</p>
+              <p style="margin: 15px 0">投标人：[公司名称]</p>
+              <p style="margin: 15px 0">日期：[XXXX年XX月XX日]</p>
+              <div style="margin: 20px 0">
+                <p>□ 正本 □ 副本</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 核心构成 -->
+          <div class="bid-section">
+            <h3>核心构成（3大模块）</h3>
+
+            <h4>1. 商务部分</h4>
+            <ul>
+              <li>
+                <strong>投标函</strong>：致招标人，明确报价、工期、质量承诺等
+              </li>
+              <li>
+                <strong>法定代表人身份证明及授权委托书</strong
+                >（附身份证复印件）
+              </li>
+              <li>
+                <strong>资质文件</strong>：营业执照、资质证书、安全生产许可证等
+              </li>
+              <li>
+                <strong>业绩案例</strong
+                >：近3年同类项目业绩（项目名称、金额、业主评价）
+              </li>
+              <li><strong>商务条款响应表</strong>：逐条响应招标文件商务要求</li>
+            </ul>
+
+            <h4>2. 技术部分</h4>
+            <ul>
+              <li><strong>项目理解</strong>：对小区项目需求的分析</li>
+              <li>
+                <strong>实施方案</strong
+                >：详细技术方案、施工/服务流程、进度计划（配图：项目进度甘特图）
+              </li>
+              <li>
+                <strong>人员配置</strong
+                >：项目负责人、技术人员资质与分工（表格）
+              </li>
+              <li>
+                <strong>质量与安全保障</strong>：质量控制体系、安全管理措施
+              </li>
+              <li>
+                <strong>服务承诺</strong>：质保期、售后响应时间（如2小时内）
+              </li>
+            </ul>
+
+            <h4>3. 报价部分</h4>
+            <ul>
+              <li><strong>投标报价汇总表</strong>：总价、分项报价明细</li>
+              <li>
+                <strong>报价说明</strong>：编制依据、优惠条件、不含费用说明
+              </li>
+              <li><strong>付款方式响应</strong>：符合招标文件要求的付款节点</li>
+            </ul>
+
+            <h4>4. 附件</h4>
+            <ul>
+              <li><strong>偏离表</strong>（对招标文件的偏离说明）</li>
+              <li><strong>廉洁承诺</strong></li>
+              <li><strong>投标人基本情况表</strong></li>
+            </ul>
+          </div>
+
+          <!-- 投标文件模板使用说明 -->
+          <div class="bid-section">
+            <h3>使用说明</h3>
+            <ul>
+              <li>将[ ]中的内容替换为实际项目信息</li>
+              <li>根据项目类型调整技术方案内容</li>
+              <li>提供真实有效的业绩案例和资质文件</li>
+              <li>确保报价合理，符合市场行情</li>
+              <li>响应招标文件的所有要求，避免偏离</li>
+              <li>保持投标文件格式规范，排版整洁</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 4. 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">成功案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">关于我们</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="api-docs.html">API文档</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助支持</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+      </div>
+      <div class="cooperation-enterprises">
+        <span
+          >合作企业：湖南智信房地产土地资产评估有限公司、长沙力智数字房产技术发展有限公司</span
+        >
+      </div>
+      <div class="copyright">
+        <p>© 2025 数智估价核心引擎 版权所有</p>
+        <p>
+          <a href="https://beian.miit.gov.cn/" target="_blank"
+            >湘ICP备2025144327号-1</a
+          >
+          |
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo"
+            target="_blank"
+            >湘公网安备43011202001203号</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 返回顶部JavaScript -->
+    <script>
+      // 返回顶部功能
+      const backToTopBtn = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTopBtn.classList.add('show');
+        } else {
+          backToTopBtn.classList.remove('show');
+        }
+      });
+
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      });
+    </script>
+  </body>
+</html>

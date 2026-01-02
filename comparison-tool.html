@@ -1,0 +1,2359 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>房产对比工具 - 专业房产数据分析平台 - ValuHub</title>
+    <meta
+      name="description"
+      content="多维度房产对比工具，助您全面分析不同房产的价格、面积、户型等关键信息"
+    />
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* 对比工具特定样式 */
+      .comparison-container {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .comparison-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #eaeaea;
+      }
+
+      .comparison-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .compare-cards {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 16px;
+        scroll-behavior: smooth;
+      }
+
+      .compare-cards::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .compare-cards::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      .compare-cards::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+
+      .compare-cards::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      .compare-card {
+        flex: 0 0 300px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .compare-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      }
+
+      .remove-card {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        transition: background-color 0.3s ease;
+      }
+
+      .remove-card:hover {
+        background: rgba(255, 0, 0, 0.8);
+      }
+
+      .card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-content {
+        padding: 16px;
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 8px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .card-address {
+        font-size: 14px;
+        color: #666;
+        margin: 0 0 12px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .card-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 2px;
+      }
+
+      .stat-value {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .card-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #ff6b6b;
+        margin: 12px 0;
+      }
+
+      .add-card-placeholder {
+        flex: 0 0 300px;
+        background: #f8f9fa;
+        border: 2px dashed #ddd;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 400px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .add-card-placeholder:hover {
+        background: #f0f0f0;
+        border-color: #007bff;
+      }
+
+      .add-icon {
+        font-size: 48px;
+        color: #ccc;
+        margin-bottom: 16px;
+        transition: color 0.3s ease;
+      }
+
+      .add-card-placeholder:hover .add-icon {
+        color: #007bff;
+      }
+
+      .add-text {
+        font-size: 16px;
+        color: #888;
+        text-align: center;
+      }
+
+      .comparison-details {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+      }
+
+      .details-section {
+        margin-bottom: 32px;
+      }
+
+      .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 20px 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #eaeaea;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 12px 16px;
+        text-align: left;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .comparison-table th {
+        font-weight: 600;
+        color: #666;
+        background-color: #f8f9fa;
+        width: 200px;
+      }
+
+      .comparison-table td {
+        font-weight: 500;
+        color: #333;
+      }
+
+      .comparison-table tr:last-child th,
+      .comparison-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .comparison-charts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .chart-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        height: 300px;
+      }
+
+      .chart-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 16px 0;
+      }
+
+      .chart {
+        width: 100%;
+        height: calc(100% - 40px);
+      }
+
+      @media (max-width: 768px) {
+        .comparison-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .btn-group {
+          width: 100%;
+        }
+
+        .compare-card,
+        .add-card-placeholder {
+          flex: 0 0 calc(100vw - 40px);
+          max-width: 300px;
+        }
+
+        .comparison-charts {
+          grid-template-columns: 1fr;
+        }
+
+        .comparison-table {
+          font-size: 14px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+          padding: 8px 12px;
+        }
+      }
+
+      .highlight-better {
+        color: #28a745;
+        font-weight: 600;
+      }
+
+      .highlight-worse {
+        color: #dc3545;
+        font-weight: 600;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 统一导航栏CSS -->
+    <style>
+      /* 导航栏基础样式 */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      }
+
+      .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 65px;
+      }
+
+      /* Logo样式 */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: translateY(-1px);
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .logo-icon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+      }
+
+      .logo-icon img {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 18px;
+        font-weight: bold;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* 导航菜单 */
+      .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .nav-menu > a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .nav-menu > a:hover,
+      .nav-menu > a.active {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      /* 下拉菜单 */
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+
+      .dropdown-toggle:hover {
+        color: #1a73e8;
+        background: rgba(26, 115, 232, 0.1);
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-radius: 8px;
+        padding: 8px 0;
+        min-width: 180px;
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        display: block;
+        padding: 10px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 登录按钮 */
+      .btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1a73e8, #0d47a1);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      /* 移动端菜单按钮 */
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #333;
+        cursor: pointer;
+        padding: 8px;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        max-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+
+      .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-menu li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu a:hover,
+      .mobile-menu a.active {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 992px) {
+        .nav-menu {
+          display: none;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      /* 页面内容间距 */
+      body {
+        margin-top: 65px;
+      }
+    </style>
+
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 用户中心 -->
+          <a href="user-center.html" class="">用户中心</a>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="user-center.html">用户中心</a></li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+      <div class="comparison-container">
+        <!-- 对比工具头部 -->
+        <div class="comparison-header">
+          <h1 class="comparison-title">房产对比工具</h1>
+          <div class="btn-group">
+            <button id="clearAllBtn" class="btn-secondary">清空对比</button>
+            <button id="printBtn" class="btn-primary">打印对比结果</button>
+            <button id="saveComparisonBtn" class="btn-secondary">
+              保存对比
+            </button>
+          </div>
+        </div>
+
+        <!-- 对比卡片区域 -->
+        <div class="compare-cards" id="compareCardsContainer">
+          <!-- 示例房产卡片 1 -->
+          <div class="compare-card">
+            <button class="remove-card" data-id="1">×</button>
+            <img
+              src="https://picsum.photos/seed/house1/600/400"
+              alt="阳光花园小区"
+              class="card-image"
+            />
+            <div class="card-content">
+              <h3 class="card-title">阳光花园小区</h3>
+              <p class="card-address">北京市朝阳区建国路88号</p>
+              <div class="card-stats">
+                <div class="stat-item">
+                  <span class="stat-label">户型</span>
+                  <span class="stat-value">3室2厅</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">面积</span>
+                  <span class="stat-value">120㎡</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">楼层</span>
+                  <span class="stat-value">12/33</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">朝向</span>
+                  <span class="stat-value">南北通透</span>
+                </div>
+              </div>
+              <div class="card-price">¥8,900,000</div>
+              <p class="stat-value">单价: ¥74,167/㎡</p>
+            </div>
+          </div>
+
+          <!-- 示例房产卡片 2 -->
+          <div class="compare-card">
+            <button class="remove-card" data-id="2">×</button>
+            <img
+              src="https://picsum.photos/seed/house2/600/400"
+              alt="绿城桂语江南"
+              class="card-image"
+            />
+            <div class="card-content">
+              <h3 class="card-title">绿城桂语江南</h3>
+              <p class="card-address">北京市海淀区中关村南大街5号</p>
+              <div class="card-stats">
+                <div class="stat-item">
+                  <span class="stat-label">户型</span>
+                  <span class="stat-value">3室1厅</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">面积</span>
+                  <span class="stat-value">105㎡</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">楼层</span>
+                  <span class="stat-value">8/28</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">朝向</span>
+                  <span class="stat-value">南向</span>
+                </div>
+              </div>
+              <div class="card-price">¥9,300,000</div>
+              <p class="stat-value">单价: ¥88,571/㎡</p>
+            </div>
+          </div>
+
+          <!-- 添加卡片占位符 -->
+          <div class="add-card-placeholder" id="addCardPlaceholder">
+            <div class="add-icon">+</div>
+            <div class="add-text">添加更多房产进行对比</div>
+          </div>
+        </div>
+
+        <!-- 详细对比数据 -->
+        <div class="comparison-details">
+          <!-- 基本信息对比 -->
+          <div class="details-section">
+            <h2 class="section-title">基本信息对比</h2>
+            <table class="comparison-table">
+              <tr>
+                <th>项目</th>
+                <td>阳光花园小区</td>
+                <td>绿城桂语江南</td>
+              </tr>
+              <tr>
+                <th>位置</th>
+                <td>北京市朝阳区建国路88号</td>
+                <td>北京市海淀区中关村南大街5号</td>
+              </tr>
+              <tr>
+                <th>价格</th>
+                <td class="highlight-better">¥8,900,000</td>
+                <td class="highlight-worse">¥9,300,000</td>
+              </tr>
+              <tr>
+                <th>单价</th>
+                <td class="highlight-better">¥74,167/㎡</td>
+                <td class="highlight-worse">¥88,571/㎡</td>
+              </tr>
+              <tr>
+                <th>面积</th>
+                <td>120㎡</td>
+                <td>105㎡</td>
+              </tr>
+              <tr>
+                <th>户型</th>
+                <td>3室2厅</td>
+                <td>3室1厅</td>
+              </tr>
+              <tr>
+                <th>楼层</th>
+                <td>12/33</td>
+                <td>8/28</td>
+              </tr>
+              <tr>
+                <th>朝向</th>
+                <td class="highlight-better">南北通透</td>
+                <td>南向</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- 房源特点对比 -->
+          <div class="details-section">
+            <h2 class="section-title">房源特点对比</h2>
+            <table class="comparison-table">
+              <tr>
+                <th>项目</th>
+                <td>阳光花园小区</td>
+                <td>绿城桂语江南</td>
+              </tr>
+              <tr>
+                <th>建筑年代</th>
+                <td>2015年</td>
+                <td>2018年</td>
+              </tr>
+              <tr>
+                <th>装修情况</th>
+                <td>精装修</td>
+                <td>豪华装修</td>
+              </tr>
+              <tr>
+                <th>产权类型</th>
+                <td>商品房</td>
+                <td>商品房</td>
+              </tr>
+              <tr>
+                <th>产权年限</th>
+                <td>70年</td>
+                <td>70年</td>
+              </tr>
+              <tr>
+                <th>物业公司</th>
+                <td>阳光物业</td>
+                <td>绿城物业</td>
+              </tr>
+              <tr>
+                <th>物业费</th>
+                <td>¥2.8/㎡/月</td>
+                <td>¥3.5/㎡/月</td>
+              </tr>
+              <tr>
+                <th>配套设施</th>
+                <td>游泳池、健身房、儿童乐园</td>
+                <td>健身房、图书馆、网球场</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- 市场分析对比 -->
+          <div class="details-section">
+            <h2 class="section-title">市场分析对比</h2>
+            <div class="comparison-charts">
+              <div class="chart-container">
+                <h3 class="chart-title">价格趋势对比</h3>
+                <div class="chart" id="priceTrendChart"></div>
+              </div>
+              <div class="chart-container">
+                <h3 class="chart-title">性价比分析</h3>
+                <div class="chart" id="valueChart"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 优缺点分析 -->
+          <div class="details-section">
+            <h2 class="section-title">优缺点分析</h2>
+            <table class="comparison-table">
+              <tr>
+                <th>分析维度</th>
+                <td>阳光花园小区</td>
+                <td>绿城桂语江南</td>
+              </tr>
+              <tr>
+                <th>优点</th>
+                <td>
+                  <ul>
+                    <li>价格相对较低</li>
+                    <li>南北通透，采光好</li>
+                    <li>小区环境优美，绿化率高</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul>
+                    <li>建筑年代较新</li>
+                    <li>装修标准高</li>
+                    <li>地理位置优越，靠近中关村</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <th>缺点</th>
+                <td>
+                  <ul>
+                    <li>距离地铁站较远</li>
+                    <li>周边商业配套一般</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul>
+                    <li>价格较高</li>
+                    <li>物业费较高</li>
+                    <li>朝向略逊</li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <ul>
+            <li><a href="about-us.html">公司简介</a></li>
+            <li><a href="team-intro.html">团队介绍</a></li>
+            <li><a href="case-study.html">成功案例</a></li>
+            <li><a href="contact.html">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <ul>
+            <li><a href="product-services.html">服务介绍</a></li>
+            <li><a href="tech-frame.html">技术架构</a></li>
+            <li><a href="api-docs.html">API文档</a></li>
+            <li><a href="valuation-engine.html">估价引擎</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>行业动态</h3>
+          <ul>
+            <li><a href="industry-news.html">最新资讯</a></li>
+            <li><a href="market-analysis.html">市场分析</a></li>
+            <li><a href="core-function.html">核心功能</a></li>
+            <li><a href="project-feature.html">项目特色</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>帮助中心</h3>
+          <ul>
+            <li><a href="help-center.html">使用指南</a></li>
+            <li><a href="feedback.html">意见反馈</a></li>
+            <li><a href="privacy-policy.html">隐私政策</a></li>
+            <li><a href="terms-of-service.html">服务条款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 数智估价核心引擎 版权所有</p>
+      </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 引入共享脚本 -->
+    <script src="shared.js"></script>
+    <!-- 引入Chart.js用于图表展示 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // 对比工具特定脚本
+      document.addEventListener('DOMContentLoaded', function () {
+        // 获取DOM元素
+        const compareCardsContainer = document.getElementById(
+          'compareCardsContainer'
+        );
+        const addCardPlaceholder =
+          document.getElementById('addCardPlaceholder');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        const printBtn = document.getElementById('printBtn');
+        const saveComparisonBtn = document.getElementById('saveComparisonBtn');
+        const removeButtons = document.querySelectorAll('.remove-card');
+
+        // 模拟房产数据
+        const mockProperties = [
+          {
+            id: 1,
+            title: '阳光花园小区',
+            address: '北京市朝阳区建国路88号',
+            price: 8900000,
+            unitPrice: 74167,
+            area: 120,
+            layout: '3室2厅',
+            floor: '12/33',
+            orientation: '南北通透',
+            year: 2015,
+            decoration: '精装修',
+            propertyType: '商品房',
+            propertyYears: 70,
+            propertyFee: 2.8,
+            facilities: '游泳池、健身房、儿童乐园',
+            image: 'https://picsum.photos/seed/house1/600/400',
+          },
+          {
+            id: 2,
+            title: '绿城桂语江南',
+            address: '北京市海淀区中关村南大街5号',
+            price: 9300000,
+            unitPrice: 88571,
+            area: 105,
+            layout: '3室1厅',
+            floor: '8/28',
+            orientation: '南向',
+            year: 2018,
+            decoration: '豪华装修',
+            propertyType: '商品房',
+            propertyYears: 70,
+            propertyFee: 3.5,
+            facilities: '健身房、图书馆、网球场',
+            image: 'https://picsum.photos/seed/house2/600/400',
+          },
+          {
+            id: 3,
+            title: '万科城市花园',
+            address: '北京市海淀区西二旗大街1号',
+            price: 7800000,
+            unitPrice: 65000,
+            area: 120,
+            layout: '4室2厅',
+            floor: '5/18',
+            orientation: '东南向',
+            year: 2016,
+            decoration: '精装修',
+            propertyType: '商品房',
+            propertyYears: 70,
+            propertyFee: 3.2,
+            facilities: '游泳池、健身房、篮球场',
+            image: 'https://picsum.photos/seed/house3/600/400',
+          },
+          {
+            id: 4,
+            title: '保利香槟国际',
+            address: '北京市朝阳区望京街道',
+            price: 11500000,
+            unitPrice: 95833,
+            area: 120,
+            layout: '3室2厅',
+            floor: '25/33',
+            orientation: '南北通透',
+            year: 2019,
+            decoration: '豪华装修',
+            propertyType: '商品房',
+            propertyYears: 70,
+            propertyFee: 4.0,
+            facilities: '恒温泳池、私人影院、SPA中心',
+            image: 'https://picsum.photos/seed/house4/600/400',
+          },
+        ];
+
+        // 价格趋势数据
+        const priceTrendData = {
+          labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+          datasets: [
+            {
+              label: '阳光花园小区',
+              data: [8700000, 8800000, 8850000, 8900000, 8900000, 8900000],
+              borderColor: 'rgb(75, 192, 192)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              tension: 0.1,
+            },
+            {
+              label: '绿城桂语江南',
+              data: [9000000, 9100000, 9200000, 9250000, 9300000, 9300000],
+              borderColor: 'rgb(255, 99, 132)',
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              tension: 0.1,
+            },
+          ],
+        };
+
+        // 性价比分析数据
+        const valueData = {
+          labels: [
+            '价格合理性',
+            '位置便利性',
+            '面积实用性',
+            '户型设计',
+            '装修标准',
+          ],
+          datasets: [
+            {
+              label: '阳光花园小区',
+              data: [4.5, 3.5, 4.0, 4.0, 3.8],
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgb(75, 192, 192)',
+              borderWidth: 1,
+            },
+            {
+              label: '绿城桂语江南',
+              data: [3.8, 4.5, 3.8, 3.9, 4.5],
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgb(255, 99, 132)',
+              borderWidth: 1,
+            },
+          ],
+        };
+
+        // 初始化图表
+        function initCharts() {
+          // 价格趋势图表
+          const priceCtx = document
+            .getElementById('priceTrendChart')
+            .getContext('2d');
+          new Chart(priceCtx, {
+            type: 'line',
+            data: priceTrendData,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: false,
+                  ticks: {
+                    callback: function (value) {
+                      return '¥' + value / 10000 + '万';
+                    },
+                  },
+                },
+              },
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+              },
+            },
+          });
+
+          // 性价比分析图表
+          const valueCtx = document
+            .getElementById('valueChart')
+            .getContext('2d');
+          new Chart(valueCtx, {
+            type: 'radar',
+            data: valueData,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                r: {
+                  angleLines: {
+                    display: true,
+                  },
+                  suggestedMin: 0,
+                  suggestedMax: 5,
+                },
+              },
+            },
+          });
+        }
+
+        // 初始化图表
+        initCharts();
+
+        // 移除卡片
+        function removeCard(event) {
+          const cardId = event.target.getAttribute('data-id');
+          const cardElement = event.target.closest('.compare-card');
+
+          if (cardElement) {
+            cardElement.remove();
+            showMessage('已移除对比项');
+
+            // 检查是否还需要显示添加占位符
+            const remainingCards =
+              compareCardsContainer.querySelectorAll('.compare-card');
+            if (
+              !addCardPlaceholder.parentElement &&
+              remainingCards.length < 4
+            ) {
+              compareCardsContainer.appendChild(addCardPlaceholder);
+            }
+          }
+        }
+
+        // 清空所有卡片
+        function clearAllCards() {
+          const allCards =
+            compareCardsContainer.querySelectorAll('.compare-card');
+          allCards.forEach((card) => card.remove());
+
+          // 确保添加占位符显示
+          if (!addCardPlaceholder.parentElement) {
+            compareCardsContainer.appendChild(addCardPlaceholder);
+          }
+
+          showMessage('已清空所有对比项');
+        }
+
+        // 打印对比结果
+        function printComparison() {
+          window.print();
+        }
+
+        // 保存对比结果
+        function saveComparison() {
+          const cards = compareCardsContainer.querySelectorAll('.compare-card');
+          if (cards.length === 0) {
+            showMessage('没有可保存的对比项', 'warning');
+            return;
+          }
+
+          // 这里只是模拟保存操作
+          showMessage('对比结果已保存到您的账户');
+        }
+
+        // 添加房产卡片
+        function addPropertyCard() {
+          const existingCards =
+            compareCardsContainer.querySelectorAll('.compare-card');
+          if (existingCards.length >= 4) {
+            showMessage('最多只能对比4个房产', 'warning');
+            return;
+          }
+
+          // 简单演示：添加一个新的卡片（在实际应用中，这里应该打开一个选择房产的弹窗）
+          const availableProperties = mockProperties.filter((p) => {
+            const cardIds = Array.from(existingCards).map((card) =>
+              card.querySelector('.remove-card').getAttribute('data-id')
+            );
+            return !cardIds.includes(p.id.toString());
+          });
+
+          if (availableProperties.length === 0) {
+            showMessage('没有更多可添加的示例房产', 'info');
+            return;
+          }
+
+          const newProperty = availableProperties[0];
+          const newCard = createPropertyCard(newProperty);
+
+          // 插入到占位符之前
+          compareCardsContainer.insertBefore(newCard, addCardPlaceholder);
+
+          // 如果已经有4个卡片，隐藏占位符
+          if (existingCards.length + 1 >= 4) {
+            addCardPlaceholder.remove();
+          }
+
+          showMessage('已添加新的对比项');
+        }
+
+        // 创建房产卡片
+        function createPropertyCard(property) {
+          const card = document.createElement('div');
+          card.className = 'compare-card';
+
+          card.innerHTML = `
+                    <button class="remove-card" data-id="${property.id}">×</button>
+                    <img src="${property.image}" alt="${property.title}" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">${property.title}</h3>
+                        <p class="card-address">${property.address}</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">户型</span>
+                                <span class="stat-value">${property.layout}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">面积</span>
+                                <span class="stat-value">${property.area}㎡</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">楼层</span>
+                                <span class="stat-value">${property.floor}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">朝向</span>
+                                <span class="stat-value">${property.orientation}</span>
+                            </div>
+                        </div>
+                        <div class="card-price">¥${formatNumber(property.price)}</div>
+                        <p class="stat-value">单价: ¥${formatNumber(property.unitPrice)}/㎡</p>
+                    </div>
+                `;
+
+          // 添加移除按钮事件监听
+          const removeBtn = card.querySelector('.remove-card');
+          removeBtn.addEventListener('click', removeCard);
+
+          return card;
+        }
+
+        // 格式化数字（添加千分位分隔符）
+        function formatNumber(num) {
+          return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // 添加事件监听
+        removeButtons.forEach((button) =>
+          button.addEventListener('click', removeCard)
+        );
+        clearAllBtn.addEventListener('click', clearAllCards);
+        printBtn.addEventListener('click', printComparison);
+        saveComparisonBtn.addEventListener('click', saveComparison);
+        addCardPlaceholder.addEventListener('click', addPropertyCard);
+
+        // 标记用户操作
+        recordUserAction('view_comparison_tool');
+      });
+    </script>
+  </body>
+</html>

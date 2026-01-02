@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>房产估价地图系统 - ValuHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        
+        .header {
+            background-color: #1890ff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .user-type-selector {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .user-type-btn {
+            padding: 6px 12px;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .user-type-btn.active {
+            background: white;
+            color: #1890ff;
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid #e8e8e8;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .sidebar-section {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .search-btn {
+            padding: 8px 16px;
+            background: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .feature-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-btn {
+            padding: 8px 12px;
+            background: #f0f0f0;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .feature-btn:hover {
+            background: #e6f7ff;
+            border-color: #91d5ff;
+        }
+        
+        .feature-btn.active {
+            background: #1890ff;
+            color: white;
+            border-color: #1890ff;
+        }
+        
+        .layer-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .layer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .layer-item:hover {
+            background: #f5f5f5;
+        }
+        
+        .map-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .route-panel {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .route-panel.active {
+            display: block;
+        }
+        
+        .route-panel h3 {
+            padding: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        .route-content {
+            padding: 10px;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: #666;
+        }
+        
+        .stats-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+        }
+        
+        .stats-item {
+            margin: 5px 0;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            padding: 6px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #1890ff;
+            color: white;
+            border-color: #1890ff;
+        }
+        
+        .btn-success {
+            background: #52c41a;
+            color: white;
+            border-color: #52c41a;
+        }
+        
+        .btn-warning {
+            background: #faad14;
+            color: white;
+            border-color: #faad14;
+        }
+        
+        .input-group {
+            margin-bottom: 10px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .valuation-result {
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .valuation-result h4 {
+            margin-bottom: 10px;
+            color: #52c41a;
+        }
+        
+        .valuation-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>房产估价地图系统</h1>
+            <div class="user-type-selector">
+                <button class="user-type-btn active" data-type="public">大众端</button>
+                <button class="user-type-btn" data-type="institution">院校端</button>
+                <button class="user-type-btn" data-type="government">政府端</button>
+                <button class="user-type-btn" data-type="enterprise">企业端</button>
+                <button class="user-type-btn" data-type="association">协会端</button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Search Section -->
+                <div class="sidebar-section">
+                    <h3>搜索功能</h3>
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="搜索小区、地址...">
+                        <button class="search-btn" id="searchBtn">搜索</button>
+                    </div>
+                    <button class="feature-btn" id="locateBtn">定位当前位置</button>
+                </div>
+                
+                <!-- Map Features -->
+                <div class="sidebar-section">
+                    <h3>地图功能</h3>
+                    <div class="feature-buttons">
+                        <button class="feature-btn" id="areaSelectBtn">区域选择</button>
+                        <button class="feature-btn" id="heatmapBtn">房价热力图</button>
+                        <button class="feature-btn" id="routePlanBtn">路径规划</button>
+                        <button class="feature-btn" id="compareBtn">数据对比</button>
+                    </div>
+                </div>
+                
+                <!-- Route Planning -->
+                <div class="sidebar-section hidden" id="routeSection">
+                    <h3>路径规划</h3>
+                    <div class="input-group">
+                        <label for="startPoint">起点</label>
+                        <input type="text" id="startPoint" placeholder="输入起点地址">
+                    </div>
+                    <div class="input-group">
+                        <label for="endPoint">终点</label>
+                        <input type="text" id="endPoint" placeholder="输入终点地址">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="planCar">驾车</button>
+                        <button class="btn" id="planBus">公交</button>
+                        <button class="btn" id="planWalk">步行</button>
+                        <button class="btn" id="planRide">骑行</button>
+                    </div>
+                </div>
+                
+                <!-- Valuation Section -->
+                <div class="sidebar-section">
+                    <h3>房产估价</h3>
+                    <div class="input-group">
+                        <label for="communityName">小区名称</label>
+                        <input type="text" id="communityName" placeholder="输入小区名称">
+                    </div>
+                    <div class="input-group">
+                        <label for="propertyArea">建筑面积 (㎡)</label>
+                        <input type="number" id="propertyArea" placeholder="输入面积">
+                    </div>
+                    <div class="input-group">
+                        <label for="propertyLayout">户型</label>
+                        <input type="text" id="propertyLayout" placeholder="如：3室2厅">
+                    </div>
+                    <div class="input-group">
+                        <label for="district">区域</label>
+                        <select id="district" class="search-input">
+                            <option value="雨湖区">雨湖区</option>
+                            <option value="岳塘区">岳塘区</option>
+                            <option value="九华经开区">九华经开区</option>
+                            <option value="昭山示范区">昭山示范区</option>
+                            <option value="湘潭县">湘潭县</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="decoration">装修情况</label>
+                        <select id="decoration" class="search-input">
+                            <option value="毛坯">毛坯</option>
+                            <option value="简装">简装</option>
+                            <option value="精装">精装</option>
+                            <option value="豪华装修">豪华装修</option>
+                        </select>
+                    </div>
+                    <div class="btn-group" style="margin-top: 10px;">
+                        <button class="btn btn-success" id="valuationBtn">开始估价</button>
+                    </div>
+                    <div class="valuation-result hidden" id="valuationResult"></div>
+                </div>
+                
+                <!-- Layer Control -->
+                <div class="sidebar-section">
+                    <h3>图层控制</h3>
+                    <div class="layer-controls">
+                        <div class="layer-item">
+                            <input type="checkbox" id="layerProperties" checked>
+                            <label for="layerProperties">房源分布</label>
+                        </div>
+                        <div class="layer-item">
+                            <input type="checkbox" id="layerTraffic">
+                            <label for="layerTraffic">实时交通</label>
+                        </div>
+                        <div class="layer-item">
+                            <input type="checkbox" id="layerDistrict">
+                            <label for="layerDistrict">行政区划</label>
+                        </div>
+                        <div class="layer-item">
+                            <input type="checkbox" id="layerCommunity">
+                            <label for="layerCommunity">小区边界</label>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <h4 style="font-size: 14px; margin-bottom: 8px;">地图类型</h4>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" id="baseMap">标准地图</button>
+                            <button class="btn" id="satelliteMap">卫星地图</button>
+                            <button class="btn" id="hybridMap">混合地图</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Stats -->
+                <div class="sidebar-section">
+                    <h3>数据统计</h3>
+                    <div id="dataStats"></div>
+                </div>
+            </div>
+            
+            <!-- Map Container -->
+            <div class="map-container">
+                <div id="map"></div>
+                <div class="route-panel" id="routePanel">
+                    <h3>路径详情</h3>
+                    <div class="route-content loading">请选择起点和终点进行路径规划</div>
+                </div>
+                <div class="stats-panel">
+                    <div class="stats-item">当前用户：<span id="currentUserType">大众端</span></div>
+                    <div class="stats-item">房源数量：<span id="propertyCount">0</span></div>
+                    <div class="stats-item">小区数量：<span id="communityCount">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Include Map Valuation System -->
+    <script src="map-valuation-system.js"></script>
+    
+    <!-- Main Application Script -->
+    <script>
+        // 初始化地图估价系统
+        let mapValuationSystem;
+        let currentUserType = 'public';
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', async () => {
+            // 创建数据处理器
+            const dataProcessor = new DataProcessor();
+            
+            // 创建地图核心
+            const mapCore = new MapCore();
+            
+            // 初始化地图
+            await mapCore.initMap('map', currentUserType);
+            
+            // 初始化用户端功能
+            mapCore.initUserTypeFeatures();
+            
+            // 创建估价引擎
+            const valuationEngine = new ValuationEngine(mapCore, dataProcessor);
+            valuationEngine.initValuationModels();
+            
+            // 初始化系统
+            mapValuationSystem = {
+                dataProcessor,
+                mapCore,
+                valuationEngine
+            };
+            
+            // 处理CSV数据
+            const processedData = await dataProcessor.processAllCSVFiles();
+            
+            // 添加标记点到地图
+            mapCore.addMarkers(processedData);
+            
+            // 更新统计信息
+            updateStats(processedData);
+            
+            // 初始化图层控制
+            mapCore.initLayerControl();
+            
+            // 绑定事件
+            bindEvents();
+        });
+        
+        // 绑定事件
+        function bindEvents() {
+            // 用户类型切换
+            document.querySelectorAll('.user-type-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelector('.user-type-btn.active').classList.remove('active');
+                    btn.classList.add('active');
+                    currentUserType = btn.dataset.type;
+                    
+                    // 重新初始化地图
+                    mapValuationSystem.mapCore.initMap('map', currentUserType);
+                    mapValuationSystem.mapCore.initUserTypeFeatures();
+                    
+                    // 更新当前用户显示
+                    document.getElementById('currentUserType').textContent = mapValuationSystem.mapCore.getUserTypeName();
+                });
+            });
+            
+            // 搜索功能
+            document.getElementById('searchBtn').addEventListener('click', () => {
+                const keyword = document.getElementById('searchInput').value.trim();
+                if (keyword) {
+                    mapValuationSystem.mapCore.searchPOI(keyword, '湘潭', (err, results) => {
+                        if (err) {
+                            console.error('搜索失败:', err);
+                            return;
+                        }
+                        
+                        // 显示搜索结果
+                        showSearchResults(results);
+                    });
+                }
+            });
+            
+            // 定位功能
+            document.getElementById('locateBtn').addEventListener('click', () => {
+                mapValuationSystem.mapCore.getCurrentLocation((err, position) => {
+                    if (err) {
+                        console.error('定位失败:', err);
+                        alert('定位失败，请检查定位权限');
+                        return;
+                    }
+                    
+                    // 定位到当前位置
+                    mapValuationSystem.mapCore.map.setCenter(position);
+                    mapValuationSystem.mapCore.map.setZoom(15);
+                });
+            });
+            
+            // 区域选择
+            document.getElementById('areaSelectBtn').addEventListener('click', () => {
+                mapValuationSystem.mapCore.enableAreaSelection((bounds) => {
+                    // 处理选中区域的数据
+                    const processedData = mapValuationSystem.dataProcessor.processedData;
+                    mapValuationSystem.mapCore.visualizeAreaStatistics(processedData, bounds);
+                });
+            });
+            
+            // 热力图
+            document.getElementById('heatmapBtn').addEventListener('click', () => {
+                const processedData = mapValuationSystem.dataProcessor.processedData;
+                mapValuationSystem.mapCore.addHeatmap(processedData);
+            });
+            
+            // 路径规划
+            document.getElementById('routePlanBtn').addEventListener('click', () => {
+                const routeSection = document.getElementById('routeSection');
+                routeSection.classList.toggle('hidden');
+            });
+            
+            // 路径规划按钮
+            const routeModes = {
+                planCar: 'car',
+                planBus: 'bus',
+                planWalk: 'walk',
+                planRide: 'ride'
+            };
+            
+            Object.entries(routeModes).forEach(([btnId, mode]) => {
+                document.getElementById(btnId).addEventListener('click', () => {
+                    const start = document.getElementById('startPoint').value.trim();
+                    const end = document.getElementById('endPoint').value.trim();
+                    
+                    if (!start || !end) {
+                        alert('请输入起点和终点');
+                        return;
+                    }
+                    
+                    // 更新按钮状态
+                    document.querySelectorAll('#routeSection .btn-group .btn').forEach(btn => {
+                        btn.classList.remove('btn-primary');
+                    });
+                    document.getElementById(btnId).classList.add('btn-primary');
+                    
+                    // 执行路径规划
+                    mapValuationSystem.mapCore.planRoute(start, end, mode, (err, routeInfo) => {
+                        if (err) {
+                            console.error('路径规划失败:', err);
+                            return;
+                        }
+                        
+                        // 显示路径详情
+                        showRouteDetails(routeInfo);
+                    });
+                });
+            });
+            
+            // 估价功能
+            document.getElementById('valuationBtn').addEventListener('click', () => {
+                const propertyData = {
+                    community: document.getElementById('communityName').value.trim(),
+                    area: parseFloat(document.getElementById('propertyArea').value),
+                    layout: document.getElementById('propertyLayout').value.trim(),
+                    district: document.getElementById('district').value,
+                    decoration: document.getElementById('decoration').value
+                };
+                
+                if (!propertyData.community || !propertyData.area) {
+                    alert('请填写完整的房产信息');
+                    return;
+                }
+                
+                // 执行估价
+                const result = mapValuationSystem.valuationEngine.estimateProperty(propertyData);
+                
+                // 显示估价结果
+                showValuationResult(result);
+            });
+            
+            // 图层控制
+            document.getElementById('layerProperties').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    mapValuationSystem.mapCore.showLayer('properties');
+                } else {
+                    mapValuationSystem.mapCore.hideLayer('properties');
+                }
+            });
+            
+            document.getElementById('layerTraffic').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    mapValuationSystem.mapCore.showLayer('traffic');
+                } else {
+                    mapValuationSystem.mapCore.hideLayer('traffic');
+                }
+            });
+            
+            document.getElementById('layerDistrict').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    mapValuationSystem.mapCore.showLayer('district');
+                } else {
+                    mapValuationSystem.mapCore.hideLayer('district');
+                }
+            });
+            
+            document.getElementById('layerCommunity').addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    mapValuationSystem.mapCore.showLayer('communities');
+                } else {
+                    mapValuationSystem.mapCore.hideLayer('communities');
+                }
+            });
+            
+            // 地图类型切换
+            document.getElementById('baseMap').addEventListener('click', () => {
+                mapValuationSystem.mapCore.switchBaseMap('base');
+                updateMapTypeButtons('baseMap');
+            });
+            
+            document.getElementById('satelliteMap').addEventListener('click', () => {
+                mapValuationSystem.mapCore.switchBaseMap('satellite');
+                updateMapTypeButtons('satelliteMap');
+            });
+            
+            document.getElementById('hybridMap').addEventListener('click', () => {
+                mapValuationSystem.mapCore.switchBaseMap('hybrid');
+                updateMapTypeButtons('hybridMap');
+            });
+        }
+        
+        // 更新地图类型按钮状态
+        function updateMapTypeButtons(activeId) {
+            document.querySelectorAll('#layerControl .btn-group .btn').forEach(btn => {
+                btn.classList.remove('btn-primary');
+            });
+            document.getElementById(activeId).classList.add('btn-primary');
+        }
+        
+        // 更新统计信息
+        function updateStats(data) {
+            const stats = {
+                propertyCount: data.length,
+                communityCount: Object.keys(mapValuationSystem.dataProcessor.communityData).length,
+                districts: mapValuationSystem.dataProcessor.districts.size
+            };
+            
+            document.getElementById('propertyCount').textContent = stats.propertyCount;
+            document.getElementById('communityCount').textContent = stats.communityCount;
+            
+            const dataStats = document.getElementById('dataStats');
+            dataStats.innerHTML = `
+                <div class="stats-item">总房源数：${stats.propertyCount}</div>
+                <div class="stats-item">总小区数：${stats.communityCount}</div>
+                <div class="stats-item">总区域数：${stats.districts}</div>
+            `;
+        }
+        
+        // 显示搜索结果
+        function showSearchResults(results) {
+            console.log('搜索结果:', results);
+            // 这里可以实现搜索结果的展示
+            if (results && results.length > 0) {
+                // 定位到第一个结果
+                const firstResult = results[0];
+                const position = [firstResult.location.lng, firstResult.location.lat];
+                mapValuationSystem.mapCore.map.setCenter(position);
+                mapValuationSystem.mapCore.map.setZoom(15);
+                
+                // 创建标记点
+                const marker = new AMap.Marker({
+                    position: position,
+                    title: firstResult.name
+                });
+                mapValuationSystem.mapCore.map.add(marker);
+            }
+        }
+        
+        // 显示路径详情
+        function showRouteDetails(routeInfo) {
+            const routePanel = document.getElementById('routePanel');
+            const routeContent = routePanel.querySelector('.route-content');
+            
+            routeContent.className = 'route-content';
+            routeContent.innerHTML = `
+                <div style="margin-bottom: 10px;">
+                    <strong>交通方式：</strong>${routeInfo.detailed.mode}<br>
+                    <strong>总距离：</strong>${routeInfo.detailed.totalDistance}<br>
+                    <strong>总时间：</strong>${routeInfo.detailed.totalTime}<br>
+                    <strong>预计费用：</strong>${routeInfo.detailed.estimatedCost}<br>
+                    <strong>平均速度：</strong>${routeInfo.detailed.averageSpeed}
+                </div>
+                <button class="btn btn-warning" onclick="document.getElementById('routePanel').classList.remove('active')">隐藏详情</button>
+            `;
+            
+            routePanel.classList.add('active');
+        }
+        
+        // 显示估价结果
+        function showValuationResult(result) {
+            const valuationResult = document.getElementById('valuationResult');
+            valuationResult.classList.remove('hidden');
+            valuationResult.innerHTML = `
+                <h4>估价结果</h4>
+                <div class="valuation-item">
+                    <span>估价单价：</span>
+                    <strong>¥${result.estimatedPrice.toLocaleString()}/㎡</strong>
+                </div>
+                <div class="valuation-item">
+                    <span>置信度：</span>
+                    <strong>${result.confidence}%</strong>
+                </div>
+                <div class="valuation-item">
+                    <span>估价模型：</span>
+                    <strong>${result.valuationModel === 'comprehensive' ? '综合估价' : result.valuationModel === 'simple' ? '简单估价' : '投资估价'}</strong>
+                </div>
+                ${result.investmentAdvice ? `<div style="margin-top: 8px; padding: 8px; background: #e6f7ff; border-radius: 4px;">${result.investmentAdvice}</div>` : ''}
+            `;
+        }
+    </script>
+</body>
+</html>

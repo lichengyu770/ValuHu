@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  frontend-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    - name: Install dependencies
+      run: npm install
+    - name: Lint with ESLint
+      run: npm run lint
+    - name: Format check with Prettier
+      run: npm run prettier:check
+
+  backend-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Lint with flake8
+      run: |
+        cd backend
+        flake8 .
+    - name: Type check with mypy
+      run: |
+        cd backend
+        mypy .
+    - name: Format check with black
+      run: |
+        cd backend
+        black --check .

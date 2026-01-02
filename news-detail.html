@@ -1,0 +1,1118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新闻详情 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* 基础重置与通用样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', '思源黑体', sans-serif;
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn-primary {
+        background: #007aff;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #0066cc;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1px solid #007aff;
+        color: #007aff;
+      }
+      .btn-outline:hover {
+        background: #007aff;
+        color: white;
+      }
+      section {
+        padding: 60px 0;
+      }
+      section h2 {
+        font-size: 32px;
+        color: #1d2129;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      section h3 {
+        font-size: 24px;
+        color: #1d2129;
+        margin-bottom: 20px;
+      }
+      section p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      /* 导航栏（可点击跳转） */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        height: 65px;
+      }
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: #007aff;
+        color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .logo-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d2129;
+      }
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+      }
+      .nav-menu a {
+        text-decoration: none;
+        color: #4e5969;
+        font-size: 15px;
+        transition: color 0.3s;
+      }
+      .nav-menu a:hover {
+        color: #007aff;
+      }
+      .nav-menu a.active {
+        color: #007aff;
+        font-weight: 600;
+      }
+      .menu-toggle {
+        display: none;
+        font-size: 32px;
+        color: #4e5969;
+        cursor: pointer;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        display: none;
+      }
+      .mobile-menu ul {
+        list-style: none;
+        padding: 20px 0;
+      }
+      .mobile-menu li {
+        padding: 0 20px;
+      }
+      .mobile-menu a {
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        color: #4e5969;
+        font-size: 15px;
+      }
+      .mobile-menu a:hover {
+        color: #007aff;
+      }
+      .mobile-menu a.active {
+        color: #007aff;
+        font-weight: 600;
+      }
+      .mobile-menu .login-btn {
+        margin: 10px 20px 0;
+        width: calc(100% - 40px);
+      }
+
+      /* 封面区 */
+      .hero {
+        margin-top: 65px;
+        height: 200px;
+        background: linear-gradient(135deg, #f5f7fa, #e9edf2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 32px;
+        color: #1d2129;
+        margin-bottom: 15px;
+      }
+      .hero h1 span {
+        color: #007aff;
+      }
+      .hero p {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* 新闻详情容器 */
+      .news-detail-container {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
+
+      /* 新闻标题 */
+      .news-title {
+        font-size: 28px;
+        color: #1d2129;
+        margin-bottom: 20px;
+        line-height: 1.3;
+      }
+
+      /* 新闻元信息 */
+      .news-meta {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 14px;
+        color: #666;
+      }
+
+      /* 新闻内容 */
+      .news-content {
+        color: #333;
+        line-height: 1.8;
+        font-size: 16px;
+      }
+
+      .news-content p {
+        margin-bottom: 20px;
+      }
+
+      .news-content h3 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 20px;
+        color: #1d2129;
+      }
+
+      .news-content ul,
+      .news-content ol {
+        margin-left: 20px;
+        margin-bottom: 20px;
+      }
+
+      .news-content li {
+        margin-bottom: 10px;
+      }
+
+      /* 新闻图片 */
+      .news-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 相关新闻 */
+      .related-news {
+        margin-top: 50px;
+        padding-top: 30px;
+        border-top: 1px solid #e0e0e0;
+      }
+
+      .related-news h3 {
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+
+      .related-news-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .related-news-item {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .related-news-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .related-news-item h4 {
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #1d2129;
+      }
+
+      .related-news-item p {
+        margin-bottom: 15px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+      }
+
+      .related-news-item a {
+        color: #007aff;
+        text-decoration: none;
+        font-size: 14px;
+      }
+
+      .related-news-item a:hover {
+        text-decoration: underline;
+      }
+
+      /* 返回按钮 */
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        color: #007aff;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        color: #0056b3;
+        transform: translateX(-5px);
+      }
+
+      /* 页脚 */
+      .footer {
+        background: #1d2129;
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: 50px;
+      }
+      .footer .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .footer-col {
+        width: calc(25% - 20px);
+        min-width: 200px;
+      }
+      .footer-col h3 {
+        font-size: 16px;
+        color: #007aff;
+        margin-bottom: 15px;
+      }
+      .footer-col a {
+        display: block;
+        color: #c9cdd4;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 8px;
+        transition: color 0.3s;
+      }
+      .footer-col a:hover {
+        color: white;
+      }
+
+      /* 响应式页脚 */
+      @media (max-width: 992px) {
+        .footer-col {
+          width: 50%;
+        }
+      }
+      @media (max-width: 768px) {
+        .footer-col {
+          width: 100%;
+        }
+      }
+
+      .copyright {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+      }
+      .copyright p {
+        font-size: 12px;
+        color: #868c98;
+        margin: 5px 0;
+      }
+      .copyright a {
+        color: #868c98;
+        text-decoration: none;
+      }
+      .copyright a:hover {
+        color: white;
+      }
+
+      /* 返回顶部按钮 */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: #007aff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 99;
+      }
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .back-to-top:hover {
+        background: #0066cc;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .menu-toggle {
+          display: block;
+        }
+        .news-detail-container {
+          padding: 20px;
+        }
+        .news-title {
+          font-size: 24px;
+        }
+        .news-meta {
+          flex-direction: column;
+          gap: 10px;
+        }
+        .hero {
+          height: 150px;
+        }
+        .hero h1 {
+          font-size: 24px;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-home"></i>
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 用户中心 -->
+          <a href="user-center.html" class="">用户中心</a>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 工具与资源下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >工具与资源 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="help-center.html" class="">帮助中心</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="valuation-flow-new.html" class="">估价流程</a>
+              <a href="export-docs.html" class="">文档导出</a>
+            </div>
+          </div>
+          <a href="#contact" class="btn btn-primary" onclick="scrollToContact()"
+            >联系我们</a
+          >
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="user-center.html">用户中心</a></li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="valuation-flow-new.html">估价流程</a></li>
+        <li><a href="export-docs.html">文档导出</a></li>
+        <li>
+          <button
+            class="btn btn-primary login-btn"
+            onclick="toggleLoginModal()"
+          >
+            登录/注册
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1>新闻<span>详情</span></h1>
+        <p>获取最新的行业资讯和产品动态</p>
+      </div>
+    </section>
+
+    <!-- 新闻详情内容 -->
+    <section class="news-detail-section">
+      <div class="container">
+        <a href="index.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          返回首页
+        </a>
+
+        <div class="news-detail-container">
+          <h1 class="news-title" id="newsTitle">加载中...</h1>
+          <div class="news-meta">
+            <span
+              ><i class="fas fa-calendar-alt"></i> <span id="newsDate"></span
+            ></span>
+            <span
+              ><i class="fas fa-eye"></i>
+              <span id="newsViews">1,234</span> 阅读</span
+            >
+            <span
+              ><i class="fas fa-tag"></i> <span id="newsCategory"></span
+            ></span>
+          </div>
+          <div class="news-content" id="newsContent">
+            <p>正在加载新闻内容...</p>
+          </div>
+        </div>
+
+        <!-- 相关新闻 -->
+        <div class="related-news">
+          <h3>相关新闻</h3>
+          <div class="related-news-list" id="relatedNewsList">
+            <!-- 相关新闻将通过JavaScript动态填充 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer" id="contact">
+      <div class="container">
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="gis-assessment.html">GIS评估预览</a>
+          <a href="profit-assessment.html">收益评估预览</a>
+        </div>
+        <div class="footer-col">
+          <h3>数据分析</h3>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="comparison-tool.html">比较工具</a>
+          <a href="data-visualization.html">数据可视化</a>
+          <a href="case-study.html">客户案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>工具与资源</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="api-docs.html">API文档</a>
+          <a href="valuation-flow-new.html">估价流程</a>
+          <a href="export-docs.html">文档导出</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="#">公司简介</a>
+          <a href="#">联系我们</a>
+          <a href="#">隐私政策</a>
+          <a href="#">服务条款</a>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>© 2025 数智估价核心引擎. 保留所有权利.</p>
+        <p>技术支持：<a href="#">数智估价团队</a></p>
+      </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+
+      // 新闻数据
+      const newsData = {
+        1: {
+          title: '2025年房地产市场趋势分析报告发布',
+          date: '2025-01-15',
+          category: '市场分析',
+          content: `
+                    <p>近日，我们发布了《2025年房地产市场趋势分析报告》，对全国主要城市的房地产市场进行了全面分析和预测。</p>
+                    <h3>报告主要内容</h3>
+                    <p>报告指出，2025年房地产市场将呈现以下几个主要趋势：</p>
+                    <ul>
+                        <li>一线城市房价将保持稳定增长，涨幅预计在5-8%之间</li>
+                        <li>二线城市分化明显，核心城市仍有上涨空间</li>
+                        <li>三四线城市房价将继续调整，部分城市可能出现小幅下跌</li>
+                        <li>租赁市场将迎来快速发展，租金收益率有望提升</li>
+                    </ul>
+                    <p>报告基于我们的智能估价引擎和海量历史数据，结合宏观经济环境和政策因素，对未来一年的房地产市场进行了科学预测。</p>
+                    <h3>投资建议</h3>
+                    <p>针对不同类型的投资者，报告提出了以下建议：</p>
+                    <ol>
+                        <li>长期投资者可以关注核心城市的优质学区房和交通便利的地铁房</li>
+                        <li>短期投资者应谨慎操作，避免盲目跟风</li>
+                        <li>租赁投资者可以关注人口流入较大的城市和新兴产业园区周边</li>
+                    </ol>
+                    <p>完整报告已在我们的平台上线，注册用户可以免费下载查看。</p>
+                `,
+        },
+        2: {
+          title: '智能估价引擎V2.0版本上线，新增多项功能',
+          date: '2025-02-01',
+          category: '产品动态',
+          content: `
+                    <p>经过数月的研发和测试，我们的智能估价引擎V2.0版本正式上线，新增了多项实用功能，为用户提供更全面、更精准的估价服务。</p>
+                    <h3>主要新增功能</h3>
+                    <ul>
+                        <li><strong>AI智能估价模型升级</strong>：采用了最新的深度学习算法，估价准确率提升了15%</li>
+                        <li><strong>GIS空间分析</strong>：新增了基于地理信息系统的空间分析功能，可分析周边配套对房价的影响</li>
+                        <li><strong>多维度数据对比</strong>：支持同一房产在不同时间点的价格对比，以及不同房产之间的横向对比</li>
+                        <li><strong>个性化报告定制</strong>：用户可以根据自己的需求定制报告内容，选择需要的分析维度</li>
+                        <li><strong>批量估价功能</strong>：支持批量导入房产数据，进行批量估价，提高工作效率</li>
+                    </ul>
+                    <h3>技术亮点</h3>
+                    <p>智能估价引擎V2.0采用了多项先进技术：</p>
+                    <ul>
+                        <li>使用了分布式计算架构，处理速度提升了3倍</li>
+                        <li>集成了实时数据更新机制，数据更新频率从周级提升到天级</li>
+                        <li>采用了联邦学习技术，在保护用户隐私的前提下提升模型精度</li>
+                    </ul>
+                    <p>我们将继续致力于技术创新，不断提升产品性能，为用户提供更好的服务体验。</p>
+                `,
+        },
+        3: {
+          title: '全国32个城市数据已更新，覆盖范围进一步扩大',
+          date: '2025-02-15',
+          category: '数据更新',
+          content: `
+                    <p>为了提供更全面、更精准的估价服务，我们已完成全国32个城市的数据更新，覆盖范围进一步扩大。</p>
+                    <h3>更新城市名单</h3>
+                    <p>本次更新的城市包括：</p>
+                    <ul>
+                        <li>一线城市：北京、上海、广州、深圳</li>
+                        <li>二线城市：杭州、南京、苏州、武汉、成都、西安、天津、重庆等16个城市</li>
+                        <li>三四线城市：佛山、东莞、惠州、中山、珠海等12个城市</li>
+                    </ul>
+                    <h3>数据更新内容</h3>
+                    <p>本次数据更新包括：</p>
+                    <ul>
+                        <li>新增了近6个月的二手房交易数据</li>
+                        <li>更新了小区基础信息和配套设施数据</li>
+                        <li>新增了学校、医院、商场等周边配套的最新数据</li>
+                        <li>更新了城市规划和土地供应数据</li>
+                    </ul>
+                    <h3>数据质量保证</h3>
+                    <p>我们的数据来源于多个权威渠道，包括：</p>
+                    <ul>
+                        <li>政府公开数据</li>
+                        <li>房地产交易平台数据</li>
+                        <li>实地调研数据</li>
+                        <li>合作机构数据</li>
+                    </ul>
+                    <p>所有数据都经过严格的清洗和验证，确保数据的准确性和可靠性。</p>
+                    <p>我们将继续扩大数据覆盖范围，计划在2025年覆盖全国所有主要城市。</p>
+                `,
+        },
+        4: {
+          title: '公司与多家金融机构达成合作，共同推动智能估价技术应用',
+          date: '2025-03-01',
+          category: '合作动态',
+          content: `
+                    <p>近日，我们与多家国内知名金融机构签署了合作协议，共同推动智能估价技术在金融领域的应用。</p>
+                    <h3>合作机构</h3>
+                    <p>本次合作的金融机构包括：</p>
+                    <ul>
+                        <li>中国工商银行</li>
+                        <li>中国建设银行</li>
+                        <li>招商银行</li>
+                        <li>平安银行</li>
+                        <li>蚂蚁集团</li>
+                    </ul>
+                    <h3>合作内容</h3>
+                    <p>合作内容主要包括：</p>
+                    <ol>
+                        <li>将我们的智能估价引擎集成到银行的抵押贷款审批系统中，提高审批效率</li>
+                        <li>共同研发基于区块链的房产估价数据共享平台，确保数据安全和可信</li>
+                        <li>合作开展金融科技研究，探索智能估价技术在金融领域的更多应用场景</li>
+                        <li>联合举办金融科技峰会和培训活动，推广智能估价技术</li>
+                    </ol>
+                    <h3>合作意义</h3>
+                    <p>这次合作具有重要意义：</p>
+                    <ul>
+                        <li>为金融机构提供更高效、更精准的估价服务，降低风险</li>
+                        <li>加速智能估价技术在金融领域的普及和应用</li>
+                        <li>推动金融科技的创新发展</li>
+                        <li>为用户提供更便捷的金融服务</li>
+                    </ul>
+                    <p>我们将继续加强与金融机构的合作，共同推动智能估价技术的发展和应用。</p>
+                `,
+        },
+        5: {
+          title: '行业专家在线讲座：智能估价技术的发展与应用',
+          date: '2025-03-15',
+          category: '活动预告',
+          content: `
+                    <p>为了促进智能估价技术的交流和发展，我们将于2025年3月25日举办一场主题为"智能估价技术的发展与应用"的在线讲座，邀请行业专家分享最新的研究成果和实践经验。</p>
+                    <h3>讲座信息</h3>
+                    <ul>
+                        <li><strong>时间</strong>：2025年3月25日（星期二）14:00-16:00</li>
+                        <li><strong>形式</strong>：在线直播</li>
+                        <li><strong>参与方式</strong>：扫描下方二维码报名，或访问我们的官网报名</li>
+                    </ul>
+                    <h3>嘉宾介绍</h3>
+                    <ul>
+                        <li><strong>张教授</strong>：清华大学房地产研究所所长，博士生导师，主要研究方向为房地产经济和智能估价技术</li>
+                        <li><strong>李总工程师</strong>：国内知名金融科技公司CTO，拥有丰富的智能估价系统研发经验</li>
+                        <li><strong>王经理</strong>：某大型银行风险管理部经理，负责抵押贷款审批系统的建设和管理</li>
+                        <li><strong>刘博士</strong>：我们的首席科学家，智能估价引擎的主要研发人员</li>
+                    </ul>
+                    <h3>讲座内容</h3>
+                    <ol>
+                        <li>智能估价技术的发展历程和现状</li>
+                        <li>智能估价技术在金融领域的应用案例</li>
+                        <li>智能估价技术面临的挑战和解决方案</li>
+                        <li>智能估价技术的未来发展趋势</li>
+                        <li>互动问答环节</li>
+                    </ol>
+                    <h3>报名方式</h3>
+                    <p>扫描下方二维码或访问我们的官网即可报名参加讲座。报名成功后，我们将通过邮件发送直播链接。</p>
+                    <p>名额有限，先到先得，欢迎感兴趣的朋友积极参与！</p>
+                `,
+        },
+      };
+
+      // 获取URL中的新闻ID
+      function getNewsId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return parseInt(urlParams.get('id')) || 1;
+      }
+
+      // 加载新闻详情
+      function loadNewsDetail() {
+        const newsId = getNewsId();
+        const news = newsData[newsId];
+
+        if (news) {
+          document.getElementById('newsTitle').textContent = news.title;
+          document.getElementById('newsDate').textContent = news.date;
+          document.getElementById('newsCategory').textContent = news.category;
+          document.getElementById('newsContent').innerHTML = news.content;
+
+          // 设置页面标题
+          document.title = news.title + ' - 数智估价核心引擎';
+
+          // 加载相关新闻
+          loadRelatedNews(newsId);
+        } else {
+          document.getElementById('newsTitle').textContent = '新闻不存在';
+          document.getElementById('newsContent').innerHTML =
+            '<p>您访问的新闻不存在或已被删除，请返回首页查看其他新闻。</p>';
+        }
+      }
+
+      // 加载相关新闻
+      function loadRelatedNews(currentNewsId) {
+        const relatedNewsList = document.getElementById('relatedNewsList');
+        let relatedNewsHTML = '';
+
+        // 获取所有新闻，排除当前新闻
+        const allNews = Object.entries(newsData).filter(
+          ([id]) => parseInt(id) !== currentNewsId
+        );
+
+        // 随机选择3条相关新闻
+        const shuffledNews = allNews.sort(() => 0.5 - Math.random());
+        const selectedNews = shuffledNews.slice(0, 3);
+
+        selectedNews.forEach(([id, news]) => {
+          relatedNewsHTML += `
+                    <div class="related-news-item">
+                        <h4>${news.title}</h4>
+                        <p>${news.content.replace(/<[^>]+>/g, '').substring(0, 100)}...</p>
+                        <a href="news-detail.html?id=${id}">查看详情 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+        });
+
+        relatedNewsList.innerHTML = relatedNewsHTML;
+      }
+
+      // 返回顶部功能
+      window.addEventListener('scroll', function () {
+        const backToTop = document.getElementById('backToTop');
+        if (window.pageYOffset > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      });
+
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // 滚动到联系我们
+      function scrollToContact() {
+        const contactSection = document.getElementById('contact');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // 页面加载完成后加载新闻详情
+      window.addEventListener('DOMContentLoaded', function () {
+        loadNewsDetail();
+      });
+    </script>
+  </body>
+</html>

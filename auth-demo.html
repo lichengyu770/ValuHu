@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智慧房产管理系统 - 认证演示 - ValuHub</title>
+    <style>
+      /* 基础样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+          'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+          Arial, sans-serif;
+        background-color: #000000;
+        color: #ffffff;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        min-height: 100vh;
+        line-height: 1.6;
+      }
+
+      /* 淡入动画 */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .fade-in.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 返回顶部按钮 */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #1890ff;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(24, 144, 255, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s,
+          visibility 0.3s,
+          transform 0.3s;
+        z-index: 999;
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .back-to-top:hover {
+        transform: translateY(-5px);
+        background: #40a9ff;
+      }
+
+      @media (max-width: 480px) {
+        .back-to-top {
+          width: 40px;
+          height: 40px;
+          bottom: 20px;
+          right: 20px;
+        }
+      }
+
+      /* 登录模态框样式 */
+      .login-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .login-modal.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      .login-modal-content {
+        background-color: #1d2129;
+        padding: 30px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+      }
+
+      .login-modal.active .login-modal-content {
+        transform: translateY(0);
+      }
+
+      .login-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .login-modal-title {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .login-modal-close {
+        background: none;
+        border: none;
+        color: #999;
+        font-size: 24px;
+        cursor: pointer;
+        transition:
+          color 0.3s ease,
+          transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+      }
+
+      .login-modal-close:hover {
+        color: #fff;
+        transform: rotate(90deg);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+        color: #ccc;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #333;
+        border-radius: 4px;
+        background-color: #2c2c2c;
+        color: #fff;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease;
+        font-size: 16px;
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      }
+
+      .form-group input:hover {
+        border-color: #40a9ff;
+      }
+
+      .login-button {
+        background-color: #1890ff;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .login-button:hover {
+        background-color: #40a9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+      }
+
+      .login-button:active {
+        transform: translateY(0);
+      }
+
+      .login-button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.6s,
+          height 0.6s;
+      }
+
+      .login-button:active::after {
+        width: 300px;
+        height: 300px;
+      }
+
+      /* 用户菜单样式 */
+      .user-menu-wrapper {
+        position: relative;
+      }
+
+      .user-menu-trigger {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        background-color: #1d2129;
+        border: 1px solid #333;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .user-menu-trigger:hover {
+        background-color: #2c2c2c;
+        border-color: #40a9ff;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(24, 144, 255, 0.2);
+      }
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #1890ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .user-menu-trigger:hover .user-avatar {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(24, 144, 255, 0.5);
+      }
+
+      .user-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .user-name {
+        font-weight: bold;
+      }
+
+      .user-role {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .user-dropdown {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 5px;
+        background-color: #1d2129;
+        border: 1px solid #333;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        width: 200px;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .user-dropdown.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .user-dropdown-item {
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .user-dropdown-item:hover {
+        background-color: #2c2c2c;
+        transform: translateX(5px);
+        color: #1890ff;
+      }
+
+      .logout-item:hover {
+        background-color: rgba(255, 77, 79, 0.1);
+        color: #ff4d4f;
+      }
+
+      .user-dropdown-divider {
+        height: 1px;
+        background-color: #333;
+        margin: 5px 0;
+      }
+
+      .logout-item {
+        color: #ff4d4f;
+      }
+
+      /* 示例账号信息 */
+      .demo-accounts {
+        background-color: #1d2129;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+      }
+
+      .demo-accounts:hover {
+        border-color: #1890ff;
+        box-shadow: 0 4px 20px rgba(24, 144, 255, 0.2);
+      }
+
+      .demo-accounts h3 {
+        margin-bottom: 15px;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .demo-accounts h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: #1890ff;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
+
+      .demo-accounts:hover h3::after {
+        width: 100px;
+      }
+
+      .account-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #2c2c2c;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+      }
+
+      .account-item:hover {
+        border-left-color: #1890ff;
+        background-color: #333;
+        transform: translateX(5px);
+      }
+
+      /* 通知样式 */
+      .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        border-radius: 4px;
+        color: white;
+        z-index: 2000;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        min-width: 280px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .notification.success {
+        background-color: #52c41a;
+      }
+
+      .notification.error {
+        background-color: #ff4d4f;
+      }
+
+      .notification.info {
+        background-color: #1890ff;
+      }
+
+      .notification.warning {
+        background-color: #faad14;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <h1 class="fade-in">智慧房产管理系统 - 认证演示</h1>
+
+    <!-- 登录按钮 -->
+    <button id="loginButton" class="fade-in">登录系统</button>
+
+    <style>
+      #loginButton {
+        background-color: #1890ff;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #loginButton:hover {
+        background-color: #40a9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+      }
+
+      #loginButton:active {
+        transform: translateY(0);
+      }
+
+      #loginButton::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.6s,
+          height 0.6s;
+      }
+
+      #loginButton:active::after {
+        width: 300px;
+        height: 300px;
+      }
+    </style>
+
+    <!-- 用户菜单 -->
+    <div
+      id="userMenuContainer"
+      class="user-menu-wrapper fade-in"
+      style="display: none"
+    >
+      <div class="user-menu-trigger">
+        <div class="user-avatar">U</div>
+        <div class="user-info">
+          <div class="user-name">未登录</div>
+          <div class="user-role"></div>
+        </div>
+      </div>
+      <div class="user-dropdown">
+        <div class="user-dropdown-item" data-action="profile">
+          <i class="fas fa-user"></i> 个人信息
+        </div>
+        <div class="user-dropdown-item" data-action="settings">
+          <i class="fas fa-cog"></i> 系统设置
+        </div>
+        <div class="user-dropdown-divider"></div>
+        <div class="user-dropdown-item logout-item" data-action="logout">
+          <i class="fas fa-sign-out-alt"></i> 退出登录
+        </div>
+      </div>
+    </div>
+
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="login-modal">
+      <div class="login-modal-content">
+        <div class="login-modal-header">
+          <div class="login-modal-title">用户登录</div>
+          <button class="login-modal-close">×</button>
+        </div>
+        <form id="loginForm" class="login-form">
+          <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" required />
+          </div>
+          <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" required />
+          </div>
+          <button type="submit" class="login-button">登录</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 示例账号信息 -->
+    <div class="demo-accounts fade-in">
+      <h3>示例账号</h3>
+      <div class="account-item">
+        <strong>管理员账号：</strong>admin / 123456
+      </div>
+      <div class="account-item"><strong>普通用户：</strong>user / 123456</div>
+      <div class="account-item"><strong>只读用户：</strong>viewer / 123456</div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+      <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+      // 模拟AuthService
+      const AuthService = {
+        _currentUser: null,
+
+        login(username, password) {
+          // 模拟登录验证
+          const mockUsers = {
+            admin: {
+              id: '1',
+              name: '管理员',
+              role: 'admin',
+              password: '123456',
+            },
+            user: {
+              id: '2',
+              name: '普通用户',
+              role: 'user',
+              password: '123456',
+            },
+            viewer: {
+              id: '3',
+              name: '只读用户',
+              role: 'viewer',
+              password: '123456',
+            },
+          };
+
+          const user = mockUsers[username];
+          if (user && user.password === password) {
+            this._currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            return { success: true, user };
+          }
+          return { success: false, message: '用户名或密码错误' };
+        },
+
+        logout() {
+          this._currentUser = null;
+          localStorage.removeItem('currentUser');
+        },
+
+        getCurrentUser() {
+          if (!this._currentUser) {
+            const stored = localStorage.getItem('currentUser');
+            if (stored) {
+              this._currentUser = JSON.parse(stored);
+            }
+          }
+          return this._currentUser;
+        },
+
+        hasPermission(permission) {
+          const user = this.getCurrentUser();
+          if (!user) return false;
+
+          const permissions = {
+            admin: [
+              'view_dashboard',
+              'view_gis',
+              'view_building',
+              'view_encryption',
+              'view_cert',
+              'view_revenue',
+              'manage_system',
+              'manage_users',
+              'view_logs',
+              'view_monitor',
+              'manage_data',
+            ],
+            user: [
+              'view_dashboard',
+              'view_gis',
+              'view_building',
+              'view_cert',
+              'view_revenue',
+            ],
+            viewer: ['view_dashboard', 'view_gis', 'view_building'],
+          };
+
+          return permissions[user.role]?.includes(permission) || false;
+        },
+      };
+
+      // 初始化登录组件
+      function initializeAuthComponents() {
+        const loginModal = document.getElementById('loginModal');
+        const loginButton = document.getElementById('loginButton');
+        const loginForm = document.getElementById('loginForm');
+        const closeButton = document.querySelector('.login-modal-close');
+        const userMenuContainer = document.getElementById('userMenuContainer');
+        const userMenuTrigger = document.querySelector('.user-menu-trigger');
+        const userDropdown = document.querySelector('.user-dropdown');
+        const userNameElement = document.querySelector('.user-name');
+        const userRoleElement = document.querySelector('.user-role');
+
+        // 显示登录模态框
+        function showLoginModal() {
+          loginModal.classList.add('active');
+        }
+
+        // 隐藏登录模态框
+        function hideLoginModal() {
+          loginModal.classList.remove('active');
+          loginForm.reset();
+        }
+
+        // 更新用户信息显示
+        function updateUserInfo() {
+          const user = AuthService.getCurrentUser();
+          if (user) {
+            loginButton.style.display = 'none';
+            userMenuContainer.style.display = 'block';
+            userNameElement.textContent = user.name || user.username;
+            userRoleElement.textContent = user.role || '';
+          } else {
+            loginButton.style.display = 'block';
+            userMenuContainer.style.display = 'none';
+            userNameElement.textContent = '未登录';
+            userRoleElement.textContent = '';
+          }
+        }
+
+        // 显示自定义通知
+        function showNotification(message, type = 'info') {
+          // 创建通知元素
+          const notification = document.createElement('div');
+          notification.className = `notification notification-${type}`;
+
+          // 添加图标
+          let icon = '';
+          switch (type) {
+            case 'success':
+              icon = '<i class="fas fa-check-circle"></i>';
+              break;
+            case 'error':
+              icon = '<i class="fas fa-times-circle"></i>';
+              break;
+            case 'info':
+              icon = '<i class="fas fa-info-circle"></i>';
+              break;
+            case 'warning':
+              icon = '<i class="fas fa-exclamation-circle"></i>';
+              break;
+          }
+
+          notification.innerHTML = `${icon} ${message}`;
+
+          // 添加到页面
+          document.body.appendChild(notification);
+
+          // 显示通知
+          setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+          }, 100);
+
+          // 3秒后隐藏通知
+          setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+              notification.remove();
+            }, 300);
+          }, 3000);
+        }
+
+        // 登录表单提交
+        loginForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+
+          // 禁用登录按钮防止重复提交
+          const loginBtn = this.querySelector('.login-button');
+          const originalText = loginBtn.textContent;
+          loginBtn.disabled = true;
+          loginBtn.textContent = '登录中...';
+
+          // 模拟登录延迟
+          setTimeout(() => {
+            const result = AuthService.login(username, password);
+            if (result.success) {
+              hideLoginModal();
+              updateUserInfo();
+              // 使用自定义提示替代alert
+              showNotification(
+                '登录成功！欢迎回来，' + result.user.name,
+                'success'
+              );
+            } else {
+              // 使用自定义提示替代alert
+              showNotification('登录失败：' + result.message, 'error');
+            }
+            // 恢复按钮状态
+            loginBtn.disabled = false;
+            loginBtn.textContent = originalText;
+          }, 800);
+        });
+
+        // 用户菜单点击事件
+        userMenuTrigger.addEventListener('click', function () {
+          userDropdown.classList.toggle('active');
+        });
+
+        // 点击其他地方关闭下拉菜单
+        document.addEventListener('click', function (e) {
+          if (!userMenuContainer.contains(e.target)) {
+            userDropdown.classList.remove('active');
+          }
+        });
+
+        // 用户菜单操作
+        document.querySelectorAll('.user-dropdown-item').forEach((item) => {
+          item.addEventListener('click', function () {
+            const action = this.getAttribute('data-action');
+
+            if (action === 'logout') {
+              AuthService.logout();
+              updateUserInfo();
+              showNotification('已退出登录', 'info');
+            } else if (action === 'profile') {
+              showNotification('查看个人信息功能即将上线', 'info');
+            } else if (action === 'settings') {
+              showNotification('系统设置功能即将上线', 'info');
+            }
+
+            userDropdown.classList.remove('active');
+          });
+        });
+
+        // 绑定事件
+        loginButton.addEventListener('click', showLoginModal);
+        closeButton.addEventListener('click', hideLoginModal);
+
+        // 点击模态框背景关闭
+        loginModal.addEventListener('click', function (e) {
+          if (e.target === loginModal) {
+            hideLoginModal();
+          }
+        });
+
+        // 初始化时检查登录状态
+        updateUserInfo();
+      }
+
+      // 返回顶部按钮功能
+      const backToTop = document.getElementById('backToTop');
+
+      window.addEventListener('scroll', () => {
+        // 控制返回顶部按钮显示/隐藏
+        if (window.scrollY > 300) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+
+        // 滚动动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          if (elementTop < windowHeight * 0.85) {
+            element.classList.add('active');
+          }
+        });
+      });
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // 页面加载完成后初始化
+      document.addEventListener('DOMContentLoaded', () => {
+        initializeAuthComponents();
+
+        // 触发淡入动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        fadeElements.forEach((element, index) => {
+          // 为元素添加延迟动画
+          element.style.transitionDelay = `${index * 0.1}s`;
+          setTimeout(() => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            if (elementTop < windowHeight * 0.85) {
+              element.classList.add('active');
+            }
+          }, 100);
+        });
+      });
+    </script>
+  </body>
+</html>

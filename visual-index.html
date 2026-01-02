@@ -1,0 +1,2173 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ValuHubValuHub - 房地产AI估价与数智平台</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="keywords" content="房地产AI估价，ValuHub，房价地图，投资分析，房地产案例库">
+    <meta name="description" content="ValuHubValuHub 是连接政府、行业、学校、企业和大众的房地产数智生态平台，提供AI估价、房价预测、投资分析等专业服务。">
+    <!-- 高德地图API引用 -->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: '8fa11b2815f42423c371b6796d2e7f5a',
+        };
+    </script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=cc6cc650f37f17fa1c76e2607935a1a9"></script>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #999;
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: #667eea;
+        }
+        
+        .nav-item.active a {
+            color: #667eea;
+        }
+        
+        .nav-item.hot {
+            color: #ff6b6b;
+        }
+        
+        .nav-item.hot span {
+            background-color: #ff6b6b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 平台下拉菜单样式 */
+        .platform-dropdown {
+            position: relative;
+        }
+        
+        .platform-btn {
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px 0;
+        }
+        
+        .platform-dropdown-content {
+            display: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 100%;
+            background-color: white;
+            min-width: 800px;
+            max-width: 90vw;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 12px;
+            z-index: 1000;
+            padding: 20px;
+            margin-top: 0;
+        }
+        
+        /* 添加连接桥，确保鼠标从按钮到菜单的平滑过渡 */
+        .platform-dropdown:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 20px;
+            top: 100%;
+            margin-top: -10px;
+            z-index: 999;
+        }
+        
+        .platform-content-wrapper {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .platform-content-wrapper h3 {
+            font-size: 20px;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .platform-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .platform-content h4 {
+            font-size: 16px;
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .platform-content p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .platform-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .platform-content li {
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        /* 确保下拉菜单在hover时保持显示 */
+        .platform-dropdown:hover .platform-dropdown-content {
+            display: block;
+        }
+        
+        .platform-dropdown-content:hover {
+            display: block;
+        }
+        
+        /* 滚动条样式 */
+        .platform-content-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .platform-content-wrapper::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .platform-content-wrapper::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .platform-content-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        /* 主banner */
+        .banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .banner h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .banner p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #fff;
+            color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        /* 内容区块 */
+        .content-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 60px;
+        }
+        
+        /* 地图区块 */
+        .map-section {
+            background-color: #fff;
+        }
+        
+        #map-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 功能卡片 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* 价格方案 */
+        .pricing-section {
+            background-color: #f8f9fa;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .pricing-card.popular {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border: 2px solid #667eea;
+        }
+        
+        .pricing-card.popular::before {
+            content: "推荐";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #667eea;
+            color: white;
+            font-size: 12px;
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .pricing-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .pricing-desc {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-price {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-price .original {
+            font-size: 20px;
+            color: #999;
+            text-decoration: line-through;
+            display: block;
+        }
+        
+        .pricing-price .current {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+        
+        .pricing-price .unit {
+            font-size: 16px;
+            color: #666;
+            margin-left: 5px;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            padding: 10px 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pricing-features li::before {
+            content: "✓";
+            color: #52c41a;
+            font-weight: bold;
+        }
+        
+        .pricing-features li.negative::before {
+            content: "✗";
+            color: #ff4d4f;
+        }
+        
+        .pricing-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .pricing-btn.secondary {
+            background-color: white;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+        
+        .pricing-btn.secondary:hover {
+            background-color: #f0f4ff;
+        }
+        
+        /* 预约咨询 */
+        .consult-section {
+            background-color: #fff;
+        }
+        
+        .consult-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+        
+        /* 支付模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .timer {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .payment-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* 新增滚动动画关键帧 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* 核心功能卡片复杂动画 */
+        @keyframes featureCardAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            30% {
+                opacity: 0.7;
+                transform: translateY(20px) scale(0.95);
+            }
+            60% {
+                opacity: 0.9;
+                transform: translateY(-5px) scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* 核心功能图标动画 */
+        @keyframes featureIconAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-180deg);
+            }
+            60% {
+                opacity: 0.8;
+                transform: scale(1.1) rotate(0deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        /* 核心功能标题动画 */
+        @keyframes featureTitleAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            60% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 核心功能描述动画 */
+        @keyframes featureDescAnimation {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            70% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 初始状态类 */
+        .animate-on-scroll {
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .fade-in-down {
+            animation: fadeInDown 0.8s ease forwards;
+        }
+        
+        .fade-in-left {
+            animation: fadeInLeft 0.8s ease forwards;
+        }
+        
+        .fade-in-right {
+            animation: fadeInRight 0.8s ease forwards;
+        }
+        
+        .zoom-in {
+            animation: zoomIn 0.8s ease forwards;
+        }
+        
+        /* 核心功能卡片动画类 */
+        .feature-card {
+            animation: featureCardAnimation 2s ease forwards;
+            transform-origin: center bottom;
+        }
+        
+        .feature-card .feature-icon {
+            animation: featureIconAnimation 2.5s ease forwards;
+            display: inline-block;
+        }
+        
+        .feature-card h3 {
+            animation: featureTitleAnimation 3s ease forwards;
+        }
+        
+        .feature-card p {
+            animation: featureDescAnimation 3.5s ease forwards;
+        }
+        
+        /* 为卡片添加交错动画延迟 */
+        .feature-card:nth-child(1) { animation-delay: 0.2s; }
+        .feature-card:nth-child(1) .feature-icon { animation-delay: 0.4s; }
+        .feature-card:nth-child(1) h3 { animation-delay: 0.6s; }
+        .feature-card:nth-child(1) p { animation-delay: 0.8s; }
+        
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(2) .feature-icon { animation-delay: 0.6s; }
+        .feature-card:nth-child(2) h3 { animation-delay: 0.8s; }
+        .feature-card:nth-child(2) p { animation-delay: 1s; }
+        
+        .feature-card:nth-child(3) { animation-delay: 0.6s; }
+        .feature-card:nth-child(3) .feature-icon { animation-delay: 0.8s; }
+        .feature-card:nth-child(3) h3 { animation-delay: 1s; }
+        .feature-card:nth-child(3) p { animation-delay: 1.2s; }
+        
+        .feature-card:nth-child(4) { animation-delay: 0.8s; }
+        .feature-card:nth-child(4) .feature-icon { animation-delay: 1s; }
+        .feature-card:nth-child(4) h3 { animation-delay: 1.2s; }
+        .feature-card:nth-child(4) p { animation-delay: 1.4s; }
+        
+        .feature-card:nth-child(5) { animation-delay: 1s; }
+        .feature-card:nth-child(5) .feature-icon { animation-delay: 1.2s; }
+        .feature-card:nth-child(5) h3 { animation-delay: 1.4s; }
+        .feature-card:nth-child(5) p { animation-delay: 1.6s; }
+        
+        .feature-card:nth-child(6) { animation-delay: 1.2s; }
+        .feature-card:nth-child(6) .feature-icon { animation-delay: 1.4s; }
+        .feature-card:nth-child(6) h3 { animation-delay: 1.6s; }
+        .feature-card:nth-child(6) p { animation-delay: 1.8s; }
+        
+        /* 已动画元素状态 */
+        .animated {
+            opacity: 1;
+            transform: none;
+        }
+        
+        /* 用户评价轮播样式 */
+        .testimonial-carousel {
+            max-width: 800px;
+            margin: 60px auto 0;
+        }
+        
+        .testimonial-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+        
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .testimonial-item {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .testimonial-content {
+            margin-bottom: 40px;
+        }
+        
+        .testimonial-quote {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .testimonial-text {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .testimonial-avatar-fallback {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+        }
+        
+        .testimonial-author-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .testimonial-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .testimonial-title {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .testimonial-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .testimonial-control {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-control:hover {
+            background-color: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .testimonial-control:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .testimonial-indicators {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .testimonial-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-indicator.active {
+            background-color: #667eea;
+            transform: scale(1.2);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .login-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+            
+            .banner h1 {
+                font-size: 32px;
+            }
+            
+            .banner p {
+                font-size: 16px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .sub-nav-content {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .pricing-card.popular {
+                transform: none;
+            }
+            
+            .consult-form {
+                padding: 20px;
+            }
+            
+            /* 响应式轮播样式 */
+            .testimonial-container {
+                padding: 24px;
+            }
+            
+            .testimonial-text {
+                font-size: 18px;
+            }
+            
+            .testimonial-author {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .testimonial-author-info {
+                align-items: center;
+            }
+            
+            .testimonial-control {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item active hot">
+                    <a href="visual-index.html">AI估价</a>
+                    <span>Hot</span>
+                </div>
+                <div class="nav-item platform-dropdown">
+                    <a href="javascript:void(0);" class="platform-btn">ValuHub平台</a>
+                    <div class="platform-dropdown-content">
+                        <div class="platform-content-wrapper">
+                            <h3>ValuHub平台 - 数智路由器</h3>
+                            <div class="platform-content">
+                                <h4>1. 我们是谁？要做什么？</h4>
+                                <p>我们走访了湖南53个县域小城市，发现他们还在用外汇按、用Excel填表。后果是：</p>
+                                <ul>
+                                    <li>房产局看不见数据（监管盲区）</li>
+                                    <li>协会管不住低人（信用缺失）</li>
+                                    <li>老板效率低（一份报告磨了4小时）</li>
+                                </ul>
+                                <p>这就导致了：整个房产市场是<strong>"瞎"的，更是"慢"</strong>的。</p>
+                                
+                                <h4>2. 我们做了什么东西？</h4>
+                                <p>我们没有做复杂的软件，而是做了一个<strong>"数智路由器"</strong>，把大家连起来：</p>
+                                <ul>
+                                    <li><strong>对上（政府/协会）：</strong>数据自动上传，看得见、管得住。</li>
+                                    <li><strong>对下（企业/学校）：</strong>工具极简好用，做事快、算得准。</li>
+                                    <li><strong>对外（老百姓）：</strong>信息透明公开，查得到、信得过。</li>
+                                </ul>
+                                
+                                <h4>3. 目前实现了哪一步？</h4>
+                                <ul>
+                                    <li><strong>产品好：</strong>校内实测，准确率100%，速度快了8倍（256分钟→28分钟）。</li>
+                                    <li><strong>有人买了：</strong>尚未正式上市，已有5家机构老板签了付费意向书。</li>
+                                </ul>
+                                
+                                <h4>4. 产品矩阵：五方各有一个"神器"</h4>
+                                <p>我们用同一套数据，给五类人看不同的界面：</p>
+                                <ul>
+                                    <li><strong>🔵 行业通（给协会）：</strong>管信用的"红黑榜"功能：谁违规了？谁是诚信单位？大屏上一清二楚，自动生成行业月报。</li>
+                                    <li><strong>🔴 监管眼（给政府）：</strong>查风险的"雷达"功能：哪里房价异常波动？哪里有高评套贷风险？系统自动弹窗报警。</li>
+                                    <li><strong>🟡 展业通（给企业）：</strong>赚钞票的"印钞机"功能：手机扫房产证，3分钟出估值报告，傻瓜式操作。</li>
+                                    <li><strong>🟢 新工匠（给学校）：</strong>练兵的"沙盘"功能：学生上课就用这个系统练手，毕业就是熟练工。</li>
+                                    <li><strong>🔴 安心查（给百姓）：</strong>防忽悠的"照妖镜"功能：扫一扫，知道房子值多少钱，报告是不是真的。</li>
+                                </ul>
+                                
+                                <h4>5. 商业模式：怎么赚钱？（核心杀招）</h4>
+                                <p>我们的模式叫B2E2B（学校→学生→企业）。核心逻辑：我们不招销售员，学生就是我们的销售员。</p>
+                                <p>赚钱三步走：</p>
+                                <ul>
+                                    <li><strong>收租子：</strong>每年3600元服务费（主要收入）。</li>
+                                    <li><strong>做定制：</strong>给政府/协会做数据大屏（树立标杆）。</li>
+                                    <li><strong>卖数据：</strong>未来给银行查风控（增值服务）。</li>
+                                </ul>
+                                
+                                <h4>6. 真实进展：脚底沾泥，落地有声</h4>
+                                <ul>
+                                    <li><strong>📍 湖南城建职业技术学院（深度场景）：</strong>湖南工院实训中心。100组数据对比，证明了：不需要懂GIS算法，实习生也能做出专家级的评估报告。</li>
+                                    <li><strong>📍 在市场（意向签约）：</strong>跑了长沙、湘潭53家门店。结果：5家机构现场签意向书。</li>
+                                    <li><strong>📍 在官方（权威背书）：</strong>获得了省房产协会的应用证明函，官方认可我们的数据规范。</li>
+                                </ul>
+                                
+                                <h4>7. 营销策略：只攻一点，全面开花</h4>
+                                <p>不投广告，只建驿站。我们在全省14所院校建立了<strong>"智链人才驿站"</strong>。</p>
+                                <p>策略：买软件送人才。告诉老板："你买我的系统，我优先给你推会用这个系统的实习生。"——这招，缺人的小老板根本拒绝不了。</p>
+                                
+                                <h4>8. 核心壁垒：大厂为什么干不过我们？</h4>
+                                <p>大厂有技术，但没有"关系"。我们深耕职教多年，打通了全省14所院校的实训课。大厂可以砸钱降价，但他们没法把软件写进学校的教科书里。这种"人才+工具"的捆绑，才是我们最深的护城河。</p>
+                                
+                                <h4>9. 搞钱与支出（融资计划）</h4>
+                                <p>要？ 50万（占股10%）。</p>
+                                <p>怎么花？</p>
+                                <ul>
+                                    <li><strong>50% 部署渠道：</strong>去更多的学校建实训基地（这是根基）。</li>
+                                    <li><strong>30% 搞研发：</strong>让算法更准，让系统更稳定。</li>
+                                    <li><strong>20% 养团队：</strong>维持基本运营。</li>
+                                </ul>
+                                
+                                <h4>10. 未来三年：扎根、发芽、成林</h4>
+                                <ul>
+                                    <li><strong>半个赛季（扎根）：</strong>把这5家意向客户变成正式客户，把样板立起来。</li>
+                                    <li><strong>一年内（发芽）：</strong>覆盖5个城市，签约50家机构，不仅活着，还要造血。</li>
+                                    <li><strong>三年内（成林）：</strong>打通五方数据，发布《行业信用报告》，成为湖南省房产界的"数字水电煤"。</li>
+                                </ul>
+                                
+                                <h4>战略规划：从湖南走向中国</h4>
+                                <ul>
+                                    <li><strong>第一阶段（扎根）：</strong> 深耕湖南，打造"中国房地产数字智化第一样板省"。完成50家机构签约，建立第一个省级基础数据库。</li>
+                                    <li><strong>第二阶段（复制）：</strong> 进军中部六省，复制"湖南模式"。通过职教联盟，将网点配送到周边省份。</li>
+                                    <li><strong>第三阶段（燎原）：</strong> "智链五方"走向全国。发布《中国房地产市场信贷白皮书》，成为中国房地产行业的"数智基建"。</li>
+                                </ul>
+                            </div>
+                            <a href="platform.html" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">进入ValuHub平台</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-item">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html" class="active">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="smart-nav.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <main>
+        <!-- 首页Banner -->
+        <section id="home" class="banner">
+            <div class="container">
+                <h1>释放房地产数据价值</h1>
+                <p>ValuHub - 连接政府、行业、学校、企业和大众的房地产数智生态平台</p>
+                <div class="btn-group">
+                    <a href="ai-valuation.html" class="btn btn-primary">AI快速估价</a>
+                    <a href="main.html" class="btn btn-secondary">进入工作台</a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 高德地图 -->
+        <section class="content-section map-section">
+            <div class="container">
+                <h2 class="section-title">房价地图</h2>
+                <p class="section-subtitle">实时查看全国各地区房价走势和市场分析</p>
+                <div id="map-container"></div>
+            </div>
+        </section>
+        
+        <!-- 核心功能 -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in-up">核心功能</h2>
+                <p class="section-subtitle animate-on-scroll fade-in-up">为不同用户群体提供专业的房地产数据服务</p>
+                <div class="features-grid">
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI智能估价</h3>
+                        <p>基于大数据和机器学习算法，提供精准的房地产估价服务，支持多种物业类型和地区。</p>
+                    </div>
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">📊</div>
+                        <h3>市场分析</h3>
+                        <p>提供详细的市场走势分析、供需关系、租金回报率等核心指标，辅助投资决策。</p>
+                    </div>
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🏘️</div>
+                        <h3>案例库</h3>
+                        <p>百万真实房地产案例，涵盖不同地区、不同物业类型，为您提供参考依据。</p>
+                    </div>
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🌐</div>
+                        <h3>多端同步</h3>
+                        <p>支持PC端、移动端多端同步，随时随地查看和管理您的数据。</p>
+                    </div>
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🤝</div>
+                        <h3>协作功能</h3>
+                        <p>支持团队协作，实时共享数据和分析结果，提高工作效率。</p>
+                    </div>
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🔒</div>
+                        <h3>数据安全</h3>
+                        <p>采用银行级数据加密和存储技术，确保您的数据安全可靠。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 贷款计算器 -->
+        <section class="content-section" style="background-color: #f8f9fa;">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in-up">贷款计算器</h2>
+                <p class="section-subtitle animate-on-scroll fade-in-up">轻松计算房贷还款金额，选择最适合您的贷款方案</p>
+                <div style="max-width: 800px; margin: 0 auto; background-color: white; padding: 40px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);" class="animate-on-scroll zoom-in">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">房屋总价（万元）</label>
+                            <input type="number" id="housePrice" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px;" placeholder="请输入房屋总价">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">首付比例（%）</label>
+                            <input type="number" id="downPaymentRatio" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px;" placeholder="请输入首付比例" value="30">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">贷款年限（年）</label>
+                            <input type="number" id="loanTerm" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px;" placeholder="请输入贷款年限" value="30">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">贷款利率（%）</label>
+                            <input type="number" id="interestRate" style="width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px;" placeholder="请输入贷款利率" value="4.2">
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <label style="display: block; margin-bottom: 12px; font-weight: 500; color: #333;">还款方式</label>
+                        <div style="display: flex; gap: 30px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="radio" id="equalPrincipalInterest" name="loanType" value="equalPrincipalInterest" checked>
+                                <label for="equalPrincipalInterest">等额本息</label>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="radio" id="equalPrincipal" name="loanType" value="equalPrincipal">
+                                <label for="equalPrincipal">等额本金</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="calculateLoan()" style="width: 100%; padding: 14px; background-color: #667eea; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; transition: all 0.3s ease;">计算还款</button>
+                    
+                    <div id="loanResult" style="margin-top: 30px; padding: 20px; background-color: #f0f4ff; border-radius: 8px;"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 产学研合作 -->
+        <section class="content-section" style="position: relative; overflow: hidden;">
+            <!-- 2.5D倾斜透视背景 -->
+            <div style="position: absolute; top: 0; left: -10%; width: 120%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transform: skewY(-10deg); z-index: -1; opacity: 0.05;"></div>
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in-up">产学研合作</h2>
+                <p class="section-subtitle animate-on-scroll fade-in-up">推动房地产行业产、学、研深度融合，共创行业未来</p>
+                <div class="collaboration-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 40px;">
+                    <div class="animate-on-scroll fade-in-left">
+                        <h3 style="font-size: 24px; margin-bottom: 20px; color: #333;">产教融合，协同创新</h3>
+                        <p style="font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 20px;">ValuHub平台积极推动房地产行业的产学研合作，与多所高校和研究机构建立了长期合作关系。通过整合行业资源、学术研究和企业实践，我们致力于培养高素质的房地产专业人才，推动行业技术创新和发展。</p>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 30px;">
+                            <div class="collaboration-icon-container" style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px; position: relative; perspective: 1000px; transform-style: preserve-3d; transition: transform 0.3s ease;" class="animate-on-scroll fade-in-up">
+                                <div style="font-size: 36px; margin-bottom: 10px; transform: translateZ(10px);">📚</div>
+                                <h4 style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">高校合作</h4>
+                                <p style="font-size: 14px; color: #666;">与20+高校建立合作关系</p>
+                            </div>
+                            <div class="collaboration-icon-container" style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px; position: relative; perspective: 1000px; transform-style: preserve-3d; transition: transform 0.3s ease;" class="animate-on-scroll fade-in-up">
+                                <div style="font-size: 36px; margin-bottom: 10px; transform: translateZ(10px);">🔬</div>
+                                <h4 style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">研究项目</h4>
+                                <p style="font-size: 14px; color: #666;">15+产学研合作项目</p>
+                            </div>
+                            <div class="collaboration-icon-container" style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px; position: relative; perspective: 1000px; transform-style: preserve-3d; transition: transform 0.3s ease;" class="animate-on-scroll fade-in-up">
+                                <div style="font-size: 36px; margin-bottom: 10px; transform: translateZ(10px);">👨‍🎓</div>
+                                <h4 style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">人才培养</h4>
+                                <p style="font-size: 14px; color: #666;">培养1000+专业人才</p>
+                            </div>
+                            <div class="collaboration-icon-container" style="text-align: center; padding: 20px; background-color: #f8f9fa; border-radius: 8px; position: relative; perspective: 1000px; transform-style: preserve-3d; transition: transform 0.3s ease;" class="animate-on-scroll fade-in-up">
+                                <div style="font-size: 36px; margin-bottom: 10px; transform: translateZ(10px);">🏆</div>
+                                <h4 style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">成果转化</h4>
+                                <p style="font-size: 14px; color: #666;">多项技术成果转化</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color: #f8f9fa; padding: 30px; border-radius: 12px; text-align: center; position: relative; perspective: 1000px; transform-style: preserve-3d;" class="animate-on-scroll fade-in-right">
+                        <div style="font-size: 120px; margin-bottom: 20px; transform: translateZ(20px);">🤝</div>
+                        <h3 style="font-size: 24px; margin-bottom: 15px; color: #333;">产学研一体化</h3>
+                        <p style="font-size: 16px; color: #666; line-height: 1.8;">通过建立产学研合作平台，我们实现了行业资源、学术研究和企业实践的有机结合，为房地产行业的可持续发展提供了强大的动力和支持。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 2.5D鼠标跟随动画脚本 -->
+        <script>
+            // 为产学研合作板块添加鼠标跟随旋转效果
+            document.addEventListener('DOMContentLoaded', function() {
+                const grid = document.querySelector('.collaboration-grid');
+                const icons = document.querySelectorAll('.collaboration-icon-container');
+                
+                if (grid && icons.length > 0) {
+                    grid.addEventListener('mousemove', function(e) {
+                        const rect = grid.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2;
+                        const centerY = rect.top + rect.height / 2;
+                        
+                        const deltaX = (e.clientX - centerX) / (rect.width / 2);
+                        const deltaY = (e.clientY - centerY) / (rect.height / 2);
+                        
+                        const maxRotation = 5; // 最大旋转角度
+                        
+                        icons.forEach(icon => {
+                            const rotationX = deltaY * maxRotation;
+                            const rotationY = deltaX * maxRotation;
+                            icon.style.transform = `perspective(1000px) rotateX(${-rotationX}deg) rotateY(${rotationY}deg)`;
+                        });
+                    });
+                    
+                    // 鼠标离开时恢复原状
+                    grid.addEventListener('mouseleave', function() {
+                        icons.forEach(icon => {
+                            icon.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+                        });
+                    });
+                }
+            });
+        </script>
+        
+        <!-- 五方联动解决方案 -->
+        <section class="content-section" style="background-color: #f8f9fa;">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in-up">五方联动解决方案</h2>
+                <p class="section-subtitle animate-on-scroll fade-in-up">连接政府、企业、院校、协会和大众，构建完整的房地产数智生态</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px;">
+                    <!-- 院校端 -->
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🎓</div>
+                        <h3>院校端 <span style="font-size: 16px; font-weight: normal; color: #667eea;">智链·新工匠</span></h3>
+                        <p>内置本地真实房源案例库、标准化实训任务包，自动生成学生技能评级报告，对接企业招聘需求，让作业即项目、实训即实战。</p>
+                        <a href="school.html" style="display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 500;">了解更多 →</a>
+                    </div>
+                    
+                    <!-- 企业端 -->
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🏢</div>
+                        <h3>企业端 <span style="font-size: 16px; font-weight: normal; color: #667eea;">智链·展业通</span></h3>
+                        <p>输入房源地址，一键生成符合湖南省标的专业估价报告，把3小时工作量缩短至20分钟；搭配OCR识房功能，提高工作效率。</p>
+                        <a href="business.html" style="display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 500;">了解更多 →</a>
+                    </div>
+                    
+                    <!-- 政府端 -->
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>政府端 <span style="font-size: 16px; font-weight: normal; color: #667eea;">智链·监管眼</span></h3>
+                        <p>实时监控市场动态，智能预警风险，辅助政策制定，提升监管效率，打造透明、规范的房地产市场环境。</p>
+                        <a href="government.html" style="display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 500;">了解更多 →</a>
+                    </div>
+                    
+                    <!-- 协会端 -->
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">🤝</div>
+                        <h3>协会端 <span style="font-size: 16px; font-weight: normal; color: #667eea;">智链·行业通</span></h3>
+                        <p>建立行业信用体系，发布行业标准，促进信息共享，加强行业自律，推动房地产行业健康发展。</p>
+                        <a href="association.html" style="display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 500;">了解更多 →</a>
+                    </div>
+                    
+                    <!-- 大众端 -->
+                    <div class="feature-card animate-on-scroll fade-in-up">
+                        <div class="feature-icon">👤</div>
+                        <h3>大众端 <span style="font-size: 16px; font-weight: normal; color: #667eea;">智链·安心查</span></h3>
+                        <p>提供房屋估价、市场行情、政策咨询等服务，让老百姓轻松获取准确的房地产信息，做出明智的决策。</p>
+                        <a href="smart-nav.html" style="display: inline-block; margin-top: 20px; color: #667eea; text-decoration: none; font-weight: 500;">了解更多 →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 用户评价轮播 -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll fade-in-up">用户评价</h2>
+                <p class="section-subtitle animate-on-scroll fade-in-up">听听我们的用户怎么说</p>
+                
+                <div class="testimonial-carousel animate-on-scroll zoom-in">
+                    <div class="testimonial-container">
+                        <div class="testimonial-track">
+                            <!-- 评价项将通过JavaScript动态加载 -->
+                        </div>
+                    </div>
+                    <div class="testimonial-controls">
+                        <button class="testimonial-control" id="prevBtn">‹</button>
+                        <div class="testimonial-indicators"></div>
+                        <button class="testimonial-control" id="nextBtn">›</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>ValuHubValuHub</h3>
+                        <p>连接政府、行业、学校、企业和大众的房地产数智生态平台</p>
+                    </div>
+                    <div class="footer-section">
+                        <h3>产品服务</h3>
+                        <ul>
+                            <li><a href="ai-valuation.html">AI估价</a></li>
+                            <li><a href="reports.html">行业报告</a></li>
+                            <li><a href="cases.html">案例库</a></li>
+                            <li><a href="pricing.html">服务价格</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>解决方案</h3>
+                        <ul>
+                            <li><a href="school.html">院校端</a></li>
+                            <li><a href="business.html">企业端</a></li>
+                            <li><a href="government.html">政府端</a></li>
+                            <li><a href="association.html">协会端</a></li>
+                            <li><a href="smart-nav.html">大众端</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h3>联系我们</h3>
+                        <ul>
+                            <li>电话：400-123-4567</li>
+                            <li>邮箱：contact@zhihuiyun.com</li>
+                            <li>地址：湖南省长沙市岳麓区</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 ValuHubValuHub. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- API配置和请求函数 -->
+        <script>
+            // API基础URL
+            const API_BASE_URL = 'http://localhost:3000/api';
+            
+            // API请求封装函数
+            async function apiRequest(endpoint, method = 'GET', data = null) {
+                const url = `${API_BASE_URL}${endpoint}`;
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                };
+                
+                // 添加JWT令牌（如果存在）
+                const token = localStorage.getItem('token');
+                if (token) {
+                    options.headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                // 添加请求体（如果有）
+                if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+                    options.body = JSON.stringify(data);
+                }
+                
+                try {
+                    const response = await fetch(url, options);
+                    const result = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(result.message || 'API请求失败');
+                    }
+                    
+                    return result;
+                } catch (error) {
+                    console.error('API请求错误:', error);
+                    throw error;
+                }
+            }
+            
+            // 贷款计算器功能
+            function calculateLoan() {
+                const housePrice = parseFloat(document.getElementById('housePrice').value);
+                const downPaymentRatio = parseFloat(document.getElementById('downPaymentRatio').value);
+                const loanTerm = parseFloat(document.getElementById('loanTerm').value);
+                const interestRate = parseFloat(document.getElementById('interestRate').value);
+                const loanType = document.querySelector('input[name="loanType"]:checked').value;
+                
+                if (!housePrice || !downPaymentRatio || !loanTerm || !interestRate) {
+                    alert('请填写完整的贷款信息');
+                    return;
+                }
+                
+                const loanAmount = housePrice * (1 - downPaymentRatio / 100);
+                const monthlyRate = interestRate / 100 / 12;
+                const totalMonths = loanTerm * 12;
+                
+                let monthlyPayment, totalPayment, totalInterest;
+                
+                if (loanType === 'equalPrincipalInterest') {
+                    // 等额本息计算
+                    monthlyPayment = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+                    totalPayment = monthlyPayment * totalMonths;
+                    totalInterest = totalPayment - loanAmount;
+                } else {
+                    // 等额本金计算
+                    const principalPerMonth = loanAmount / totalMonths;
+                    let interestSum = 0;
+                    
+                    for (let i = 0; i < totalMonths; i++) {
+                        const remainingPrincipal = loanAmount - principalPerMonth * i;
+                        const monthlyInterest = remainingPrincipal * monthlyRate;
+                        interestSum += monthlyInterest;
+                    }
+                    
+                    monthlyPayment = principalPerMonth + loanAmount * monthlyRate; // 首月还款额
+                    totalPayment = loanAmount + interestSum;
+                    totalInterest = interestSum;
+                }
+                
+                const resultHTML = `
+                    <h3>还款计算结果</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 5px;">贷款金额</p>
+                            <p style="font-size: 20px; font-weight: bold; color: #667eea;">${loanAmount.toFixed(2)}万元</p>
+                        </div>
+                        <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 5px;">${loanType === 'equalPrincipalInterest' ? '每月还款' : '首月还款'}</p>
+                            <p style="font-size: 20px; font-weight: bold; color: #667eea;">${monthlyPayment.toFixed(2)}元</p>
+                        </div>
+                        <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 5px;">总还款额</p>
+                            <p style="font-size: 20px; font-weight: bold; color: #667eea;">${totalPayment.toFixed(2)}万元</p>
+                        </div>
+                        <div style="background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 5px;">总利息</p>
+                            <p style="font-size: 20px; font-weight: bold; color: #667eea;">${totalInterest.toFixed(2)}万元</p>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('loanResult').innerHTML = resultHTML;
+            }
+            
+            // 滚动动画功能
+            document.addEventListener('DOMContentLoaded', function() {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+                
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('animated');
+                        }
+                    });
+                }, observerOptions);
+                
+                // 观察所有需要动画的元素
+                document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                    observer.observe(el);
+                });
+                
+                // 初始化高德地图
+                initMap();
+                
+                // 初始化用户评价轮播
+                initTestimonialCarousel();
+            });
+            
+            // 高德地图初始化
+            function initMap() {
+                if (typeof AMap === 'undefined') {
+                    console.error('高德地图API加载失败');
+                    return;
+                }
+                
+                const map = new AMap.Map('map-container', {
+                    zoom: 10,
+                    center: [112.9388, 28.2278] // 长沙坐标
+                });
+                
+                // 添加地图控件
+                map.addControl(new AMap.NavigationControl({
+                    position: 'RB'
+                }));
+                
+                map.addControl(new AMap.Scale());
+                
+                // 从API获取房产数据并添加标记
+                loadPropertyMarkers(map);
+            }
+            
+            // 加载房产标记
+            async function loadPropertyMarkers(map) {
+                try {
+                    const properties = await apiRequest('/properties');
+                    
+                    properties.forEach(property => {
+                        const marker = new AMap.Marker({
+                            position: [property.longitude, property.latitude],
+                            map: map,
+                            title: property.name,
+                            extData: property
+                        });
+                        
+                        // 添加信息窗口
+                        const infoWindow = new AMap.InfoWindow({
+                            content: `<div style="padding: 10px;">
+                                        <h3>${property.name}</h3>
+                                        <p>价格: ${property.price}万元</p>
+                                        <p>类型: ${property.type}</p>
+                                        <p>面积: ${property.area}㎡</p>
+                                      </div>`,
+                            offset: new AMap.Pixel(0, -30)
+                        });
+                        
+                        marker.on('click', function() {
+                            infoWindow.open(map, marker.getPosition());
+                        });
+                    });
+                } catch (error) {
+                    console.error('加载房产数据失败:', error);
+                    // 添加默认标记
+                    const defaultMarkers = [
+                        { name: '测试房产1', price: 150, type: '住宅', area: 120, longitude: 112.9388, latitude: 28.2278 },
+                        { name: '测试房产2', price: 200, type: '写字楼', area: 200, longitude: 112.9488, latitude: 28.2378 },
+                        { name: '测试房产3', price: 180, type: '住宅', area: 150, longitude: 112.9288, latitude: 28.2178 }
+                    ];
+                    
+                    defaultMarkers.forEach(property => {
+                        const marker = new AMap.Marker({
+                            position: [property.longitude, property.latitude],
+                            map: map,
+                            title: property.name,
+                            extData: property
+                        });
+                        
+                        const infoWindow = new AMap.InfoWindow({
+                            content: `<div style="padding: 10px;">
+                                        <h3>${property.name}</h3>
+                                        <p>价格: ${property.price}万元</p>
+                                        <p>类型: ${property.type}</p>
+                                        <p>面积: ${property.area}㎡</p>
+                                      </div>`,
+                            offset: new AMap.Pixel(0, -30)
+                        });
+                        
+                        marker.on('click', function() {
+                            infoWindow.open(map, marker.getPosition());
+                        });
+                    });
+                }
+            }
+            
+            // 用户评价轮播初始化
+            async function initTestimonialCarousel() {
+                try {
+                    // 从API获取评价数据
+                    const testimonials = await apiRequest('/testimonials');
+                    renderTestimonialCarousel(testimonials);
+                } catch (error) {
+                    console.error('加载评价数据失败:', error);
+                    // 使用默认评价数据
+                    const defaultTestimonials = [
+                        {
+                            id: 1,
+                            name: '赵强',
+                            title: '房产中介公司总经理',
+                            content: '使用ValuHub平台后，我们的估价效率提升了300%，客户满意度大幅提高。AI估价功能比人工估价更快速准确。',
+                            avatar: ''
+                        },
+                        {
+                            id: 2,
+                            name: '李伟',
+                            title: '住建局信息科主任',
+                            content: 'ValuHub平台帮助我们建立了完善的房地产市场监测体系，数据实时准确，为政策制定提供了有力支撑。',
+                            avatar: ''
+                        },
+                        {
+                            id: 3,
+                            name: '王芳',
+                            title: '湖南大学房地产研究中心教授',
+                            content: '作为学术研究者，ValuHub平台的案例库为我们提供了宝贵的研究数据，平台的产学研合作模式值得推广。',
+                            avatar: ''
+                        },
+                        {
+                            id: 4,
+                            name: '黄磊',
+                            title: '银行信贷部总监',
+                            content: 'ValuHub的风险评估模型非常专业，帮助我们有效降低了房贷风险，放贷效率也大大提高。',
+                            avatar: ''
+                        },
+                        {
+                            id: 5,
+                            name: '张华',
+                            title: '房产协会秘书长',
+                            content: '通过ValuHub平台，协会实现了行业数据的统一管理和共享，信用体系建设更加规范高效。',
+                            avatar: ''
+                        },
+                        {
+                            id: 6,
+                            name: '吴彬',
+                            title: '物业公司运营经理',
+                            content: 'ValuHub的社区估价功能帮助我们更好地制定租金策略，房源管理也变得更加智能化。',
+                            avatar: ''
+                        },
+                        {
+                            id: 7,
+                            name: '赵军',
+                            title: '开发商项目总监',
+                            content: '在项目定位和定价方面，ValuHub的市场分析报告给了我们非常精准的参考，项目成功率显著提升。',
+                            avatar: ''
+                        },
+                        {
+                            id: 8,
+                            name: '陈明',
+                            title: '职业技术学院专业主任',
+                            content: 'ValuHub平台是学生实训的最佳工具，学生毕业后能直接上手工作，就业竞争力大大增强。',
+                            avatar: ''
+                        },
+                        {
+                            id: 9,
+                            name: '周杰',
+                            title: '个人投资者',
+                            content: '作为一个房产投资者，ValuHub帮我做出了很多正确的投资决策，平台的估价功能太实用了。',
+                            avatar: ''
+                        }
+                    ];
+                    renderTestimonialCarousel(defaultTestimonials);
+                }
+            }
+            
+            // 渲染评价轮播
+            function renderTestimonialCarousel(testimonials) {
+                const track = document.querySelector('.testimonial-track');
+                const indicators = document.querySelector('.testimonial-indicators');
+                
+                // 清空现有内容
+                track.innerHTML = '';
+                indicators.innerHTML = '';
+                
+                // 创建评价项
+                testimonials.forEach((testimonial, index) => {
+                    // 创建评价项
+                    const testimonialItem = document.createElement('div');
+                    testimonialItem.className = 'testimonial-item';
+                    testimonialItem.innerHTML = `
+                        <div class="testimonial-content">
+                            <div class="testimonial-quote">"</div>
+                            <p class="testimonial-text">${testimonial.content}</p>
+                        </div>
+                        <div class="testimonial-author">
+                            ${testimonial.avatar ? 
+                                `<img src="${testimonial.avatar}" alt="${testimonial.name}" class="testimonial-avatar">` : 
+                                `<div class="testimonial-avatar-fallback">${testimonial.name.charAt(0)}</div>`
+                            }
+                            <div class="testimonial-author-info">
+                                <div class="testimonial-name">${testimonial.name}</div>
+                                <div class="testimonial-title">${testimonial.title}</div>
+                            </div>
+                        </div>
+                    `;
+                    track.appendChild(testimonialItem);
+                    
+                    // 创建指示器
+                    const indicator = document.createElement('button');
+                    indicator.className = `testimonial-indicator ${index === 0 ? 'active' : ''}`;
+                    indicator.dataset.index = index;
+                    indicators.appendChild(indicator);
+                });
+                
+                // 初始化轮播功能
+                initCarouselControls(testimonials.length);
+            }
+            
+            // 初始化轮播控制
+            function initCarouselControls(totalSlides) {
+                const track = document.querySelector('.testimonial-track');
+                const prevBtn = document.getElementById('prevBtn');
+                const nextBtn = document.getElementById('nextBtn');
+                const indicators = document.querySelectorAll('.testimonial-indicator');
+                
+                let currentSlide = 0;
+                const slideWidth = 100;
+                
+                // 更新轮播位置
+                function updateCarousel() {
+                    track.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+                    
+                    // 更新指示器状态
+                    indicators.forEach((indicator, index) => {
+                        indicator.classList.toggle('active', index === currentSlide);
+                    });
+                }
+                
+                // 下一张
+                nextBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateCarousel();
+                });
+                
+                // 上一张
+                prevBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                    updateCarousel();
+                });
+                
+                // 指示器点击
+                indicators.forEach(indicator => {
+                    indicator.addEventListener('click', () => {
+                        currentSlide = parseInt(indicator.dataset.index);
+                        updateCarousel();
+                    });
+                });
+                
+                // 自动播放
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateCarousel();
+                }, 5000);
+            }
+        </script>
+    </body>
+</html>

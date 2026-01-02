@@ -1,0 +1,1264 @@
+openapi: 3.0.0
+info:
+  title: ValuHub API
+  description: |
+    房产价值生态引擎 - 后端API文档
+    
+    ValuHub是一个智能房产价值评估平台，提供多终端服务：
+    - **安居版（个人用户）**: 快速估价、历史记录、市场分析
+    - **政务版（政府机构）**: 区域数据、政策工具、统计报表
+    - **企业版（企业用户）**: 批量估价、资产管理、数据导出
+    - **院校版（学术机构）**: 教学案例、研究数据、学术工具
+    - **开放平台（开发者）**: API文档、SDK下载、技术支持
+    
+    ## 认证方式
+    
+    API使用JWT Bearer Token进行认证。在请求头中添加：
+    ```
+    Authorization: Bearer <your_access_token>
+    ```
+    
+    ## 错误码说明
+    
+    | 状态码 | 说明 |
+    |--------|------|
+    | 200 | 请求成功 |
+    | 201 | 创建成功 |
+    | 400 | 请求参数错误 |
+    | 401 | 未认证 |
+    | 403 | 无权限 |
+    | 404 | 资源不存在 |
+    | 422 | 验证失败 |
+    | 500 | 服务器错误 |
+  
+  version: 1.0.0
+  contact:
+    name: ValuHub API Support
+    email: support@valuhub.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000
+    description: 本地开发环境
+  - url: https://api.valuhub.com
+    description: 生产环境
+
+tags:
+  - name: 认证
+    description: 用户认证和授权相关接口
+  - name: 房产
+    description: 房产信息管理相关接口
+  - name: 估价
+    description: 房产估价相关接口
+  - name: 报告
+    description: 报告生成和下载相关接口
+  - name: 数据
+    description: 数据统计和导出相关接口
+
+paths:
+  /api/v1/auth/register:
+    post:
+      tags:
+        - 认证
+      summary: 用户注册
+      description: 创建新用户账号
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '201':
+          description: 注册成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: 用户名或邮箱已存在
+        '422':
+          description: 参数验证失败
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - 认证
+      summary: 用户登录
+      description: 使用用户名和密码登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: 用户名或密码错误
+
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - 认证
+      summary: 用户登出
+      description: 退出登录
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 登出成功
+        '401':
+          description: 未认证
+
+  /api/v1/auth/profile:
+    get:
+      tags:
+        - 认证
+      summary: 获取用户信息
+      description: 获取当前登录用户的详细信息
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: 未认证
+
+  /api/v1/properties:
+    get:
+      tags:
+        - 房产
+      summary: 获取房产列表
+      description: 获取当前用户的房产列表，支持分页和筛选
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: city
+          in: query
+          schema:
+            type: string
+        - name: district
+          in: query
+          schema:
+            type: string
+        - name: property_type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyListResponse'
+        '401':
+          description: 未认证
+
+    post:
+      tags:
+        - 房产
+      summary: 创建房产
+      description: 创建新的房产信息
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyCreate'
+      responses:
+        '201':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        '401':
+          description: 未认证
+        '422':
+          description: 参数验证失败
+
+  /api/v1/properties/{property_id}:
+    get:
+      tags:
+        - 房产
+      summary: 获取房产详情
+      description: 根据ID获取房产详细信息
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: property_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        '401':
+          description: 未认证
+        '404':
+          description: 房产不存在
+
+    put:
+      tags:
+        - 房产
+      summary: 更新房产信息
+      description: 更新指定房产的信息
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: property_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyUpdate'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        '401':
+          description: 未认证
+        '404':
+          description: 房产不存在
+
+    delete:
+      tags:
+        - 房产
+      summary: 删除房产
+      description: 删除指定的房产
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: property_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 删除成功
+        '401':
+          description: 未认证
+        '404':
+          description: 房产不存在
+
+  /api/v1/properties/search:
+    get:
+      tags:
+        - 房产
+      summary: 搜索房产
+      description: 根据多个条件搜索房产
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: city
+          in: query
+          schema:
+            type: string
+        - name: district
+          in: query
+          schema:
+            type: string
+        - name: min_price
+          in: query
+          schema:
+            type: number
+        - name: max_price
+          in: query
+          schema:
+            type: number
+        - name: min_area
+          in: query
+          schema:
+            type: number
+        - name: max_area
+          in: query
+          schema:
+            type: number
+        - name: property_type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 搜索成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyListResponse'
+        '401':
+          description: 未认证
+
+  /api/v1/properties/batch-import:
+    post:
+      tags:
+        - 房产
+      summary: 批量导入房产
+      description: 批量导入房产信息
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                properties:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PropertyCreate'
+      responses:
+        '201':
+          description: 导入成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported_count:
+                    type: integer
+                  imported_properties:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PropertyResponse'
+
+  /api/v1/valuations:
+    get:
+      tags:
+        - 估价
+      summary: 获取估价列表
+      description: 获取当前用户的估价列表，支持分页
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValuationListResponse'
+        '401':
+          description: 未认证
+
+    post:
+      tags:
+        - 估价
+      summary: 创建估价
+      description: 为指定房产创建估价
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValuationCreate'
+      responses:
+        '201':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValuationResponse'
+        '401':
+          description: 未认证
+        '404':
+          description: 房产不存在
+
+  /api/v1/valuations/{valuation_id}:
+    get:
+      tags:
+        - 估价
+      summary: 获取估价详情
+      description: 根据ID获取估价详细信息
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: valuation_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValuationResponse'
+        '401':
+          description: 未认证
+        '404':
+          description: 估价不存在
+
+  /api/v1/valuations/batch:
+    post:
+      tags:
+        - 估价
+      summary: 批量创建估价
+      description: 为多个房产批量创建估价
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                property_ids:
+                  type: array
+                  items:
+                    type: integer
+                model_type:
+                  type: string
+                  enum: [linear, random_forest, ensemble]
+                  default: linear
+      responses:
+        '201':
+          description: 创建成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valuations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ValuationResponse'
+
+  /api/v1/valuations/property/{property_id}:
+    get:
+      tags:
+        - 估价
+      summary: 获取房产的估价记录
+      description: 获取指定房产的所有估价记录
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: property_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValuationListResponse'
+        '401':
+          description: 未认证
+
+  /api/v1/reports:
+    get:
+      tags:
+        - 报告
+      summary: 获取报告列表
+      description: 获取当前用户的报告列表
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportListResponse'
+        '401':
+          description: 未认证
+
+    post:
+      tags:
+        - 报告
+      summary: 生成报告
+      description: 根据估价生成报告
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportCreate'
+      responses:
+        '201':
+          description: 生成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResponse'
+        '401':
+          description: 未认证
+        '404':
+          description: 估价不存在
+
+  /api/v1/reports/{report_id}:
+    get:
+      tags:
+        - 报告
+      summary: 获取报告详情
+      description: 根据ID获取报告详细信息
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: report_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResponse'
+        '401':
+          description: 未认证
+        '404':
+          description: 报告不存在
+
+    delete:
+      tags:
+        - 报告
+      summary: 删除报告
+      description: 删除指定的报告
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: report_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 删除成功
+        '401':
+          description: 未认证
+        '404':
+          description: 报告不存在
+
+  /api/v1/reports/{report_id}/download:
+    get:
+      tags:
+        - 报告
+      summary: 下载报告
+      description: 下载指定的报告文件
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: report_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 下载成功
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: 未认证
+        '404':
+          description: 报告不存在
+
+  /api/v1/reports/templates:
+    get:
+      tags:
+        - 报告
+      summary: 获取报告模板列表
+      description: 获取所有可用的报告模板
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReportTemplate'
+
+  /api/v1/data/area-statistics:
+    get:
+      tags:
+        - 数据
+      summary: 获取区域统计数据
+      description: 获取指定区域的房产统计数据
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: district
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AreaStatistics'
+        '401':
+          description: 未认证
+
+  /api/v1/data/price-trend:
+    get:
+      tags:
+        - 数据
+      summary: 获取价格趋势
+      description: 获取指定区域的价格趋势数据
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: district
+          in: query
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceTrend'
+        '401':
+          description: 未认证
+
+  /api/v1/data/property-type-distribution:
+    get:
+      tags:
+        - 数据
+      summary: 获取房产类型分布
+      description: 获取指定区域的房产类型分布数据
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: district
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyTypeDistribution'
+        '401':
+          description: 未认证
+
+  /api/v1/data/export/properties:
+    post:
+      tags:
+        - 数据
+      summary: 导出房产数据
+      description: 导出房产数据到指定格式
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [excel, csv, json]
+                filters:
+                  type: object
+      responses:
+        '200':
+          description: 导出成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  download_url:
+                    type: string
+        '401':
+          description: 未认证
+
+  /api/v1/data/export/valuations:
+    post:
+      tags:
+        - 数据
+      summary: 导出估价数据
+      description: 导出估价数据到指定格式
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [excel, csv, json]
+                filters:
+                  type: object
+      responses:
+        '200':
+          description: 导出成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  download_url:
+                    type: string
+        '401':
+          description: 未认证
+
+  /api/v1/data/export/reports:
+    post:
+      tags:
+        - 数据
+      summary: 导出报告数据
+      description: 导出报告数据到指定格式
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  enum: [excel, csv, json]
+                filters:
+                  type: object
+      responses:
+        '200':
+          description: 导出成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  download_url:
+                    type: string
+        '401':
+          description: 未认证
+
+  /api/v1/data/market-overview:
+    get:
+      tags:
+        - 数据
+      summary: 获取市场概览
+      description: 获取整体市场概览数据
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketOverview'
+        '401':
+          description: 未认证
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserRegister:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - role
+        - phone
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+        role:
+          type: string
+          enum: [individual, government, enterprise, academic, developer]
+        phone:
+          type: string
+          pattern: '^1[3-9]\d{9}$'
+
+    UserLogin:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    LoginResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserResponse'
+
+    PropertyCreate:
+      type: object
+      required:
+        - address
+        - city
+        - district
+        - area
+      properties:
+        address:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+        district:
+          type: string
+        area:
+          type: number
+          exclusiveMinimum: 0
+        floor_level:
+          type: integer
+          minimum: 1
+        total_floors:
+          type: integer
+          minimum: 1
+        building_year:
+          type: integer
+          minimum: 1900
+          maximum: 2100
+        property_type:
+          type: string
+          enum: [residential, commercial, industrial]
+        orientation:
+          type: string
+        decoration_status:
+          type: string
+        rooms:
+          type: integer
+          minimum: 1
+        bathrooms:
+          type: integer
+          minimum: 0
+        latitude:
+          type: number
+          minimum: -90
+          maximum: 90
+        longitude:
+          type: number
+          minimum: -180
+          maximum: 180
+
+    PropertyUpdate:
+      type: object
+      properties:
+        address:
+          type: string
+          maxLength: 255
+        city:
+          type: string
+        district:
+          type: string
+        area:
+          type: number
+        floor_level:
+          type: integer
+        total_floors:
+          type: integer
+        building_year:
+          type: integer
+        property_type:
+          type: string
+        orientation:
+          type: string
+        decoration_status:
+          type: string
+        rooms:
+          type: integer
+        bathrooms:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+
+    PropertyResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        address:
+          type: string
+        city:
+          type: string
+        district:
+          type: string
+        area:
+          type: number
+        floor_level:
+          type: integer
+        total_floors:
+          type: integer
+        building_year:
+          type: integer
+        property_type:
+          type: string
+        orientation:
+          type: string
+        decoration_status:
+          type: string
+        rooms:
+          type: integer
+        bathrooms:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    PropertyListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyResponse'
+        total:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+
+    ValuationCreate:
+      type: object
+      required:
+        - property_id
+      properties:
+        property_id:
+          type: integer
+        model_type:
+          type: string
+          enum: [linear, random_forest, ensemble]
+          default: linear
+
+    ValuationResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        property_id:
+          type: integer
+        estimated_price:
+          type: number
+        confidence_level:
+          type: number
+          minimum: 0
+          maximum: 1
+        features:
+          type: object
+        result_details:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+
+    ValuationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValuationResponse'
+        total:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+
+    ReportCreate:
+      type: object
+      required:
+        - valuation_id
+        - template_id
+        - format
+      properties:
+        valuation_id:
+          type: integer
+        template_id:
+          type: integer
+        format:
+          type: string
+          enum: [pdf, excel, word]
+
+    ReportResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        valuation_id:
+          type: integer
+        template_id:
+          type: integer
+        format:
+          type: string
+        status:
+          type: string
+          enum: [pending, generating, completed, failed]
+        file_url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    ReportListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportResponse'
+        total:
+          type: integer
+        page:
+          type: integer
+        page_size:
+          type: integer
+
+    ReportTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        format:
+          type: string
+
+    AreaStatistics:
+      type: object
+      properties:
+        city:
+          type: string
+        district:
+          type: string
+        avg_price:
+          type: number
+        avg_price_per_sqm:
+          type: number
+        property_count:
+          type: integer
+        min_price:
+          type: number
+        max_price:
+          type: number
+
+    PriceTrend:
+      type: object
+      properties:
+        city:
+          type: string
+        district:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        trend_data:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              avg_price:
+                type: number
+              count:
+                type: integer
+
+    PropertyTypeDistribution:
+      type: object
+      properties:
+        city:
+          type: string
+        district:
+          type: string
+        distribution:
+          type: object
+          additionalProperties:
+            type: integer
+
+    MarketOverview:
+      type: object
+      properties:
+        total_properties:
+          type: integer
+        total_valuations:
+          type: integer
+        total_reports:
+          type: integer
+        avg_price:
+          type: number
+        avg_confidence_level:
+          type: number
+        popular_cities:
+          type: array
+          items:
+            type: object
+            properties:
+              city:
+                type: string
+              count:
+                type: integer

@@ -1,0 +1,2799 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能估价流程 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <!-- 页面特定样式 -->
+    <style>
+      /* 基础样式 */
+      :root {
+        --color-primary: #1a73e8;
+        --color-primary-light: #4285f4;
+        --color-secondary: #f9a825;
+        --color-success: #4caf50;
+        --color-background: #f5f7fa;
+        --color-white: #ffffff;
+        --color-text: #1d2129;
+        --color-text-light: #666;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', '思源黑体', sans-serif;
+      }
+      body {
+        background-color: var(--color-white);
+        color: var(--color-text);
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* 页面结构 */
+      .hero {
+        margin-top: 65px;
+        height: 200px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-light)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+      }
+
+      .hero p {
+        font-size: 16px;
+        opacity: 0.9;
+      }
+
+      /* 主内容区 */
+      .main-content {
+        padding: 40px 0;
+      }
+
+      /* 步骤导航 */
+      .steps-nav {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
+
+      .step {
+        display: flex;
+        align-items: center;
+        margin: 0 20px;
+        font-size: 14px;
+        color: var(--color-text-light);
+      }
+
+      .step.active {
+        color: var(--color-primary);
+        font-weight: 500;
+      }
+
+      .step-number {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--color-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 10px;
+        transition: var(--transition);
+      }
+
+      .step.active .step-number {
+        background: var(--color-primary);
+        color: white;
+      }
+
+      .step-line {
+        width: 40px;
+        height: 2px;
+        background: var(--color-border);
+      }
+
+      .step.active .step-line {
+        background: var(--color-primary);
+      }
+
+      /* 卡片样式 */
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+      }
+
+      .card h2 {
+        font-size: 20px;
+        color: var(--color-primary);
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      /* 关键词选择区域 */
+      .keyword-section {
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+
+      .keyword-input-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
+      .keyword-input {
+        flex: 1;
+        padding: 12px 20px;
+        border: 2px solid var(--color-border);
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        transition: var(--transition);
+      }
+
+      .keyword-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+      }
+
+      .keywords-container {
+        margin: 20px 0;
+      }
+
+      .keywords-title {
+        font-size: 14px;
+        color: var(--color-text-light);
+        margin-bottom: 15px;
+      }
+
+      .keyword-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .keyword-tag {
+        padding: 8px 16px;
+        background: #f0f4f8;
+        color: var(--color-primary);
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: var(--transition);
+        border: 1px solid var(--color-border);
+      }
+
+      .keyword-tag:hover {
+        background: var(--color-primary);
+        color: white;
+        transform: translateY(-1px);
+      }
+
+      .keyword-tag.selected {
+        background: var(--color-primary);
+        color: white;
+      }
+
+      /* 估价选项区域 */
+      .options-section {
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .option-card {
+        padding: 25px;
+        border: 2px solid var(--color-border);
+        border-radius: var(--border-radius);
+        text-align: center;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .option-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .option-card.selected {
+        border-color: var(--color-primary);
+        background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+      }
+
+      .option-price {
+        font-size: 28px;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin-bottom: 10px;
+      }
+
+      .option-title {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 15px;
+      }
+
+      .option-features {
+        list-style: none;
+        margin-bottom: 20px;
+      }
+
+      .option-features li {
+        font-size: 13px;
+        color: var(--color-text-light);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .option-features li::before {
+        content: '✓';
+        color: var(--color-success);
+        margin-right: 5px;
+      }
+
+      /* 表单区域 */
+      .form-section {
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--color-text);
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        font-size: 14px;
+        transition: var(--transition);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+      }
+
+      /* 热力值展示区域 */
+      .heatmap-section {
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+
+      .heatmap-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .heatmap-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: var(--border-radius);
+        text-align: center;
+      }
+
+      .heatmap-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin-bottom: 5px;
+      }
+
+      .heatmap-title {
+        font-size: 14px;
+        color: var(--color-text-light);
+        margin-bottom: 10px;
+      }
+
+      .heatmap-level {
+        font-size: 12px;
+        color: var(--color-success);
+      }
+
+      /* 热力图 */
+      .heatmap-visual {
+        background: #f0f4f8;
+        height: 300px;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-light);
+        margin-bottom: 20px;
+      }
+
+      /* 结果展示区域 */
+      .result-section {
+        max-width: 800px;
+        margin: 0 auto 30px;
+      }
+
+      .result-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .result-price {
+        font-size: 48px;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin-bottom: 10px;
+      }
+
+      .result-meta {
+        color: var(--color-text-light);
+        font-size: 14px;
+      }
+
+      /* 报告表格 */
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+
+      .report-table th {
+        background: var(--color-primary);
+        color: white;
+        padding: 12px;
+        text-align: left;
+      }
+
+      .report-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .report-table tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      /* 报告章节 */
+      .report-section {
+        margin-bottom: 30px;
+      }
+
+      .report-section h3 {
+        color: var(--color-primary);
+        margin-bottom: 15px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 8px;
+      }
+
+      /* 按钮样式 */
+      .btn {
+        padding: 12px 24px;
+        border-radius: var(--border-radius);
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-light)
+        );
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: var(--color-primary);
+        border: 1px solid var(--color-primary);
+      }
+
+      .btn-secondary:hover {
+        background: var(--color-primary);
+        color: white;
+      }
+
+      /* 操作按钮 */
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+      }
+
+      /* 响应式设计 */
+      @media (max-width: 768px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .options-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .heatmap-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .steps-nav {
+          flex-wrap: wrap;
+        }
+
+        .step {
+          margin-bottom: 15px;
+        }
+      }
+
+      /* 隐藏元素 */
+      .hidden {
+        display: none;
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+              <a href="valuation-flow-new.html" class="active">智能估价流程</a>
+            </div>
+          </div>
+          <!-- 3D价格展示 -->
+          <div
+            class="price-3d-container"
+            style="
+              position: relative;
+              display: inline-block;
+              perspective: 800px;
+              width: 80px;
+              height: 40px;
+            "
+          >
+            <!-- 3D 矩形 -->
+            <div
+              class="price-cube"
+              style="
+                width: 80px;
+                height: 40px;
+                position: relative;
+                transform-style: preserve-3d;
+                animation: rotateCube 5s infinite linear;
+              "
+            >
+              <!-- 正面 -->
+              <div
+                class="cube-face front"
+                style="
+                  position: absolute;
+                  width: 80px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: translateZ(20px);
+                  border-radius: 4px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                住宅
+                <span style="font-size: 10px">¥12,500</span>
+              </div>
+              <!-- 背面 -->
+              <div
+                class="cube-face back"
+                style="
+                  position: absolute;
+                  width: 80px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #f9a825, #f57c00);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(180deg) translateZ(20px);
+                  border-radius: 4px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                商业
+                <span style="font-size: 10px">¥35,800</span>
+              </div>
+              <!-- 左侧面 -->
+              <div
+                class="cube-face left"
+                style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #34a853, #166900);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(-90deg) translateZ(40px);
+                  border-radius: 4px;
+                  font-size: 10px;
+                  font-weight: bold;
+                "
+              >
+                工业
+                <span style="font-size: 8px">¥8,900</span>
+              </div>
+              <!-- 右侧面 -->
+              <div
+                class="cube-face right"
+                style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #ea4335, #c5221f);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(90deg) translateZ(40px);
+                  border-radius: 4px;
+                  font-size: 10px;
+                  font-weight: bold;
+                "
+              >
+                别墅
+                <span style="font-size: 8px">¥28,600</span>
+              </div>
+            </div>
+          </div>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="valuation-flow-new.html">智能估价流程</a></li>
+        <li>
+          <!-- 移动端3D价格展示 -->
+          <div
+            class="price-3d-container"
+            style="
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              perspective: 800px;
+              width: 100%;
+              height: 60px;
+              padding: 10px;
+            "
+          >
+            <!-- 3D 矩形 -->
+            <div
+              class="price-cube"
+              style="
+                width: 120px;
+                height: 60px;
+                position: relative;
+                transform-style: preserve-3d;
+                animation: rotateCube 5s infinite linear;
+              "
+            >
+              <!-- 正面 -->
+              <div
+                class="cube-face front"
+                style="
+                  position: absolute;
+                  width: 120px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: translateZ(30px);
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: bold;
+                "
+              >
+                住宅
+                <span style="font-size: 12px">¥12,500</span>
+              </div>
+              <!-- 背面 -->
+              <div
+                class="cube-face back"
+                style="
+                  position: absolute;
+                  width: 120px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #f9a825, #f57c00);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(180deg) translateZ(30px);
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: bold;
+                "
+              >
+                商业
+                <span style="font-size: 12px">¥35,800</span>
+              </div>
+              <!-- 左侧面 -->
+              <div
+                class="cube-face left"
+                style="
+                  position: absolute;
+                  width: 60px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #34a853, #166900);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(-90deg) translateZ(60px);
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                工业
+                <span style="font-size: 10px">¥8,900</span>
+              </div>
+              <!-- 右侧面 -->
+              <div
+                class="cube-face right"
+                style="
+                  position: absolute;
+                  width: 60px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #ea4335, #c5221f);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(90deg) translateZ(60px);
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                别墅
+                <span style="font-size: 10px">¥28,600</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <div class="container">
+        <!-- 步骤导航 -->
+        <div class="steps-nav">
+          <div class="step active" data-step="1">
+            <span>第一次估价</span>
+            <div class="step-number">1</div>
+            <div class="step-line"></div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="step-number">2</div>
+            <span>关键词选择</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step" data-step="3">
+            <div class="step-number">3</div>
+            <span>估价选项</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step" data-step="4">
+            <div class="step-number">4</div>
+            <span>详细信息</span>
+            <div class="step-line"></div>
+          </div>
+          <div class="step" data-step="5">
+            <div class="step-number">5</div>
+            <span>最终结果</span>
+          </div>
+        </div>
+
+        <!-- 第一次估价：城市到小区选择 -->
+        <div id="citySelectionSection" class="card keyword-section">
+          <h2>第一步：第一次估价 - 选择城市与小区</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+              gap: 20px;
+              margin-bottom: 30px;
+            "
+          >
+            <!-- 城市选择 -->
+            <div class="form-group">
+              <label
+                for="citySelect"
+                style="display: block; margin-bottom: 8px; font-weight: 500"
+                >城市</label
+              >
+              <select
+                id="citySelect"
+                name="city"
+                required
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  transition: border-color 0.3s;
+                "
+              >
+                <option value="">选择城市</option>
+                <!-- 湖南省内城市（重点城市：长沙优先） -->
+                <option value="changsha">长沙</option>
+                <option value="zhuzhou">株洲</option>
+                <option value="xiangtan">湘潭</option>
+                <option value="hengyang">衡阳</option>
+                <option value="shaoyang">邵阳</option>
+                <option value="yueyang">岳阳</option>
+                <option value="changde">常德</option>
+                <option value="zhangjiajie">张家界</option>
+                <option value="yiyang">益阳</option>
+                <option value="chenzhou">郴州</option>
+                <option value="yongzhou">永州</option>
+                <option value="huaihua">怀化</option>
+                <option value="loudi">娄底</option>
+                <option value="xiangxi">湘西土家族苗族自治州</option>
+
+                <!-- 其他省份城市 -->
+                <option value="beijing">北京</option>
+                <option value="shanghai">上海</option>
+                <option value="guangzhou">广州</option>
+                <option value="shenzhen">深圳</option>
+                <option value="hangzhou">杭州</option>
+                <option value="wuhan">武汉</option>
+                <option value="yichang">宜昌</option>
+                <option value="nanchang">南昌</option>
+                <option value="jiujiang">九江</option>
+                <option value="ganzhou">赣州</option>
+                <option value="shaoguan">韶关</option>
+                <option value="nanning">南宁</option>
+                <option value="guilin">桂林</option>
+                <option value="guiyang">贵阳</option>
+                <option value="zunyi">遵义</option>
+                <option value="chongqing">重庆</option>
+                <option value="chengdu">成都</option>
+                <option value="xiamen">厦门</option>
+              </select>
+            </div>
+
+            <!-- 区域选择 -->
+            <div class="form-group">
+              <label
+                for="districtSelect"
+                style="display: block; margin-bottom: 8px; font-weight: 500"
+                >区域</label
+              >
+              <select
+                id="districtSelect"
+                name="district"
+                required
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  transition: border-color 0.3s;
+                "
+              >
+                <option value="">选择区域</option>
+              </select>
+            </div>
+
+            <!-- 街道/乡镇选择 -->
+            <div class="form-group">
+              <label
+                for="subdistrictSelect"
+                style="display: block; margin-bottom: 8px; font-weight: 500"
+                >街道/乡镇</label
+              >
+              <select
+                id="subdistrictSelect"
+                name="subdistrict"
+                required
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  transition: border-color 0.3s;
+                "
+              >
+                <option value="">选择街道/乡镇</option>
+              </select>
+            </div>
+
+            <!-- 小区选择 -->
+            <div class="form-group">
+              <label
+                for="communitySelect"
+                style="display: block; margin-bottom: 8px; font-weight: 500"
+                >小区</label
+              >
+              <select
+                id="communitySelect"
+                name="community"
+                style="
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  transition: border-color 0.3s;
+                "
+              >
+                <option value="">选择小区（可选）</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" id="nextToKeywordsBtn">
+              下一步：选择关键词
+            </button>
+          </div>
+        </div>
+
+        <!-- 第一次估价：关键词选择 -->
+        <div id="firstKeywordSection" class="card keyword-section hidden">
+          <h2>第一步：第一次估价 - 选择关键词</h2>
+          <div class="keyword-input-group">
+            <input
+              type="text"
+              class="keyword-input"
+              id="firstKeywordInput"
+              placeholder="输入小区名称、地址或关键词"
+            />
+            <button class="btn btn-primary" id="addFirstKeywordBtn">
+              添加关键词
+            </button>
+          </div>
+          <div class="keywords-container">
+            <div class="keywords-title">推荐关键词：</div>
+            <div class="keyword-tags">
+              <span class="keyword-tag">碧桂园·潭州府</span>
+              <span class="keyword-tag">东方名苑</span>
+              <span class="keyword-tag">长房上层国际</span>
+              <span class="keyword-tag">福星中路</span>
+              <span class="keyword-tag">宝塔路</span>
+              <span class="keyword-tag">湘潭岳塘区</span>
+            </div>
+          </div>
+          <div class="keywords-container">
+            <div class="keywords-title">已选择关键词：</div>
+            <div class="keyword-tags" id="firstSelectedKeywords"></div>
+          </div>
+          <div class="action-buttons">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="backToCitySelectionBtn"
+            >
+              上一步
+            </button>
+            <button class="btn btn-primary" id="firstEvaluateBtn" disabled>
+              开始第一次估价
+            </button>
+          </div>
+        </div>
+
+        <!-- 第一次估价结果 -->
+        <div id="firstResultSection" class="card result-section hidden">
+          <div class="result-header">
+            <h2>第一次估价结果</h2>
+            <div class="result-price">¥ 6,800</div>
+            <div class="result-meta">元/㎡ | 碧桂园·潭州府 | 初步估价</div>
+          </div>
+          <div class="report-section">
+            <h3>小区基础信息</h3>
+            <table class="report-table">
+              <tr>
+                <th>指标</th>
+                <th>数值</th>
+                <th>备注</th>
+              </tr>
+              <tr>
+                <td>小区名称</td>
+                <td>碧桂园·潭州府</td>
+                <td>岳塘区热门楼盘</td>
+              </tr>
+              <tr>
+                <td>位置</td>
+                <td>福星中路与宝塔路交汇处</td>
+                <td>元怡美术馆旁</td>
+              </tr>
+              <tr>
+                <td>建成时间</td>
+                <td>2020年</td>
+                <td>较新次新房</td>
+              </tr>
+              <tr>
+                <td>开发商</td>
+                <td>碧桂园集团</td>
+                <td>品牌房企</td>
+              </tr>
+            </table>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" id="startSecondEvaluationBtn">
+              进行二次估价
+            </button>
+          </div>
+        </div>
+
+        <!-- 二次估价：关键词选择 -->
+        <div id="secondKeywordSection" class="card keyword-section hidden">
+          <h2>第二步：二次估价 - 选择关键词</h2>
+          <div class="keyword-input-group">
+            <input
+              type="text"
+              class="keyword-input"
+              id="secondKeywordInput"
+              placeholder="输入更详细的关键词"
+            />
+            <button class="btn btn-primary" id="addSecondKeywordBtn">
+              添加关键词
+            </button>
+          </div>
+          <div class="keywords-container">
+            <div class="keywords-title">推荐关键词：</div>
+            <div class="keyword-tags">
+              <span class="keyword-tag">125㎡</span>
+              <span class="keyword-tag">4室2厅</span>
+              <span class="keyword-tag">中间楼层</span>
+              <span class="keyword-tag">南北通透</span>
+              <span class="keyword-tag">精装修</span>
+              <span class="keyword-tag">满两年</span>
+            </div>
+          </div>
+          <div class="keywords-container">
+            <div class="keywords-title">已选择关键词：</div>
+            <div class="keyword-tags" id="secondSelectedKeywords"></div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" id="nextToOptionsBtn" disabled>
+              下一步：选择估价方案
+            </button>
+          </div>
+        </div>
+
+        <!-- 二次估价：选项选择 -->
+        <div id="optionsSection" class="card options-section hidden">
+          <h2>第三步：选择估价方案</h2>
+          <div class="options-grid">
+            <!-- 免费选项 -->
+            <div class="option-card" data-option="free">
+              <div class="option-price">¥<span>0</span>元</div>
+              <div class="option-title">基础估价</div>
+              <ul class="option-features">
+                <li>基础估价结果</li>
+                <li>小区基本信息</li>
+                <li>简单市场分析</li>
+                <li>无热力值数据</li>
+              </ul>
+              <button class="btn btn-primary">选择</button>
+            </div>
+            <!-- 1.98元选项 -->
+            <div class="option-card" data-option="standard">
+              <div class="option-price">¥<span>1.98</span>元</div>
+              <div class="option-title">标准估价</div>
+              <ul class="option-features">
+                <li>精准估价结果</li>
+                <li>详细小区信息</li>
+                <li>深度市场分析</li>
+                <li>周边房价热力值</li>
+              </ul>
+              <button class="btn btn-primary">选择</button>
+            </div>
+            <!-- 198元选项 -->
+            <div class="option-card" data-option="premium">
+              <div class="option-price">¥<span>198</span>元</div>
+              <div class="option-title">高级估价</div>
+              <ul class="option-features">
+                <li>专业级估价结果</li>
+                <li>完整小区信息</li>
+                <li>全面市场分析</li>
+                <li>周边房价热力值</li>
+                <li>地区热力值分析</li>
+                <li>街道热力值分析</li>
+                <li>完整报告下载</li>
+              </ul>
+              <button class="btn btn-primary">选择</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 二次估价：详细信息表单 -->
+        <div id="formSection" class="card form-section hidden">
+          <h2>第四步：填写详细信息</h2>
+          <form id="valuationForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="communityName">小区名称</label>
+                <input
+                  type="text"
+                  id="communityName"
+                  name="communityName"
+                  placeholder="请输入小区名称"
+                  value="碧桂园·潭州府"
+                />
+              </div>
+              <div class="form-group">
+                <label for="location">具体位置</label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  placeholder="请输入详细地址"
+                  value="福星中路与宝塔路交汇处"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="houseType">房屋类型</label>
+                <select id="houseType" name="houseType">
+                  <option value="apartment" selected>普通住宅</option>
+                  <option value="villa">别墅</option>
+                  <option value="commercial">商业地产</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="area">建筑面积（㎡）</label>
+                <input
+                  type="number"
+                  id="area"
+                  name="area"
+                  placeholder="请输入建筑面积"
+                  value="125"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="bedrooms">卧室数量</label>
+                <select id="bedrooms" name="bedrooms">
+                  <option value="1">1室</option>
+                  <option value="2">2室</option>
+                  <option value="3">3室</option>
+                  <option value="4" selected>4室</option>
+                  <option value="5+">5室及以上</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="bathrooms">卫生间数量</label>
+                <select id="bathrooms" name="bathrooms">
+                  <option value="1">1卫</option>
+                  <option value="2" selected>2卫</option>
+                  <option value="3">3卫及以上</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="floor">楼层</label>
+                <select id="floor" name="floor">
+                  <option value="low">低层（1-6层）</option>
+                  <option value="middle" selected>中层（7-18层）</option>
+                  <option value="high">高层（19层及以上）</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="renovation">装修情况</label>
+                <select id="renovation" name="renovation">
+                  <option value="rough">毛坯</option>
+                  <option value="simple">简装</option>
+                  <option value="fine" selected>精装</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">房屋描述</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="4"
+                placeholder="请描述房屋的朝向、采光、装修细节等信息"
+              >
+南北通透，采光良好，精装修，家具家电齐全，满两年，无抵押</textarea
+              >
+            </div>
+            <div class="action-buttons">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="backToOptionsBtn"
+              >
+                上一步
+              </button>
+              <button type="submit" class="btn btn-primary">
+                提交信息，开始二次估价
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 热力值分析（仅付费选项显示） -->
+        <div id="heatmapSection" class="card heatmap-section hidden">
+          <h2>第五步：热力值分析</h2>
+          <div class="heatmap-grid">
+            <div class="heatmap-card">
+              <div class="heatmap-title">周边房价热力值</div>
+              <div class="heatmap-value" id="surroundingHeat">85.6</div>
+              <div class="heatmap-level">热度：高</div>
+            </div>
+            <div class="heatmap-card" id="areaHeatCard" class="hidden">
+              <div class="heatmap-title">地区热力值</div>
+              <div class="heatmap-value">78.2</div>
+              <div class="heatmap-level">热度：中高</div>
+            </div>
+            <div class="heatmap-card" id="streetHeatCard" class="hidden">
+              <div class="heatmap-title">街道热力值</div>
+              <div class="heatmap-value">92.5</div>
+              <div class="heatmap-level">热度：极高</div>
+            </div>
+          </div>
+          <div class="heatmap-visual">
+            <div
+              id="hunan-map-container"
+              style="
+                width: 100%;
+                height: 400px;
+                background-color: #f0f2f5;
+                border-radius: 8px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+              <div
+                style="
+                  width: 100%;
+                  height: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  position: relative;
+                "
+              >
+                <img
+                  src="https://i.imgur.com/4Z7Z7Z7.png"
+                  alt="湖南省各市平均房价图"
+                  style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  "
+                />
+
+                <!-- 热力图Canvas -->
+                <canvas
+                  id="heatmapCanvas"
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                  "
+                ></canvas>
+
+                <!-- 指南针 -->
+                <div
+                  style="
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 60px;
+                    height: 60px;
+                    background: rgba(255, 255, 255, 0.8);
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <div
+                    style="
+                      width: 50px;
+                      height: 50px;
+                      border-radius: 50%;
+                      border: 2px solid #333;
+                      position: relative;
+                    "
+                  >
+                    <div
+                      style="
+                        position: absolute;
+                        top: 5px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        font-weight: bold;
+                        color: #ea4335;
+                      "
+                    >
+                      N
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        bottom: 5px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        font-weight: bold;
+                        color: #34a853;
+                      "
+                    >
+                      S
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        top: 50%;
+                        left: 5px;
+                        transform: translateY(-50%);
+                        font-weight: bold;
+                        color: #f9a825;
+                      "
+                    >
+                      W
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        top: 50%;
+                        right: 5px;
+                        transform: translateY(-50%);
+                        font-weight: bold;
+                        color: #1a73e8;
+                      "
+                    >
+                      E
+                    </div>
+                    <div
+                      style="
+                        position: absolute;
+                        top: 8px;
+                        left: 50%;
+                        width: 0;
+                        height: 0;
+                        border-left: 6px solid transparent;
+                        border-right: 6px solid transparent;
+                        border-bottom: 20px solid #ea4335;
+                        transform: translateX(-50%);
+                      "
+                    ></div>
+                  </div>
+                </div>
+
+                <!-- 图例 -->
+                <div
+                  style="
+                    position: absolute;
+                    bottom: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(255, 255, 255, 0.9);
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="
+                        width: 15px;
+                        height: 15px;
+                        background: #34a853;
+                        border-radius: 3px;
+                      "
+                    ></div>
+                    <span style="font-size: 12px">≤6000</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="
+                        width: 15px;
+                        height: 15px;
+                        background: #f9a825;
+                        border-radius: 3px;
+                      "
+                    ></div>
+                    <span style="font-size: 12px">6000-8000</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="
+                        width: 15px;
+                        height: 15px;
+                        background: #fbbc04;
+                        border-radius: 3px;
+                      "
+                    ></div>
+                    <span style="font-size: 12px">8000-10000</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="
+                        width: 15px;
+                        height: 15px;
+                        background: #f57c00;
+                        border-radius: 3px;
+                      "
+                    ></div>
+                    <span style="font-size: 12px">10000-12000</span>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 5px">
+                    <div
+                      style="
+                        width: 15px;
+                        height: 15px;
+                        background: #ea4335;
+                        border-radius: 3px;
+                      "
+                    ></div>
+                    <span style="font-size: 12px">≥12000</span>
+                  </div>
+                </div>
+
+                <!-- 地图标题 -->
+                <div
+                  style="
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    background: rgba(255, 255, 255, 0.9);
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                  "
+                >
+                  <h4
+                    style="
+                      margin: 0;
+                      font-size: 14px;
+                      color: #333;
+                      font-weight: 600;
+                    "
+                  >
+                    湖南省各市平均房价图
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <button class="btn btn-primary" id="viewFinalResultBtn">
+              查看最终估价结果
+            </button>
+          </div>
+        </div>
+
+        <!-- 最终结果 -->
+        <div id="finalResultSection" class="card result-section hidden">
+          <!-- 报告封面 -->
+          <div
+            class="report-cover"
+            style="
+              background: linear-gradient(135deg, #1a73e8, #0d47a1);
+              color: white;
+              padding: 50px 30px;
+              border-radius: 8px;
+              text-align: center;
+              margin-bottom: 30px;
+            "
+          >
+            <h2 style="font-size: 28px; margin-bottom: 20px">
+              湘潭岳塘区碧桂园·潭州府小区数据报告
+            </h2>
+            <h3 style="font-size: 18px; opacity: 0.9; margin-bottom: 30px">
+              2025年12月
+            </h3>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 600px;
+                margin: 0 auto;
+              "
+            >
+              <div>
+                <p>编制单位：数智估价核心引擎</p>
+                <p>编制日期：2025年12月18日</p>
+              </div>
+              <div>
+                <p>版本号：V1.0</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 目录 -->
+          <div class="report-section" id="reportTableOfContents">
+            <h3>目录</h3>
+            <ul style="list-style-type: none; padding-left: 20px">
+              <li style="margin-bottom: 10px">
+                1.
+                <a
+                  href="#basicInfo"
+                  style="color: var(--color-primary); text-decoration: none"
+                  >小区基础信息</a
+                >
+              </li>
+              <li style="margin-bottom: 10px">
+                2.
+                <a
+                  href="#buildingData"
+                  style="color: var(--color-primary); text-decoration: none"
+                  >建筑与规划数据</a
+                >
+              </li>
+              <li style="margin-bottom: 10px">
+                3.
+                <a
+                  href="#facilitiesData"
+                  style="color: var(--color-primary); text-decoration: none"
+                  >配套与物业数据</a
+                >
+              </li>
+              <li style="margin-bottom: 10px">
+                4.
+                <a
+                  href="#marketData"
+                  style="color: var(--color-primary); text-decoration: none"
+                  >市场与价格数据</a
+                >
+              </li>
+              <li style="margin-bottom: 10px">
+                5.
+                <a
+                  href="#swotAnalysis"
+                  style="color: var(--color-primary); text-decoration: none"
+                  >优劣势分析与建议</a
+                >
+              </li>
+              <li style="margin-bottom: 10px">
+                6.
+                <a
+                  href="#appendix"
+                  style="color: var(--color-primary); text-decoration: none"
+                  >附录</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="result-header">
+            <h3 id="finalCommunityName">碧桂园·潭州府</h3>
+            <div class="result-price" id="finalPrice">¥ 6,800</div>
+            <div class="result-meta">元/㎡ | 125㎡ | 4室2厅 | 精装修</div>
+            <div class="result-meta" style="margin-top: 10px">
+              估价时间：2025-12-18 | 估价类型：<span id="valuationType"
+                >高级估价</span
+              >
+            </div>
+          </div>
+
+          <!-- 核心数据（表格+图片） -->
+          <div class="report-section" id="basicInfo">
+            <h3>1. 小区基础信息</h3>
+            <table class="report-table">
+              <tr>
+                <th>指标</th>
+                <th>数值</th>
+                <th>备注</th>
+              </tr>
+              <tr>
+                <td>小区名称</td>
+                <td>碧桂园·潭州府</td>
+                <td>岳塘区热门楼盘</td>
+              </tr>
+              <tr>
+                <td>位置</td>
+                <td>福星中路与宝塔路交汇处</td>
+                <td>元怡美术馆旁</td>
+              </tr>
+              <tr>
+                <td>建成时间</td>
+                <td>2020年</td>
+                <td>较新次新房</td>
+              </tr>
+              <tr>
+                <td>开发商</td>
+                <td>碧桂园集团</td>
+                <td>品牌房企</td>
+              </tr>
+              <tr>
+                <td>总户数</td>
+                <td>约1200户</td>
+                <td>以物业登记为准</td>
+              </tr>
+              <tr>
+                <td>容积率</td>
+                <td>约2.5</td>
+                <td>中等密度</td>
+              </tr>
+              <tr>
+                <td>绿化率</td>
+                <td>约35%</td>
+                <td>绿化较好</td>
+              </tr>
+              <tr>
+                <td>物业</td>
+                <td>碧桂园物业</td>
+                <td>一级资质</td>
+              </tr>
+              <tr>
+                <td>均价</td>
+                <td>约6800元/㎡</td>
+                <td>2025年12月</td>
+              </tr>
+            </table>
+            <div
+              class="report-images"
+              style="
+                display: flex;
+                gap: 20px;
+                margin-top: 20px;
+                flex-wrap: wrap;
+              "
+            >
+              <div
+                style="
+                  flex: 1;
+                  min-width: 300px;
+                  background: #f0f4f8;
+                  height: 200px;
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: var(--color-text-light);
+                "
+              >
+                小区区位图
+              </div>
+              <div
+                style="
+                  flex: 1;
+                  min-width: 300px;
+                  background: #f0f4f8;
+                  height: 200px;
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: var(--color-text-light);
+                "
+              >
+                楼栋分布图
+              </div>
+            </div>
+          </div>
+
+          <div class="report-section" id="buildingData">
+            <h3>2. 建筑与规划数据</h3>
+            <table class="report-table">
+              <tr>
+                <th>类别</th>
+                <th>详情</th>
+                <th>配图</th>
+              </tr>
+              <tr>
+                <td>建筑类型</td>
+                <td>高层住宅</td>
+                <td>楼栋外观实景图</td>
+              </tr>
+              <tr>
+                <td>主力户型</td>
+                <td>95㎡（3居）、125㎡（4居）、140㎡（4居）</td>
+                <td>户型结构图</td>
+              </tr>
+              <tr>
+                <td>车位配比</td>
+                <td>1:1.2</td>
+                <td>地下车库实景图</td>
+              </tr>
+              <tr>
+                <td>建筑风格</td>
+                <td>现代简约</td>
+                <td>小区景观实景图</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="report-section" id="facilitiesData">
+            <h3>3. 配套与物业数据</h3>
+            <table class="report-table">
+              <tr>
+                <th>配套类型</th>
+                <th>具体内容</th>
+                <th>配图</th>
+              </tr>
+              <tr>
+                <td>内部配套</td>
+                <td>儿童游乐区、健身区、中心园林、泳池</td>
+                <td>配套实景图</td>
+              </tr>
+              <tr>
+                <td>外部配套</td>
+                <td>万达商圈、宝塔公园、湘潭市一医院、育才小学</td>
+                <td>周边配套示意图</td>
+              </tr>
+              <tr>
+                <td>物业服务</td>
+                <td>24小时安保、保洁、维修、智能门禁</td>
+                <td>物业中心照片</td>
+              </tr>
+              <tr>
+                <td>物业费</td>
+                <td>2.2元/㎡/月</td>
+                <td>收费标准公示</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="report-section" id="marketData">
+            <h3>4. 市场与价格数据</h3>
+            <p>
+              <strong>近1年价格走势：</strong
+              >2025年1-12月，均价从6500元/㎡涨至6800元/㎡，涨幅约4.6%（配图：价格趋势折线图）
+            </p>
+            <div
+              style="
+                background: #f0f4f8;
+                height: 200px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--color-text-light);
+                margin: 20px 0;
+              "
+            >
+              价格趋势折线图
+            </div>
+            <p>
+              <strong>竞品对比：</strong
+              >与周边东方名苑（6395元/㎡）、长房上层国际（约7200元/㎡）相比，价格处于中等水平，性价比突出
+            </p>
+            <p>
+              <strong>成交情况：</strong>近3个月成交约30套，主力户型为125㎡4居
+            </p>
+          </div>
+
+          <div class="report-section" id="swotAnalysis">
+            <h3>5. 优劣势分析与建议</h3>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin-bottom: 20px;
+              "
+            >
+              <div
+                style="
+                  background: #e8f5e8;
+                  padding: 20px;
+                  border-radius: 8px;
+                  border-left: 4px solid #4caf50;
+                "
+              >
+                <h4 style="color: #4caf50; margin-bottom: 15px">优势</h4>
+                <ul>
+                  <li>品牌房企，品质有保障</li>
+                  <li>物业优质，一级资质</li>
+                  <li>配套成熟，生活便利</li>
+                  <li>户型实用，适合刚需和改善</li>
+                  <li>小区环境优美，绿化率高</li>
+                </ul>
+              </div>
+              <div
+                style="
+                  background: #ffebee;
+                  padding: 20px;
+                  border-radius: 8px;
+                  border-left: 4px solid #f44336;
+                "
+              >
+                <h4 style="color: #f44336; margin-bottom: 15px">劣势</h4>
+                <ul>
+                  <li>临近主干道，部分楼栋有噪音</li>
+                  <li>周边商圈人流大，高峰期拥堵</li>
+                  <li>车位紧张，部分业主反映停车困难</li>
+                  <li>部分户型朝向不佳</li>
+                </ul>
+              </div>
+            </div>
+            <div
+              style="
+                background: #fff3e0;
+                padding: 20px;
+                border-radius: 8px;
+                border-left: 4px solid #ff9800;
+              "
+            >
+              <h4 style="color: #ff9800; margin-bottom: 15px">建议</h4>
+              <p>
+                适合刚需、改善型购房者，注重生活便利性与物业品质者优先选择。建议关注125㎡4居户型，性价比最高。对于在意噪音的购房者，建议选择远离主干道的楼栋。
+              </p>
+            </div>
+          </div>
+
+          <div class="report-section" id="appendix">
+            <h3>6. 附录</h3>
+            <ul>
+              <li>小区产权证明复印件</li>
+              <li>物业资质证书</li>
+              <li>实景图高清合集</li>
+              <li>户型图原件</li>
+            </ul>
+          </div>
+
+          <!-- 通用投标文件模板 -->
+          <div
+            class="report-section"
+            id="bidTemplate"
+            style="
+              margin-top: 50px;
+              padding-top: 30px;
+              border-top: 2px solid #e0e0e0;
+            "
+          >
+            <h3>二、通用投标文件模板</h3>
+            <p>适用于小区相关项目，如物业、改造等</p>
+
+            <h4 style="margin-top: 20px; color: var(--color-primary)">
+              1. 商务部分
+            </h4>
+            <ul>
+              <li>投标函：致招标人，明确报价、工期、质量承诺等</li>
+              <li>法定代表人身份证明及授权委托书（附身份证复印件）</li>
+              <li>资质文件：营业执照、资质证书、安全生产许可证等</li>
+              <li>业绩案例：近3年同类项目业绩（项目名称、金额、业主评价）</li>
+              <li>商务条款响应表：逐条响应招标文件商务要求</li>
+            </ul>
+
+            <h4 style="margin-top: 20px; color: var(--color-primary)">
+              2. 技术部分
+            </h4>
+            <ul>
+              <li>项目理解：对小区项目需求的分析</li>
+              <li>
+                实施方案：详细技术方案、施工/服务流程、进度计划（配图：项目进度甘特图）
+              </li>
+              <li>人员配置：项目负责人、技术人员资质与分工（表格）</li>
+              <li>质量与安全保障：质量控制体系、安全管理措施</li>
+              <li>服务承诺：质保期、售后响应时间（如2小时内）</li>
+            </ul>
+
+            <h4 style="margin-top: 20px; color: var(--color-primary)">
+              3. 报价部分
+            </h4>
+            <ul>
+              <li>投标报价汇总表：总价、分项报价明细</li>
+              <li>报价说明：编制依据、优惠条件、不含费用说明</li>
+              <li>付款方式响应：符合招标文件要求的付款节点</li>
+            </ul>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-primary">下载完整报告</button>
+            <button class="btn btn-secondary" id="resetEvaluationBtn">
+              重新估价
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">成功案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">关于我们</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="api-docs.html">API文档</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助支持</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+      </div>
+      <div class="cooperation-enterprises">
+        <span
+          >合作企业：湖南智信房地产土地资产评估有限公司、长沙力智数字房产技术发展有限公司</span
+        >
+      </div>
+      <div class="copyright">
+        <p>© 2025 数智估价核心引擎 版权所有</p>
+        <p>
+          <a href="https://beian.miit.gov.cn/" target="_blank"
+            >湘ICP备2025144327号-1</a
+          >
+          |
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo"
+            target="_blank"
+            >湘公网安备43011202001203号</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // DOM加载完成后执行
+      document.addEventListener('DOMContentLoaded', function () {
+        // 移动端菜单切换
+        document
+          .getElementById('menuToggle')
+          .addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.style.display =
+              mobileMenu.style.display === 'none' ? 'block' : 'none';
+          });
+
+        // 点击外部关闭移动端菜单
+        document.addEventListener('click', function (e) {
+          const mobileMenu = document.getElementById('mobileMenu');
+          const menuToggle = document.getElementById('menuToggle');
+          if (
+            !mobileMenu.contains(e.target) &&
+            !menuToggle.contains(e.target)
+          ) {
+            mobileMenu.style.display = 'none';
+          }
+        });
+
+        // 页面元素
+        const citySelectionSection = document.getElementById(
+          'citySelectionSection'
+        );
+        const firstKeywordSection = document.getElementById(
+          'firstKeywordSection'
+        );
+        const firstResultSection =
+          document.getElementById('firstResultSection');
+        const secondKeywordSection = document.getElementById(
+          'secondKeywordSection'
+        );
+        const optionsSection = document.getElementById('optionsSection');
+        const formSection = document.getElementById('formSection');
+        const heatmapSection = document.getElementById('heatmapSection');
+        const finalResultSection =
+          document.getElementById('finalResultSection');
+        const firstKeywordInput = document.getElementById('firstKeywordInput');
+        const addFirstKeywordBtn =
+          document.getElementById('addFirstKeywordBtn');
+        const firstSelectedKeywords = document.getElementById(
+          'firstSelectedKeywords'
+        );
+        const firstEvaluateBtn = document.getElementById('firstEvaluateBtn');
+        const firstKeywordTags =
+          firstKeywordSection.querySelectorAll('.keyword-tag');
+        const startSecondEvaluationBtn = document.getElementById(
+          'startSecondEvaluationBtn'
+        );
+        const secondKeywordInput =
+          document.getElementById('secondKeywordInput');
+        const addSecondKeywordBtn = document.getElementById(
+          'addSecondKeywordBtn'
+        );
+        const secondSelectedKeywords = document.getElementById(
+          'secondSelectedKeywords'
+        );
+        const nextToOptionsBtn = document.getElementById('nextToOptionsBtn');
+        const secondKeywordTags =
+          secondKeywordSection.querySelectorAll('.keyword-tag');
+        const optionCards = optionsSection.querySelectorAll('.option-card');
+        const backToOptionsBtn = document.getElementById('backToOptionsBtn');
+        const backToKeywordsBtn = document.getElementById('backToKeywordsBtn');
+        const viewFinalResultBtn =
+          document.getElementById('viewFinalResultBtn');
+        const areaHeatCard = document.getElementById('areaHeatCard');
+        const streetHeatCard = document.getElementById('streetHeatCard');
+        const nextToKeywordsBtn = document.getElementById('nextToKeywordsBtn');
+        const backToCitySelectionBtn = document.getElementById(
+          'backToCitySelectionBtn'
+        );
+
+        // 城市选择元素
+        const citySelect = document.getElementById('citySelect');
+        const districtSelect = document.getElementById('districtSelect');
+        const subdistrictSelect = document.getElementById('subdistrictSelect');
+        const communitySelect = document.getElementById('communitySelect');
+
+        // 初始化城市选择器
+        const citySelector = initCitySelector(
+          'citySelect',
+          'districtSelect',
+          'subdistrictSelect',
+          'communitySelect'
+        );
+
+        // 下一步：选择关键词
+        nextToKeywordsBtn.addEventListener('click', function () {
+          citySelectionSection.classList.add('hidden');
+          firstKeywordSection.classList.remove('hidden');
+        });
+
+        // 上一步：返回城市选择
+        backToCitySelectionBtn.addEventListener('click', function () {
+          firstKeywordSection.classList.add('hidden');
+          citySelectionSection.classList.remove('hidden');
+        });
+
+        // 已选择的关键词
+        let firstKeywords = [];
+        let secondKeywords = [];
+        let selectedOption = 'free';
+
+        // 第一次估价：关键词点击事件
+        firstKeywordTags.forEach((tag) => {
+          tag.addEventListener('click', function () {
+            const keyword = this.textContent;
+            if (!firstKeywords.includes(keyword)) {
+              firstKeywords.push(keyword);
+              updateFirstSelectedKeywords();
+              checkFirstEvaluateBtn();
+            }
+          });
+        });
+
+        // 添加关键词按钮点击事件
+        addFirstKeywordBtn.addEventListener('click', function () {
+          const keyword = firstKeywordInput.value.trim();
+          if (keyword && !firstKeywords.includes(keyword)) {
+            firstKeywords.push(keyword);
+            firstKeywordInput.value = '';
+            updateFirstSelectedKeywords();
+            checkFirstEvaluateBtn();
+          }
+        });
+
+        // 回车键添加关键词
+        firstKeywordInput.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            addFirstKeywordBtn.click();
+          }
+        });
+
+        // 更新已选择关键词显示
+        function updateFirstSelectedKeywords() {
+          firstSelectedKeywords.innerHTML = '';
+          firstKeywords.forEach((keyword) => {
+            const tag = document.createElement('span');
+            tag.className = 'keyword-tag selected';
+            tag.innerHTML = keyword + ' <i class="fas fa-times"></i>';
+            tag.addEventListener('click', function () {
+              firstKeywords = firstKeywords.filter((k) => k !== keyword);
+              updateFirstSelectedKeywords();
+              checkFirstEvaluateBtn();
+            });
+            firstSelectedKeywords.appendChild(tag);
+          });
+        }
+
+        // 检查第一次估价按钮状态
+        function checkFirstEvaluateBtn() {
+          firstEvaluateBtn.disabled = firstKeywords.length === 0;
+        }
+
+        // 开始第一次估价
+        firstEvaluateBtn.addEventListener('click', function () {
+          // 获取城市选择数据
+          const selectedCity = citySelect.options[citySelect.selectedIndex]
+            ? citySelect.options[citySelect.selectedIndex].text
+            : '';
+          const selectedDistrict = districtSelect.options[
+            districtSelect.selectedIndex
+          ]
+            ? districtSelect.options[districtSelect.selectedIndex].text
+            : '';
+          const selectedSubdistrict = subdistrictSelect.options[
+            subdistrictSelect.selectedIndex
+          ]
+            ? subdistrictSelect.options[subdistrictSelect.selectedIndex].text
+            : '';
+          const selectedCommunity = communitySelect.options[
+            communitySelect.selectedIndex
+          ]
+            ? communitySelect.options[communitySelect.selectedIndex].text
+            : '';
+
+          // 如果选择了小区，自动添加到关键词中
+          if (
+            selectedCommunity &&
+            selectedCommunity !== '其他' &&
+            !firstKeywords.includes(selectedCommunity)
+          ) {
+            firstKeywords.push(selectedCommunity);
+            updateFirstSelectedKeywords();
+          }
+
+          // 模拟第一次估价过程
+          setTimeout(() => {
+            firstKeywordSection.classList.add('hidden');
+            firstResultSection.classList.remove('hidden');
+          }, 1000);
+        });
+
+        // 开始二次估价
+        startSecondEvaluationBtn.addEventListener('click', function () {
+          firstResultSection.classList.add('hidden');
+          secondKeywordSection.classList.remove('hidden');
+          // 更新步骤导航
+          updateStep(2);
+        });
+
+        // 二次估价：关键词点击事件
+        secondKeywordTags.forEach((tag) => {
+          tag.addEventListener('click', function () {
+            const keyword = this.textContent;
+            if (!secondKeywords.includes(keyword)) {
+              secondKeywords.push(keyword);
+              updateSecondSelectedKeywords();
+              checkNextToOptionsBtn();
+            }
+          });
+        });
+
+        // 添加二次关键词按钮点击事件
+        addSecondKeywordBtn.addEventListener('click', function () {
+          const keyword = secondKeywordInput.value.trim();
+          if (keyword && !secondKeywords.includes(keyword)) {
+            secondKeywords.push(keyword);
+            secondKeywordInput.value = '';
+            updateSecondSelectedKeywords();
+            checkNextToOptionsBtn();
+          }
+        });
+
+        // 回车键添加二次关键词
+        secondKeywordInput.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            addSecondKeywordBtn.click();
+          }
+        });
+
+        // 更新二次已选择关键词显示
+        function updateSecondSelectedKeywords() {
+          secondSelectedKeywords.innerHTML = '';
+          secondKeywords.forEach((keyword) => {
+            const tag = document.createElement('span');
+            tag.className = 'keyword-tag selected';
+            tag.innerHTML = keyword + ' <i class="fas fa-times"></i>';
+            tag.addEventListener('click', function () {
+              secondKeywords = secondKeywords.filter((k) => k !== keyword);
+              updateSecondSelectedKeywords();
+              checkNextToOptionsBtn();
+            });
+            secondSelectedKeywords.appendChild(tag);
+          });
+        }
+
+        // 检查下一步按钮状态
+        function checkNextToOptionsBtn() {
+          nextToOptionsBtn.disabled = secondKeywords.length === 0;
+        }
+
+        // 下一步：选择估价方案
+        nextToOptionsBtn.addEventListener('click', function () {
+          secondKeywordSection.classList.add('hidden');
+          optionsSection.classList.remove('hidden');
+          updateStep(3);
+        });
+
+        // 估价选项点击事件
+        optionCards.forEach((card) => {
+          const button = card.querySelector('button');
+          button.addEventListener('click', function () {
+            // 选择当前选项
+            optionCards.forEach((c) => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedOption = card.dataset.option;
+
+            // 显示表单区域
+            optionsSection.classList.add('hidden');
+            formSection.classList.remove('hidden');
+            updateStep(4);
+          });
+        });
+
+        // 上一步：返回选项
+        backToOptionsBtn.addEventListener('click', function () {
+          formSection.classList.add('hidden');
+          optionsSection.classList.remove('hidden');
+          updateStep(3);
+        });
+
+        // 估价表单提交事件
+        document
+          .getElementById('valuationForm')
+          .addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // 显示热力值分析（仅付费选项）
+            if (selectedOption === 'standard' || selectedOption === 'premium') {
+              formSection.classList.add('hidden');
+              heatmapSection.classList.remove('hidden');
+
+              // 显示不同级别的热力值
+              if (selectedOption === 'premium') {
+                areaHeatCard.classList.remove('hidden');
+                streetHeatCard.classList.remove('hidden');
+              } else {
+                areaHeatCard.classList.add('hidden');
+                streetHeatCard.classList.add('hidden');
+              }
+
+              // 生成随机热力值
+              generateHeatmapData();
+            } else {
+              // 免费选项直接显示结果
+              formSection.classList.add('hidden');
+              finalResultSection.classList.remove('hidden');
+              updateFinalResult();
+              updateStep(5);
+            }
+          });
+
+        // 生成热力值数据
+        function generateHeatmapData() {
+          const surroundingHeat = (Math.random() * 30 + 70).toFixed(1);
+          const areaHeat = (Math.random() * 30 + 70).toFixed(1);
+          const streetHeat = (Math.random() * 30 + 70).toFixed(1);
+
+          document.getElementById('surroundingHeat').textContent =
+            surroundingHeat;
+          if (selectedOption === 'premium') {
+            areaHeatCard.querySelector('.heatmap-value').textContent = areaHeat;
+            streetHeatCard.querySelector('.heatmap-value').textContent =
+              streetHeat;
+          }
+
+          // 绘制热力图
+          drawHeatmap();
+        }
+
+        // 绘制热力图
+        function drawHeatmap() {
+          const canvas = document.getElementById('heatmapCanvas');
+          const ctx = canvas.getContext('2d');
+
+          // 设置canvas的实际宽高与CSS宽高一致
+          canvas.width = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+
+          const width = canvas.width;
+          const height = canvas.height;
+
+          // 清空画布
+          ctx.clearRect(0, 0, width, height);
+
+          // 生成随机热力点
+          const points = [];
+          const pointCount = 50;
+
+          for (let i = 0; i < pointCount; i++) {
+            points.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              value: Math.random() * 100,
+            });
+          }
+
+          // 绘制热力点
+          points.forEach((point) => {
+            drawHeatPoint(ctx, point.x, point.y, point.value, width, height);
+          });
+
+          // 绘制小区位置标记
+          const centerX = width / 2;
+          const centerY = height / 2;
+
+          // 绘制小区名称
+          ctx.fillStyle = '#1a73e8';
+          ctx.font = 'bold 16px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText('碧桂园·潭州府', centerX, 30);
+
+          // 绘制中心标记
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, 10, 0, Math.PI * 2);
+          ctx.fillStyle = '#1a73e8';
+          ctx.fill();
+          ctx.strokeStyle = 'white';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          // 绘制中心文字
+          ctx.fillStyle = 'white';
+          ctx.font = 'bold 12px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('中心', centerX, centerY);
+        }
+
+        // 绘制单个热力点
+        function drawHeatPoint(ctx, x, y, value, width, height) {
+          // 根据值计算半径和透明度
+          const radius = (value / 100) * 60 + 20;
+          const opacity = value / 100;
+
+          // 创建渐变
+          const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
+
+          // 根据值设置颜色
+          if (value < 33) {
+            // 低值 - 绿色
+            gradient.addColorStop(0, `rgba(52, 168, 83, ${opacity})`);
+            gradient.addColorStop(0.5, `rgba(52, 168, 83, ${opacity * 0.5})`);
+            gradient.addColorStop(1, `rgba(52, 168, 83, 0)`);
+          } else if (value < 66) {
+            // 中值 - 黄色
+            gradient.addColorStop(0, `rgba(249, 168, 37, ${opacity})`);
+            gradient.addColorStop(0.5, `rgba(249, 168, 37, ${opacity * 0.5})`);
+            gradient.addColorStop(1, `rgba(249, 168, 37, 0)`);
+          } else {
+            // 高值 - 红色
+            gradient.addColorStop(0, `rgba(234, 67, 53, ${opacity})`);
+            gradient.addColorStop(0.5, `rgba(234, 67, 53, ${opacity * 0.5})`);
+            gradient.addColorStop(1, `rgba(234, 67, 53, 0)`);
+          }
+
+          // 绘制热力点
+          ctx.fillStyle = gradient;
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // 查看最终结果
+        viewFinalResultBtn.addEventListener('click', function () {
+          heatmapSection.classList.add('hidden');
+          finalResultSection.classList.remove('hidden');
+          updateFinalResult();
+          updateStep(5);
+        });
+
+        // 更新最终结果
+        function updateFinalResult() {
+          const communityName = document.getElementById('communityName').value;
+          const area = document.getElementById('area').value;
+          const bedrooms = document.getElementById('bedrooms').value;
+          const bathrooms = document.getElementById('bathrooms').value;
+          const renovation = document.getElementById('renovation').value;
+
+          // 生成最终估价结果
+          const basePrice = 6800;
+          const renovationAdjustment =
+            renovation === 'fine' ? 300 : renovation === 'simple' ? 100 : 0;
+          const finalPrice = basePrice + renovationAdjustment;
+
+          // 更新估价类型
+          const valuationType = document.getElementById('valuationType');
+          if (selectedOption === 'free') {
+            valuationType.textContent = '基础估价';
+            // 基础估价：简化报告内容
+            document.getElementById('bidTemplate').style.display = 'none';
+            document.getElementById('reportTableOfContents').style.display =
+              'none';
+          } else if (selectedOption === 'standard') {
+            valuationType.textContent = '标准估价';
+            // 标准估价：显示完整目录和核心数据
+            document.getElementById('bidTemplate').style.display = 'none';
+            document.getElementById('reportTableOfContents').style.display =
+              'block';
+          } else {
+            valuationType.textContent = '高级估价';
+            // 高级估价：显示完整报告
+            document.getElementById('bidTemplate').style.display = 'block';
+            document.getElementById('reportTableOfContents').style.display =
+              'block';
+          }
+
+          // 更新结果显示
+          document.getElementById('finalCommunityName').textContent =
+            communityName;
+          document.getElementById('finalPrice').textContent =
+            `¥ ${finalPrice.toLocaleString()}`;
+          document.querySelector(
+            '#finalResultSection .result-meta'
+          ).textContent =
+            `${finalPrice.toLocaleString()}元/㎡ | ${area}㎡ | ${bedrooms}室${bathrooms}厅 | ${renovation === 'fine' ? '精装修' : renovation === 'simple' ? '简装' : '毛坯'}`;
+        }
+
+        // 重置估价流程
+        function resetEvaluation() {
+          // 重置关键词
+          firstKeywords = [];
+          secondKeywords = [];
+          selectedOption = 'free';
+
+          // 重置表单
+          document.getElementById('valuationForm').reset();
+
+          // 重置城市选择
+          citySelect.value = '';
+          districtSelect.innerHTML = '<option value="">选择区域</option>';
+          subdistrictSelect.innerHTML =
+            '<option value="">选择街道/乡镇</option>';
+          communitySelect.innerHTML =
+            '<option value="">选择小区（可选）</option><option value="other">其他</option>';
+
+          // 重置显示状态
+          citySelectionSection.classList.remove('hidden');
+          firstKeywordSection.classList.add('hidden');
+          firstResultSection.classList.add('hidden');
+          secondKeywordSection.classList.add('hidden');
+          optionsSection.classList.add('hidden');
+          formSection.classList.add('hidden');
+          heatmapSection.classList.add('hidden');
+          finalResultSection.classList.add('hidden');
+
+          // 重置已选择关键词显示
+          firstSelectedKeywords.innerHTML = '';
+          secondSelectedKeywords.innerHTML = '';
+
+          // 重置按钮状态
+          firstEvaluateBtn.disabled = true;
+          nextToOptionsBtn.disabled = true;
+
+          // 重置步骤导航
+          updateStep(1);
+
+          // 重置选项选择
+          optionCards.forEach((c) => c.classList.remove('selected'));
+        }
+
+        // 重置估价按钮事件
+        document
+          .getElementById('resetEvaluationBtn')
+          .addEventListener('click', resetEvaluation);
+
+        // 更新步骤导航
+        function updateStep(stepNumber) {
+          const steps = document.querySelectorAll('.step');
+          steps.forEach((step, index) => {
+            if (index < stepNumber) {
+              step.classList.add('active');
+            } else {
+              step.classList.remove('active');
+            }
+          });
+        }
+      });
+    </script>
+    <!-- 城市选择器脚本 -->
+    <script src="city-selector.js"></script>
+  </body>
+</html>

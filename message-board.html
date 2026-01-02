@@ -1,0 +1,153 @@
+<!-- 留言板功能脚本 -->
+<script>
+  // 留言数据
+  let messages = JSON.parse(
+    localStorage.getItem('messageBoardMessages') || '[]'
+  );
+
+  // 每页显示的留言数量
+  const messagesPerPage = 5;
+  let currentPage = 1;
+
+  // 页面初始化
+  function pageInit() {
+    // 隐藏加载动画
+    setTimeout(function () {
+      const pageLoader = document.getElementById('pageLoader');
+      if (pageLoader) {
+        pageLoader.classList.add('fade-out');
+        setTimeout(function () {
+          pageLoader.style.display = 'none';
+        }, 500);
+      }
+    }, 500);
+
+    // 渲染留言列表
+    renderMessages();
+
+    // 渲染分页
+    renderPagination();
+  }
+
+  // 渲染留言列表
+  function renderMessages() {
+    const messageList = document.getElementById('messageList');
+
+    if (!messages.length) {
+      messageList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-comments"></i>
+                        <p>暂无留言，快来发表第一条留言吧！</p>
+                    </div>
+                `;
+      return;
+    }
+
+    // 计算当前页显示的留言
+    const startIndex = (currentPage - 1) * messagesPerPage;
+    const endIndex = startIndex + messagesPerPage;
+    const currentMessages = messages.slice(startIndex, endIndex);
+
+    // 渲染留言
+    const messagesHTML = currentMessages
+      .map(
+        (message) => `
+                <div class="message-item">
+                    <div class="message-header">
+                        <span class="message-author">${message.author}</span>
+                        <span class="message-date">${message.formattedDate}</span>
+                    </div>
+                    <div class="message-content">${message.content}</div>
+                    <div class="message-meta">
+                        <span><i class="fas fa-envelope"></i>${message.email}</span>
+                        <span><i class="fas fa-clock"></i>${message.formattedTime}</span>
+                    </div>
+                </div>
+            `
+      )
+      .join('');
+
+    messageList.innerHTML = messagesHTML;
+  }
+
+  // 渲染分页
+  function renderPagination() {
+    const pagination = document.getElementById('pagination');
+    const totalPages = Math.ceil(messages.length / messagesPerPage);
+
+    if (totalPages <= 1) {
+      pagination.innerHTML = '';
+      return;
+    }
+
+    let paginationHTML = '';
+
+    // 上一页按钮
+    paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">上一页</button>`;
+
+    // 页码按钮
+    for (let i = 1; i <= totalPages; i++) {
+      paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+    }
+
+    // 下一页按钮
+    paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">下一页</button>`;
+
+    pagination.innerHTML = paginationHTML;
+  }
+
+  // 切换页码
+  function changePage(page) {
+    currentPage = page;
+    renderMessages();
+    renderPagination();
+  }
+
+  // 处理留言提交
+  async function handleMessageSubmit(event) {
+    event.preventDefault();
+
+    // 获取表单数据
+    const form = event.target;
+    const author = form.author.value.trim();
+    const email = form.email.value.trim();
+    const content = form.message.value.trim();
+
+    // 简单验证
+    if (!author || !email || !content) {
+      alert('请填写完整的留言信息');
+      return;
+    }
+
+    // 创建留言对象
+    const now = new Date();
+    const message = {
+      id: Date.now(),
+      author,
+      email,
+      content,
+      date: now.toISOString(),
+      formattedDate: now.toLocaleDateString('zh-CN'),
+      formattedTime: now.toLocaleTimeString('zh-CN', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    };
+
+    // 添加到留言列表
+    messages.unshift(message);
+
+    // 保存到本地存储
+    localStorage.setItem('messageBoardMessages', JSON.stringify(messages));
+
+    // 重置表单
+    form.reset();
+
+    // 渲染更新后的留言列表
+    renderMessages();
+    renderPagination();
+
+    // 显示成功消息
+    alert('留言发表成功！');
+  }
+</script>

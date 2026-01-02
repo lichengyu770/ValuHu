@@ -1,0 +1,2047 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>产品服务 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      /* 基础重置与通用样式 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', '思源黑体', sans-serif;
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn-primary {
+        background: #007aff;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #0066cc;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1px solid #007aff;
+        color: #007aff;
+      }
+      .btn-outline:hover {
+        background: #007aff;
+        color: white;
+      }
+      section {
+        padding: 60px 0;
+      }
+      section h2 {
+        font-size: 32px;
+        color: #1d2129;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      section h3 {
+        font-size: 24px;
+        color: #1d2129;
+        margin-bottom: 20px;
+      }
+      section p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      /* 1. 导航栏（可点击跳转） */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        height: 65px;
+      }
+      .navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        background: #007aff;
+        color: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .logo-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1d2129;
+      }
+      .nav-menu {
+        display: flex;
+        gap: 30px;
+      }
+      .nav-menu a {
+        text-decoration: none;
+        color: #4e5969;
+        font-size: 15px;
+        transition: color 0.3s;
+      }
+      .nav-menu a:hover {
+        color: #007aff;
+      }
+      .nav-menu a.active {
+        color: #007aff;
+        font-weight: 600;
+      }
+      .menu-toggle {
+        display: none;
+        font-size: 32px;
+        color: #4e5969;
+        cursor: pointer;
+      }
+
+      /* 移动端菜单 */
+      .mobile-menu {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+        display: none;
+      }
+      .mobile-menu ul {
+        list-style: none;
+        padding: 20px 0;
+      }
+      .mobile-menu li {
+        padding: 0 20px;
+      }
+      .mobile-menu a {
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        color: #4e5969;
+        font-size: 15px;
+      }
+      .mobile-menu a:hover {
+        color: #007aff;
+      }
+      .mobile-menu a.active {
+        color: #007aff;
+        font-weight: 600;
+      }
+      .mobile-menu .login-btn {
+        margin: 10px 20px 0;
+        width: calc(100% - 40px);
+      }
+
+      /* 2. 封面区 */
+      .hero {
+        margin-top: 65px;
+        height: 300px;
+        background: linear-gradient(135deg, #f5f7fa, #e9edf2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 36px;
+        color: #1d2129;
+        margin-bottom: 15px;
+      }
+      .hero h1 span {
+        color: #007aff;
+      }
+      .hero p {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* 3. 小单产品板块 */
+      .small-order-section {
+        background: #f0f7ff;
+      }
+      .big-order-section {
+        background: #e6f0ff;
+      }
+      .trust-section {
+        background: white;
+      }
+
+      /* 服务卡片网格 */
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+      }
+      @media (max-width: 992px) {
+        .service-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 768px) {
+        .service-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .service-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .service-card h3 {
+        color: #1a73e8;
+        margin-bottom: 15px;
+      }
+      .service-card .price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ff6b35;
+        margin-bottom: 20px;
+      }
+      .service-card .price .price-label {
+        font-size: 14px;
+        font-weight: normal;
+        color: #999;
+      }
+
+      /* 6. 常见问题 */
+      .faq-section {
+        background: #f8f9fa;
+      }
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .faq-item {
+        background: white;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .faq-question {
+        padding: 20px;
+        font-size: 16px;
+        color: #1d2129;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+      }
+      .faq-question:hover {
+        background: #f8f9fa;
+      }
+      .faq-answer {
+        padding: 0 20px 20px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+        display: none;
+      }
+      .faq-item.active .faq-answer {
+        display: block;
+      }
+      .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+      }
+
+      /* 7. 客户案例 */
+      .case-section {
+        background: white;
+      }
+      .case-slider {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 20px 0;
+        scrollbar-width: none;
+      }
+      .case-slider::-webkit-scrollbar {
+        display: none;
+      }
+      .case-card {
+        min-width: 300px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .case-image {
+        height: 200px;
+        background: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .case-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+      }
+      .case-content {
+        padding: 20px;
+      }
+      .case-content h4 {
+        font-size: 18px;
+        color: #1d2129;
+        margin-bottom: 10px;
+      }
+      .case-content p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 15px;
+      }
+      .case-meta {
+        font-size: 12px;
+        color: #999;
+      }
+
+      /* 8. 联系我们 */
+      .contact-section {
+        background: #007aff;
+        color: white;
+      }
+      .contact-section h2 {
+        color: white;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px;
+      }
+      @media (max-width: 768px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .contact-info h3 {
+        color: white;
+        margin-bottom: 20px;
+      }
+      .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      .contact-icon {
+        font-size: 20px;
+        margin-top: 3px;
+      }
+      .contact-text p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .contact-form .form-group {
+        margin-bottom: 20px;
+      }
+      .contact-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+      .contact-form input,
+      .contact-form textarea {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .contact-form textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      /* 9. 页脚 */
+      .footer {
+        background: #1d2129;
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: 50px;
+      }
+      .footer .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+      }
+      .footer-col {
+        width: calc(25% - 20px);
+        min-width: 200px;
+      }
+      .footer-col h3 {
+        font-size: 16px;
+        color: #007aff;
+        margin-bottom: 15px;
+      }
+      .footer-col a {
+        display: block;
+        color: #c9cdd4;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 8px;
+        transition: color 0.3s;
+      }
+      .footer-col a:hover {
+        color: white;
+      }
+
+      /* 响应式页脚 */
+      @media (max-width: 992px) {
+        .footer-col {
+          width: 50%;
+        }
+      }
+      @media (max-width: 768px) {
+        .footer-col {
+          width: 100%;
+        }
+      }
+
+      .copyright {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: center;
+      }
+      .copyright p {
+        font-size: 12px;
+        color: #868c98;
+        margin: 5px 0;
+      }
+      .copyright a {
+        color: #868c98;
+        text-decoration: none;
+      }
+      .copyright a:hover {
+        color: white;
+      }
+
+      /* 返回顶部按钮 */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: #007aff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 99;
+      }
+      .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      .back-to-top:hover {
+        background: #0066cc;
+      }
+
+      /* 模态框样式 */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        overflow-y: auto;
+        padding: 20px;
+      }
+      .modal-content {
+        background: white;
+        border-radius: 12px;
+        max-width: 600px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+      }
+      .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #e9ecef;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .modal-header h3 {
+        margin: 0;
+        font-size: 20px;
+        color: #1d2129;
+      }
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: #999;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .close-modal:hover {
+        color: #333;
+      }
+      .modal-body {
+        padding: 20px;
+      }
+
+      /* 信任与流程板块 */
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-bottom: 60px;
+      }
+      .testimonial-card {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .process-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+      .process-card {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .process-step {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .step-number {
+        width: 40px;
+        height: 40px;
+        background: #1a73e8;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      /* 动画效果 */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease-out;
+      }
+      .fade-in.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* 响应式调整 */
+      @media (max-width: 768px) {
+        .nav-menu {
+          display: none;
+        }
+        .menu-toggle {
+          display: block;
+        }
+        .testimonials-grid {
+          grid-template-columns: 1fr;
+        }
+        .process-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 用户中心 -->
+          <a href="user-center.html" class="">用户中心</a>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li><a href="user-center.html">用户中心</a></li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 导航栏JavaScript -->
+    <script>
+      // 移动端菜单切换
+      document
+        .getElementById('menuToggle')
+        .addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.style.display =
+            mobileMenu.style.display === 'none' ? 'block' : 'none';
+        });
+
+      // 点击外部关闭移动端菜单
+      document.addEventListener('click', function (e) {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuToggle = document.getElementById('menuToggle');
+        if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          mobileMenu.style.display = 'none';
+        }
+      });
+    </script>
+
+    <!-- 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1>产品<span>服务</span></h1>
+        <p>
+          我们提供全面的房产估价解决方案，从快速在线估价到定制化的AI模型服务，满足您的各类需求。
+        </p>
+        <a href="#services" class="btn btn-primary">了解更多</a>
+      </div>
+    </section>
+
+    <!-- 小单产品板块 -->
+    <section class="small-order-section" id="services">
+      <div class="container">
+        <h2 style="text-align: center; color: #1a73e8; margin-bottom: 10px">
+          轻量级智能工具
+        </h2>
+        <p style="text-align: center; color: #666; margin-bottom: 40px">
+          助力日常决策与效率提升
+        </p>
+
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 50px">
+          <h3 style="color: #333; margin-bottom: 15px">目标客户</h3>
+          <p style="color: #666">
+            个人投资者、业务一线人员、中小企业主、初次体验者
+          </p>
+          <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px">
+            核心价值
+          </h3>
+          <p style="color: #666">低成本、即时获取、标准化交付</p>
+        </div>
+
+        <!-- 小单产品列表 -->
+        <div class="service-grid">
+          <!-- AI估值快照 -->
+          <div class="service-card">
+            <h3>AI估值快照</h3>
+            <div class="price">￥198</div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">核心交付物</h4>
+              <p style="color: #666">单资产AI估值报告（电子版）</p>
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">适用场景</h4>
+              <p style="color: #666">个人资产查询、快速参考</p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="window.location.href = 'valuation-engine.html'"
+            >
+              立即生成
+            </button>
+          </div>
+
+          <!-- 数据洞察简报 -->
+          <div class="service-card">
+            <h3>数据洞察简报</h3>
+            <div class="price">￥298</div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">核心交付物</h4>
+              <p style="color: #666">定制主题数据分析简报（如竞品分析）</p>
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">适用场景</h4>
+              <p style="color: #666">市场调研、报告素材</p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="showPurchaseModal('data-insight')"
+            >
+              购买下载
+            </button>
+          </div>
+
+          <!-- 线上专题咨询 -->
+          <div class="service-card">
+            <h3>线上专题咨询</h3>
+            <div class="price">￥398</div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">核心交付物</h4>
+              <p style="color: #666">30分钟专家线上问答服务</p>
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">适用场景</h4>
+              <p style="color: #666">解决一个具体业务难题</p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="showAppointmentModal()"
+            >
+              开始预约专家
+            </button>
+          </div>
+        </div>
+
+        <div
+          style="
+            text-align: center;
+            margin-top: 40px;
+            color: #999;
+            font-size: 14px;
+          "
+        >
+          <p>小单产品为标准化数字服务，恕不提供定制化修改。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 赋能系统板块 -->
+    <section class="big-order-section">
+      <div class="container">
+        <h2 style="text-align: center; color: #1a73e8; margin-bottom: 10px">
+          赋能系统
+        </h2>
+        <p style="text-align: center; color: #666; margin-bottom: 10px">
+          战略合作，价值共生
+        </p>
+        <p style="text-align: center; color: #666; margin-bottom: 40px">
+          定制化解决方案，驱动资产价值与组织能力升级
+        </p>
+
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 50px">
+          <h3 style="color: #333; margin-bottom: 15px">目标客户</h3>
+          <p style="color: #666">企业决策者、资产持有机构、寻求转型的公司</p>
+          <h3 style="color: #333; margin-top: 20px; margin-bottom: 15px">
+            核心价值
+          </h3>
+          <p style="color: #666">深度定制、专家全程参与、效果导向</p>
+        </div>
+
+        <!-- 大单解决方案列表 -->
+        <div class="service-grid">
+          <!-- 数字资产诊断与规划 -->
+          <div class="service-card">
+            <h3>数字资产诊断与规划</h3>
+            <div class="price">￥19,800</div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">核心交付与服务</h4>
+              <p style="color: #666">
+                全面资产诊断报告 + 为期3个月的数字化转型实施路线图
+              </p>
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">解决什么问题</h4>
+              <p style="color: #666">不清楚自身资产数字化水平和升级路径</p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="showLargeOrderForm()"
+            >
+              咨询详情
+            </button>
+          </div>
+
+          <!-- 年度智能运营官 -->
+          <div class="service-card">
+            <h3>年度智能运营官</h3>
+            <div class="price">￥29,800</div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">核心交付与服务</h4>
+              <p style="color: #666">
+                包含"估价引擎+物业看板"的年度SaaS服务 + 季度经营复盘会
+              </p>
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">解决什么问题</h4>
+              <p style="color: #666">
+                需要持续的数据赋能和运营提升，但不想自建团队
+              </p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="showLargeOrderForm()"
+            >
+              申请使用
+            </button>
+          </div>
+
+          <!-- 战略定制与陪跑 -->
+          <div class="service-card">
+            <h3>战略定制与陪跑</h3>
+            <div class="price">
+              ￥39,800<span style="font-size: 14px; font-weight: normal"
+                >起</span
+              >
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">核心交付与服务</h4>
+              <p style="color: #666">
+                深度业务调研、个性化系统定制、为期6个月的落地陪跑服务
+              </p>
+            </div>
+            <div style="margin-bottom: 20px">
+              <h4 style="color: #333; margin-bottom: 10px">解决什么问题</h4>
+              <p style="color: #666">
+                有独特业务场景，需量身定制解决方案并确保落地
+              </p>
+            </div>
+            <button
+              class="btn btn-primary"
+              style="width: 100%"
+              onclick="showLargeOrderForm()"
+            >
+              预约洽谈
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 信任与流程板块 -->
+    <section class="trust-section">
+      <div class="container">
+        <h2 style="text-align: center; color: #1a73e8; margin-bottom: 40px">
+          信任与流程
+        </h2>
+
+        <!-- 客户证言 -->
+        <div style="margin-bottom: 60px">
+          <h3 style="text-align: center; color: #333; margin-bottom: 40px">
+            客户证言
+          </h3>
+          <div class="testimonials-grid">
+            <!-- 客户1 -->
+            <div class="testimonial-card">
+              <div
+                style="
+                  font-size: 16px;
+                  color: #666;
+                  margin-bottom: 20px;
+                  line-height: 1.6;
+                "
+              >
+                "使用数智估价核心引擎后，我们的估价效率提升了300%，极大节省了人力成本。"
+              </div>
+              <div style="font-weight: bold; color: #333">
+                ——地产集团技术总监 张女士
+              </div>
+            </div>
+            <!-- 客户2 -->
+            <div class="testimonial-card">
+              <div
+                style="
+                  font-size: 16px;
+                  color: #666;
+                  margin-bottom: 20px;
+                  line-height: 1.6;
+                "
+              >
+                "智能估价报告的准确性超出了我们的预期，为我们的投资决策提供了可靠依据。"
+              </div>
+              <div style="font-weight: bold; color: #333">
+                ——投资公司项目经理 刘先生
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 流程指南 -->
+        <div style="margin-bottom: 40px">
+          <h3 style="text-align: center; color: #333; margin-bottom: 40px">
+            流程指南
+          </h3>
+          <div class="process-grid">
+            <!-- 标准服务流程 -->
+            <div class="process-card">
+              <h4
+                style="text-align: center; color: #1a73e8; margin-bottom: 30px"
+              >
+                标准服务流程
+              </h4>
+              <div class="process-step">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">1</div>
+                  <div style="color: #333; font-weight: bold">选择产品</div>
+                </div>
+                <div style="color: #1a73e8; font-size: 20px">→</div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">2</div>
+                  <div style="color: #333; font-weight: bold">在线支付</div>
+                </div>
+                <div style="color: #1a73e8; font-size: 20px">→</div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">3</div>
+                  <div style="color: #333; font-weight: bold">自动交付</div>
+                </div>
+              </div>
+            </div>
+            <!-- 定制服务流程 -->
+            <div class="process-card">
+              <h4
+                style="text-align: center; color: #1a73e8; margin-bottom: 30px"
+              >
+                定制服务流程
+              </h4>
+              <div class="process-step">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">1</div>
+                  <div style="color: #333; font-weight: bold">提交需求</div>
+                </div>
+                <div style="color: #1a73e8; font-size: 20px">→</div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">2</div>
+                  <div style="color: #333; font-weight: bold">专属顾问联系</div>
+                </div>
+                <div style="color: #1a73e8; font-size: 20px">→</div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">3</div>
+                  <div style="color: #333; font-weight: bold">诊断与提案</div>
+                </div>
+                <div style="color: #1a73e8; font-size: 20px">→</div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="step-number">4</div>
+                  <div style="color: #333; font-weight: bold">签约启动</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="faq-section">
+      <div class="container">
+        <h2>常见问题</h2>
+        <div class="faq-container">
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>估价结果的准确性如何？</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                我们的估价模型基于海量历史交易数据和多维度特征分析，准确率达到95%以上，接近专业估价师水平。但请注意，最终的房产交易价格还会受到市场行情、议价能力等因素影响。
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>支持哪些城市和物业类型？</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                我们目前支持全国300+城市，包括所有一二线城市和主要三四线城市。物业类型覆盖住宅、别墅、公寓、商铺、写字楼等多种类型，满足不同用户的需求。
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>API接口如何收费？</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                我们的API接口采用阶梯定价模式，根据调用量和功能需求提供不同的套餐选择。对于企业客户，我们还提供定制化的解决方案和价格策略，请联系我们的销售团队获取详细报价。
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>如何申请AI模型定制服务？</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                您可以通过我们的官方网站联系我们，或直接拨打客服热线申请AI模型定制服务。我们的技术团队会与您进行需求沟通，制定详细的方案和实施计划，确保满足您的特定业务需求。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section class="case-section">
+      <div class="container">
+        <h2>客户案例</h2>
+        <div class="case-slider">
+          <div class="case-card">
+            <div class="case-image">
+              <i
+                class="fas fa-building"
+                style="font-size: 48px; color: #999"
+              ></i>
+            </div>
+            <div class="case-content">
+              <h4>某大型银行抵押贷款系统</h4>
+              <p>
+                为银行提供房产估价API接口，支持抵押贷款审批流程，提高审批效率和准确性。
+              </p>
+              <div class="case-meta">金融行业 | 2023年</div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-image">
+              <i class="fas fa-home" style="font-size: 48px; color: #999"></i>
+            </div>
+            <div class="case-content">
+              <h4>全国连锁房产中介估价系统</h4>
+              <p>
+                为连锁房产中介提供定制化的估价系统，支持全国200+城市的房产快速估价。
+              </p>
+              <div class="case-meta">房地产 | 2023年</div>
+            </div>
+          </div>
+
+          <div class="case-card">
+            <div class="case-image">
+              <i
+                class="fas fa-chart-pie"
+                style="font-size: 48px; color: #999"
+              ></i>
+            </div>
+            <div class="case-content">
+              <h4>房地产投资基金分析平台</h4>
+              <p>为投资基金提供房产市场分析和投资决策支持，助力精准投资。</p>
+              <div class="case-meta">投资 | 2022年</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="contact-section">
+      <div class="container">
+        <h2>联系我们</h2>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h3>联系方式</h3>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-text">
+                <p>湖南省长沙市岳麓区岳麓大道588号</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="contact-text">
+                <p>400-123-4567</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-text">
+                <p>contact@shuzhigujia.com</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form">
+            <h3>在线咨询</h3>
+            <form
+              id="contactForm"
+              style="display: flex; flex-direction: column; gap: 20px"
+            >
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="name"
+                  style="margin-bottom: 8px; font-weight: 500; color: #333"
+                  >姓名</label
+                >
+                <input
+                  type="text"
+                  id="name"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #e9edf2;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    transition: all 0.3s;
+                    outline: none;
+                  "
+                />
+              </div>
+
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="email"
+                  style="margin-bottom: 8px; font-weight: 500; color: #333"
+                  >邮箱</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #e9edf2;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    transition: all 0.3s;
+                    outline: none;
+                  "
+                />
+              </div>
+
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="phone"
+                  style="margin-bottom: 8px; font-weight: 500; color: #333"
+                  >电话</label
+                >
+                <input
+                  type="tel"
+                  id="phone"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #e9edf2;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    transition: all 0.3s;
+                    outline: none;
+                  "
+                />
+              </div>
+
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="message"
+                  style="margin-bottom: 8px; font-weight: 500; color: #333"
+                  >留言</label
+                >
+                <textarea
+                  id="message"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #e9edf2;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    min-height: 150px;
+                    resize: vertical;
+                    transition: all 0.3s;
+                    outline: none;
+                  "
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+                style="
+                  padding: 12px 24px;
+                  font-size: 16px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  border: none;
+                  border-radius: 8px;
+                  color: white;
+                  cursor: pointer;
+                  transition: all 0.3s;
+                  align-self: flex-start;
+                "
+              >
+                提交
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">成功案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">关于我们</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="api-docs.html">API文档</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助支持</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+        <div class="copyright">
+          <p>© 2025 数智估价核心引擎 版权所有</p>
+          <p>
+            <a href="https://beian.miit.gov.cn/" target="_blank"
+              >湘ICP备2025144327号-1</a
+            >
+            |
+            <a
+              href="http://www.beian.gov.cn/portal/registerSystemInfo"
+              target="_blank"
+              >湘公网安备43011202001203号</a
+            >
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="back-to-top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- 服务详情模态框 -->
+    <div id="serviceModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">服务详情</h3>
+          <button id="closeModal" class="close-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="modalContent">
+            <!-- 服务详情内容将通过JavaScript动态填充 -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 大客户咨询表单 -->
+    <div id="largeOrderFormModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>大客户咨询</h3>
+          <button id="closeLargeOrderForm" class="close-modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            id="largeOrderForm"
+            style="display: flex; flex-direction: column; gap: 20px"
+          >
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+              "
+            >
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="companyName"
+                  style="margin-bottom: 8px; font-weight: bold"
+                  >公司名称 <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="companyName"
+                  name="companyName"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    font-size: 16px;
+                  "
+                />
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="contactName"
+                  style="margin-bottom: 8px; font-weight: bold"
+                  >联系人姓名 <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="contactName"
+                  name="contactName"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    font-size: 16px;
+                  "
+                />
+              </div>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+              "
+            >
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="position"
+                  style="margin-bottom: 8px; font-weight: bold"
+                  >职位 <span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  id="position"
+                  name="position"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    font-size: 16px;
+                  "
+                />
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <label
+                  for="budget"
+                  style="margin-bottom: 8px; font-weight: bold"
+                  >大致预算 <span style="color: red">*</span></label
+                >
+                <input
+                  type="number"
+                  id="budget"
+                  name="budget"
+                  required
+                  style="
+                    padding: 12px;
+                    border: 1px solid #ddd;
+                    border-radius: 6px;
+                    font-size: 16px;
+                  "
+                />
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <label
+                for="corePain"
+                style="margin-bottom: 8px; font-weight: bold"
+                >核心痛点 <span style="color: red">*</span></label
+              >
+              <textarea
+                id="corePain"
+                name="corePain"
+                rows="4"
+                required
+                style="
+                  padding: 12px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  font-size: 16px;
+                  resize: vertical;
+                "
+              ></textarea>
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <label
+                for="contactInfo"
+                style="margin-bottom: 8px; font-weight: bold"
+                >联系方式（电话/邮箱） <span style="color: red">*</span></label
+              >
+              <input
+                type="text"
+                id="contactInfo"
+                name="contactInfo"
+                required
+                style="
+                  padding: 12px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  font-size: 16px;
+                "
+              />
+            </div>
+            <div style="display: flex; flex-direction: column">
+              <label for="remarks" style="margin-bottom: 8px; font-weight: bold"
+                >备注信息</label
+              >
+              <textarea
+                id="remarks"
+                name="remarks"
+                rows="3"
+                style="
+                  padding: 12px;
+                  border: 1px solid #ddd;
+                  border-radius: 6px;
+                  font-size: 16px;
+                  resize: vertical;
+                "
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              style="
+                padding: 12px 24px;
+                font-size: 16px;
+                align-self: flex-start;
+              "
+            >
+              提交咨询
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- 引入共享脚本 -->
+    <script type="module" src="shared.js"></script>
+
+    <!-- 页面特定脚本 -->
+    <script>
+      // 显示购买下载模态框
+      function showPurchaseModal(serviceType) {
+        // 创建购买模态框
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>购买下载</h3>
+                        <button class="close-modal" onclick="this.closest('.modal').remove(); document.body.style.overflow = '';">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>数据洞察简报</h4>
+                        <p>价格：￥298</p>
+                        <p>包含：定制主题数据分析简报（如竞品分析）</p>
+                        <p>适用场景：市场调研、报告素材</p>
+                        <div style="margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="this.closest('.modal').remove(); document.body.style.overflow = ''; alert('购买成功！下载链接已发送至您的邮箱。');">立即购买</button>
+                            <button class="btn btn-outline" style="margin-left: 10px;" onclick="this.closest('.modal').remove(); document.body.style.overflow = '';">取消</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        document.body.appendChild(modal);
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      // 显示预约专家模态框
+      function showAppointmentModal() {
+        // 创建预约模态框
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>预约专家</h3>
+                        <button class="close-modal" onclick="this.closest('.modal').remove(); document.body.style.overflow = '';">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>线上专题咨询</h4>
+                        <p>价格：￥398</p>
+                        <p>包含：30分钟专家线上问答服务</p>
+                        <p>适用场景：解决一个具体业务难题</p>
+                        <form style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px;">姓名</label>
+                                <input type="text" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px;">联系方式</label>
+                                <input type="text" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px;">咨询主题</label>
+                                <textarea style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; resize: vertical; min-height: 100px;"></textarea>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button type="submit" class="btn btn-primary" style="flex: 1;">提交预约</button>
+                                <button type="button" class="btn btn-outline" onclick="this.closest('.modal').remove(); document.body.style.overflow = '';">取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+        document.body.appendChild(modal);
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        // 添加表单提交事件
+        modal.querySelector('form').addEventListener('submit', function (e) {
+          e.preventDefault();
+          alert('预约成功！我们的专家将尽快与您联系。');
+          modal.remove();
+          document.body.style.overflow = '';
+        });
+      }
+
+      // 显示大客户咨询表单
+      function showLargeOrderForm() {
+        const modal = document.getElementById('largeOrderFormModal');
+        if (modal) {
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      // 关闭大客户咨询表单
+      function closeLargeOrderForm() {
+        const modal = document.getElementById('largeOrderFormModal');
+        if (modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+      }
+
+      // 页面加载完成后初始化
+      document.addEventListener('DOMContentLoaded', function () {
+        // 初始化FAQ折叠功能
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(function (question) {
+          question.addEventListener('click', function () {
+            const faqItem = this.parentElement;
+            faqItem.classList.toggle('active');
+          });
+        });
+
+        // 初始化返回顶部按钮
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+          } else {
+            backToTopBtn.classList.remove('visible');
+          }
+        });
+
+        backToTopBtn.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 初始化大客户咨询表单模态框
+        const modal = document.getElementById('largeOrderFormModal');
+        const closeBtn = document.getElementById('closeLargeOrderForm');
+        const form = document.getElementById('largeOrderForm');
+
+        if (modal && closeBtn) {
+          // 点击关闭按钮
+          closeBtn.addEventListener('click', closeLargeOrderForm);
+
+          // 点击模态框外部关闭
+          modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+              closeLargeOrderForm();
+            }
+          });
+
+          // ESC键关闭
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+              closeLargeOrderForm();
+            }
+          });
+        }
+
+        // 表单提交处理
+        if (form) {
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('感谢您的咨询，我们将尽快与您联系！');
+            form.reset();
+            closeLargeOrderForm();
+          });
+        }
+
+        // 初始化联系表单
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+          contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('感谢您的留言，我们将尽快与您联系！');
+            contactForm.reset();
+          });
+        }
+
+        // 初始化滚动动画
+        const fadeElements = document.querySelectorAll('.fade-in');
+        function checkFade() {
+          fadeElements.forEach(function (element) {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            if (
+              elementTop < windowHeight * 0.85 &&
+              !element.classList.contains('active')
+            ) {
+              element.classList.add('active');
+            }
+          });
+        }
+
+        // 初始检查
+        checkFade();
+
+        // 滚动时检查
+        window.addEventListener('scroll', checkFade);
+      });
+    </script>
+  </body>
+</html>

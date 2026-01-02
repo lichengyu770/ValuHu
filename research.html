@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>数据研究 - ValuHub</title>
+    <meta name="description" content="ValuHub数据研究中心，提供房产市场指数报告、白皮书、行业洞察等专业内容，建立房产价值领域的行业话语权。">
+    <meta name="keywords" content="房产市场,指数报告,白皮书,行业洞察,ValuHub,数据研究">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ValuHub">
+    <meta name="copyright" content="© 2025 ValuHub">
+    <meta property="og:title" content="数据研究 - ValuHub">
+    <meta property="og:description" content="ValuHub数据研究中心，提供房产市场指数报告、白皮书、行业洞察等专业内容，建立房产价值领域的行业话语权。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.valuhub.com/research.html">
+    <meta property="og:site_name" content="ValuHub">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="数据研究 - ValuHub">
+    <meta name="twitter:description" content="ValuHub数据研究中心，提供房产市场指数报告、白皮书、行业洞察等专业内容，建立房产价值领域的行业话语权。">
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "数据研究 - ValuHub",
+      "url": "https://www.valuhub.com/research.html",
+      "description": "ValuHub数据研究中心，提供房产市场指数报告、白皮书、行业洞察等专业内容，建立房产价值领域的行业话语权。",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ValuHub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.valuhub.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- 引入CSS样式 - 预加载关键CSS -->
+    <link rel="preload" href="css/design-tokens.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/components.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="css/design-tokens.css">
+        <link rel="stylesheet" href="css/components.css">
+    </noscript>
+    
+    <!-- 页面特定样式 -->
+    <style>
+        /* 强制禁用缓存 */
+        * {
+            cache-control: no-cache;
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            gap: var(--spacing-2) !important;
+            flex-direction: row !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+        
+        .navbar-brand img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 50px !important;
+            max-height: 50px !important;
+            width: 50px !important;
+            height: 50px !important;
+            object-fit: contain !important;
+        }
+        
+        .navbar-brand span,
+        .navbar-brand a {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* 调整导航栏大小 */
+        .navbar {
+            height: 80px !important;
+            padding: 16px 24px !important;
+        }
+        
+        .nav-menu {
+            gap: var(--spacing-4) !important;
+        }
+        
+        .nav-menu a {
+            font-size: 16px !important;
+            padding: 10px 16px !important;
+        }
+        
+        /* 确保所有文字横向显示 */
+        .data-number,
+        .data-label {
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            display: block !important;
+        }
+        
+        /* 确保实时数据概览的卡片内文字横向显示 */
+        .grid-cols-4 > div {
+            writing-mode: horizontal-tb !important;
+        }
+        
+        /* Hero区域样式 */
+        .hero {
+            position: relative;
+            padding: var(--spacing-16) 0;
+            background: var(--gradient-ecosystem);
+            color: var(--color-white);
+            overflow: hidden;
+            box-shadow: var(--shadow-ecosystem-glow);
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: ecosystemMove 20s linear infinite;
+        }
+        
+        @keyframes ecosystemMove {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(50px, 50px) rotate(360deg);
+            }
+        }
+        
+        /* 报告卡片样式 */
+        .report-card {
+            transition: var(--transition-ecosystem);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        .report-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-4);
+            color: var(--color-text-tertiary);
+            font-size: var(--font-size-sm);
+        }
+        
+        /* 数据可视化样式 */
+        .chart-container {
+            height: 400px;
+            background-color: var(--color-white);
+            border-radius: var(--chart-border-radius);
+            box-shadow: var(--chart-box-shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xl);
+            color: var(--color-primary);
+            border: 1px solid var(--chart-border);
+        }
+        
+        /* 研究主题样式 */
+        .topic-item {
+            transition: var(--transition-ecosystem);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+        }
+        
+        .topic-item:hover {
+            background-color: var(--color-bg-secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        /* 团队成员卡片样式 */
+        .research-team .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+            transition: var(--transition-ecosystem);
+        }
+        
+        .research-team .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        /* 合作研究卡片样式 */
+        .cooperation-research .card {
+            box-shadow: var(--shadow-ecosystem-glow);
+        }
+        
+        /* 指数卡片样式 */
+        .market-index .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 247, 250, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-ecosystem-card);
+            transition: var(--transition-ecosystem);
+        }
+        
+        .market-index .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-ecosystem-hover);
+        }
+        
+        /* 修复文字竖向显示问题 - 确保所有主要内容区域的文字都是横向排列 */
+        .hero,
+        .market-index,
+        .latest-reports,
+        .research-topics,
+        .research-team,
+        .cooperation-research,
+        .section-title,
+        .section-subtitle,
+        .card-title,
+        .card-body,
+        .report-meta,
+        .topic-item,
+        .chart-container {
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+        }
+        
+        /* 确保所有容器元素都是横向排列 */
+        .grid,
+        .grid-cols-4,
+        .grid-cols-3,
+        .grid-cols-2,
+        .d-flex,
+        .items-center,
+        .justify-content-between,
+        .justify-content-center {
+            flex-direction: row !important;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 767px) {
+            .hero {
+                padding: var(--spacing-12) 0;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .market-index,
+            .latest-reports,
+            .research-topics,
+            .research-team {
+                padding: var(--spacing-12) 0;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="navbar navbar-fixed">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ai-valuation.html" class="nav-link">AI估价</a>
+                    <a href="market-trend.html" class="nav-link">市场趋势</a>
+                    <a href="research.html" class="nav-link active">数据研究</a>
+                    <a href="valuation-history.html" class="nav-link">估价历史</a>
+                    <a href="report-generation.html" class="nav-link">报告生成</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- Hero区域 -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="text-4xl font-bold mb-4">数据研究中心</h1>
+                <p class="text-lg">提供专业的房产市场指数报告、白皮书、行业洞察，建立房产价值领域的行业话语权</p>
+            </div>
+        </section>
+        
+        <!-- 市场指数 -->
+        <section class="market-index">
+            <div class="container">
+                <h2 class="section-title">全国房产市场指数</h2>
+                <p class="section-subtitle">实时监测全国房产市场动态，提供专业的市场分析和预测</p>
+                
+                <!-- 指数概览 -->
+                <div class="grid grid-cols-4 gap-6 mt-12">
+                    <div class="card text-center">
+                        <h3 class="text-sm text-text-secondary">全国平均房价指数</h3>
+                        <div class="text-3xl font-bold text-primary mt-2">105.2</div>
+                        <div class="text-sm text-success mt-2">+1.2%</div>
+                    </div>
+                    <div class="card text-center">
+                        <h3 class="text-sm text-text-secondary">一线城市指数</h3>
+                        <div class="text-3xl font-bold text-primary mt-2">112.5</div>
+                        <div class="text-sm text-success mt-2">+0.8%</div>
+                    </div>
+                    <div class="card text-center">
+                        <h3 class="text-sm text-text-secondary">二线城市指数</h3>
+                        <div class="text-3xl font-bold text-primary mt-2">104.8</div>
+                        <div class="text-sm text-success mt-2">+1.5%</div>
+                    </div>
+                    <div class="card text-center">
+                        <h3 class="text-sm text-text-secondary">三线城市指数</h3>
+                        <div class="text-3xl font-bold text-primary mt-2">102.3</div>
+                        <div class="text-sm text-warning mt-2">-0.2%</div>
+                    </div>
+                </div>
+                
+                <!-- 指数走势图 -->
+                <div class="chart-container mt-12">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 最新报告 -->
+        <section class="latest-reports">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-8">
+                    <h2 class="section-title">最新研究报告</h2>
+                    <a href="reports.html" class="text-primary font-medium">查看全部</a>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-8">
+                    <!-- 报告1 -->
+                    <div class="card report-card">
+                        <h3 class="card-title">2025年第一季度全国房产市场报告</h3>
+                        <p class="card-body">全面分析2025年第一季度全国房产市场走势，包括价格变化、成交量、区域差异等。</p>
+                        <div class="report-meta mt-4">
+                            <span><i class="far fa-calendar-alt"></i> 2025-04-15</span>
+                            <span><i class="far fa-file-alt"></i> PDF</span>
+                            <span><i class="far fa-eye"></i> 12,345</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 报告2 -->
+                    <div class="card report-card">
+                        <h3 class="card-title">中国城市房产价值白皮书2025</h3>
+                        <p class="card-body">深度剖析中国主要城市房产价值体系，为投资者和政策制定者提供参考。</p>
+                        <div class="report-meta mt-4">
+                            <span><i class="far fa-calendar-alt"></i> 2025-03-20</span>
+                            <span><i class="far fa-file-alt"></i> PDF</span>
+                            <span><i class="far fa-eye"></i> 23,456</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 报告3 -->
+                    <div class="card report-card">
+                        <h3 class="card-title">AI技术在房产估价中的应用研究</h3>
+                        <p class="card-body">探讨AI技术在房产估价领域的应用现状和未来发展趋势。</p>
+                        <div class="report-meta mt-4">
+                            <span><i class="far fa-calendar-alt"></i> 2025-02-10</span>
+                            <span><i class="far fa-file-alt"></i> PDF</span>
+                            <span><i class="far fa-eye"></i> 18,765</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 研究主题 -->
+        <section class="research-topics">
+            <div class="container">
+                <h2 class="section-title">重点研究主题</h2>
+                <p class="section-subtitle">聚焦房产价值领域的核心问题，开展深入研究</p>
+                
+                <div class="grid grid-cols-2 gap-8 mt-12">
+                    <!-- 主题1 -->
+                    <div class="card topic-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">房产价格预测模型</h3>
+                                <p class="text-text-secondary mt-2">基于机器学习的房产价格预测模型研究，提高预测准确性。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 主题2 -->
+                    <div class="card topic-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">区域价值评估体系</h3>
+                                <p class="text-text-secondary mt-2">构建科学的区域房产价值评估体系，为城市规划提供参考。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 主题3 -->
+                    <div class="card topic-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">住房租赁市场研究</h3>
+                                <p class="text-text-secondary mt-2">深入研究住房租赁市场，为租赁政策制定提供依据。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 主题4 -->
+                    <div class="card topic-item p-6">
+                        <div class="d-flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">房地产金融创新</h3>
+                                <p class="text-text-secondary mt-2">研究房地产金融创新模式，推动行业健康发展。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 研究团队 -->
+        <section class="research-team">
+            <div class="container">
+                <h2 class="section-title">研究团队</h2>
+                <p class="section-subtitle">由行业专家和学术精英组成的研究团队</p>
+                
+                <div class="grid grid-cols-4 gap-8 mt-12">
+                    <!-- 团队成员1 -->
+                    <div class="card text-center">
+                        <div class="w-24 h-24 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-2xl">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="card-title mt-4">张明教授</h3>
+                        <p class="text-text-secondary">首席经济学家</p>
+                    </div>
+                    
+                    <!-- 团队成员2 -->
+                    <div class="card text-center">
+                        <div class="w-24 h-24 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-2xl">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="card-title mt-4">李华博士</h3>
+                        <p class="text-text-secondary">AI技术专家</p>
+                    </div>
+                    
+                    <!-- 团队成员3 -->
+                    <div class="card text-center">
+                        <div class="w-24 h-24 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-2xl">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="card-title mt-4">王强先生</h3>
+                        <p class="text-text-secondary">市场分析总监</p>
+                    </div>
+                    
+                    <!-- 团队成员4 -->
+                    <div class="card text-center">
+                        <div class="w-24 h-24 rounded-full bg-primary/10 mx-auto flex items-center justify-center text-primary text-2xl">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="card-title mt-4">赵静女士</h3>
+                        <p class="text-text-secondary">数据科学家</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 合作研究 -->
+        <section class="cooperation-research">
+            <div class="container">
+                <div class="card bg-gradient-to-r from-primary to-secondary text-white p-8 text-center">
+                    <h2 class="text-2xl font-bold mb-4">开展合作研究</h2>
+                    <p class="mb-6">我们欢迎与高校、研究机构、企业开展合作研究，共同推动房产价值领域的发展</p>
+                    <a href="ecosystem.html" class="btn btn-white">了解合作</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="grid grid-lg">
+                <div class="grid-item grid-lg-3">
+                    <div class="footer-logo">
+                        <a href="index.html" class="navbar-brand">
+                            <img src="图片1.png" alt="ValuHub Logo">
+                            ValuHub
+                        </a>
+                        <p class="mt-4 text-sm text-text-secondary">
+                            房产价值生态引擎，为您提供专业、可靠的房产估价服务。
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">产品与服务</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">房产估价</a></li>
+                        <li><a href="#">市场分析</a></li>
+                        <li><a href="#">数据报告</a></li>
+                        <li><a href="#">API服务</a></li>
+                        <li><a href="solutions.html">解决方案</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">解决方案</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">大众端</a></li>
+                        <li><a href="#">政务端</a></li>
+                        <li><a href="#">企业端</a></li>
+                        <li><a href="#">院校端</a></li>
+                        <li><a href="#">资管通</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-2">
+                    <h4 class="footer-title">关于我们</h4>
+                    <ul class="footer-links">
+                        <li><a href="about-us.html">公司介绍</a></li>
+                        <li><a href="#">团队成员</a></li>
+                        <li><a href="ecosystem.html">合作伙伴</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                    </ul>
+                </div>
+                <div class="grid-item grid-lg-3">
+                    <h4 class="footer-title">联系我们</h4>
+                    <ul class="footer-links contact-links">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>北京市朝阳区XX大厦XX层</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>400-123-4567</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@valuhub.com</span>
+                        </li>
+                    </ul>
+                    <div class="social-links mt-4">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom mt-8 pt-6 border-top">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="text-sm text-text-secondary">
+                        © 2025 ValuHub. 保留所有权利。
+                    </p>
+                    <div class="footer-bottom-links mt-3 mt-md-0">
+                        <a href="privacy-policy.html" class="text-sm text-text-secondary mr-4">隐私政策</a>
+                        <a href="terms-of-service.html" class="text-sm text-text-secondary">服务条款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 引入JavaScript - 异步加载 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
+</body>
+</html>

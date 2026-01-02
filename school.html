@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ValuHub院校端 - 智链·新工匠</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #667eea; --primary-dark: #5568d3; --secondary: #764ba2; --accent: #ff6b6b; --success: #52c41a; --warning: #faad14; --text: #333; --text-light: #666; --bg: #f5f7fa; --white: #fff; --shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+        
+        .header { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 0 20px; position: sticky; top: 0; z-index: 1000; }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: bold; }
+        /* 确保logo始终正确显示 */
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+        .nav-menu { display: flex; gap: 8px; }
+        .nav-item { padding: 10px 18px; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.2); }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; display: grid; grid-template-columns: 280px 1fr; gap: 30px; }
+        
+        .sidebar { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; position: sticky; top: 100px; height: fit-content; }
+        .sidebar-header { padding: 25px 20px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; text-align: center; }
+        .sidebar-title { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+        .sidebar-subtitle { font-size: 12px; opacity: 0.9; }
+        .module-list { padding: 15px 0; }
+        .module-item { padding: 15px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.3s; border-left: 3px solid transparent; }
+        .module-item:hover { background: var(--bg); }
+        .module-item.active { background: linear-gradient(90deg, rgba(102,126,234,0.1) 0%, transparent 100%); border-left-color: var(--primary); }
+        .module-item.active .module-name { color: var(--primary); font-weight: 600; }
+        .module-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; }
+        .module-info { flex: 1; }
+        .module-name { font-weight: 500; margin-bottom: 2px; }
+        .module-desc { font-size: 12px; color: var(--text-light); }
+        .module-badge { background: var(--accent); color: white; font-size: 11px; padding: 2px 8px; border-radius: 10px; }
+        
+        .module-icon.cases { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .module-icon.practice { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .module-icon.assessment { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
+        .module-icon.enterprise { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .module-icon.student { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+        .module-icon.certificate { background: linear-gradient(135deg, #fa709a, #fee140); }
+        
+        .main-content { min-height: 600px; }
+        .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .content-title { font-size: 26px; font-weight: bold; display: flex; align-items: center; gap: 12px; }
+        .content-title i { color: var(--primary); }
+        .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; border: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+        .btn-outline { background: var(--white); color: var(--primary); border: 1px solid var(--primary); }
+        .btn-outline:hover { background: var(--bg); }
+        
+        .content-panel { display: none; animation: fadeIn 0.4s ease; }
+        .content-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .cases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .case-card { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; transition: 0.3s; cursor: pointer; }
+        .case-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .case-image { height: 180px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; color: white; font-size: 60px; position: relative; }
+        .case-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9); color: var(--primary); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .case-content { padding: 20px; }
+        .case-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .case-meta { display: flex; gap: 15px; margin-bottom: 15px; color: var(--text-light); font-size: 13px; }
+        .case-desc { color: var(--text-light); font-size: 14px; line-height: 1.6; margin-bottom: 15px; }
+        .case-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid #e0e0e0; }
+        .case-price { font-size: 20px; font-weight: bold; color: var(--accent); }
+        .case-btn { padding: 8px 16px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.3s; }
+        .case-btn:hover { transform: scale(1.05); }
+        
+        .practice-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--white); border-radius: 16px; padding: 25px; box-shadow: var(--shadow); text-align: center; }
+        .stat-icon { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 15px; }
+        .stat-icon.blue { background: rgba(102,126,234,0.1); color: var(--primary); }
+        .stat-icon.green { background: rgba(82,196,26,0.1); color: var(--success); }
+        .stat-icon.orange { background: rgba(250,173,20,0.1); color: var(--warning); }
+        .stat-icon.purple { background: rgba(114,46,209,0.1); color: #722ed1; }
+        .stat-value { font-size: 32px; font-weight: bold; margin-bottom: 5px; }
+        .stat-label { color: var(--text-light); font-size: 14px; }
+        
+        .practice-progress { background: var(--white); border-radius: 16px; padding: 30px; box-shadow: var(--shadow); margin-bottom: 30px; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .progress-title { font-size: 18px; font-weight: bold; }
+        .progress-bar-container { height: 12px; background: var(--bg); border-radius: 6px; overflow: hidden; margin-bottom: 15px; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 6px; transition: width 0.5s ease; }
+        .progress-stats { display: flex; justify-content: space-between; color: var(--text-light); font-size: 14px; }
+        
+        .task-list { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+        .task-item { padding: 20px 25px; display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #e0e0e0; transition: 0.3s; }
+        .task-item:hover { background: var(--bg); }
+        .task-item:last-child { border-bottom: none; }
+        .task-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .task-info { flex: 1; }
+        .task-name { font-weight: 600; margin-bottom: 5px; }
+        .task-meta { color: var(--text-light); font-size: 13px; display: flex; gap: 15px; }
+        .task-status { padding: 6px 15px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+        .task-status.completed { background: rgba(82,196,26,0.1); color: var(--success); }
+        .task-status.in-progress { background: rgba(102,126,234,0.1); color: var(--primary); }
+        .task-status.pending { background: rgba(250,173,20,0.1); color: var(--warning); }
+        
+        .assessment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .exam-card { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; transition: 0.3s; }
+        .exam-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .exam-header { padding: 25px; color: white; text-align: center; }
+        .exam-header.blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .exam-header.green { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .exam-header.orange { background: linear-gradient(135deg, #fc4a1a, #f7b733); }
+        .exam-icon { font-size: 48px; margin-bottom: 15px; }
+        .exam-name { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+        .exam-info { padding: 25px; }
+        .exam-detail { display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+        .exam-detail:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .exam-detail-label { color: var(--text-light); }
+        .exam-detail-value { font-weight: 600; }
+        .exam-btn { width: 100%; padding: 12px; margin-top: 20px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .exam-btn.start { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .exam-btn.continue { background: var(--bg); color: var(--primary); }
+        .exam-btn:hover { transform: translateY(-2px); }
+        
+        .enterprise-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .enterprise-card { background: var(--white); border-radius: 16px; padding: 25px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 20px; }
+        .enterprise-icon { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+        .enterprise-icon.blue { background: rgba(79,172,254,0.1); color: #4facfe; }
+        .enterprise-icon.green { background: rgba(82,196,26,0.1); color: var(--success); }
+        .enterprise-icon.purple { background: rgba(114,46,209,0.1); color: #722ed1; }
+        .enterprise-value { font-size: 28px; font-weight: bold; margin-bottom: 5px; }
+        .enterprise-label { color: var(--text-light); }
+        
+        .job-list { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); }
+        .table-header { padding: 20px 25px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; display: flex; justify-content: space-between; align-items: center; }
+        .table-title { font-size: 18px; font-weight: bold; }
+        .search-input { padding: 10px 15px; border: none; border-radius: 8px; background: rgba(255,255,255,0.9); width: 250px; font-size: 14px; }
+        .job-item { padding: 25px; border-bottom: 1px solid #e0e0e0; display: flex; gap: 20px; transition: 0.3s; }
+        .job-item:hover { background: var(--bg); }
+        .job-item:last-child { border-bottom: none; }
+        .job-logo { width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; flex-shrink: 0; }
+        .job-info { flex: 1; }
+        .job-title { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+        .job-company { color: var(--text-light); margin-bottom: 10px; }
+        .job-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .job-tag { padding: 4px 12px; background: var(--bg); border-radius: 15px; font-size: 12px; color: var(--text-light); }
+        .job-action { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+        .job-salary { font-size: 20px; font-weight: bold; color: var(--accent); }
+        
+        .cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .cert-card { background: var(--white); border-radius: 16px; padding: 25px; box-shadow: var(--shadow); text-align: center; position: relative; overflow: hidden; }
+        .cert-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .cert-card.level-1::before { background: #52c41a; }
+        .cert-card.level-2::before { background: var(--primary); }
+        .cert-card.level-3::before { background: var(--secondary); }
+        .cert-card.level-4::before { background: linear-gradient(90deg, #fa709a, #fee140); }
+        .cert-icon { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 15px; background: var(--bg); }
+        .cert-name { font-size: 16px; font-weight: bold; margin-bottom: 8px; }
+        .cert-desc { font-size: 13px; color: var(--text-light); margin-bottom: 15px; }
+        .cert-value { font-size: 24px; font-weight: bold; color: var(--primary); }
+        .cert-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.3s; margin-top: 15px; }
+        .cert-btn.available { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .cert-btn.locked { background: var(--bg); color: var(--text-light); cursor: not-allowed; }
+        .cert-btn:hover { transform: translateY(-2px); }
+        
+        .student-table { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        .table th { background: var(--bg); font-weight: 600; color: var(--text-light); font-size: 13px; text-transform: uppercase; }
+        .table tr:hover td { background: var(--bg); }
+        .student-info { display: flex; align-items: center; gap: 12px; }
+        .student-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
+        .student-name { font-weight: 600; }
+        .student-id { font-size: 12px; color: var(--text-light); }
+        .progress-small { width: 100px; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; }
+        .progress-small-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; }
+        .badge { padding: 4px 12px; border-radius: 15px; font-size: 12px; font-weight: 500; }
+        .badge.excellent { background: rgba(82,196,26,0.1); color: var(--success); }
+        .badge.good { background: rgba(102,126,234,0.1); color: var(--primary); }
+        .badge.average { background: rgba(250,173,20,0.1); color: var(--warning); }
+        
+        @media (max-width: 1200px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .module-list { display: flex; overflow-x: auto; padding: 10px; gap: 10px; }
+            .module-item { flex-shrink: 0; border-left: none; border-bottom: 3px solid transparent; }
+            .module-item.active { border-left: none; border-bottom-color: var(--primary); }
+            .practice-stats { grid-template-columns: repeat(2, 1fr); }
+            .assessment-grid { grid-template-columns: repeat(2, 1fr); }
+            .cert-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .practice-stats, .assessment-grid, .cert-grid, .enterprise-stats { grid-template-columns: 1fr; }
+            .cases-grid { grid-template-columns: 1fr; }
+        }
+        .animate-on-scroll { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                <div>
+                    <div>ValuHub院校端</div>
+                    <div style="font-size: 12px; opacity: 0.8;">智链·新工匠</div>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item active" data-nav="cases"><i class="fas fa-folder-open"></i><span>案例库</span></div>
+                <div class="nav-item" data-nav="practice"><i class="fas fa-laptop-code"></i><span>实训</span></div>
+                <div class="nav-item" data-nav="assessment"><i class="fas fa-clipboard-check"></i><span>考核</span></div>
+                <div class="nav-item" data-nav="enterprise"><i class="fas fa-building"></i><span>企业</span></div>
+                <div class="nav-item" data-nav="student"><i class="fas fa-users"></i><span>学生</span></div>
+                <div class="nav-item" data-nav="certificate"><i class="fas fa-certificate"></i><span>认证</span></div>
+            </nav>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div>
+                    <div style="font-weight: 500;">张老师</div>
+                    <div style="font-size: 12px; opacity: 0.8;">房地产教研室</div>
+                </div>
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center;">👨‍🏫</div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">功能模块</div>
+                <div class="sidebar-subtitle">智链·新工匠 教学平台</div>
+            </div>
+            <div class="module-list">
+                <div class="module-item active" data-module="cases">
+                    <div class="module-icon cases">📁</div>
+                    <div class="module-info">
+                        <div class="module-name">案例库</div>
+                        <div class="module-desc">真实案例学习</div>
+                    </div>
+                    <span class="module-badge">156</span>
+                </div>
+                <div class="module-item" data-module="practice">
+                    <div class="module-icon practice">💻</div>
+                    <div class="module-info">
+                        <div class="module-name">估价实训</div>
+                        <div class="module-desc">实操技能训练</div>
+                    </div>
+                    <span class="module-badge">8</span>
+                </div>
+                <div class="module-item" data-module="assessment">
+                    <div class="module-icon assessment">📝</div>
+                    <div class="module-info">
+                        <div class="module-name">考核评估</div>
+                        <div class="module-desc">能力测评考试</div>
+                    </div>
+                </div>
+                <div class="module-item" data-module="enterprise">
+                    <div class="module-icon enterprise">🏢</div>
+                    <div class="module-info">
+                        <div class="module-name">企业对接</div>
+                        <div class="module-desc">就业实习推荐</div>
+                    </div>
+                    <span class="module-badge">23</span>
+                </div>
+                <div class="module-item" data-module="student">
+                    <div class="module-icon student">👥</div>
+                    <div class="module-info">
+                        <div class="module-name">学生管理</div>
+                        <div class="module-desc">学习进度跟踪</div>
+                    </div>
+                </div>
+                <div class="module-item" data-module="certificate">
+                    <div class="module-icon certificate">🎓</div>
+                    <div class="module-info">
+                        <div class="module-name">技能认证</div>
+                        <div class="module-desc">职业资格考证</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <!-- 案例库 -->
+            <div class="content-panel active" id="cases-panel">
+                <div class="content-header">
+                    <h2 class="content-title"><i class="fas fa-folder-open"></i>房地产案例库</h2>
+                    <div>
+                        <button class="btn btn-outline"><i class="fas fa-filter"></i>筛选</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i>上传案例</button>
+                    </div>
+                </div>
+                <div class="cases-grid">
+                    <div class="case-card animate-on-scroll" data-case-id="case-1">
+                        <div class="case-image">🏠<span class="case-tag">住宅</span></div>
+                        <div class="case-content">
+                            <h3 class="case-title">长沙市岳麓区某住宅小区估价</h3>
+                            <div class="case-meta"><span>📍 岳麓区</span><span>📐 120㎡</span><span>📅 2024-12</span></div>
+                            <p class="case-desc">位于岳麓区核心地段，周边配套设施完善，交通便利。采用市场比较法和收益法进行综合估价。</p>
+                            <div class="case-footer">
+                                <span class="case-price">185万元</span>
+                                <button class="case-btn" data-case-id="case-1">开始实训</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card animate-on-scroll" data-case-id="case-2">
+                        <div class="case-image" style="background: linear-gradient(135deg, #11998e, #38ef7d);">🏢<span class="case-tag">写字楼</span></div>
+                        <div class="case-content">
+                            <h3 class="case-title">长沙市天心区甲级写字楼估价</h3>
+                            <div class="case-meta"><span>📍 天心区</span><span>📐 500㎡</span><span>📅 2024-11</span></div>
+                            <p class="case-desc">甲级写字楼，位于五一商圈核心，采用收益法和市场比较法进行综合评估。</p>
+                            <div class="case-footer">
+                                <span class="case-price">520万元</span>
+                                <button class="case-btn" data-case-id="case-2">开始实训</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card animate-on-scroll" data-case-id="case-3">
+                        <div class="case-image" style="background: linear-gradient(135deg, #fc4a1a, #f7b733);">🏪<span class="case-tag">商铺</span></div>
+                        <div class="case-content">
+                            <h3 class="case-title">长沙市开福区底商估价</h3>
+                            <div class="case-meta"><span>📍 开福区</span><span>📐 80㎡</span><span>📅 2024-10</span></div>
+                            <p class="case-desc">临街底商，人流量大，适合餐饮零售。采用收益法和市场比较法进行估价。</p>
+                            <div class="case-footer">
+                                <span class="case-price">210万元</span>
+                                <button class="case-btn" data-case-id="case-3">开始实训</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card animate-on-scroll" data-case-id="case-4">
+                        <div class="case-image" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">🏨<span class="case-tag">别墅</span></div>
+                        <div class="case-content">
+                            <h3 class="case-title">长沙市雨花区别墅估价</h3>
+                            <div class="case-meta"><span>📍 雨花区</span><span>📐 350㎡</span><span>📅 2024-09</span></div>
+                            <p class="case-desc">独栋别墅，带花园和车库，位于高尚住宅区。采用市场比较法和成本法进行估价。</p>
+                            <div class="case-footer">
+                                <span class="case-price">680万元</span>
+                                <button class="case-btn" data-case-id="case-4">开始实训</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card animate-on-scroll" data-case-id="case-5">
+                        <div class="case-image" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">🏭<span class="case-tag">厂房</span></div>
+                        <div class="case-content">
+                            <h3 class="case-title">长沙经开区工业厂房估价</h3>
+                            <div class="case-meta"><span>📍 经开区</span><span>📐 2000㎡</span><span>📅 2024-08</span></div>
+                            <p class="case-desc">标准工业厂房，带办公楼，采用成本法和收益法进行综合评估。</p>
+                            <div class="case-footer">
+                                <span class="case-price">450万元</span>
+                                <button class="case-btn" data-case-id="case-5">开始实训</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card animate-on-scroll" data-case-id="case-6">
+                        <div class="case-image" style="background: linear-gradient(135deg, #fa709a, #fee140);">🛏️<span class="case-tag">公寓</span></div>
+                        <div class="case-content">
+                            <h3 class="case-title">长沙市芙蓉区loft公寓估价</h3>
+                            <div class="case-meta"><span>📍 芙蓉区</span><span>📐 55㎡</span><span>📅 2024-07</span></div>
+                            <p class="case-desc">loft复式公寓，地铁口附近，租金回报率高。采用市场比较法估价。</p>
+                            <div class="case-footer">
+                                <span class="case-price">88万元</span>
+                                <button class="case-btn" data-case-id="case-6">开始实训</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 实训 -->
+            <div class="content-panel" id="practice-panel">
+                <div class="content-header">
+                    <h2 class="content-title"><i class="fas fa-laptop-code"></i>估价实训中心</h2>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i>新建任务</button>
+                </div>
+                <div class="practice-stats">
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-icon blue">📚</div>
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">已完成实训数</div>
+                    </div>
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-icon green">⏱️</div>
+                        <div class="stat-value">32h</div>
+                        <div class="stat-label">累计实训时长</div>
+                    </div>
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-icon orange">📊</div>
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">平均准确率</div>
+                    </div>
+                    <div class="stat-card animate-on-scroll">
+                        <div class="stat-icon purple">🏆</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">获得证书数</div>
+                    </div>
+                </div>
+                <div class="practice-progress animate-on-scroll">
+                    <div class="progress-header">
+                        <h3 class="progress-title">本学期实训进度</h3>
+                        <span style="color: var(--primary); font-weight: 600;">75%</span>
+                    </div>
+                    <div class="progress-bar-container"><div class="progress-bar" style="width: 75%;"></div></div>
+                    <div class="progress-stats"><span>已完成 12/16 项任务</span><span>预计完成时间: 2025年1月15日</span></div>
+                </div>
+                <div class="task-list animate-on-scroll">
+                    <div class="task-item">
+                        <div class="task-icon" style="background: rgba(82,196,26,0.1); color: #52c41a;"><i class="fas fa-check"></i></div>
+                        <div class="task-info">
+                            <div class="task-name">住宅小区估价实务</div>
+                            <div class="task-meta"><span>⏱️ 预计3小时</span><span>📊 基础级</span><span>📅 截止: 2024-12-20</span></div>
+                        </div>
+                        <span class="task-status completed">已完成</span>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-icon" style="background: rgba(82,196,26,0.1); color: #52c41a;"><i class="fas fa-check"></i></div>
+                        <div class="task-info">
+                            <div class="task-name">商业综合体估价</div>
+                            <div class="task-meta"><span>⏱️ 预计4小时</span><span>📊 进阶级</span><span>📅 截止: 2024-12-25</span></div>
+                        </div>
+                        <span class="task-status completed">已完成</span>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-icon" style="background: rgba(102,126,234,0.1); color: var(--primary);"><i class="fas fa-spinner"></i></div>
+                        <div class="task-info">
+                            <div class="task-name">工业厂房估价</div>
+                            <div class="task-meta"><span>⏱️ 预计5小时</span><span>📊 高级</span><span>📅 截止: 2025-01-05</span></div>
+                        </div>
+                        <span class="task-status in-progress">进行中</span>
+                    </div>
+                    <div class="task-item">
+                        <div class="task-icon" style="background: rgba(250,173,20,0.1); color: var(--warning);"><i class="fas fa-clock"></i></div>
+                        <div class="task-info">
+                            <div class="task-name">土地使用权出让估价</div>
+                            <div class="task-meta"><span>⏱️ 预计6小时</span><span>📊 高级</span><span>📅 截止: 2025-01-15</span></div>
+                        </div>
+                        <span class="task-status pending">待开始</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 考核 -->
+            <div class="content-panel" id="assessment-panel">
+                <div class="content-header">
+                    <h2 class="content-title"><i class="fas fa-clipboard-check"></i>考核评估中心</h2>
+                </div>
+                <div class="assessment-grid">
+                    <div class="exam-card animate-on-scroll">
+                        <div class="exam-header blue">
+                            <div class="exam-icon">📖</div>
+                            <div class="exam-name">理论知识考核</div>
+                        </div>
+                        <div class="exam-info">
+                            <div class="exam-detail"><span class="exam-detail-label">题目数量</span><span class="exam-detail-value">100题</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">考试时长</span><span class="exam-detail-value">90分钟</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">及格分数</span><span class="exam-detail-value">60分</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">最佳成绩</span><span class="exam-detail-value" style="color: var(--success);">92分</span></div>
+                            <button class="exam-btn continue">继续练习</button>
+                        </div>
+                    </div>
+                    <div class="exam-card animate-on-scroll">
+                        <div class="exam-header green">
+                            <div class="exam-icon">💼</div>
+                            <div class="exam-name">案例分析考核</div>
+                        </div>
+                        <div class="exam-info">
+                            <div class="exam-detail"><span class="exam-detail-label">案例数量</span><span class="exam-detail-value">5题</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">考试时长</span><span class="exam-detail-value">120分钟</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">及格分数</span><span class="exam-detail-value">70分</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">最佳成绩</span><span class="exam-detail-value" style="color: var(--warning);">68分</span></div>
+                            <button class="exam-btn start">开始考试</button>
+                        </div>
+                    </div>
+                    <div class="exam-card animate-on-scroll">
+                        <div class="exam-header orange">
+                            <div class="exam-icon">🎯</div>
+                            <div class="exam-name">综合能力测评</div>
+                        </div>
+                        <div class="exam-info">
+                            <div class="exam-detail"><span class="exam-detail-label">考核项目</span><span class="exam-detail-value">8项</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">考试时长</span><span class="exam-detail-value">180分钟</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">及格分数</span><span class="exam-detail-value">75分</span></div>
+                            <div class="exam-detail"><span class="exam-detail-label">考试状态</span><span class="exam-detail-value" style="color: var(--primary);">未开始</span></div>
+                            <button class="exam-btn start">预约考试</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 企业对接 -->
+            <div class="content-panel" id="enterprise-panel">
+                <div class="content-header">
+                    <h2 class="content-title"><i class="fas fa-building"></i>企业对接中心</h2>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i>发布职位</button>
+                </div>
+                <div class="enterprise-stats">
+                    <div class="enterprise-card animate-on-scroll">
+                        <div class="enterprise-icon blue"><i class="fas fa-briefcase"></i></div>
+                        <div><div class="enterprise-value">23</div><div class="enterprise-label">在招职位</div></div>
+                    </div>
+                    <div class="enterprise-card animate-on-scroll">
+                        <div class="enterprise-icon green"><i class="fas fa-handshake"></i></div>
+                        <div><div class="enterprise-value">8</div><div class="enterprise-label">合作企业</div></div>
+                    </div>
+                    <div class="enterprise-card animate-on-scroll">
+                        <div class="enterprise-icon purple"><i class="fas fa-user-plus"></i></div>
+                        <div><div class="enterprise-value">15</div><div class="enterprise-label">简历投递</div></div>
+                    </div>
+                </div>
+                <div class="job-list animate-on-scroll">
+                    <div class="table-header">
+                        <span class="table-title">最新职位</span>
+                        <input type="text" class="search-input" placeholder="搜索职位...">
+                    </div>
+                    <div class="job-item">
+                        <div class="job-logo">🏢</div>
+                        <div class="job-info">
+                            <h3 class="job-title">房地产估价师助理</h3>
+                            <div class="job-company">湖南恒信房地产评估有限公司</div>
+                            <div class="job-tags"><span class="job-tag">长沙</span><span class="job-tag">本科以上</span><span class="job-tag">经验不限</span><span class="job-tag">五险一金</span></div>
+                        </div>
+                        <div class="job-action">
+                            <span class="job-salary">5-8K/月</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">投递简历</button>
+                        </div>
+                    </div>
+                    <div class="job-item">
+                        <div class="job-logo" style="background: linear-gradient(135deg, #11998e, #38ef7d);">🏠</div>
+                        <div class="job-info">
+                            <h3 class="job-title">房产数据分析师</h3>
+                            <div class="job-company">长沙链家网络科技有限公司</div>
+                            <div class="job-tags"><span class="job-tag">长沙</span><span class="job-tag">本科以上</span><span class="job-tag">数据分析</span><span class="job-tag">双休</span></div>
+                        </div>
+                        <div class="job-action">
+                            <span class="job-salary">6-10K/月</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">投递简历</button>
+                        </div>
+                    </div>
+                    <div class="job-item">
+                        <div class="job-logo" style="background: linear-gradient(135deg, #fc4a1a, #f7b733);">🏛️</div>
+                        <div class="job-info">
+                            <h3 class="job-title">不动产登记专员</h3>
+                            <div class="job-company">长沙市不动产登记中心</div>
+                            <div class="job-tags"><span class="job-tag">长沙</span><span class="job-tag">本科以上</span><span class="job-tag">编制</span><span class="job-tag">稳定</span></div>
+                        </div>
+                        <div class="job-action">
+                            <span class="job-salary">6-9K/月</span>
+                            <button class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">投递简历</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 学生管理 -->
+            <div class="content-panel" id="student-panel">
+                <div class="content-header">
+                    <h2 class="content-title"><i class="fas fa-users"></i>学生管理</h2>
+                    <div>
+                        <button class="btn btn-outline"><i class="fas fa-file-export"></i>导出报告</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i>添加学生</button>
+                    </div>
+                </div>
+                <div class="student-table animate-on-scroll">
+                    <div class="table-header">
+                        <span class="table-title">2024级房地产经营与管理专业</span>
+                        <input type="text" class="search-input" placeholder="搜索学生...">
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr><th>学生信息</th><th>学号</th><th>完成进度</th><th>平均成绩</th><th>实训次数</th><th>状态</th><th>操作</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="student-info"><div class="student-avatar">李</div><div><div class="student-name">李明</div></div></div></td>
+                                <td>202401001</td>
+                                <td><div class="progress-small"><div class="progress-small-fill" style="width: 95%;"></div></div> 95%</td>
+                                <td>92分</td><td>15次</td>
+                                <td><span class="badge excellent">优秀</span></td>
+                                <td><button class="btn btn-outline" style="padding: 5px 12px; font-size: 12px;">详情</button></td>
+                            </tr>
+                            <tr>
+                                <td><div class="student-info"><div class="student-avatar" style="background: linear-gradient(135deg, #11998e, #38ef7d);">王</div><div><div class="student-name">王芳</div></div></div></td>
+                                <td>202401002</td>
+                                <td><div class="progress-small"><div class="progress-small-fill" style="width: 88%;"></div></div> 88%</td>
+                                <td>88分</td><td>14次</td>
+                                <td><span class="badge excellent">优秀</span></td>
+                                <td><button class="btn btn-outline" style="padding: 5px 12px; font-size: 12px;">详情</button></td>
+                            </tr>
+                            <tr>
+                                <td><div class="student-info"><div class="student-avatar" style="background: linear-gradient(135deg, #fc4a1a, #f7b733);">张</div><div><div class="student-name">张伟</div></div></div></td>
+                                <td>202401003</td>
+                                <td><div class="progress-small"><div class="progress-small-fill" style="width: 75%;"></div></div> 75%</td>
+                                <td>78分</td><td>12次</td>
+                                <td><span class="badge good">良好</span></td>
+                                <td><button class="btn btn-outline" style="padding: 5px 12px; font-size: 12px;">详情</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 技能认证 -->
+            <div class="content-panel" id="certificate-panel">
+                <div class="content-header">
+                    <h2 class="content-title"><i class="fas fa-certificate"></i>技能认证</h2>
+                </div>
+                <div class="cert-grid">
+                    <div class="cert-card animate-on-scroll level-1">
+                        <div class="cert-icon">📗</div>
+                        <div class="cert-name">初级估价员</div>
+                        <div class="cert-desc">掌握基础估价理论</div>
+                        <div class="cert-value">100%</div>
+                        <div style="font-size: 12px; color: var(--text-light); margin-top: 5px;">已完成</div>
+                        <button class="cert-btn available">查看证书</button>
+                    </div>
+                    <div class="cert-card animate-on-scroll level-2">
+                        <div class="cert-icon">📘</div>
+                        <div class="cert-name">中级估价员</div>
+                        <div class="cert-desc">熟练运用估价方法</div>
+                        <div class="cert-value">80%</div>
+                        <div style="font-size: 12px; color: var(--text-light); margin-top: 5px;">完成4/5项</div>
+                        <button class="cert-btn available">继续学习</button>
+                    </div>
+                    <div class="cert-card animate-on-scroll level-3">
+                        <div class="cert-icon">📙</div>
+                        <div class="cert-name">高级估价员</div>
+                        <div class="cert-desc">复杂项目估价能力</div>
+                        <div class="cert-value">40%</div>
+                        <div style="font-size: 12px; color: var(--text-light); margin-top: 5px;">完成2/5项</div>
+                        <button class="cert-btn available">继续学习</button>
+                    </div>
+                    <div class="cert-card animate-on-scroll level-4">
+                        <div class="cert-icon">📕</div>
+                        <div class="cert-name">估价专家</div>
+                        <div class="cert-desc">行业专家级水平</div>
+                        <div class="cert-value">0%</div>
+                        <div style="font-size: 12px; color: var(--text-light); margin-top: 5px;">尚未开始</div>
+                        <button class="cert-btn locked">锁定</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 实训工作区 -->
+            <div id="work-panel" style="display: none;">
+                <div style="margin-bottom: 30px;">
+                    <button class="btn btn-outline" onclick="backToCaseSelect()">
+                        <i class="fas fa-arrow-left"></i>
+                        返回案例选择
+                    </button>
+                </div>
+                
+                <!-- 当前案例信息 -->
+                <div class="practice-progress animate-on-scroll" style="margin-bottom: 30px;">
+                    <div class="progress-header">
+                        <h3 class="progress-title" id="current-case-name">当前案例</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div><span style="color: var(--text-light);">类型:</span> <strong id="current-case-type">-</strong></div>
+                        <div><span style="color: var(--text-light);">地址:</span> <strong id="current-case-address">-</strong></div>
+                        <div><span style="color: var(--text-light);">面积:</span> <strong id="current-case-area">-</strong></div>
+                        <div><span style="color: var(--text-light);">楼层:</span> <strong id="current-case-floor">-</strong></div>
+                        <div><span style="color: var(--text-light);">建成:</span> <strong id="current-case-year">-</strong></div>
+                        <div><span style="color: var(--text-light);">市场价:</span> <strong id="current-case-market">-</strong></div>
+                    </div>
+                </div>
+                
+                <!-- 三种估价方法 -->
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 30px;">
+                    <!-- 市场比较法 -->
+                    <div class="exam-card animate-on-scroll" style="cursor: default;">
+                        <div class="exam-header blue">
+                            <div class="exam-icon">📊</div>
+                            <div class="exam-name">市场比较法</div>
+                        </div>
+                        <div class="exam-info">
+                            <table style="width: 100%; font-size: 13px; margin-bottom: 15px;">
+                                <thead>
+                                    <tr style="background: var(--bg-light);">
+                                        <th style="padding: 8px 5px;">案例</th>
+                                        <th style="padding: 8px 5px;">单价</th>
+                                        <th style="padding: 8px 5px;">面积</th>
+                                        <th style="padding: 8px 5px;">距离</th>
+                                        <th style="padding: 8px 5px;">修正</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comparable-table"></tbody>
+                            </table>
+                            <button class="exam-btn start" onclick="calculateMarketMethod()">计算</button>
+                            <div style="margin-top: 15px; text-align: center;">
+                                <span style="color: var(--text-light);">结果: </span>
+                                <strong id="market-result" style="color: var(--primary); font-size: 18px;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 收益法 -->
+                    <div class="exam-card animate-on-scroll" style="cursor: default;">
+                        <div class="exam-header green">
+                            <div class="exam-icon">💰</div>
+                            <div class="exam-name">收益法</div>
+                        </div>
+                        <div class="exam-info">
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 13px;">月租金(元/㎡)</label>
+                                <input type="number" id="avg-rent" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="0">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-size: 13px;">空置率(%)</label>
+                                    <input type="number" id="vacancy-rate" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="5">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-size: 13px;">管理费(%)</label>
+                                    <input type="number" id="management-fee" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="5">
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 13px;">资本化率(%)</label>
+                                <input type="number" id="cap-rate" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="5">
+                            </div>
+                            <button class="exam-btn start" onclick="calculateIncomeMethod()">计算</button>
+                            <div style="margin-top: 15px; text-align: center;">
+                                <span style="color: var(--text-light);">结果: </span>
+                                <strong id="income-result" style="color: var(--success); font-size: 18px;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 成本法 -->
+                    <div class="exam-card animate-on-scroll" style="cursor: default;">
+                        <div class="exam-header orange">
+                            <div class="exam-icon">🏗️</div>
+                            <div class="exam-name">成本法</div>
+                        </div>
+                        <div class="exam-info">
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 13px;">土地单价(元/㎡)</label>
+                                <input type="number" id="land-price" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="0">
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 13px;">建安成本(元/㎡)</label>
+                                <input type="number" id="building-cost" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="0">
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-size: 13px;">利润率(%)</label>
+                                    <input type="number" id="profit-rate" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="15">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-size: 13px;">折旧率(%)</label>
+                                    <input type="number" id="depreciation-rate" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px;" value="2">
+                                </div>
+                            </div>
+                            <button class="exam-btn start" onclick="calculateCostMethod()">计算</button>
+                            <div style="margin-top: 15px; text-align: center;">
+                                <span style="color: var(--text-light);">结果: </span>
+                                <strong id="cost-result" style="color: var(--warning); font-size: 18px;">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最终结果和报告生成 -->
+                <div class="practice-progress animate-on-scroll" style="text-align: center;">
+                    <h3 style="margin-bottom: 20px;">综合估价结果</h3>
+                    <p style="font-size: 36px; font-weight: bold; color: var(--accent); margin-bottom: 30px;" id="final-result">-</p>
+                    <button class="btn btn-primary" style="padding: 15px 40px; font-size: 16px;" onclick="generateReport()">
+                        <i class="fas fa-file-alt"></i>
+                        生成估价报告
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 报告面板 -->
+            <div id="report-panel" style="display: none;">
+                <div style="margin-bottom: 30px; display: flex; gap: 15px;">
+                    <button class="btn btn-outline" onclick="backToCaseSelect()">
+                        <i class="fas fa-arrow-left"></i>
+                        返回案例选择
+                    </button>
+                    <button class="btn btn-primary" onclick="restartPractice()">
+                        <i class="fas fa-redo"></i>
+                        重新实训
+                    </button>
+                </div>
+                
+                <div id="report-content" class="student-table animate-on-scroll" style="padding: 30px;">
+                    <!-- 报告内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // ========================================
+        // 案例数据
+        // ========================================
+        const caseData = {
+            'case-1': {
+                name: '长沙市岳麓区某住宅小区估价',
+                type: '住宅',
+                address: '长沙市岳麓区麓谷街道',
+                area: 120,
+                floor: 15,
+                totalFloors: 32,
+                yearBuilt: 2018,
+                orientation: '南北通透',
+                decoration: '精装',
+                location: '岳麓区核心地段，周边配套设施完善，交通便利',
+                marketPrice: 185,
+                methods: ['market', 'income', 'cost'],
+                data: {
+                    comparables: [
+                        { name: '万科金色梦想', price: 15800, area: 118, distance: 0.5 },
+                        { name: '保利麓谷林语', price: 15200, area: 125, distance: 0.8 },
+                        { name: '中电软件园公寓', price: 14800, area: 115, distance: 1.2 },
+                        { name: '威尼斯城', price: 15500, area: 122, distance: 1.5 }
+                    ],
+                    rentData: [
+                        { area: '麓谷', price: 45, type: '两室' },
+                        { area: '涉外', price: 42, type: '两室' },
+                        { area: '汽车西站', price: 40, type: '两室' }
+                    ],
+                    costData: {
+                        landPrice: 8500,
+                        buildingCost: 3200,
+                        profitRate: 0.15,
+                        depreciationRate: 0.02
+                    }
+                }
+            },
+            'case-2': {
+                name: '长沙市天心区甲级写字楼估价',
+                type: '写字楼',
+                address: '长沙市天心区五一商圈',
+                area: 500,
+                floor: 25,
+                totalFloors: 45,
+                yearBuilt: 2020,
+                orientation: '东西向',
+                decoration: '豪装',
+                location: '五一商圈核心，地铁口500米，配套设施完善',
+                marketPrice: 520,
+                methods: ['income', 'market'],
+                data: {
+                    comparables: [
+                        { name: '华远国际中心', price: 10500, area: 480, distance: 0.3 },
+                        { name: '绿地中心', price: 9800, area: 520, distance: 0.6 },
+                        { name: '保利国际广场', price: 10200, area: 500, distance: 0.8 }
+                    ],
+                    rentData: [
+                        { area: '五一广场', price: 120, type: '写字楼' },
+                        { area: '侯家塘', price: 110, type: '写字楼' },
+                        { area: '东塘', price: 100, type: '写字楼' }
+                    ],
+                    costData: {
+                        landPrice: 12000,
+                        buildingCost: 4500,
+                        profitRate: 0.18,
+                        depreciationRate: 0.015
+                    }
+                }
+            },
+            'case-3': {
+                name: '长沙市开福区底商估价',
+                type: '商铺',
+                address: '长沙市开福区湘江世纪城',
+                area: 80,
+                floor: 1,
+                totalFloors: 33,
+                yearBuilt: 2019,
+                orientation: '朝南',
+                decoration: '简装',
+                location: '临街底商，人流量大，适合餐饮零售',
+                marketPrice: 210,
+                methods: ['income', 'market'],
+                data: {
+                    comparables: [
+                        { name: '世纪金源商铺', price: 26000, area: 75, distance: 0.2 },
+                        { name: '江湾路商铺', price: 25500, area: 85, distance: 0.5 },
+                        { name: '湘江世纪城底商', price: 26800, area: 80, distance: 0.3 }
+                    ],
+                    rentData: [
+                        { area: '湘江世纪城', price: 180, type: '商铺' },
+                        { area: '开福区政府', price: 200, type: '商铺' },
+                        { area: '四方坪', price: 160, type: '商铺' }
+                    ],
+                    costData: {
+                        landPrice: 15000,
+                        buildingCost: 2800,
+                        profitRate: 0.2,
+                        depreciationRate: 0.025
+                    }
+                }
+            },
+            'case-4': {
+                name: '长沙市雨花区别墅估价',
+                type: '别墅',
+                address: '长沙市雨花区砂子塘',
+                area: 350,
+                floor: 3,
+                totalFloors: 3,
+                yearBuilt: 2017,
+                orientation: '南北通透',
+                decoration: '豪装',
+                location: '独栋别墅，带花园和车库，位于高尚住宅区',
+                marketPrice: 680,
+                methods: ['market', 'cost'],
+                data: {
+                    comparables: [
+                        { name: '保利阆峰云墅', price: 19500, area: 360, distance: 1.5 },
+                        { name: '美洲故事', price: 18800, area: 340, distance: 2.0 },
+                        { name: '水映加州', price: 19200, area: 355, distance: 1.8 }
+                    ],
+                    rentData: [],
+                    costData: {
+                        landPrice: 9500,
+                        buildingCost: 5500,
+                        profitRate: 0.12,
+                        depreciationRate: 0.01
+                    }
+                }
+            },
+            'case-5': {
+                name: '长沙经开区工业厂房估价',
+                type: '厂房',
+                address: '长沙经开区星沙街道',
+                area: 2000,
+                floor: 2,
+                totalFloors: 2,
+                yearBuilt: 2015,
+                orientation: '南北向',
+                decoration: '标准',
+                location: '标准工业厂房，带办公楼，靠近高速公路',
+                marketPrice: 450,
+                methods: ['cost', 'income'],
+                data: {
+                    comparables: [],
+                    rentData: [
+                        { area: '星沙', price: 18, type: '厂房' },
+                        { area: '暮云', price: 15, type: '厂房' },
+                        { area: '榔梨', price: 16, type: '厂房' }
+                    ],
+                    costData: {
+                        landPrice: 1200,
+                        buildingCost: 1800,
+                        profitRate: 0.1,
+                        depreciationRate: 0.03
+                    }
+                }
+            },
+            'case-6': {
+                name: '长沙市芙蓉区loft公寓估价',
+                type: '公寓',
+                address: '长沙市芙蓉区火车站',
+                area: 55,
+                floor: 18,
+                totalFloors: 30,
+                yearBuilt: 2021,
+                orientation: '朝东',
+                decoration: '精装',
+                location: 'loft复式公寓，地铁口附近，租金回报率高',
+                marketPrice: 88,
+                methods: ['market', 'income'],
+                data: {
+                    comparables: [
+                        { name: '华远华时代', price: 16500, area: 52, distance: 0.3 },
+                        { name: '富力芙蓉新天地', price: 15800, area: 58, distance: 0.5 },
+                        { name: '万科金域蓝湾', price: 15500, area: 55, distance: 0.8 }
+                    ],
+                    rentData: [
+                        { area: '火车站', price: 85, type: '公寓' },
+                        { area: '五一广场', price: 95, type: '公寓' },
+                        { area: '袁家岭', price: 80, type: '公寓' }
+                    ],
+                    costData: {
+                        landPrice: 7500,
+                        buildingCost: 3500,
+                        profitRate: 0.15,
+                        depreciationRate: 0.02
+                    }
+                }
+            }
+        };
+
+        // ========================================
+        // 模块切换功能
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const moduleItems = document.querySelectorAll('.module-item');
+            const navItems = document.querySelectorAll('.nav-item');
+            const panels = document.querySelectorAll('.content-panel');
+            
+            function switchModule(moduleName) {
+                moduleItems.forEach(m => m.classList.remove('active'));
+                navItems.forEach(n => n.classList.remove('active'));
+                
+                const targetModule = document.querySelector(`.module-item[data-module="${moduleName}"]`);
+                const targetNav = document.querySelector(`.nav-item[data-nav="${moduleName}"]`);
+                
+                if (targetModule) targetModule.classList.add('active');
+                if (targetNav) targetNav.classList.add('active');
+                
+                panels.forEach(panel => {
+                    panel.classList.remove('active');
+                    if (panel.id === moduleName + '-panel') panel.classList.add('active');
+                });
+                
+                triggerAnimations();
+            }
+            
+            moduleItems.forEach(item => {
+                item.addEventListener('click', () => switchModule(item.dataset.module));
+            });
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => switchModule(item.dataset.nav));
+            });
+            
+            function triggerAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+                document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+            }
+            
+            triggerAnimations();
+            
+            // ========================================
+            // 实训功能
+            // ========================================
+            const caseBtns = document.querySelectorAll('.case-btn');
+            const practicePanel = document.getElementById('practice-content');
+            const caseSelectPanel = document.getElementById('case-select-panel');
+            const workPanel = document.getElementById('work-panel');
+            const reportPanel = document.getElementById('report-panel');
+            
+            caseBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const caseId = this.dataset.caseId;
+                    if (caseId) {
+                        startPractice(caseId);
+                    } else {
+                        switchModule('practice');
+                    }
+                });
+            });
+            
+            // 为案例卡片添加点击事件
+            document.querySelectorAll('.case-card').forEach((card, index) => {
+                card.addEventListener('click', function() {
+                    const caseId = 'case-' + (index + 1);
+                    startPractice(caseId);
+                });
+            });
+            
+            function startPractice(caseId) {
+                const caseInfo = caseData[caseId];
+                if (!caseInfo) {
+                    alert('案例数据不存在');
+                    return;
+                }
+                
+                // 切换到实训面板
+                switchModule('practice');
+                
+                // 显示案例信息
+                document.getElementById('current-case-name').textContent = caseInfo.name;
+                document.getElementById('current-case-type').textContent = caseInfo.type;
+                document.getElementById('current-case-address').textContent = caseInfo.address;
+                document.getElementById('current-case-area').textContent = caseInfo.area + '㎡';
+                document.getElementById('current-case-floor').textContent = caseInfo.floor + '/' + caseInfo.totalFloors + '层';
+                document.getElementById('current-case-year').textContent = caseInfo.yearBuilt + '年';
+                document.getElementById('current-case-market').textContent = caseInfo.marketPrice + '万元';
+                
+                // 填充工作区数据
+                fillWorkData(caseId);
+                
+                // 显示工作面板
+                document.getElementById('case-select-panel').style.display = 'none';
+                document.getElementById('work-panel').style.display = 'block';
+                document.getElementById('report-panel').style.display = 'none';
+            }
+            
+            function fillWorkData(caseId) {
+                const caseInfo = caseData[caseId];
+                
+                // 市场比较法数据
+                const compTable = document.getElementById('comparable-table');
+                compTable.innerHTML = '';
+                if (caseInfo.data.comparables.length > 0) {
+                    caseInfo.data.comparables.forEach(comp => {
+                        compTable.innerHTML += `
+                            <tr>
+                                <td>${comp.name}</td>
+                                <td>${comp.price}元/㎡</td>
+                                <td>${comp.area}㎡</td>
+                                <td>${comp.distance}km</td>
+                                <td><input type="number" class="adjust-input" value="0" step="1">%</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    compTable.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999;">无可比案例数据</td></tr>';
+                }
+                
+                // 收益法数据
+                const rentTable = document.getElementById('rent-table');
+                rentTable.innerHTML = '';
+                if (caseInfo.data.rentData.length > 0) {
+                    const avgRent = caseInfo.data.rentData.reduce((sum, r) => sum + r.price, 0) / caseInfo.data.rentData.length;
+                    document.getElementById('avg-rent').value = avgRent.toFixed(2);
+                    caseInfo.data.rentData.forEach(rent => {
+                        rentTable.innerHTML += `
+                            <tr>
+                                <td>${rent.area}</td>
+                                <td>${rent.type}</td>
+                                <td>${rent.price}元/㎡·月</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    document.getElementById('avg-rent').value = '';
+                }
+                
+                // 成本法数据
+                document.getElementById('land-price').value = caseInfo.data.costData.landPrice;
+                document.getElementById('building-cost').value = caseInfo.data.costData.buildingCost;
+                document.getElementById('profit-rate').value = (caseInfo.data.costData.profitRate * 100).toFixed(0);
+                document.getElementById('depreciation-rate').value = (caseInfo.data.costData.depreciationRate * 100).toFixed(0);
+                
+                // 重置结果
+                document.getElementById('market-result').textContent = '-';
+                document.getElementById('income-result').textContent = '-';
+                document.getElementById('cost-result').textContent = '-';
+                document.getElementById('final-result').textContent = '-';
+            }
+            
+            // 计算市场比较法
+            window.calculateMarketMethod = function() {
+                const caseId = Object.keys(caseData).find(key => caseData[key].name === document.getElementById('current-case-name').textContent) || 'case-1';
+                const caseInfo = caseData[caseId];
+                
+                if (!caseInfo || caseInfo.data.comparables.length === 0) {
+                    document.getElementById('market-result').textContent = '无法计算（无可比案例）';
+                    return;
+                }
+                
+                let totalPrice = 0;
+                let count = 0;
+                const adjustments = document.querySelectorAll('.adjust-input');
+                
+                caseInfo.data.comparables.forEach((comp, index) => {
+                    const adj = parseFloat(adjustments[index]?.value || 0);
+                    const adjustedPrice = comp.price * (1 + adj / 100);
+                    totalPrice += adjustedPrice;
+                    count++;
+                });
+                
+                const avgPrice = totalPrice / count;
+                const totalValue = avgPrice * caseInfo.area / 10000;
+                document.getElementById('market-result').textContent = totalValue.toFixed(2) + '万元';
+            };
+            
+            // 计算收益法
+            window.calculateIncomeMethod = function() {
+                const caseId = Object.keys(caseData).find(key => caseData[key].name === document.getElementById('current-case-name').textContent) || 'case-1';
+                const caseInfo = caseData[caseId];
+                
+                if (!caseInfo || caseInfo.data.rentData.length === 0) {
+                    document.getElementById('income-result').textContent = '无法计算（无租金数据）';
+                    return;
+                }
+                
+                const avgRent = parseFloat(document.getElementById('avg-rent').value) || 0;
+                const vacancyRate = parseFloat(document.getElementById('vacancy-rate').value) || 5;
+                const managementFee = parseFloat(document.getElementById('management-fee').value) || 5;
+                const capRate = parseFloat(document.getElementById('cap-rate').value) || 5;
+                
+                const annualRent = avgRent * caseInfo.area * 12 * (1 - vacancyRate / 100);
+                const netIncome = annualRent * (1 - managementFee / 100);
+                const totalValue = netIncome / (capRate / 100);
+                
+                document.getElementById('income-result').textContent = (totalValue / 10000).toFixed(2) + '万元';
+            };
+            
+            // 计算成本法
+            window.calculateCostMethod = function() {
+                const caseId = Object.keys(caseData).find(key => caseData[key].name === document.getElementById('current-case-name').textContent) || 'case-1';
+                const caseInfo = caseData[caseId];
+                
+                const landPrice = parseFloat(document.getElementById('land-price').value) || 0;
+                const buildingCost = parseFloat(document.getElementById('building-cost').value) || 0;
+                const profitRate = parseFloat(document.getElementById('profit-rate').value) || 0;
+                const depreciationRate = parseFloat(document.getElementById('depreciation-rate').value) || 0;
+                const currentYear = new Date().getFullYear();
+                const age = currentYear - caseInfo.yearBuilt;
+                
+                const landValue = landPrice * caseInfo.area / 10000;
+                const buildingArea = caseInfo.area * caseInfo.floor;
+                const buildingValue = buildingCost * buildingArea / 10000;
+                const depreciation = buildingValue * depreciationRate / 100 * age;
+                const profit = buildingValue * profitRate / 100;
+                const totalValue = landValue + buildingValue - depreciation + profit;
+                
+                document.getElementById('cost-result').textContent = totalValue.toFixed(2) + '万元';
+            };
+            
+            // 生成报告
+            window.generateReport = function() {
+                const caseId = Object.keys(caseData).find(key => caseData[key].name === document.getElementById('current-case-name').textContent) || 'case-1';
+                const caseInfo = caseData[caseId];
+                
+                const marketResult = document.getElementById('market-result').textContent;
+                const incomeResult = document.getElementById('income-result').textContent;
+                const costResult = document.getElementById('cost-result').textContent;
+                
+                if (marketResult === '-' && incomeResult === '-' && costResult === '-') {
+                    alert('请先至少计算一种估价方法');
+                    return;
+                }
+                
+                // 计算最终价值
+                let finalValue = 0;
+                let methodCount = 0;
+                const weights = {};
+                
+                if (marketResult !== '-' && caseInfo.methods.includes('market')) {
+                    const value = parseFloat(marketResult);
+                    weights['market'] = 0.4;
+                    finalValue += value * 0.4;
+                    methodCount++;
+                }
+                
+                if (incomeResult !== '-' && caseInfo.methods.includes('income')) {
+                    const value = parseFloat(incomeResult);
+                    weights['income'] = 0.35;
+                    finalValue += value * 0.35;
+                    methodCount++;
+                }
+                
+                if (costResult !== '-' && caseInfo.methods.includes('cost')) {
+                    const value = parseFloat(costResult);
+                    weights['cost'] = 0.25;
+                    finalValue += value * 0.25;
+                    methodCount++;
+                }
+                
+                // 如果方法数少于3，调整权重
+                if (methodCount === 2) {
+                    finalValue = finalValue / (weights['market'] || 0.4 + weights['income'] || 0.4 + weights['cost'] || 0.2) * 2;
+                }
+                
+                // 生成报告HTML
+                const reportHTML = `
+                    <div class="report-header">
+                        <h3>房地产估价报告</h3>
+                        <p>报告编号：ZHY-${Date.now().toString().slice(-8)}</p>
+                        <p>估价日期：${new Date().toLocaleDateString('zh-CN')}</p>
+                    </div>
+                    
+                    <div class="report-section">
+                        <h4>一、估价对象</h4>
+                        <table class="report-table">
+                            <tr><td>项目名称</td><td>${caseInfo.name}</td></tr>
+                            <tr><td>物业类型</td><td>${caseInfo.type}</td></tr>
+                            <tr><td>坐落地址</td><td>${caseInfo.address}</td></tr>
+                            <tr><td>建筑面积</td><td>${caseInfo.area}㎡</td></tr>
+                            <tr><td>楼层位置</td><td>${caseInfo.floor}/${caseInfo.totalFloors}层</td></tr>
+                            <tr><td>建成年份</td><td>${caseInfo.yearBuilt}年</td></tr>
+                            <tr><td>朝向</td><td>${caseInfo.orientation}</td></tr>
+                            <tr><td>装修情况</td><td>${caseInfo.装修 || '精装'}</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div class="report-section">
+                        <h4>二、估价方法与结果</h4>
+                        ${marketResult !== '-' ? `
+                        <div class="method-result">
+                            <h5>1. 市场比较法</h5>
+                            <p>采用市场比较法，通过收集可比案例并进行交易情况、交易日期、区域因素、个别因素修正，计算得出：</p>
+                            <p class="result-value">市场比较法评估价值：<strong>${marketResult}</strong></p>
+                        </div>
+                        ` : ''}
+                        ${incomeResult !== '-' ? `
+                        <div class="method-result">
+                            <h5>2. 收益法</h5>
+                            <p>采用收益法，基于市场租金水平，计算潜在毛收入、有效毛收入、净收益，最终确定评估价值：</p>
+                            <p class="result-value">收益法评估价值：<strong>${incomeResult}</strong></p>
+                        </div>
+                        ` : ''}
+                        ${costResult !== '-' ? `
+                        <div class="method-result">
+                            <h5>3. 成本法</h5>
+                            <p>采用成本法，计算土地价值、建筑物重置成本、折旧，最终确定评估价值：</p>
+                            <p class="result-value">成本法评估价值：<strong>${costResult}</strong></p>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="report-section">
+                        <h4>三、估价结论</h4>
+                        <p>综合考虑各种估价方法的适用性和计算结果，采用加权平均法确定估价对象的评估价值为：</p>
+                        <p class="final-result">估价对象评估价值：<strong>${finalValue.toFixed(2)}万元</strong></p>
+                        <p>（大写：人民币${digitUppercase(finalValue)}元整）</p>
+                    </div>
+                    
+                    <div class="report-footer">
+                        <p>估价机构：ValuHub房地产评估有限公司</p>
+                        <p>估价师：张老师</p>
+                    </div>
+                `;
+                
+                document.getElementById('report-content').innerHTML = reportHTML;
+                document.getElementById('final-result').textContent = finalValue.toFixed(2) + '万元';
+                
+                document.getElementById('work-panel').style.display = 'none';
+                document.getElementById('report-panel').style.display = 'block';
+            };
+            
+            // 返回选择案例
+            window.backToCaseSelect = function() {
+                document.getElementById('cases-panel').style.display = 'block';
+                document.getElementById('work-panel').style.display = 'none';
+                document.getElementById('report-panel').style.display = 'none';
+                document.getElementById('practice-panel').style.display = 'none';
+            };
+            
+            // 重新实训
+            window.restartPractice = function() {
+                const currentCase = document.getElementById('current-case-name').textContent;
+                const caseId = Object.keys(caseData).find(key => caseData[key].name === currentCase);
+                if (caseId) {
+                    startPractice(caseId);
+                } else {
+                    document.getElementById('cases-panel').style.display = 'block';
+                    document.getElementById('work-panel').style.display = 'none';
+                    document.getElementById('report-panel').style.display = 'none';
+                    document.getElementById('practice-panel').style.display = 'none';
+                }
+            };
+            
+            // 数字转大写
+            function digitUppercase(n) {
+                const fraction = ['角', '分'];
+                const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+                const unit = [['元', '万', '亿'], ['', '拾', '佰', '仟']];
+                let head = n < 0 ? '欠' : '';
+                n = Math.abs(n);
+                let s = '';
+                for (let i = 0; i < fraction.length; i++) {
+                    s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+                }
+                s = s || '整';
+                n = Math.floor(n);
+                for (let i = 0; i < unit[0].length && n > 0; i++) {
+                    let p = '';
+                    for (let j = 0; j < unit[1].length && n > 0; j++) {
+                        p = digit[n % 10] + unit[1][j] + p;
+                        n = Math.floor(n / 10);
+                    }
+                    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+                }
+                return head + s.replace(/(零.)*零元/, '元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');
+            }
+            
+            // 阻止其他按钮默认行为
+            document.querySelectorAll('.task-status, .job-action .btn, .cert-btn, .student-table .btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            });
+            
+            console.log('ValuHub院校端页面加载完成');
+        });
+    </script>
+</body>
+</html>

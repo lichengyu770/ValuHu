@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>成功案例 - 数智估价核心引擎</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="../shared.css" />
+    <style>
+      /* 页面特定样式 */
+      .content-section {
+        padding: 60px 0;
+        background: white;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 40px;
+        color: #1d2129;
+      }
+      .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .case-info {
+        line-height: 1.8;
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      .case-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .case-card {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 115, 232, 0.05),
+          rgba(249, 168, 37, 0.05)
+        );
+        border: 1px solid rgba(26, 115, 232, 0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .case-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(26, 115, 232, 0.15);
+        border-color: var(--color-primary);
+      }
+      .case-image {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #1a73e8, #f9a825);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+      }
+      .case-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://via.placeholder.com/300x200?text=Case+Study')
+          center/cover;
+        opacity: 0.3;
+      }
+      .case-content {
+        padding: 20px;
+      }
+      .case-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #1d2129;
+      }
+      .case-client {
+        font-size: 14px;
+        color: #999;
+        margin-bottom: 15px;
+      }
+      .case-desc {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+      .case-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .case-tag {
+        background: rgba(26, 115, 232, 0.1);
+        color: #1a73e8;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 引入导航栏 -->
+    <iframe
+      src="../nav.html"
+      frameborder="0"
+      style="width: 100%; height: 65px; border: none; display: block"
+    ></iframe>
+
+    <!-- 主要内容 -->
+    <main>
+      <section class="content-section">
+        <div class="content-container">
+          <h1 class="section-title">成功案例</h1>
+          <div class="case-info">
+            <p>
+              我们的智能估价系统已经为众多客户提供了高质量的估价服务，涵盖了房地产开发、金融机构、政府部门等多个领域。
+            </p>
+            <p>
+              以下是我们的部分成功案例，展示了我们在不同行业和场景下的解决方案和实施效果。
+            </p>
+          </div>
+          <div class="case-cards">
+            <div class="case-card">
+              <div class="case-image">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="case-content">
+                <div class="case-title">大型房地产开发项目估价</div>
+                <div class="case-client">客户：湖南智新科技有限公司</div>
+                <div class="case-desc">
+                  为某大型房地产开发项目提供了整体估价服务，包括土地估价、建筑物估价等，估价结果准确可靠，得到了客户的高度认可。
+                </div>
+                <div class="case-tags">
+                  <span class="case-tag">房地产开发</span>
+                  <span class="case-tag">土地估价</span>
+                  <span class="case-tag">建筑物估价</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card">
+              <div class="case-image">
+                <i class="fas fa-university"></i>
+              </div>
+              <div class="case-content">
+                <div class="case-title">银行抵押贷款估价</div>
+                <div class="case-client">客户：某国有银行</div>
+                <div class="case-desc">
+                  为某国有银行提供了抵押贷款估价服务，建立了自动化估价系统，提高了估价效率和准确性，降低了信贷风险。
+                </div>
+                <div class="case-tags">
+                  <span class="case-tag">金融机构</span>
+                  <span class="case-tag">抵押贷款</span>
+                  <span class="case-tag">自动化估价</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card">
+              <div class="case-image">
+                <i class="fas fa-city"></i>
+              </div>
+              <div class="case-content">
+                <div class="case-title">城市更新项目估价</div>
+                <div class="case-client">客户：某市政府部门</div>
+                <div class="case-desc">
+                  为某城市更新项目提供了整体估价服务，包括旧城区改造、棚户区改造等，为政府决策提供了重要依据。
+                </div>
+                <div class="case-tags">
+                  <span class="case-tag">政府部门</span>
+                  <span class="case-tag">城市更新</span>
+                  <span class="case-tag">旧城区改造</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card">
+              <div class="case-image">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <div class="case-content">
+                <div class="case-title">市场趋势分析报告</div>
+                <div class="case-client">客户：某房地产研究机构</div>
+                <div class="case-desc">
+                  为某房地产研究机构提供了市场趋势分析报告，基于历史数据和市场动态，预测了未来房地产市场的发展趋势。
+                </div>
+                <div class="case-tags">
+                  <span class="case-tag">研究机构</span>
+                  <span class="case-tag">市场分析</span>
+                  <span class="case-tag">趋势预测</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card">
+              <div class="case-image">
+                <i class="fas fa-map-marked-alt"></i>
+              </div>
+              <div class="case-content">
+                <div class="case-title">GIS空间分析项目</div>
+                <div class="case-client">客户：某规划设计院</div>
+                <div class="case-desc">
+                  为某规划设计院提供了GIS空间分析服务，包括土地利用规划、交通规划等，为城市规划提供了重要支持。
+                </div>
+                <div class="case-tags">
+                  <span class="case-tag">规划设计</span>
+                  <span class="case-tag">GIS分析</span>
+                  <span class="case-tag">土地利用</span>
+                </div>
+              </div>
+            </div>
+            <div class="case-card">
+              <div class="case-image">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="case-content">
+                <div class="case-title">二手房交易估价平台</div>
+                <div class="case-client">客户：某房产中介公司</div>
+                <div class="case-desc">
+                  为某房产中介公司开发了二手房交易估价平台，实现了房源自动估价、价格趋势分析等功能，提高了交易效率。
+                </div>
+                <div class="case-tags">
+                  <span class="case-tag">房产中介</span>
+                  <span class="case-tag">二手房交易</span>
+                  <span class="case-tag">估价平台</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="../about/company.html" target="_blank">公司简介</a>
+          <a href="../about/team.html" target="_blank">团队介绍</a>
+          <a href="../about/culture.html" target="_blank">企业文化</a>
+          <a href="../about/history.html" target="_blank">发展历程</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="core.html" target="_blank">核心产品</a>
+          <a href="function.html" target="_blank">功能介绍</a>
+          <a href="case.html" target="_blank">成功案例</a>
+          <a href="../solution/index.html" target="_blank">解决方案</a>
+        </div>
+        <div class="footer-col">
+          <h3>资源中心</h3>
+          <a href="../resource/news.html" target="_blank">行业动态</a>
+          <a href="../resource/help.html" target="_blank">帮助中心</a>
+          <a href="../resource/doc.html" target="_blank">技术文档</a>
+          <a href="../resource/whitepaper.html" target="_blank">白皮书</a>
+        </div>
+        <div class="footer-col">
+          <h3>联系我们</h3>
+          <a href="tel:16680508457"><i class="fas fa-phone"></i> 16680508457</a>
+          <a href="mailto:1558691995@qq.com"
+            ><i class="fas fa-envelope"></i> 1558691995@qq.com</a
+          >
+          <a href="#" target="_blank"
+            ><i class="fas fa-map-marker-alt"></i> 湖南湘潭区</a
+          >
+          <a href="../service/online.html" target="_blank"
+            ><i class="fas fa-headset"></i> 在线客服</a
+          >
+        </div>
+        <div class="footer-col">
+          <h3>合作企业</h3>
+          <a href="../coop/hunanzhixin.html" target="_blank">湖南智新科技</a>
+          <a href="../coop/changshalizhi.html" target="_blank">长沙立智评估</a>
+          <a href="../coop/apply.html" target="_blank">合作申请</a>
+        </div>
+      </div>
+      <div class="copyright">
+        © 2025 湘潭市房算云互联网科技有限公司 版权所有 |
+        <a href="../policy/privacy.html" target="_blank">隐私政策</a> |
+        <a href="../policy/service.html" target="_blank">服务条款</a> |
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=43011202001203"
+          rel="noreferrer"
+          target="_blank"
+          >湘ICP备2025144327号-1 | 湘公网安备43011202001203号</a
+        >
+      </div>
+    </footer>
+
+    <!-- 引入共享脚本 -->
+    <script src="../shared.js"></script>
+  </body>
+</html>

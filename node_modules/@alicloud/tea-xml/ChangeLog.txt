@@ -1,0 +1,8 @@
+2024-01-10 Version: v0.0.3
+- Bump xml2js form 0.4.22 to 0.6.0
+
+2021-11-23 Version: v0.0.2
+- Add case null in parseXml
+
+2020-02-27 Version: v0.0.1
+- v0.0.1

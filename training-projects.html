@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>实训项目管理 - ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Logo 样式 */
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+            overflow: hidden;
+        }
+        
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 260px;
+            background-color: #2c3e50;
+            color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+        
+        /* 侧边栏头部 */
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid #34495e;
+            background-color: #34495e;
+        }
+        
+        .sidebar-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* 侧边栏菜单 */
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .menu-section {
+            margin-bottom: 28px;
+        }
+        
+        .menu-section-title {
+            padding: 0 24px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #95a5a6;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item {
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: #34495e;
+            color: #667eea;
+            border-left-color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+            border-left-color: #5568d3;
+        }
+        
+        .menu-icon {
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 右侧主内容区 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 顶部导航栏 */
+        .top-nav {
+            height: 70px;
+            background-color: white;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 10;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        /* 搜索框 */
+        .search-box {
+            position: relative;
+            width: 350px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 44px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background-color: white;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 16px;
+        }
+        
+        /* 导航操作项 */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .nav-action-item {
+            position: relative;
+            cursor: pointer;
+            font-size: 20px;
+            color: #666;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+        }
+        
+        .nav-action-item:hover {
+            color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        /* 通知徽章 */
+        .notification-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background-color: #ff4d4f;
+            color: white;
+            font-size: 11px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        /* 用户信息 */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .user-info:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .user-role {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        /* 内容区 */
+        .projects-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        /* 页面标题 */
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .analysis-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+        }
+        
+        .analysis-subtitle {
+            font-size: 15px;
+            color: #7f8c8d;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-header {
+            padding: 24px;
+            border-bottom: 1px solid #e9ecef;
+            background-color: #fafbfc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .card-content {
+            padding: 24px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5568d3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: #38a169;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #2f855a;
+        }
+        
+        .btn-warning {
+            background-color: #ed8936;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background-color: #dd6b20;
+        }
+        
+        .btn-danger {
+            background-color: #e53e3e;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c53030;
+        }
+        
+        /* 项目统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .stat-change {
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .stat-change.positive {
+            color: #38a169;
+        }
+        
+        .stat-change.negative {
+            color: #e53e3e;
+        }
+        
+        /* 筛选和搜索区域 */
+        .filter-search-section {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 150px;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 表格样式 */
+        .projects-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .projects-table thead {
+            background-color: #fafbfc;
+        }
+        
+        .projects-table th {
+            padding: 16px 24px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2c3e50;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .projects-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f0f2f5;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .projects-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .projects-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* 状态标签 */
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-tag.draft {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        
+        .status-tag.published {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .status-tag.completed {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-fill.low {
+            background-color: #f87171;
+        }
+        
+        .progress-fill.medium {
+            background-color: #fbbf24;
+        }
+        
+        .progress-fill.high {
+            background-color: #34d399;
+        }
+        
+        /* 操作按钮组 */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background-color: white;
+            color: #666;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        /* 分页 */
+        .pagination {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .pagination-buttons {
+            display: inline-flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 1000;
+                height: 100vh;
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+            
+            .projects-content {
+                padding: 20px;
+            }
+            
+            .top-nav {
+                padding: 0 16px;
+            }
+            
+            .nav-right {
+                gap: 12px;
+            }
+            
+            .user-details {
+                display: none;
+            }
+            
+            .search-box {
+                width: 200px;
+            }
+            
+            .filter-search-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            border-top-color: #667eea;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- 水波纹 -->
+                        <circle cx="50" cy="80" r="35" stroke="#667eea" stroke-width="2" fill="none" opacity="0.3"/>
+                        <circle cx="50" cy="80" r="28" stroke="#667eea" stroke-width="2" fill="none" opacity="0.5"/>
+                        <circle cx="50" cy="80" r="21" stroke="#667eea" stroke-width="2" fill="none" opacity="0.7"/>
+                        <circle cx="50" cy="80" r="14" stroke="#667eea" stroke-width="2" fill="none" opacity="0.9"/>
+                        <!-- 莲花花瓣 -->
+                        <path d="M50 10 Q65 35 85 50 Q65 65 50 80 Q35 65 15 50 Q35 35 50 10" fill="#ff8fab"/>
+                        <path d="M50 15 Q70 35 80 55 Q60 65 50 75 Q40 65 20 55 Q30 35 50 15" fill="#ffb3c1"/>
+                        <path d="M50 20 Q75 35 75 60 Q60 65 50 70 Q40 65 25 60 Q25 35 50 20" fill="#ffccd5"/>
+                        <!-- 箭头 -->
+                        <path d="M45 40 L55 40 L55 65 L65 65 L50 80 L35 65 L45 65 Z" fill="#e53e3e"/>
+                    </svg>
+                    <span>ValuHub</span>
+                </div>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-section-title">核心功能</div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        <span>工作台</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🤖</span>
+                        <span>AI估价</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🗺️</span>
+                        <span>房价地图</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📈</span>
+                        <span>市场分析</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📋</span>
+                        <span>案例库</span>
+                    </div>
+                    <div class="menu-item active">
+                        <span class="menu-icon">🎓</span>
+                        <span>实训项目管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📑</span>
+                        <span>报告管理</span>
+                    </div>
+                </div>
+                <div class="menu-section">
+                    <div class="menu-section-title">学术工坊</div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📚</span>
+                        <span>案例库系统</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🏆</span>
+                        <span>自动评分系统</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">👨‍🏫</span>
+                        <span>教师管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">👩‍🎓</span>
+                        <span>学生管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">📊</span>
+                        <span>成绩统计</span>
+                    </div>
+                </div>
+                <div class="menu-section">
+                    <div class="menu-section-title">系统设置</div>
+                    <div class="menu-item">
+                        <span class="menu-icon">⚙️</span>
+                        <span>账号设置</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">🔒</span>
+                        <span>权限管理</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-icon">💬</span>
+                        <span>帮助中心</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <!-- 顶部导航栏 -->
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <h1 class="page-title">实训项目管理</h1>
+                    <div class="search-box">
+                        <i>🔍</i>
+                        <input type="text" placeholder="搜索实训项目...">
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-actions">
+                        <div class="nav-action-item" title="消息中心">
+                            <i>💬</i>
+                            <span class="notification-badge">5</span>
+                        </div>
+                        <div class="nav-action-item" title="通知中心">
+                            <i>📢</i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <div class="nav-action-item" title="日历">
+                            <i>📅</i>
+                        </div>
+                        <div class="nav-action-item" title="设置">
+                            <i>⚙️</i>
+                        </div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-avatar">张</div>
+                        <div class="user-details">
+                            <div class="user-name">张三</div>
+                            <div class="user-role">教师</div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- 实训项目内容区 -->
+            <div class="projects-content">
+                <!-- 页面标题 -->
+                <div class="page-header">
+                    <h1 class="analysis-title">实训项目管理</h1>
+                    <p class="analysis-subtitle">创建、分配和跟踪实训项目，实现师生协同管理</p>
+                </div>
+                
+                <!-- 统计卡片 -->
+                <div class="stats-grid">
+                    <!-- 统计卡片1 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">总项目数</span>
+                            <div class="stat-icon" style="background-color: #dbeafe;">
+                                📋
+                            </div>
+                        </div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 12%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片2 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">进行中项目</span>
+                            <div class="stat-icon" style="background-color: #fef3c7;">
+                                ⏳
+                            </div>
+                        </div>
+                        <div class="stat-value">18</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 8%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片3 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">已完成项目</span>
+                            <div class="stat-icon" style="background-color: #d1fae5;">
+                                ✅
+                            </div>
+                        </div>
+                        <div class="stat-value">6</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 20%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计卡片4 -->
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">参与学生数</span>
+                            <div class="stat-icon" style="background-color: #fce7f3;">
+                                👩‍🎓
+                            </div>
+                        </div>
+                        <div class="stat-value">342</div>
+                        <div class="stat-change positive">
+                            <i>↑</i>
+                            <span>较上月增长 15%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 筛选和搜索区域 -->
+                <div class="filter-search-section">
+                    <div class="filter-group">
+                        <label class="filter-label">状态：</label>
+                        <select class="filter-select">
+                            <option value="">全部</option>
+                            <option value="draft">草稿</option>
+                            <option value="published">已发布</option>
+                            <option value="completed">已完成</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">评估方式：</label>
+                        <select class="filter-select">
+                            <option value="">全部</option>
+                            <option value="自动评分">自动评分</option>
+                            <option value="人工评分">人工评分</option>
+                            <option value="混合评分">混合评分</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group" style="margin-left: auto;">
+                        <button class="btn btn-primary">
+                            <i>🔄</i> 重置
+                        </button>
+                        <button class="btn btn-success">
+                            <i>➕</i> 创建项目
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 实训项目表格 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">实训项目列表</h3>
+                    </div>
+                    <div class="card-content">
+                        <table class="projects-table">
+                            <thead>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th>创建者</th>
+                                    <th>状态</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>参与学生</th>
+                                    <th>进度</th>
+                                    <th>评估方式</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 项目1 -->
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600; color: #2c3e50;">住宅估价实训项目</div>
+                                        <div style="font-size: 12px; color: #7f8c8d; margin-top: 4px;">包含12个案例，适合本科生</div>
+                                    </td>
+                                    <td>张三</td>
+                                    <td>
+                                        <span class="status-tag published">已发布</span>
+                                    </td>
+                                    <td>2026-01-01</td>
+                                    <td>2026-01-31</td>
+                                    <td>45</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 80px;">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill medium" style="width: 65%;"></div>
+                                                </div>
+                                            </div>
+                                            <span style="font-size: 12px; font-weight: 500;">65%</span>
+                                        </div>
+                                    </td>
+                                    <td>混合评分</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn">详情</button>
+                                            <button class="action-btn">编辑</button>
+                                            <button class="action-btn">分配</button>
+                                            <button class="action-btn">统计</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 项目2 -->
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600; color: #2c3e50;">写字楼估价实训项目</div>
+                                        <div style="font-size: 12px; color: #7f8c8d; margin-top: 4px;">包含8个案例，适合研究生</div>
+                                    </td>
+                                    <td>李四</td>
+                                    <td>
+                                        <span class="status-tag published">已发布</span>
+                                    </td>
+                                    <td>2026-01-05</td>
+                                    <td>2026-02-05</td>
+                                    <td>32</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 80px;">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill medium" style="width: 45%;"></div>
+                                                </div>
+                                            </div>
+                                            <span style="font-size: 12px; font-weight: 500;">45%</span>
+                                        </div>
+                                    </td>
+                                    <td>人工评分</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn">详情</button>
+                                            <button class="action-btn">编辑</button>
+                                            <button class="action-btn">分配</button>
+                                            <button class="action-btn">统计</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 项目3 -->
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600; color: #2c3e50;">商铺估价实训项目</div>
+                                        <div style="font-size: 12px; color: #7f8c8d; margin-top: 4px;">包含10个案例，适合进阶学习者</div>
+                                    </td>
+                                    <td>王五</td>
+                                    <td>
+                                        <span class="status-tag draft">草稿</span>
+                                    </td>
+                                    <td>2026-01-10</td>
+                                    <td>2026-02-10</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 80px;">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill low" style="width: 10%;"></div>
+                                                </div>
+                                            </div>
+                                            <span style="font-size: 12px; font-weight: 500;">10%</span>
+                                        </div>
+                                    </td>
+                                    <td>自动评分</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn">详情</button>
+                                            <button class="action-btn">编辑</button>
+                                            <button class="action-btn">分配</button>
+                                            <button class="action-btn">统计</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 项目4 -->
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600; color: #2c3e50;">别墅估价实训项目</div>
+                                        <div style="font-size: 12px; color: #7f8c8d; margin-top: 4px;">包含6个案例，适合高级学习者</div>
+                                    </td>
+                                    <td>赵六</td>
+                                    <td>
+                                        <span class="status-tag completed">已完成</span>
+                                    </td>
+                                    <td>2025-12-01</td>
+                                    <td>2025-12-31</td>
+                                    <td>28</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 80px;">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill high" style="width: 100%;"></div>
+                                                </div>
+                                            </div>
+                                            <span style="font-size: 12px; font-weight: 500;">100%</span>
+                                        </div>
+                                    </td>
+                                    <td>混合评分</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn">详情</button>
+                                            <button class="action-btn">编辑</button>
+                                            <button class="action-btn">分配</button>
+                                            <button class="action-btn">统计</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 项目5 -->
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600; color: #2c3e50;">厂房估价实训项目</div>
+                                        <div style="font-size: 12px; color: #7f8c8d; margin-top: 4px;">包含8个案例，适合职业院校</div>
+                                    </td>
+                                    <td>孙七</td>
+                                    <td>
+                                        <span class="status-tag published">已发布</span>
+                                    </td>
+                                    <td>2026-01-02</td>
+                                    <td>2026-02-02</td>
+                                    <td>36</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <div style="width: 80px;">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill medium" style="width: 55%;"></div>
+                                                </div>
+                                            </div>
+                                            <span style="font-size: 12px; font-weight: 500;">55%</span>
+                                        </div>
+                                    </td>
+                                    <td>自动评分</td>
+                                    <td>
+                                        <div class="action-buttons">
+                                            <button class="action-btn">详情</button>
+                                            <button class="action-btn">编辑</button>
+                                            <button class="action-btn">分配</button>
+                                            <button class="action-btn">统计</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- 分页 -->
+                <div class="pagination">
+                    <div class="pagination-buttons">
+                        <button class="btn btn-secondary" disabled>
+                            <i>←</i> 上一页
+                        </button>
+                        <button class="btn btn-primary">1</button>
+                        <button class="btn btn-secondary">2</button>
+                        <button class="btn btn-secondary">3</button>
+                        <button class="btn btn-secondary">4</button>
+                        <button class="btn btn-secondary">5</button>
+                        <button class="btn btn-secondary">
+                            下一页 <i>→</i>
+                        </button>
+                    </div>
+                    <div class="pagination-info">
+                        共 24 个项目，当前显示第 1-5 个
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 全局消息提示组件 -->
+    <div id="toast" style="position: fixed; top: 90px; right: 30px; padding: 12px 24px; background-color: #333; color: white; border-radius: 6px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); z-index: 9999; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease;"></div>
+    
+    <!-- 模态框组件 -->
+    <div id="modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 10000; display: none; justify-content: center; align-items: center;">
+        <div style="background-color: white; border-radius: 12px; width: 90%; max-width: 500px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); overflow: hidden;">
+            <div style="padding: 24px; border-bottom: 1px solid #e9ecef;">
+                <h3 id="modal-title" style="margin: 0; font-size: 20px; font-weight: 600; color: #2c3e50;"></h3>
+            </div>
+            <div id="modal-content" style="padding: 24px;"></div>
+            <div style="padding: 16px 24px; border-top: 1px solid #e9ecef; display: flex; justify-content: flex-end; gap: 12px;">
+                <button id="modal-cancel" style="padding: 8px 16px; border: 1px solid #e9ecef; background-color: white; border-radius: 6px; cursor: pointer; font-size: 14px; color: #666; transition: all 0.3s ease;">取消</button>
+                <button id="modal-confirm" style="padding: 8px 16px; border: none; background-color: #667eea; border-radius: 6px; cursor: pointer; font-size: 14px; color: white; transition: all 0.3s ease;">确定</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 工具函数：显示消息提示
+            function showToast(message, duration = 3000) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateY(-20px)';
+                }, duration);
+            }
+            
+            // 工具函数：显示模态框
+            function showModal(title, content, confirmCallback = null) {
+                const modal = document.getElementById('modal');
+                const modalTitle = document.getElementById('modal-title');
+                const modalContent = document.getElementById('modal-content');
+                const modalCancel = document.getElementById('modal-cancel');
+                const modalConfirm = document.getElementById('modal-confirm');
+                
+                modalTitle.textContent = title;
+                modalContent.innerHTML = content;
+                modal.style.display = 'flex';
+                
+                modalCancel.onclick = function() {
+                    modal.style.display = 'none';
+                };
+                
+                modalConfirm.onclick = function() {
+                    if (confirmCallback) {
+                        confirmCallback();
+                    }
+                    modal.style.display = 'none';
+                };
+                
+                // 点击模态框外部关闭
+                modal.onclick = function(e) {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                };
+            }
+            
+            // 创建项目按钮事件
+            const createBtn = document.querySelector('.filter-search-section .btn-success');
+            createBtn.addEventListener('click', function() {
+                showModal(
+                    '创建实训项目',
+                    '<p>实训项目创建功能开发中，敬请期待！</p>',
+                    function() {
+                        showToast('创建项目');
+                    }
+                );
+            });
+            
+            // 操作按钮事件
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.textContent;
+                    showToast(`执行${action}操作`);
+                });
+            });
+            
+            // 筛选器变化事件
+            const filterSelects = document.querySelectorAll('.filter-select');
+            filterSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const filterName = this.previousElementSibling.textContent;
+                    const filterValue = this.value;
+                    if (filterValue) {
+                        showToast(`${filterName}${filterValue}`);
+                    }
+                });
+            });
+            
+            // 重置按钮事件
+            const resetBtn = document.querySelector('.filter-search-section .btn-primary');
+            resetBtn.addEventListener('click', function() {
+                filterSelects.forEach(select => {
+                    select.value = '';
+                });
+                showToast('筛选条件已重置');
+            });
+            
+            // 侧边栏菜单点击功能
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    // 添加active类到当前点击项
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

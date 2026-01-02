@@ -1,0 +1,351 @@
+/* 企业端暗色主题样式 - 金融级专业风格 */
+
+/* 基础样式重置 */
+.enterprise-theme {
+  background-color: var(--biz-background);
+  color: #e0e0e0;
+  min-height: 100vh;
+}
+
+/* 企业端容器 */
+.enterprise-container {
+  padding: 24px;
+  background-color: var(--biz-background);
+  color: #e0e0e0;
+}
+
+/* 企业端标题 */
+.enterprise-title {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #00B894, #00cec9) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  margin-bottom: 16px !important;
+  font-weight: var(--font-weight-bold) !important;
+  letter-spacing: var(--letter-spacing-wide) !important;
+}
+
+/* 企业端卡片 - 交易卡片风格 */
+.enterprise-card {
+  background: var(--biz-card-background) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
+  border-left: 4px solid var(--biz-accent) !important;
+  color: #e0e0e0 !important;
+}
+
+.enterprise-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0, 184, 148, 0.2) !important;
+  border-color: var(--biz-accent) !important;
+}
+
+/* 卡片标题 */
+.enterprise-card .ant-card-head {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(26, 35, 67, 0.8) !important;
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.enterprise-card .ant-card-head-title {
+  color: #ffffff !important;
+  font-weight: var(--font-weight-semibold) !important;
+  letter-spacing: var(--letter-spacing-wide) !important;
+}
+
+/* 卡片内容 */
+.enterprise-card .ant-card-body {
+  background: var(--biz-card-background) !important;
+  color: #e0e0e0 !important;
+}
+
+/* 卡片统计数值 */
+.stat-value {
+  font-size: 28px !important;
+  font-weight: var(--font-weight-bold) !important;
+  background: linear-gradient(135deg, #00B894, #00cec9) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  margin-bottom: 8px !important;
+}
+
+.stat-label {
+  color: #b0b0b0 !important;
+  font-size: 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: var(--letter-spacing-wider) !important;
+}
+
+/* 资产卡片 - 交易卡片风格 */
+.asset-card {
+  background: linear-gradient(135deg, rgba(26, 35, 67, 0.8), rgba(26, 35, 67, 0.6)) !important;
+  border: 1px solid rgba(0, 184, 148, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.asset-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(135deg, #00B894, #00cec9);
+}
+
+.asset-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 184, 148, 0.2);
+  border-color: var(--biz-accent);
+}
+
+/* 批量操作进度可视化 */
+.batch-progress-container {
+  background: rgba(26, 35, 67, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  margin: 24px 0 !important;
+}
+
+/* 粒子动画容器 */
+.particle-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+/* 粒子样式 */
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--biz-accent);
+  border-radius: 50%;
+  animation: particle-flow 2s linear infinite;
+}
+
+/* 粒子流动动画 */
+@keyframes particle-flow {
+  0% {
+    transform: translateY(200px) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* 报告预览卡片 */
+.report-card {
+  background: rgba(26, 35, 67, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  cursor: pointer;
+  transition: all 0.3s ease !important;
+  perspective: 1000px;
+}
+
+.report-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 184, 148, 0.2);
+  border-color: var(--biz-accent);
+}
+
+/* 3D翻页效果 */
+.report-preview {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #00B894, #00cec9);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.report-card:hover .report-preview {
+  transform: rotateY(180deg);
+}
+
+.report-front, .report-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+.report-back {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  transform: rotateY(180deg);
+}
+
+/* 企业端按钮 */
+.enterprise-btn {
+  background: linear-gradient(135deg, #00B894, #00cec9) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-size: var(--font-size-sm) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  color: white !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  letter-spacing: var(--letter-spacing-wide) !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3) !important;
+}
+
+.enterprise-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0, 184, 148, 0.4) !important;
+  filter: brightness(1.05) !important;
+}
+
+/* 企业端统计卡片 */
+.stat-card {
+  background: linear-gradient(135deg, rgba(26, 35, 67, 0.9), rgba(26, 35, 67, 0.7)) !important;
+  border: 1px solid rgba(0, 184, 148, 0.3) !important;
+  border-radius: 12px !important;
+  padding: 24px !important;
+  text-align: center !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 184, 148, 0.2);
+  border-color: var(--biz-accent);
+}
+
+/* 统计卡片图标 */
+.stat-icon {
+  font-size: 40px !important;
+  margin-bottom: 16px !important;
+  background: linear-gradient(135deg, #00B894, #00cec9) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* 企业端进度条 */
+.enterprise-progress {
+  margin: 16px 0 !important;
+}
+
+.enterprise-progress .ant-progress-bg {
+  background: linear-gradient(135deg, #00B894, #00cec9) !important;
+  border-radius: 8px !important;
+}
+
+.enterprise-progress .ant-progress-text {
+  color: #e0e0e0 !important;
+  font-weight: var(--font-weight-medium) !important;
+}
+
+/* 企业端标签 */
+.enterprise-tag {
+  background: rgba(0, 184, 148, 0.2) !important;
+  color: #00B894 !important;
+  border: 1px solid rgba(0, 184, 148, 0.4) !important;
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  font-weight: var(--font-weight-medium) !important;
+  letter-spacing: var(--letter-spacing-wide) !important;
+  text-transform: uppercase !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .enterprise-container {
+    padding: 16px;
+  }
+  
+  .asset-card {
+    padding: 16px !important;
+  }
+  
+  .stat-card {
+    padding: 16px !important;
+  }
+  
+  .stat-icon {
+    font-size: 32px !important;
+    margin-bottom: 12px !important;
+  }
+}
+
+/* 数据流动效果 */
+.data-flow-bg {
+  background: linear-gradient(90deg, transparent, rgba(0, 184, 148, 0.1), transparent);
+  background-size: 200px 100%;
+  animation: dataFlow 2s ease-in-out infinite;
+}
+
+@keyframes dataFlow {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* 企业端分割线 */
+.enterprise-divider {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  margin: 24px 0 !important;
+}
+
+/* 企业端文本 */
+.enterprise-text {
+  color: #e0e0e0 !important;
+  font-size: var(--font-size-md) !important;
+  line-height: var(--line-height-relaxed) !important;
+  margin-bottom: 16px !important;
+}
+
+/* 企业端副标题 */
+.enterprise-subtitle {
+  color: #b0b0b0 !important;
+  font-size: var(--font-size-sm) !important;
+  margin-bottom: 24px !important;
+  letter-spacing: var(--letter-spacing-normal) !important;
+}

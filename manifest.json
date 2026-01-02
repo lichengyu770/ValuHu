@@ -1,0 +1,40 @@
+{
+  "name": "房产数据管理系统",
+  "description": "房产数据管理系统 - 楼盘可视化、电子证书、GIS评估、收入评估一体化平台",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/src/assets/images/app-icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/src/assets/images/app-icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "首页",
+      "short_name": "首页",
+      "description": "访问应用首页",
+      "url": "/",
+      "icons": [
+        { "src": "/src/assets/images/app-icon-192.svg", "sizes": "192x192" }
+      ]
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "zh-CN",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "orientation": "portrait-primary",
+  "screenshots": [],
+  "short_name": "房产系统",
+  "theme_color": "#165DFF"
+}

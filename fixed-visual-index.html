@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>房算云FangSuanYun - 房地产AI估价与数智平台 - ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="keywords" content="房地产AI估价，房算云，房价地图，投资分析，房地产案例库">
+    <meta name="description" content="房算云FangSuanYun 是连接政府、行业、学校、企业和大众的房地产数智生态平台，提供AI估价、房价预测、投资分析等专业服务。">
+    <!-- 高德地图API引用 -->
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: '8fa11b2815f42423c371b6796d2e7f5a',
+        };
+    </script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=cc6cc650f37f17fa1c76e2607935a1a9"></script>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #fff;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .org_header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            height: 32px;
+        }
+        
+        .tabs {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .tab {
+            position: relative;
+        }
+        
+        .tab a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .tab a:hover {
+            color: #1890ff;
+        }
+        
+        /* 导航样式 */
+        .nav-section {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            list-style: none;
+        }
+        
+        .nav-list li a {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-list li a:hover,
+        .nav-list li a.active {
+            color: #1890ff;
+            background-color: #e3f2fd;
+        }
+        
+        /* 主内容样式 */
+        .n_page_con {
+            padding: 60px 0;
+        }
+        
+        .n_page_con_center {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 内容区域样式 */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* 免费在线思维导图 */
+        .mind_map {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .mind_map .title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+        
+        .mind_map .title {
+            color: white;
+        }
+        
+        .mind_map .intro {
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #ffd700;
+            color: #333;
+            padding: 12px 32px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #ffed4e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* 团队协作 */
+        .collaboration {
+            background-color: #f8f9fa;
+        }
+        
+        .collaboration .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .collaboration .title span {
+            color: #1890ff;
+        }
+        
+        .collaboration .intro {
+            font-size: 16px;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 知识社区 */
+        .study {
+            background-color: white;
+        }
+        
+        .study .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .study .title span {
+            color: #52c41a;
+        }
+        
+        .study .intro {
+            font-size: 16px;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 卡片样式 */
+        .study_scroll_left, .study_scroll_right {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        
+        .study-item {
+            flex: 0 0 300px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .study-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .study-item-image-d {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .study-item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .study-item:hover .study-item-image {
+            transform: scale(1.05);
+        }
+        
+        .study-item-title {
+            display: block;
+            padding: 16px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .study-item-title:hover {
+            color: #1890ff;
+        }
+        
+        /* 安全保障 */
+        .safe {
+            background-color: #f8f9fa;
+        }
+        
+        .safe .title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .n_page_con_content {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+        
+        .n_page_con_c_item {
+            flex: 0 0 300px;
+            text-align: center;
+        }
+        
+        .n_page_con_c_item .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .text-detail {
+            color: #666;
+        }
+        
+        /* 可复用组件样式 */
+        
+        /* 标题组件 */
+        .section-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* 卡片组件 */
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #e3f2fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        /* 网格布局 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        /* 按钮组件 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5568d3;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .footer-main-content {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .correlation_item {
+            flex: 0 0 150px;
+        }
+        
+        .correlation_item .title {
+            font-weight: bold;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+        
+        .correlation_item .text {
+            margin-bottom: 8px;
+        }
+        
+        .correlation_item .text a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .correlation_item .text a:hover {
+            color: #1890ff;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mind_map .title {
+                font-size: 32px;
+            }
+            
+            .n_page_con_content {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .study_scroll_left, .study_scroll_right {
+                justify-content: center;
+            }
+            
+            .nav-list {
+                justify-content: center;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+        
+        /* AI功能选项卡样式 */
+        .ai-feature-content {
+            display: none;
+        }
+        
+        .ai-feature-content.active {
+            display: block;
+        }
+        
+        .ai-feature-tab {
+            transition: all 0.3s ease;
+        }
+        
+        .ai-feature-tab:hover {
+            background-color: rgba(24, 144, 255, 0.1) !important;
+            color: #1890ff !important;
+        }
+        
+        /* 模板社区样式 */
+        .temp-list-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .temp-list-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-module-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .item-shade {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .temp-list-item:hover .item-shade {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        /* API服务样式 */
+        .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
+        }
+        
+        .from-blue-600 {
+            --tw-gradient-from: #2563eb;
+            --tw-gradient-to: rgba(37, 99, 235, 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+        
+        .to-purple-600 {
+            --tw-gradient-to: #9333ea;
+        }
+        
+        .rounded-xl {
+            border-radius: 0.75rem;
+        }
+        
+        .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <div class="header">
+        <header class="org_header">
+            <div class="n_page_con_center" style="max-width: 1400px;">
+                <a href="#" style="display: flex; align-items: center;">
+                    <div style="font-size: 24px; font-weight: bold; color: #667eea; margin-right: 40px;">房算云<span style="font-size: 14px; font-weight: normal; color: #999; margin-left: 5px;">FangSuanYun</span></div>
+                </a>
+                <nav class="tabs" style="gap: 30px;">
+                    <div class="free-member tab tab-sub-content">
+                        <a href="#" disabletitle="true" class="ac-menu ac-on" style="color: #ff6b6b;">AI估价</a>
+                        <span style="background-color: #ff6b6b; color: white; font-size: 10px; padding: 2px 4px; border-radius: 10px; margin-left: 5px;">Hot</span>
+                    </div>
+                    <div class="tab">
+                        <a href="#platform" class="tab-sub-content" disabletitle="true">房算云平台</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#" class="tab-sub-content" disabletitle="true">行业报告</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#cooperation" class="tab-sub-content" disabletitle="true">企业合作</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#" class="tab-sub-content" disabletitle="true">案例库</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#" class="tab-sub-content" disabletitle="true">服务价格</a>
+                    </div>
+                    <div class="tab">
+                        <a href="#" class="tab-sub-content" disabletitle="true">使用教程</a>
+                    </div>
+                    <div class="tab" style="margin-left: 20px;">
+                        <a href="login.html" class="tab-sub-content" disabletitle="true" style="background-color: #1890ff; color: white; padding: 8px 16px; border-radius: 20px;">登录/注册</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- 页面导航 -->
+    <div class="nav-section">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="#home" class="active">首页</a></li>
+                <li><a href="#template">模板社区</a></li>
+                <li><a href="#files">我的文件</a></li>
+                <li><a href="#api">API服务</a></li>
+                <li><a href="#solution">解决方案</a></li>
+                <li><a href="#enterprise">企业服务</a></li>
+                <li><a href="#pricing">价格</a></li>
+                <li><a href="#download">下载</a></li>
+                <li><a href="#school">院校端</a></li>
+                <li><a href="#business">企业端</a></li>
+                <li><a href="#association">协会端</a></li>
+                <li><a href="#government">政府端</a></li>
+                <li><a href="#public">大众端</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <!-- 首页内容 -->
+        <section id="home" class="content-section active">
+        <!--start- 房算云Banner-->
+        <section class="n_page_con mind_map">
+            <div class="n_page_con_center">
+                <h1 class="title">房算云，释放房地产数据价值</h1>
+                <div class="intro">免费房地产AI估价与产教融合平台</div>
+                <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px;">
+                    <div class="button"><a href="#ai-feature" style="color: #333; text-decoration: none;">AI快速估价</a></div>
+                    <div class="button" style="background-color: #1890ff; color: white;"><a href="#files" style="color: white; text-decoration: none;">进入工作台</a></div>
+                </div>
+            </div>
+        </section>
+        <!--end- 房算云Banner-->
+        
+        <!--start- 海量案例展示-->
+        <section class="n_page_con" style="background-color: white; padding: 60px 0;">
+            <div class="n_page_con_center">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 style="font-size: 36px; font-weight: bold; color: #333; margin-bottom: 20px;">海量案例 一键复用</h2>
+                    <p style="font-size: 18px; color: #666;">百万真实房地产案例，激发灵感，提升效率。发布案例还能将知识变现，传递价值！</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                    <div style="height: 150px; background-color: #e0e0e0; border-radius: 8px;"></div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <div class="button"><a href="#template" style="color: #333; text-decoration: none;">进入案例库</a></div>
+                </div>
+            </div>
+        </section>
+        <!--end- 海量案例展示-->
+
+        <!--start- 知识社区-->
+        <section class="n_page_con study" style="background-color: #f8f9fa; padding: 60px 0;">
+            <div class="n_page_con_center">
+                <div style="display: flex; gap: 40px; align-items: center;">
+                    <div style="flex: 1;">
+                        <h2 class="title">知识社区 <span>作图教程</span></h2>
+                        <div class="intro">专业的图形百科和详细的作图步骤，让你快速掌握思维导图和流程图制作技巧！</div>
+                        <div class="button"><a href="#template" style="color: #333; text-decoration: none;">进入案例库</a></div>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="height: 200px; background-color: #e0e0e0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666;">
+                            知识社区示例图
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--end- 知识社区-->
+
+        <!--start- 多场景跨终端应用-->
+        <section class="n_page_con" style="background-color: #667eea; color: white; padding: 60px 0;">
+            <div class="n_page_con_center">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <h2 style="font-size: 36px; font-weight: bold; margin-bottom: 20px;">多场景跨终端应用</h2>
+                </div>
+                
+                <div style="display: flex; justify-content: center;">
+                    <div style="height: 250px; width: 80%; background-color: rgba(255,255,255,0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                        多终端同步示例图
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--end- 多场景跨终端应用-->
+        
+        <!--start- 安全保障-->
+        <section class="n_page_con safe">
+            <div class="n_page_con_center">
+                <h2 class="title">安全保障</h2>
+                <div class="n_page_con_content">
+                    <div class="n_page_con_c_item">
+                        <div class="image_top">
+                            <img class="image-main" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231890ff'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='18' fill='white' text-anchor='middle'%3E文档安全%3C/text%3E%3C/svg%3E" style="width: 80px; height: 80px; border-radius: 50%;">
+                        </div>
+                        <div class="title">文档安全</div>
+                        <div class="text-detail">文档自动同步至云端存储，并提供历史版本记录，文档权限控制，全方位保证文档信息安全</div>
+                    </div>
+                    <div class="n_page_con_c_item">
+                        <div class="image_top">
+                            <img class="image-main" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2352c41a'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='18' fill='white' text-anchor='middle'%3E数据安全%3C/text%3E%3C/svg%3E" style="width: 80px; height: 80px; border-radius: 50%;">
+                        </div>
+                        <div class="title">数据安全</div>
+                        <div class="text-detail">文档采用数据加密+分布式存储，提供容灾备份机制，保障数据安全</div>
+                    </div>
+                    <div class="n_page_con_c_item">
+                        <div class="image_top">
+                            <img class="image-main" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23faad14'/%3E%3Ctext x='50' y='60' font-family='Arial' font-size='18' fill='white' text-anchor='middle'%3E账户安全%3C/text%3E%3C/svg%3E" style="width: 80px; height: 80px; border-radius: 50%;">
+                        </div>
+                        <div class="title">账户安全</div>
+                        <div class="text-detail">支持多种账号验证方式，保障用户账号安全性，对开发人员操作权限进行管控，防止未经账号本人授权的访问</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--end- 安全保障-->
+
+        <!--start- 用户评价轮播图-->
+        <section class="n_page_con" style="background-color: white; padding: 60px 0;">
+            <div class="n_page_con_center">
+                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 40px; color: #333;">合作伙伴评价</h2>
+                    
+                    <!-- 轮播图内容 -->
+                    <div class="testimonial-carousel" style="position: relative; margin-bottom: 30px;">
+                        <!-- 轮播图内容 -->
+                        <div class="carousel-content" style="display: flex; overflow: hidden;">
+                            <!-- 轮播项1 -->
+                            <div class="carousel-item" style="min-width: 100%; transition: transform 0.5s ease;">
+                                <div style="margin-bottom: 30px;">
+                                    <span style="font-size: 48px; color: #e0e0e0;">"></span>
+                                </div>
+                                <p style="font-size: 18px; color: #666; line-height: 1.8; margin-bottom: 30px;">
+                                    房算云平台的数据精准性和产教融合模式给我们留下了深刻印象，为我们的房地产研究提供了强大支持！
+                                </p>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <img src="https://picsum.photos/id/1005/80/80" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 15px;">
+                                    <div style="text-align: left;">
+                                        <div style="font-weight: bold; color: #333;">万科集团</div>
+                                        <div style="font-size: 14px; color: #666;">【房地产开发企业】</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 轮播项2 -->
+                            <div class="carousel-item" style="min-width: 100%; transition: transform 0.5s ease;">
+                                <div style="margin-bottom: 30px;">
+                                    <span style="font-size: 48px; color: #e0e0e0;">"></span>
+                                </div>
+                                <p style="font-size: 18px; color: #666; line-height: 1.8; margin-bottom: 30px;">
+                                    通过与房算云的合作，我们实现了房地产数据的精准分析和应用，提升了企业决策效率！
+                                </p>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <img src="https://picsum.photos/id/1012/80/80" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 15px;">
+                                    <div style="text-align: left;">
+                                        <div style="font-weight: bold; color: #333;">碧桂园</div>
+                                        <div style="font-size: 14px; color: #666;">【房地产开发企业】</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 轮播项3 -->
+                            <div class="carousel-item" style="min-width: 100%; transition: transform 0.5s ease;">
+                                <div style="margin-bottom: 30px;">
+                                    <span style="font-size: 48px; color: #e0e0e0;">"></span>
+                                </div>
+                                <p style="font-size: 18px; color: #666; line-height: 1.8; margin-bottom: 30px;">
+                                    房算云平台为我们的房地产专业教学提供了丰富的案例资源和实践平台，极大提升了教学效果！
+                                </p>
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <img src="https://picsum.photos/id/1027/80/80" alt="用户头像" style="width: 60px; height: 60px; border-radius: 50%; margin-right: 15px;">
+                                    <div style="text-align: left;">
+                                        <div style="font-weight: bold; color: #333;">湖南城建职业技术学院</div>
+                                        <div style="font-size: 14px; color: #666;">【房地产教育院校】</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 轮播指示器 -->
+                        <div class="carousel-indicators" style="display: flex; justify-content: center; gap: 8px; margin-top: 20px;">
+                            <div class="indicator active" style="width: 12px; height: 12px; border-radius: 50%; background-color: #1890ff; cursor: pointer;"></div>
+                            <div class="indicator" style="width: 12px; height: 12px; border-radius: 50%; background-color: #d9d9d9; cursor: pointer;"></div>
+                            <div class="indicator" style="width: 12px; height: 12px; border-radius: 50%; background-color: #d9d9d9; cursor: pointer;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--end- 用户评价轮播图-->
+        
+        <!--start- 价格方案-->
+        <section class="n_page_con pricing" style="background-color: #f8f9fa; padding: 60px 0;">
+            <div class="n_page_con_center">
+                <h1 class="section-title" style="color: #667eea;">选择适合您的房算云服务方案</h1>
+                <p class="section-subtitle">全平台多端·VIP权益互通，解锁房地产估价、数据分析、市场调研全部特权</p>
+                
+                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                    <!-- 免费试用版 -->
+                    <div style="flex: 0 0 250px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 30px; text-align: center; position: relative;">
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">免费试用版</div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <div style="font-size: 48px; font-weight: bold; color: #333;">¥0</div>
+                            <div style="font-size: 16px; color: #666; margin-left: 10px;">/30天</div>
+                        </div>
+                        <div style="color: #666; margin-bottom: 30px;">满足基础房地产估价和数据分析需求</div>
+                        <button class="btn btn-primary price-button" style="padding: 12px 24px; border-radius: 25px; font-size: 16px; font-weight: 500;" data-plan="free">立即试用</button>
+                        <div style="margin-top: 20px; text-align: left; font-size: 14px;">
+                            <h4 style="font-weight: bold; margin-bottom: 10px;">包含功能：</h4>
+                            <ul style="list-style: none; padding: 0; color: #666;">
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 基础房地产估价功能
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 市场数据查询
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 10次/月AI估价报告生成
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 基础数据分析工具
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #ff4d4f; margin-right: 8px;">✗</span> 高级市场预测
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 个人专业版 -->
+                    <div style="flex: 0 0 250px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 30px; text-align: center; position: relative; border: 2px solid #667eea;">
+                        <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background-color: #667eea; color: white; font-size: 12px; padding: 5px 10px; border-radius: 15px;">推荐</div>
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">个人专业版</div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <div style="font-size: 48px; font-weight: bold; color: #667eea;">¥199</div>
+                            <div style="font-size: 16px; color: #666; margin-left: 10px;">/月</div>
+                        </div>
+                        <div style="color: #666; margin-bottom: 30px;">适合房地产专业人士和投资者</div>
+                        <button class="btn btn-primary price-button" style="padding: 12px 24px; border-radius: 25px; font-size: 16px; font-weight: 500; background-color: #667eea;" data-plan="personal">立即购买</button>
+                        <div style="margin-top: 20px; text-align: left; font-size: 14px;">
+                            <h4 style="font-weight: bold; margin-bottom: 10px;">包含功能：</h4>
+                            <ul style="list-style: none; padding: 0; color: #666;">
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 高级房地产估价功能
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 完整市场数据查询
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 无限次AI估价报告生成
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 高级数据分析工具
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 市场趋势预测
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 专属客服支持
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 企业协作版 -->
+                    <div style="flex: 0 0 250px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 30px; text-align: center; position: relative;">
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">企业协作版</div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <div style="font-size: 48px; font-weight: bold; color: #4ecdc4;">¥399</div>
+                            <div style="font-size: 16px; color: #666; margin-left: 10px;">/月/户</div>
+                        </div>
+                        <div style="color: #666; margin-bottom: 30px;">适合房地产企业和团队使用</div>
+                        <button class="btn btn-primary price-button" style="padding: 12px 24px; border-radius: 25px; font-size: 16px; font-weight: 500; background-color: #4ecdc4;" data-plan="enterprise">立即购买</button>
+                        <button class="btn btn-secondary price-button" style="margin-top: 10px; padding: 12px 24px; border-radius: 25px; font-size: 14px; font-weight: 500; color: #4ecdc4; border-color: #4ecdc4;" data-plan="enterprise-sales">联系销售</button>
+                        <div style="margin-top: 20px; text-align: left; font-size: 14px;">
+                            <h4 style="font-weight: bold; margin-bottom: 10px;">包含功能：</h4>
+                            <ul style="list-style: none; padding: 0; color: #666;">
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 企业级房地产估价功能
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 企业级市场数据查询
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 无限次AI估价报告生成
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 团队协作功能
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 定制化数据报表
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 7x24小时技术支持
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- 院校教育版 -->
+                    <div style="flex: 0 0 250px; background-color: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); padding: 30px; text-align: center; position: relative;">
+                        <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">院校教育版</div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #ff6b6b;">定制报价</div>
+                        </div>
+                        <div style="color: #666; margin-bottom: 30px;">适合房地产相关院校教学使用</div>
+                        <button class="btn btn-primary price-button" style="padding: 12px 24px; border-radius: 25px; font-size: 16px; font-weight: 500; background-color: #ff6b6b;" data-plan="education">预约咨询</button>
+                        <div style="margin-top: 20px; text-align: left; font-size: 14px;">
+                            <h4 style="font-weight: bold; margin-bottom: 10px;">包含功能：</h4>
+                            <ul style="list-style: none; padding: 0; color: #666;">
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 完整教学平台
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 虚拟仿真教学环境
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 学生管理系统
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 教师教学工具
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 海量教学案例库
+                                </li>
+                                <li style="margin-bottom: 8px; display: flex; align-items: center;">
+                                    <span style="color: #52c41a; margin-right: 8px;">✓</span> 定制化课程开发
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--end- 价格方案-->
+
+        </section>
+
+        <!-- AI生成思维导图内容 -->
+        <section id="ai-feature" class="content-section">
+            <div style="display: flex; min-height: calc(100vh - 150px); background-color: #f5f5f5;">
+                <!-- 左侧导航菜单 -->
+                <aside style="width: 200px; background-color: white; border-right: 1px solid #e0e0e0; padding: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); height: 100%;">
+                    <div style="margin-bottom: 30px;">
+                        <div style="font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #333; display: flex; align-items: center;">
+                            <span style="color: #ff6b6b; margin-right: 8px;">💡</span> 生成估价
+                        </div>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 10px;">
+                                <a href="#ai-feature" class="ai-feature-tab active" data-feature="valuation" style="display: flex; align-items: center; padding: 10px 15px; background-color: #e3f2fd; color: #1890ff; border-radius: 4px; text-decoration: none; font-weight: 500;">
+                                    <span style="margin-right: 8px;">📊</span> AI估价报告
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 10px;">
+                                <a href="#ai-feature" class="ai-feature-tab" data-feature="price-prediction" style="display: flex; align-items: center; padding: 10px 15px; background-color: #f0f0f0; color: #666; border-radius: 4px; text-decoration: none;">
+                                    <span style="margin-right: 8px;">🏙️</span> AI房价预测
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 10px;">
+                                <a href="#ai-feature" class="ai-feature-tab" data-feature="investment-analysis" style="display: flex; align-items: center; padding: 10px 15px; background-color: #f0f0f0; color: #666; border-radius: 4px; text-decoration: none;">
+                                    <span style="margin-right: 8px;">📈</span> AI投资分析
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 10px;">
+                                <a href="#ai-feature" class="ai-feature-tab" data-feature="policy-interpretation" style="display: flex; align-items: center; padding: 10px 15px; background-color: #f0f0f0; color: #666; border-radius: 4px; text-decoration: none;">
+                                    <span style="margin-right: 8px;">📋</span> AI政策解读
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <div style="font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #333;">历史对话</div>
+                        <div style="background-color: #f0f0f0; border-radius: 8px; padding: 10px; max-height: 200px; overflow-y: auto;">
+                            <div style="padding: 8px; background-color: white; border-radius: 4px; margin-bottom: 8px; cursor: pointer; font-size: 14px;">北京朝阳区住宅估价</div>
+                            <div style="padding: 8px; background-color: white; border-radius: 4px; margin-bottom: 8px; cursor: pointer; font-size: 14px;">上海浦东新区投资分析</div>
+                            <div style="padding: 8px; background-color: white; border-radius: 4px; margin-bottom: 8px; cursor: pointer; font-size: 14px;">深圳南山区房价预测</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #333;">我的文件</div>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 10px;">
+                                <a href="#files" class="tab-sub-content" style="display: flex; align-items: center; padding: 10px 15px; background-color: #f0f0f0; color: #666; border-radius: 4px; text-decoration: none;">
+                                    <span style="margin-right: 8px;">📁</span> 进入工作台
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+                
+                <!-- 右侧内容区域 -->
+                <main style="flex: 1; padding: 30px;">
+                    <!-- AI估价报告内容 -->
+                    <div id="valuation" class="ai-feature-content active">
+                        <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                            <div style="margin-bottom: 30px;">
+                                <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #333;">AI估价报告</h2>
+                                <p style="color: #666;">智能生成精准房产估价报告，快速掌握市场价值</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 地图容器 -->
+                        <div id="map-container" style="width: 100%; height: 500px; background-color: #e8f4fd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-bottom: 20px;"></div>
+                        
+                        <!-- 地图功能面板 -->
+                        <div style="background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                                <input type="text" id="search-input" placeholder="搜索地点、小区或地址..." style="flex: 1; padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                                <button id="search-btn" style="padding: 10px 20px; background-color: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">搜索</button>
+                                <button id="locate-btn" style="padding: 10px 20px; background-color: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">定位当前位置</button>
+                                <button id="draw-area-btn" style="padding: 10px 20px; background-color: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">绘制区域</button>
+                                <button id="clear-btn" style="padding: 10px 20px; background-color: #1890ff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">清除标记</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 搜索结果 -->
+                        <div style="background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                            <div style="font-size: 16px; font-weight: bold; margin-bottom: 15px; color: #333;">搜索结果</div>
+                            <ul id="results-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                        </div>
+                        
+                        <!-- 预约咨询表单 -->
+                        <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                            <div style="margin-bottom: 30px;">
+                                <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #333;">预约咨询</h2>
+                                <p style="color: #666;">填写表单，我们的专业顾问将尽快与您联系</p>
+                            </div>
+                            
+                            <form id="consultation-form" style="max-width: 600px;">
+                                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                                    <div style="flex: 1;">
+                                        <label for="name" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">姓名</label>
+                                        <input type="text" id="name" name="name" placeholder="请输入您的姓名" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label for="phone" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">手机号</label>
+                                        <input type="tel" id="phone" name="phone" placeholder="请输入您的手机号" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label for="email" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">邮箱</label>
+                                    <input type="email" id="email" name="email" placeholder="请输入您的邮箱" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label for="consultation-type" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">咨询类型</label>
+                                    <select id="consultation-type" name="consultation-type" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;">
+                                        <option value="">请选择咨询类型</option>
+                                        <option value="valuation">AI估价咨询</option>
+                                        <option value="investment">投资分析咨询</option>
+                                        <option value="policy">政策解读咨询</option>
+                                        <option value="enterprise">企业合作咨询</option>
+                                        <option value="education">院校合作咨询</option>
+                                    </select>
+                                </div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <label for="message" style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">咨询内容</label>
+                                    <textarea id="message" name="message" placeholder="请详细描述您的咨询需求" rows="5" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; resize: vertical;"></textarea>
+                                </div>
+                                
+                                <div style="text-align: center;">
+                                    <button type="submit" style="padding: 12px 40px; background-color: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: 500;">提交预约</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- 价格与付款页面 -->
+                        <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                            <div style="margin-bottom: 30px;">
+                                <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #333;">价格与付款</h2>
+                                <p style="color: #666;">请按照以下信息完成付款，并选择付款状态</p>
+                            </div>
+                            
+                            <!-- 计时器 -->
+                            <div style="text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f0f9ff; border-radius: 8px;">
+                                <h3 style="margin-bottom: 10px; color: #1890ff;">付款倒计时</h3>
+                                <div id="payment-timer" style="font-size: 36px; font-weight: bold; color: #ff4d4f;">05:00</div>
+                                <p style="margin-top: 10px; color: #666;">请在5分钟内完成付款</p>
+                            </div>
+                            
+                            <!-- 转账信息 -->
+                            <div style="margin-bottom: 30px; padding: 20px; background-color: #fafafa; border-radius: 8px;">
+                                <h3 style="margin-bottom: 15px; color: #333;">转账信息</h3>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>账户名：</strong>湘潭市房算云互联网科技有限公司
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>账号：</strong>4305 0163 6108 0000 0782
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>开户行：</strong>中国建设银行股份有限公司湘潭市分行
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>备注：</strong>请备注您的手机号和购买的服务名称
+                                </div>
+                            </div>
+                            
+                            <!-- 付款状态选择 -->
+                            <div style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px; color: #333;">付款状态</h3>
+                                <div style="display: flex; gap: 20px;">
+                                    <button id="payment-completed" class="btn btn-primary" style="padding: 12px 30px; border-radius: 25px; font-size: 16px;">已完成付款</button>
+                                    <button id="payment-not-completed" class="btn btn-secondary" style="padding: 12px 30px; border-radius: 25px; font-size: 16px; background-color: white; color: #667eea; border: 1px solid #667eea;">未完成付款</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 联系方式 -->
+                            <div style="padding: 20px; background-color: #f0f9ff; border-radius: 8px;">
+                                <h3 style="margin-bottom: 15px; color: #1890ff;">联系方式</h3>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>手机：</strong>16680508457
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <strong>微信：</strong>svip6763
+                                </div>
+                                <p style="color: #666; font-size: 14px;">如有任何问题，请随时联系我们</p>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-main-content">
+            <div class="correlation_item">
+                <div class="title">关于房算云</div>
+                <div class="text"><a href="#">公司介绍</a></div>
+                <div class="text"><a href="#">联系我们</a></div>
+                <div class="text"><a href="#">加入我们</a></div>
+                <div class="text"><a href="#">合作伙伴</a></div>
+            </div>
+            <div class="correlation_item">
+                <div class="title">产品服务</div>
+                <div class="text"><a href="#">AI估价报告</a></div>
+                <div class="text"><a href="#">房价预测</a></div>
+                <div class="text"><a href="#">投资分析</a></div>
+                <div class="text"><a href="#">政策解读</a></div>
+            </div>
+            <div class="correlation_item">
+                <div class="title">解决方案</div>
+                <div class="text"><a href="#school">院校端</a></div>
+                <div class="text"><a href="#business">企业端</a></div>
+                <div class="text"><a href="#association">协会端</a></div>
+                <div class="text"><a href="#government">政府端</a></div>
+                <div class="text"><a href="#public">大众端</a></div>
+            </div>
+            <div class="correlation_item">
+                <div class="title">帮助中心</div>
+                <div class="text"><a href="#">使用教程</a></div>
+                <div class="text"><a href="#">常见问题</a></div>
+                <div class="text"><a href="#">服务价格</a></div>
+                <div class="text"><a href="#">案例库</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // AI功能选项卡切换
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.ai-feature-tab');
+            const contents = document.querySelectorAll('.ai-feature-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有活动状态
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.style.backgroundColor = '#f0f0f0';
+                        t.style.color = '#666';
+                    });
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    this.style.backgroundColor = '#e3f2fd';
+                    this.style.color = '#1890ff';
+                    
+                    // 显示对应内容
+                    const feature = this.getAttribute('data-feature');
+                    const content = document.getElementById(feature);
+                    if (content) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+        </script>
+
+    <script>
+        // 导航菜单切换
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-list li a');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有活动状态
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    contentSections.forEach(s => s.classList.remove('active'));
+                    
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    
+                    // 显示对应内容
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // 轮播图功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const indicators = document.querySelectorAll('.indicator');
+            let currentIndex = 0;
+            
+            // 自动轮播
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % carouselItems.length;
+                updateCarousel();
+            }, 5000);
+            
+            // 指示器点击事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+            });
+            
+            function updateCarousel() {
+                // 更新轮播内容
+                carouselItems.forEach((item, index) => {
+                    item.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
+                });
+                
+                // 更新指示器
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentIndex);
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // 价格页面功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取元素
+            const priceButtons = document.querySelectorAll('.price-button');
+            
+            // 价格按钮点击事件
+            priceButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const plan = this.getAttribute('data-plan');
+                    console.log('选择了方案:', plan);
+                    // 这里可以添加模态框显示逻辑
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // 全局用户状态管理
+        let userState = {
+            isLoggedIn: false,
+            userData: null
+        };
+        
+        // 权限管理工具
+        const PermissionManager = {
+            // 检查用户是否已登录
+            isLoggedIn: function() {
+                return userState.isLoggedIn;
+            },
+            
+            // 获取用户信息
+            getUserInfo: function() {
+                return userState.userData;
+            },
+            
+            // 检查是否有菜单权限
+            hasMenuPermission: function(menuName) {
+                // 未登录用户默认可以查看所有导航菜单
+                if (!userState.isLoggedIn || !userState.userData.permissions) {
+                    return true;
+                }
+                return userState.userData.permissions[menuName] === true;
+            },
+            
+            // 登录
+            login: function(userData) {
+                userState.isLoggedIn = true;
+                userState.userData = userData;
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('user', JSON.stringify(userData));
+                this.updateUI();
+            },
+            
+            // 退出登录
+            logout: function() {
+                userState.isLoggedIn = false;
+                userState.userData = null;
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('user');
+                this.updateUI();
+                // 重定向到首页
+                window.location.href = 'fixed-visual-index.html';
+            },
+            
+            // 更新UI
+            updateUI: function() {
+                const loginBtn = document.querySelector('.tab-sub-content[href="login.html"]');
+                if (loginBtn) {
+                    if (userState.isLoggedIn) {
+                        // 替换登录按钮为用户信息和退出按钮
+                        loginBtn.closest('.tab').innerHTML = `
+                            <div class="tab" style="position: relative;">
+                                <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <span style="color: #667eea; font-weight: bold;">${userState.userData.username}</span>
+                                    <span style="font-size: 12px; background-color: #1890ff; color: white; padding: 2px 8px; border-radius: 10px;">${userState.userData.role}</span>
+                                </div>
+                                <div style="position: absolute; top: 100%; right: 0; background-color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 4px; padding: 10px; min-width: 150px; z-index: 100;">
+                                    <div style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">欢迎回来</div>
+                                    <div style="padding: 5px 0;">ID: ${userState.userData.id}</div>
+                                    <div style="padding: 5px 0;">手机: ${userState.userData.phone}</div>
+                                    <div style="padding: 5px 0; margin-top: 10px;">
+                                        <button onclick="PermissionManager.logout()" style="width: 100%; background-color: #ff4d4f; color: white; border: none; padding: 8px; border-radius: 4px;">退出登录</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // 恢复登录按钮
+                        loginBtn.closest('.tab').innerHTML = `
+                            <div class="tab">
+                                <a href="login.html" class="tab-sub-content" disabletitle="true" style="background-color: #1890ff; color: white; padding: 8px 16px; border-radius: 20px;">登录/注册</a>
+                            </div>
+                        `;
+                    }
+                }
+            }
+        };
+        </script>
+
+        <script>
+            // 地图功能实现
+            let map;
+            let markers = [];
+            let searchService;
+            let geolocation;
+
+            // 初始化地图
+            function initMap() {
+                // 创建地图实例
+                map = new AMap.Map('map-container', {
+                    center: [116.397428, 39.90923], // 北京市中心坐标
+                    zoom: 12,
+                    viewMode: '3D',
+                    buildingAnimation: true
+                });
+
+                // 添加地图控件
+                map.addControl(new AMap.ToolBar({
+                    position: 'LT'
+                }));
+                map.addControl(new AMap.Scale({
+                    position: 'LB'
+                }));
+                map.addControl(new AMap.MapType({
+                    position: 'RT'
+                }));
+
+                // 初始化搜索服务
+                searchService = new AMap.PlaceSearch({
+                    pageSize: 10,
+                    pageIndex: 1,
+                    city: '全国',
+                    map: map,
+                    panel: 'results-list',
+                    autoFitView: true
+                });
+
+                // 初始化定位服务
+                geolocation = new AMap.Geolocation({
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    buttonOffset: new AMap.Pixel(10, 20),
+                    zoomToAccuracy: true,
+                    buttonPosition: 'RB'
+                });
+
+                // 添加定位控件到地图
+                map.addControl(geolocation);
+            }
+
+            // 搜索功能
+            function search() {
+                const keyword = document.getElementById('search-input').value.trim();
+                if (keyword) {
+                    searchService.search(keyword);
+                }
+            }
+
+            // 定位当前位置
+            function locate() {
+                geolocation.getCurrentPosition(function(status, result) {
+                    if (status === 'complete') {
+                        onComplete(result);
+                    } else {
+                        onError(result);
+                    }
+                });
+            }
+
+            // 定位成功回调
+            function onComplete(data) {
+                const lnglat = [data.position.getLng(), data.position.getLat()];
+                map.setCenter(lnglat);
+                map.setZoom(16);
+                
+                // 添加定位标记
+                const marker = new AMap.Marker({
+                    position: lnglat,
+                    icon: new AMap.Icon({
+                        size: new AMap.Size(40, 40),
+                        image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'
+                    }),
+                    title: '当前位置'
+                });
+                marker.setMap(map);
+                markers.push(marker);
+            }
+
+            // 定位失败回调
+            function onError(data) {
+                alert('定位失败：' + data.message);
+            }
+
+            // 清除所有标记
+            function clearMarkers() {
+                markers.forEach(marker => {
+                    marker.setMap(null);
+                });
+                markers = [];
+            }
+
+            // 绘制区域
+            function drawArea() {
+                alert('绘制区域功能开发中...');
+            }
+
+            // 添加地图事件监听
+            function addMapEventListeners() {
+                // 搜索按钮点击事件
+                const searchBtn = document.getElementById('search-btn');
+                if (searchBtn) {
+                    searchBtn.addEventListener('click', search);
+                }
+                
+                // 搜索框回车事件
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            search();
+                        }
+                    });
+                }
+                
+                // 定位按钮点击事件
+                const locateBtn = document.getElementById('locate-btn');
+                if (locateBtn) {
+                    locateBtn.addEventListener('click', locate);
+                }
+                
+                // 清除按钮点击事件
+                const clearBtn = document.getElementById('clear-btn');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', clearMarkers);
+                }
+                
+                // 绘制区域按钮点击事件
+                const drawAreaBtn = document.getElementById('draw-area-btn');
+                if (drawAreaBtn) {
+                    drawAreaBtn.addEventListener('click', drawArea);
+                }
+            }
+
+            // 页面加载完成后初始化地图
+            document.addEventListener('DOMContentLoaded', function() {
+                // 检查是否有地图容器
+                const mapContainer = document.getElementById('map-container');
+                if (mapContainer) {
+                    initMap();
+                    addMapEventListeners();
+                }
+                
+                // 初始化预约咨询表单
+                initConsultationForm();
+                
+                // 初始化用户登录状态
+                initUserLogin();
+                
+                // 初始化付款计时器
+                initPaymentTimer();
+                
+                // 初始化付款状态按钮
+                initPaymentStatusButtons();
+                
+                // 初始化多端权限同步
+                initMultiTerminalSync();
+            });
+            
+            // 初始化用户登录状态
+            function initUserLogin() {
+                // 检查用户是否已登录
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                const userData = localStorage.getItem('user');
+                
+                if (isLoggedIn && userData) {
+                    const user = JSON.parse(userData);
+                    updateLoginUI(user);
+                }
+            }
+            
+            // 更新登录状态UI
+            function updateLoginUI(user) {
+                const loginBtn = document.querySelector('.tab-sub-content[href="login.html"]');
+                if (loginBtn) {
+                    // 替换登录按钮为用户信息
+                    loginBtn.closest('.tab').innerHTML = `
+                        <div class="tab" style="position: relative;">
+                            <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <span style="color: #667eea; font-weight: bold;">${user.username || user.phone}</span>
+                                <span style="font-size: 12px; background-color: #1890ff; color: white; padding: 2px 8px; border-radius: 10px;">${user.role || '用户'}</span>
+                            </div>
+                            <div style="position: absolute; top: 100%; right: 0; background-color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 4px; padding: 10px; min-width: 150px; z-index: 100;">
+                                <div style="padding: 5px 0; border-bottom: 1px solid #f0f0f0;">欢迎回来</div>
+                                <div style="padding: 5px 0;">ID: ${user.id}</div>
+                                <div style="padding: 5px 0;">手机: ${user.phone}</div>
+                                <div style="padding: 5px 0; margin-top: 10px;">
+                                    <button onclick="logout()" style="width: 100%; background-color: #ff4d4f; color: white; border: none; padding: 8px; border-radius: 4px;">退出登录</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // 退出登录
+            function logout() {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('user');
+                // 刷新页面
+                window.location.reload();
+            }
+            
+            // 初始化付款计时器
+            function initPaymentTimer() {
+                const timerElement = document.getElementById('payment-timer');
+                if (timerElement) {
+                    let timeLeft = 5 * 60; // 5分钟，单位秒
+                    
+                    const timer = setInterval(() => {
+                        const minutes = Math.floor(timeLeft / 60);
+                        const seconds = timeLeft % 60;
+                        
+                        // 格式化时间
+                        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        timerElement.textContent = formattedTime;
+                        
+                        // 减少时间
+                        timeLeft--;
+                        
+                        // 时间到，停止计时器
+                        if (timeLeft < 0) {
+                            clearInterval(timer);
+                            timerElement.textContent = '00:00';
+                            alert('付款时间已结束，请重新发起付款！');
+                        }
+                    }, 1000);
+                }
+            }
+            
+            // 初始化付款状态按钮
+            function initPaymentStatusButtons() {
+                // 已完成付款按钮
+                const completedBtn = document.getElementById('payment-completed');
+                if (completedBtn) {
+                    completedBtn.addEventListener('click', function() {
+                        // 显示付款成功提示
+                        alert('付款成功！感谢您的购买，我们将立即为您开通服务。');
+                        
+                        // 更新用户权限
+                        updateUserPermission();
+                    });
+                }
+                
+                // 未完成付款按钮
+                const notCompletedBtn = document.getElementById('payment-not-completed');
+                if (notCompletedBtn) {
+                    notCompletedBtn.addEventListener('click', function() {
+                        // 确认返回未购买页面
+                        if (confirm('确定返回未购买页面吗？您的付款时间将被重置。')) {
+                            // 重置计时器
+                            const timerElement = document.getElementById('payment-timer');
+                            if (timerElement) {
+                                timerElement.textContent = '05:00';
+                            }
+                            
+                            // 可以在这里添加返回未购买页面的逻辑
+                            // 例如：window.location.href = 'pricing.html';
+                        }
+                    });
+                }
+            }
+            
+            // 更新用户权限
+            function updateUserPermission() {
+                // 获取当前用户信息
+                const userData = localStorage.getItem('user');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    
+                    // 模拟更新用户权限，实际项目中应该从后端获取
+                    user.permissions = {
+                        ...user.permissions,
+                        // 添加新的权限
+                        premiumService: true,
+                        advancedAnalysis: true,
+                        unlimitedReports: true
+                    };
+                    
+                    // 保存更新后的用户信息
+                    localStorage.setItem('user', JSON.stringify(user));
+                    
+                    // 触发权限变化事件，通知其他页面
+                    window.dispatchEvent(new Event('storage'));
+                    
+                    // 更新UI
+                    updateLoginUI(user);
+                }
+            }
+            
+            // 初始化多端权限同步
+            function initMultiTerminalSync() {
+                // 监听localStorage变化，实现多端同步
+                window.addEventListener('storage', function(e) {
+                    if (e.key === 'isLoggedIn' || e.key === 'user') {
+                        // 重新初始化用户登录状态
+                        initUserLogin();
+                        
+                        // 根据权限更新UI
+                        updateUIByPermission();
+                    }
+                });
+                
+                // 初始化时根据权限更新UI
+                updateUIByPermission();
+            }
+            
+            // 根据权限更新UI
+            function updateUIByPermission() {
+                // 获取当前用户信息
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                const userData = localStorage.getItem('user');
+                
+                if (isLoggedIn && userData) {
+                    const user = JSON.parse(userData);
+                    
+                    // 根据用户角色显示不同的菜单和功能
+                    const userType = user.role || 'public';
+                    
+                    // 示例：根据用户类型显示/隐藏不同的功能按钮
+                    updateFunctionButtonsByPermission(user.permissions);
+                    
+                    // 示例：根据用户类型显示/隐藏不同的导航菜单
+                    updateNavMenuByPermission(user.permissions);
+                }
+            }
+            
+            // 根据权限更新功能按钮
+            function updateFunctionButtonsByPermission(permissions) {
+                // 示例：根据权限显示/隐藏绘制区域按钮
+                const drawAreaBtn = document.getElementById('draw-area-btn');
+                if (drawAreaBtn) {
+                    if (permissions && permissions.drawArea) {
+                        drawAreaBtn.style.display = 'inline-block';
+                    } else {
+                        drawAreaBtn.style.display = 'none';
+                    }
+                }
+                
+                // 可以根据需要添加更多按钮的权限控制
+            }
+            
+            // 根据权限更新导航菜单
+            function updateNavMenuByPermission(permissions) {
+                // 示例：根据权限显示/隐藏不同的导航菜单
+                const navLinks = document.querySelectorAll('.nav-list li a');
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    // 根据权限控制导航菜单的显示
+                    // 这里可以根据实际需要实现具体的逻辑
+                });
+            }
+        </script>
+
+        <script>
+            // 预约咨询表单功能
+            function initConsultationForm() {
+                const consultationForm = document.getElementById('consultation-form');
+                if (consultationForm) {
+                    consultationForm.addEventListener('submit', handleConsultationSubmit);
+                }
+            }
+            
+            // 处理预约咨询表单提交
+            function handleConsultationSubmit(e) {
+                e.preventDefault();
+                
+                // 获取表单数据
+                const formData = new FormData(e.target);
+                const data = {
+                    name: formData.get('name'),
+                    phone: formData.get('phone'),
+                    email: formData.get('email'),
+                    consultationType: formData.get('consultation-type'),
+                    message: formData.get('message'),
+                    submitTime: new Date().toISOString()
+                };
+                
+                // 表单验证
+                if (!validateForm(data)) {
+                    return;
+                }
+                
+                // 显示提交成功提示
+                alert('预约咨询表单提交成功！我们的专业顾问将在24小时内与您联系。');
+                
+                // 重置表单
+                e.target.reset();
+            }
+            
+            // 表单验证
+            function validateForm(data) {
+                if (!data.name.trim()) {
+                    alert('请输入姓名');
+                    return false;
+                }
+                
+                if (!data.phone.trim()) {
+                    alert('请输入手机号');
+                    return false;
+                }
+                
+                // 简单的手机号验证
+                const phoneRegex = /^1[3-9]\d{9}$/;
+                if (!phoneRegex.test(data.phone)) {
+                    alert('请输入正确的手机号');
+                    return false;
+                }
+                
+                if (!data.email.trim()) {
+                    alert('请输入邮箱');
+                    return false;
+                }
+                
+                // 简单的邮箱验证
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(data.email)) {
+                    alert('请输入正确的邮箱');
+                    return false;
+                }
+                
+                if (!data.consultationType) {
+                    alert('请选择咨询类型');
+                    return false;
+                }
+                
+                if (!data.message.trim()) {
+                    alert('请输入咨询内容');
+                    return false;
+                }
+                
+                return true;
+            }
+        </script>
+    </body>
+</html>

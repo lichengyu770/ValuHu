@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>报告生成- ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"/>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0056b3',
+                        secondary: '#6ea8fe',
+                        accent: '#667eea',
+                        success: '#52c41a',
+                        warning: '#faad14',
+                        danger: '#f5222d',
+                        dark: '#1a1a1a',
+                        light: '#f5f7fa'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        
+        /* 客户端切换导航样式 */
+        .client-nav {
+            height: 60px;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .client-nav-content {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: 100%;
+        }
+        
+        .client-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .client-tabs {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .client-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            color: #666;
+            background-color: #f5f7fa;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .client-tab:hover {
+            background-color: #e6ebff;
+            color: #667eea;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+        }
+        
+        .client-tab.active {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 主容器 */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .sidebar-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+        
+        .menu-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-item:hover {
+            background-color: #f0f4ff;
+            color: #667eea;
+        }
+        
+        .menu-item.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        /* 页面标题 */
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        /* 报告生成配置区域 */
+        .config-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .config-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .config-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .config-item label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .config-item input,
+        .config-item select,
+        .config-item textarea {
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .config-item input:focus,
+        .config-item select:focus,
+        .config-item textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .btn:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .btn-primary:hover {
+            background-color: #5568d3;
+        }
+        
+        .btn-success {
+            background-color: #52c41a;
+            color: white;
+            border-color: #52c41a;
+        }
+        
+        .btn-success:hover {
+            background-color: #43a047;
+        }
+        
+        .btn-danger {
+            background-color: #f5222d;
+            color: white;
+            border-color: #f5222d;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c62828;
+        }
+        
+        /* 按钮组 */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        /* 报告预览区域 */
+        .preview-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .preview-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* 报告预览内容 */
+        .preview-content {
+            background-color: #fafafa;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 400px;
+            overflow: auto;
+        }
+        
+        /* 报告列表样式 */
+        .report-list {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .report-item {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .report-item:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .report-item:last-child {
+            border-bottom: none;
+        }
+        
+        .report-info {
+            flex: 1;
+        }
+        
+        .report-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .report-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* 报告操作按钮 */
+        .report-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .report-action-btn {
+            padding: 6px 12px;
+            border: 1px solid #e0e0e0;
+            background-color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .report-action-btn:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-1px);
+        }
+        
+        /* 加载状态 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            color: #667eea;
+            font-weight: 500;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 成功/错误提示 */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .alert-success {
+            background-color: #f6ffed;
+            color: #52c41a;
+            border: 1px solid #b7eb8f;
+        }
+        
+        .alert-error {
+            background-color: #fff1f0;
+            color: #f5222d;
+            border: 1px solid #ffccc7;
+        }
+        
+        .alert-info {
+            background-color: #e6f7ff;
+            color: #1890ff;
+            border: 1px solid #91d5ff;
+        }
+        
+        /* 复选框组 */
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
+        
+        /* 修复LOGO文字竖向显示问题 */
+        .logo {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-direction: row !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            direction: ltr !important;
+            white-space: nowrap !important;
+        }
+        
+        .logo img {
+            display: inline-block !important;
+            vertical-align: middle !important;
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .config-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img src="图片1.png" alt="ValuHub Logo">
+                    ValuHub
+                </a>
+                
+                <!-- 桌面导航菜单 -->
+                <nav class="nav-menu">
+                    <a href="index.html" class="nav-link">首页</a>
+                    <a href="solutions.html" class="nav-link">解决方案</a>
+                    <a href="ai-valuation.html" class="nav-link">AI估价</a>
+                    <a href="market-trend.html" class="nav-link">市场趋势</a>
+                    <a href="research.html" class="nav-link">数据研究</a>
+                    <a href="valuation-history.html" class="nav-link">估价历史</a>
+                    <a href="report-generation.html" class="nav-link">报告生成</a>
+                    <a href="login.html" class="nav-link">登录</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">免费注册</a>
+                </nav>
+                
+                <!-- 移动端菜单按钮 -->
+                <button class="btn btn-text d-lg-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <!-- 左侧侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>报告生成</h3>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-item active">
+                    <span>📄</span>
+                    <span>生成新报告</span>
+                </div>
+                <div class="menu-item">
+                    <span>📋</span>
+                    <span>报告历史</span>
+                </div>
+                <div class="menu-item">
+                    <span>⚙️</span>
+                    <span>报告模板</span>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- 右侧主内容区 -->
+        <main class="main-content">
+            <!-- 生成新报告 -->
+            <div id="new-report-section">
+                <h1 class="page-title">📄 生成估价报告</h1>
+                
+                <!-- 成功/错误提示 -->
+                <div id="alert-container"></div>
+                
+                <!-- 报告生成配置 -->
+                <div class="config-section">
+                    <h2 style="font-size: 18px; font-weight: bold; color: #333; margin-bottom: 20px;">报告配置</h2>
+                    
+                    <div class="config-row">
+                        <div class="config-item">
+                            <label for="report-type">报告类型</label>
+                            <select id="report-type" class="config-select">
+                                <option value="basic">基础估价报告</option>
+                                <option value="detailed">详细估价报告</option>
+                                <option value="financial">金融机构专用报告</option>
+                                <option value="simple">简易报告</option>
+                            </select>
+                        </div>
+                        
+                        <div class="config-item">
+                            <label for="valuation-id">估价项目</label>
+                            <select id="valuation-id" class="config-select">
+                                <option value="1">长沙万科城 - ¥1,536,000</option>
+                                <option value="2">岳麓区二手房 - ¥1,200,000</option>
+                                <option value="3">商业地产估价 - ¥3,500,000</option>
+                                <option value="4">湘江世纪城 - ¥1,800,000</option>
+                                <option value="5">保利国际广场 - ¥2,800,000</option>
+                            </select>
+                        </div>
+                        
+                        <div class="config-item">
+                            <label for="report-format">输出格式</label>
+                            <select id="report-format" class="config-select">
+                                <option value="pdf">PDF (推荐)</option>
+                                <option value="word">Word</option>
+                                <option value="html">HTML</option>
+                                <option value="excel">Excel</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="config-row">
+                        <div class="config-item">
+                            <label for="report-title">报告标题</label>
+                            <input type="text" id="report-title" placeholder="请输入报告标题" class="config-input">
+                        </div>
+                        
+                        <div class="config-item">
+                            <label for="report-date">报告日期</label>
+                            <input type="date" id="report-date" value="2025-12-31" class="config-input">
+                        </div>
+                    </div>
+                    
+                    <div class="config-item">
+                        <label>报告内容选项</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include-property-info" checked>
+                                <label for="include-property-info">包含房产基本信息</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include-market-analysis" checked>
+                                <label for="include-market-analysis">包含市场分析</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include-comparables" checked>
+                                <label for="include-comparables">包含可比案例</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include-valuation-method">
+                                <label for="include-valuation-method">包含估价方法说明</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="include-risk-analysis">
+                                <label for="include-risk-analysis">包含风险分析</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-item">
+                        <label for="report-notes">报告备注</label>
+                        <textarea id="report-notes" placeholder="请输入报告备注或特殊要求..." rows="3" class="config-textarea"></textarea>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="generateReport()">🚀 生成报告</button>
+                        <button class="btn" onclick="previewReport()">👁️ 预览报告</button>
+                        <button class="btn" onclick="resetForm()">🔄 重置</button>
+                    </div>
+                </div>
+                
+                <!-- 报告预览 -->
+                <div class="preview-section">
+                    <div class="preview-header">
+                        <h3 class="preview-title">报告预览</h3>
+                        <button class="btn" onclick="togglePreview()" id="toggle-preview-btn">隐藏预览</button>
+                    </div>
+                    <div id="report-preview" class="preview-content">
+                        <p style="text-align: center; color: #666;">点击"预览报告"按钮查看报告内容...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 报告历史 -->
+            <div id="report-history-section" style="display: none;">
+                <h1 class="page-title">📋 报告历史</h1>
+                
+                <div class="action-buttons" style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="showNewReportSection()">+ 生成新报告</button>
+                    <button class="btn" onclick="refreshReportHistory()">🔄 刷新</button>
+                </div>
+                
+                <div class="report-list" id="report-list">
+                    <!-- 报告历史记录将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            
+            <!-- 报告模板 -->
+            <div id="report-templates-section" style="display: none;">
+                <h1 class="page-title">⚙️ 报告模板</h1>
+                
+                <div class="action-buttons" style="display: flex; gap: 12px; margin-bottom: 20px;">
+                    <button class="btn btn-primary" onclick="createTemplate()">+ 创建新模板</button>
+                    <button class="btn" onclick="refreshTemplates()">🔄 刷新</button>
+                </div>
+                
+                <div id="templates-list">
+                    <!-- 报告模板将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 分享模态框 -->
+    <div id="share-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🔗 分享报告</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="share-content">
+                <div style="margin-bottom: 20px;">
+                    <label for="share-link" style="display: block; margin-bottom: 8px; font-weight: 500;">分享链接</label>
+                    <input type="text" id="share-link" readonly style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 10px;">
+                    <button class="btn" onclick="copyShareLink()" style="margin-right: 10px;">📋 复制链接</button>
+                    <button class="btn" onclick="generateNewLink()">🔄 生成新链接</button>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">分享设置</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="enable-password" checked>
+                            <label for="enable-password">启用密码保护</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="enable-expiry">
+                            <label for="enable-expiry">设置有效期</label>
+                        </div>
+                    </div>
+                    
+                    <div id="password-section" style="margin-top: 15px;">
+                        <label for="share-password" style="display: block; margin-bottom: 8px; font-weight: 500;">访问密码</label>
+                        <input type="password" id="share-password" placeholder="请输入访问密码" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                    </div>
+                    
+                    <div id="expiry-section" style="margin-top: 15px; display: none;">
+                        <label for="expiry-days" style="display: block; margin-bottom: 8px; font-weight: 500;">有效期（天）</label>
+                        <input type="number" id="expiry-days" placeholder="请输入有效期天数" min="1" max="365" style="width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px;">
+                    </div>
+                </div>
+                
+                <div class="btn-group" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="saveShareSettings()">✅ 保存设置</button>
+                    <button class="btn" onclick="closeModal()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 模拟报告历史数据
+        const reportHistory = [
+            {
+                id: 1,
+                name: '长沙万科城基础估价报告',
+                type: 'basic',
+                valuation_id: 1,
+                format: 'pdf',
+                status: 'completed',
+                created_at: '2025-12-31',
+                download_url: '#',
+                share_url: '#',
+                preview_url: '#'
+            },
+            {
+                id: 2,
+                name: '岳麓区二手房详细估价报告',
+                type: 'detailed',
+                valuation_id: 2,
+                format: 'pdf',
+                status: 'completed',
+                created_at: '2025-12-30',
+                download_url: '#',
+                share_url: '#',
+                preview_url: '#'
+            },
+            {
+                id: 3,
+                name: '商业地产金融机构专用报告',
+                type: 'financial',
+                valuation_id: 3,
+                format: 'pdf',
+                status: 'completed',
+                created_at: '2025-12-29',
+                download_url: '#',
+                share_url: '#',
+                preview_url: '#'
+            }
+        ];
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderReportHistory();
+            // 监听密码保护和有效期复选框变化
+            document.getElementById('enable-password').addEventListener('change', togglePasswordSection);
+            document.getElementById('enable-expiry').addEventListener('change', toggleExpirySection);
+        });
+        
+        // 显示新报告生成区域
+        function showNewReportSection() {
+            document.getElementById('new-report-section').style.display = 'block';
+            document.getElementById('report-history-section').style.display = 'none';
+            document.getElementById('report-templates-section').style.display = 'none';
+            
+            // 更新侧边栏激活状态
+            updateSidebarActive('生成新报告');
+        }
+        
+        // 显示报告历史区域
+        function showReportHistorySection() {
+            document.getElementById('new-report-section').style.display = 'none';
+            document.getElementById('report-history-section').style.display = 'block';
+            document.getElementById('report-templates-section').style.display = 'none';
+            
+            // 更新侧边栏激活状态
+            updateSidebarActive('报告历史');
+        }
+        
+        // 显示报告模板区域
+        function showReportTemplatesSection() {
+            document.getElementById('new-report-section').style.display = 'none';
+            document.getElementById('report-history-section').style.display = 'none';
+            document.getElementById('report-templates-section').style.display = 'block';
+            
+            // 更新侧边栏激活状态
+            updateSidebarActive('报告模板');
+        }
+        
+        // 更新侧边栏激活状态
+        function updateSidebarActive(itemText) {
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                if (item.querySelector('span:last-child').textContent === itemText) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // 生成报告
+        function generateReport() {
+            const alertContainer = document.getElementById('alert-container');
+            const reportType = document.getElementById('report-type').value;
+            
+            // 显示加载状态
+            showLoading('正在生成报告...');
+            
+            // 模拟报告生成过程
+            setTimeout(() => {
+                hideLoading();
+                
+                // 显示成功提示
+                showAlert('报告生成成功！', 'success');
+                
+                // 更新报告历史
+                renderReportHistory();
+            }, 2000);
+        }
+        
+        // 预览报告
+        function previewReport() {
+            const reportType = document.getElementById('report-type').value;
+            const previewContent = document.getElementById('report-preview');
+            
+            // 显示加载状态
+            previewContent.innerHTML = '<div class="loading"><div class="spinner"></div>正在生成预览...</div>';
+            
+            // 模拟报告预览生成
+            setTimeout(() => {
+                // 根据报告类型生成不同的预览内容
+                let previewHTML = '';
+                
+                if (reportType === 'basic') {
+                    previewHTML = generateBasicReportPreview();
+                } else if (reportType === 'detailed') {
+                    previewHTML = generateDetailedReportPreview();
+                } else if (reportType === 'financial') {
+                    previewHTML = generateFinancialReportPreview();
+                } else {
+                    previewHTML = generateSimpleReportPreview();
+                }
+                
+                previewContent.innerHTML = previewHTML;
+            }, 1500);
+        }
+        
+        // 生成基础报告预览
+        function generateBasicReportPreview() {
+            return `
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 20px;">房地产估价报告</h2>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">一、估价项目基本信息</h3>
+                    <p><strong>估价项目：</strong>长沙万科城</p>
+                    <p><strong>物业类型：</strong>住宅</p>
+                    <p><strong>地址：</strong>长沙市开福区福元西路199号</p>
+                    <p><strong>建筑面积：</strong>120.00 ㎡</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">二、估价结果</h3>
+                    <p style="font-size: 16px; font-weight: bold; color: #667eea;"><strong>估价总价：</strong>¥1,536,000</p>
+                    <p style="font-weight: bold;"><strong>估价单价：</strong>12,800 元/㎡</p>
+                    <p><strong>估价日期：</strong>2025-12-31</p>
+                    <p><strong>置信度：</strong>92%</p>
+                </div>
+                
+                <div>
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">三、市场分析摘要</h3>
+                    <p>根据当前市场情况，该区域住宅价格稳定，近期涨幅约为2.5%。周边配套完善，交通便利，具有较好的投资价值。</p>
+                </div>
+            `;
+        }
+        
+        // 生成详细报告预览
+        function generateDetailedReportPreview() {
+            return `
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 20px;">详细房地产估价报告</h2>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">一、估价项目基本信息</h3>
+                    <p><strong>估价项目：</strong>长沙万科城</p>
+                    <p><strong>物业类型：</strong>住宅</p>
+                    <p><strong>地址：</strong>长沙市开福区福元西路199号</p>
+                    <p><strong>建筑面积：</strong>120.00 ㎡</p>
+                    <p><strong>户型：</strong>3室2厅2卫</p>
+                    <p><strong>楼层：</strong>15层/33层</p>
+                    <p><strong>朝向：</strong>朝南</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">二、估价结果</h3>
+                    <p style="font-size: 16px; font-weight: bold; color: #667eea;"><strong>估价总价：</strong>¥1,536,000</p>
+                    <p style="font-weight: bold;"><strong>估价单价：</strong>12,800 元/㎡</p>
+                    <p><strong>估价日期：</strong>2025-12-31</p>
+                    <p><strong>置信度：</strong>92%</p>
+                    <p><strong>估价方法：</strong>市场比较法、收益法</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">三、市场分析</h3>
+                    <p><strong>区域市场概况：</strong>长沙市开福区近期房地产市场稳定，住宅均价约为12,500元/㎡。</p>
+                    <p><strong>价格走势：</strong>近6个月该区域房价涨幅约为2.5%，预计未来3个月将保持稳定增长。</p>
+                    <p><strong>可比案例：</strong>选取了周边3个类似项目作为可比案例，综合分析后得出估价结果。</p>
+                </div>
+                
+                <div>
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">四、估价师声明</h3>
+                    <p>本报告由ValuHub专业估价团队出具，估价结果仅供参考。</p>
+                    <p style="text-align: right; margin-top: 20px;">估价师：AI估价师</p>
+                    <p style="text-align: right;">估价机构：ValuHub</p>
+                </div>
+            `;
+        }
+        
+        // 生成金融机构专用报告预览
+        function generateFinancialReportPreview() {
+            return `
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 20px;">金融机构专用房地产估价报告</h2>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">一、估价项目基本信息</h3>
+                    <p><strong>估价项目：</strong>长沙万科城</p>
+                    <p><strong>物业类型：</strong>住宅</p>
+                    <p><strong>地址：</strong>长沙市开福区福元西路199号</p>
+                    <p><strong>建筑面积：</strong>120.00 ㎡</p>
+                    <p><strong>产权情况：</strong>70年产权</p>
+                    <p><strong>抵押情况：</strong>无抵押</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">二、估价结果</h3>
+                    <p style="font-size: 16px; font-weight: bold; color: #667eea;"><strong>估价总价：</strong>¥1,536,000</p>
+                    <p style="font-weight: bold;"><strong>估价单价：</strong>12,800 元/㎡</p>
+                    <p><strong>估价日期：</strong>2025-12-31</p>
+                    <p><strong>置信度：</strong>92%</p>
+                    <p><strong>估价方法：</strong>市场比较法、成本法、收益法</p>
+                    <p><strong>风险等级：</strong>低风险</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">三、市场分析与风险评估</h3>
+                    <p><strong>区域市场分析：</strong>长沙市开福区房地产市场稳定，近12个月房价波动较小。</p>
+                    <p><strong>风险评估：</strong>该项目位于成熟区域，周边配套完善，风险较低。</p>
+                    <p><strong>流动性分析：</strong>该类型房产在当地市场流动性良好，预计变现周期为1-3个月。</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">四、估价依据</h3>
+                    <p>1. 《房地产估价规范》(GB/T 50291-2015)</p>
+                    <p>2. 国家及地方相关法律法规</p>
+                    <p>3. 委托方提供的相关资料</p>
+                    <p>4. 估价人员实地查勘获取的资料</p>
+                    <p>5. 估价机构掌握的市场资料</p>
+                </div>
+                
+                <div>
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">五、估价师声明</h3>
+                    <p>本报告仅供金融机构内部使用，不得用于其他用途。</p>
+                    <p style="text-align: right; margin-top: 20px;">估价师：AI估价师</p>
+                    <p style="text-align: right;">估价机构：ValuHub</p>
+                    <p style="text-align: right;">资格证书编号：AI-2025-001</p>
+                </div>
+            `;
+        }
+        
+        // 生成简易报告预览
+        function generateSimpleReportPreview() {
+            return `
+                <h2 style="text-align: center; color: #667eea; margin-bottom: 20px;">简易房地产估价报告</h2>
+                
+                <div style="margin-bottom: 20px; padding: 15px; background-color: #f0f4ff; border-radius: 8px;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">估价结果</h3>
+                    <p style="font-size: 18px; font-weight: bold; color: #667eea; text-align: center;">¥1,536,000</p>
+                    <p style="text-align: center; font-size: 14px; color: #666;">单价：12,800 元/㎡</p>
+                </div>
+                
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;">
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">基本信息</h3>
+                    <p><strong>项目名称：</strong>长沙万科城</p>
+                    <p><strong>地址：</strong>长沙市开福区福元西路199号</p>
+                    <p><strong>面积：</strong>120.00 ㎡</p>
+                    <p><strong>类型：</strong>住宅</p>
+                </div>
+                
+                <div>
+                    <h3 style="font-weight: bold; color: #333; margin-bottom: 10px;">估价说明</h3>
+                    <p>本报告为简易估价报告，仅供参考。详细报告请联系ValuHub客服获取。</p>
+                    <p style="text-align: right; margin-top: 20px;">估价日期：2025-12-31</p>
+                    <p style="text-align: right;">估价机构：ValuHub</p>
+                </div>
+            `;
+        }
+        
+        // 重置表单
+        function resetForm() {
+            document.getElementById('report-type').value = 'basic';
+            document.getElementById('valuation-id').value = '1';
+            document.getElementById('report-format').value = 'pdf';
+            document.getElementById('report-title').value = '';
+            document.getElementById('report-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('report-notes').value = '';
+            
+            // 重置复选框
+            document.getElementById('include-property-info').checked = true;
+            document.getElementById('include-market-analysis').checked = true;
+            document.getElementById('include-comparables').checked = true;
+            document.getElementById('include-valuation-method').checked = false;
+            document.getElementById('include-risk-analysis').checked = false;
+            
+            // 清空预览
+            document.getElementById('report-preview').innerHTML = '<p style="text-align: center; color: #666;">点击"预览报告"按钮查看报告内容...</p>';
+            
+            // 清空提示
+            document.getElementById('alert-container').innerHTML = '';
+        }
+        
+        // 切换预览显示/隐藏
+        function togglePreview() {
+            const previewSection = document.querySelector('.preview-section');
+            const toggleBtn = document.getElementById('toggle-preview-btn');
+            
+            if (previewSection.style.display === 'none') {
+                previewSection.style.display = 'block';
+                toggleBtn.textContent = '隐藏预览';
+            } else {
+                previewSection.style.display = 'none';
+                toggleBtn.textContent = '显示预览';
+            }
+        }
+        
+        // 渲染报告历史
+        function renderReportHistory() {
+            const reportList = document.getElementById('report-list');
+            reportList.innerHTML = '';
+            
+            reportHistory.forEach(report => {
+                const reportItem = document.createElement('div');
+                reportItem.className = 'report-item';
+                
+                reportItem.innerHTML = `
+                    <div class="report-info">
+                        <div class="report-name">${report.name}</div>
+                        <div class="report-meta">
+                            ${report.type === 'basic' ? '基础报告' : report.type === 'detailed' ? '详细报告' : report.type === 'financial' ? '金融机构报告' : '简易报告'} | 
+                            ${report.format.toUpperCase()} | 
+                            ${report.created_at}
+                        </div>
+                    </div>
+                    <div class="report-actions">
+                        <button class="report-action-btn" onclick="downloadReport(${report.id})" title="下载报告">📥</button>
+                        <button class="report-action-btn" onclick="viewReport(${report.id})" title="查看报告">👁️</button>
+                        <button class="report-action-btn" onclick="shareReport(${report.id})" title="分享报告">🔗</button>
+                        <button class="report-action-btn" onclick="deleteReport(${report.id})" title="删除报告">🗑️</button>
+                    </div>
+                `;
+                
+                reportList.appendChild(reportItem);
+            });
+        }
+        
+        // 下载报告
+        function downloadReport(reportId) {
+            showAlert('报告下载功能开发中...', 'info');
+        }
+        
+        // 查看报告
+        function viewReport(reportId) {
+            showAlert('报告查看功能开发中...', 'info');
+        }
+        
+        // 分享报告
+        function shareReport(reportId) {
+            const modal = document.getElementById('share-modal');
+            modal.classList.add('active');
+            
+            // 填充分享链接
+            document.getElementById('share-link').value = `https://valuhub.example.com/reports/${reportId}?token=abc123`;
+        }
+        
+        // 删除报告
+        function deleteReport(reportId) {
+            if (confirm('确定要删除该报告吗？')) {
+                showAlert('报告删除成功！', 'success');
+                renderReportHistory();
+            }
+        }
+        
+        // 刷新报告历史
+        function refreshReportHistory() {
+            showAlert('报告历史已刷新', 'success');
+            renderReportHistory();
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.classList.remove('active');
+            });
+        }
+        
+        // 复制分享链接
+        function copyShareLink() {
+            const shareLink = document.getElementById('share-link');
+            shareLink.select();
+            shareLink.setSelectionRange(0, 99999);
+            
+            try {
+                document.execCommand('copy');
+                showAlert('链接已复制到剪贴板！', 'success');
+            } catch (err) {
+                showAlert('复制失败，请手动复制', 'error');
+            }
+        }
+        
+        // 生成新链接
+        function generateNewLink() {
+            const shareLink = document.getElementById('share-link');
+            shareLink.value = `https://valuhub.example.com/reports/${Math.floor(Math.random() * 1000)}?token=${Math.random().toString(36).substring(2, 15)}`;
+            showAlert('新链接已生成', 'success');
+        }
+        
+        // 保存分享设置
+        function saveShareSettings() {
+            showAlert('分享设置已保存', 'success');
+            closeModal();
+        }
+        
+        // 切换密码保护区域
+        function togglePasswordSection() {
+            const passwordSection = document.getElementById('password-section');
+            const enablePassword = document.getElementById('enable-password').checked;
+            passwordSection.style.display = enablePassword ? 'block' : 'none';
+        }
+        
+        // 切换有效期区域
+        function toggleExpirySection() {
+            const expirySection = document.getElementById('expiry-section');
+            const enableExpiry = document.getElementById('enable-expiry').checked;
+            expirySection.style.display = enableExpiry ? 'block' : 'none';
+        }
+        
+        // 显示加载状态
+        function showLoading(message) {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = `<div class="alert alert-info"><div class="spinner"></div>${message}</div>`;
+        }
+        
+        // 隐藏加载状态
+        function hideLoading() {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = '';
+        }
+        
+        // 显示提示信息
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<strong>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</strong> ${message}`;
+            
+            alertContainer.appendChild(alert);
+            
+            // 3秒后自动关闭提示
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+        
+        // 创建模板
+        function createTemplate() {
+            showAlert('模板创建功能开发中...', 'info');
+        }
+        
+        // 刷新模板列表
+        function refreshTemplates() {
+            showAlert('模板列表已刷新', 'success');
+        }
+        
+        // 侧边栏菜单点击事件
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const menuText = this.querySelector('span:last-child').textContent;
+                
+                if (menuText === '生成新报告') {
+                    showNewReportSection();
+                } else if (menuText === '报告历史') {
+                    showReportHistorySection();
+                } else if (menuText === '报告模板') {
+                    showReportTemplatesSection();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

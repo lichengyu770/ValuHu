@@ -1,0 +1,286 @@
+.model-training-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.model-training-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.section {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.section h3 {
+  color: #34495e;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c62828;
+}
+
+/* 上传部分 */
+.upload-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.file-input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.file-name {
+  flex: 1;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 200px;
+}
+
+.upload-btn, .train-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.upload-btn:hover, .train-btn:hover {
+  background-color: #2980b9;
+}
+
+.upload-btn:disabled, .train-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* 数据预览 */
+.data-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.data-preview th, .data-preview td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.data-preview th {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+}
+
+.data-preview tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* 模型选择 */
+.model-selection, .column-selection, .parameters-section {
+  margin-bottom: 20px;
+}
+
+.model-select, .column-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+}
+
+/* 特征列选择 */
+.feature-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.feature-column-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.feature-column-checkbox:hover {
+  background-color: #f0f8ff;
+}
+
+.feature-column-checkbox input[type="checkbox"] {
+  transform: scale(1.2);
+}
+
+/* 参数配置 */
+.parameters {
+  background-color: white;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.parameter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.parameter-item label {
+  font-weight: bold;
+  color: #333;
+}
+
+.parameter-item input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* 训练结果 */
+.training-result {
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.performance-metrics {
+  margin-bottom: 20px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.metric-item label {
+  font-weight: bold;
+  color: #555;
+}
+
+.metric-item span {
+  font-size: 1.2em;
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+/* 可视化结果 */
+.visualization {
+  margin-top: 20px;
+}
+
+.visualization-img {
+  max-width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 训练历史 */
+.training-history table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.training-history th, .training-history td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.training-history th {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: bold;
+}
+
+.training-history tr:hover {
+  background-color: #f5f5f5;
+}
+
+.training-history td {
+  color: #333;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .upload-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .file-name {
+    min-width: auto;
+  }
+  
+  .parameters {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .feature-columns {
+    grid-template-columns: 1fr;
+  }
+}

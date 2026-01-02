@@ -1,0 +1,664 @@
+/* 企业端仪表板卡片系统样式 */
+
+/* 仪表板容器 */
+.terminal-biz .dashboard-container {
+  background-color: var(--terminal-biz-bg-primary);
+  padding: var(--terminal-biz-panel-padding);
+  border-radius: var(--terminal-biz-card-radius);
+  box-shadow: var(--terminal-biz-shadow);
+}
+
+/* 仪表板标题 */
+.terminal-biz .dashboard-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--terminal-biz-text-primary);
+  margin-bottom: var(--spacing-6);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.terminal-biz .dashboard-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 32px;
+  background: var(--gradient-premium);
+  border-radius: 2px;
+}
+
+/* 仪表板统计卡片网格 */
+.terminal-biz .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--terminal-biz-grid-gap);
+  margin-bottom: var(--spacing-6);
+}
+
+/* 统计卡片 */
+.terminal-biz .stat-card {
+  background-color: var(--terminal-biz-panel-bg);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-card-radius);
+  padding: var(--terminal-biz-panel-padding);
+  box-shadow: var(--terminal-biz-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-biz .stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-premium);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz .stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: var(--terminal-biz-primary-color);
+}
+
+.terminal-biz .stat-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* 统计卡片头部 */
+.terminal-biz .stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-4);
+}
+
+.terminal-biz .stat-title {
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-text-secondary);
+  margin: 0;
+  font-weight: var(--font-weight-medium);
+}
+
+.terminal-biz .stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-base);
+  background: var(--gradient-premium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  color: var(--color-white);
+}
+
+/* 统计卡片数值 */
+.terminal-biz .stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--terminal-biz-text-primary);
+  margin-bottom: var(--spacing-2);
+  line-height: 1.2;
+}
+
+.terminal-biz .stat-change {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.terminal-biz .stat-change.positive {
+  color: var(--color-success);
+}
+
+.terminal-biz .stat-change.negative {
+  color: var(--color-danger);
+}
+
+/* 统计卡片描述 */
+.terminal-biz .stat-description {
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-text-secondary);
+  margin-top: var(--spacing-4);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--terminal-biz-border);
+}
+
+/* 仪表板内容网格 */
+.terminal-biz .dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--terminal-biz-grid-gap);
+  margin-bottom: var(--spacing-6);
+}
+
+/* 仪表板卡片 */
+.terminal-biz .dashboard-card {
+  background-color: var(--terminal-biz-panel-bg);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-card-radius);
+  padding: var(--terminal-biz-panel-padding);
+  box-shadow: var(--terminal-biz-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-biz .dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-premium);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz .dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: var(--terminal-biz-primary-color);
+}
+
+.terminal-biz .dashboard-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* 仪表板卡片头部 */
+.terminal-biz .dashboard-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.terminal-biz .dashboard-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--terminal-biz-text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.terminal-biz .dashboard-card-icon {
+  font-size: var(--font-size-xl);
+  color: var(--terminal-biz-primary-color);
+}
+
+.terminal-biz .dashboard-card-action {
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-primary-color);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  transition: color 0.3s ease;
+}
+
+.terminal-biz .dashboard-card-action:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* 仪表板卡片内容 */
+.terminal-biz .dashboard-card-content {
+  margin-bottom: var(--spacing-4);
+}
+
+/* 仪表板卡片页脚 */
+.terminal-biz .dashboard-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--terminal-biz-border);
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-text-secondary);
+}
+
+/* 资产卡片系统 */
+.terminal-biz .asset-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--terminal-biz-grid-gap);
+  margin-bottom: var(--spacing-6);
+}
+
+/* 资产卡片 */
+.terminal-biz .asset-card {
+  background-color: var(--terminal-biz-panel-bg);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-card-radius);
+  padding: var(--terminal-biz-panel-padding);
+  box-shadow: var(--terminal-biz-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-biz .asset-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-premium);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz .asset-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  border-color: var(--terminal-biz-primary-color);
+}
+
+.terminal-biz .asset-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* 资产卡片头部 */
+.terminal-biz .asset-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-4);
+}
+
+.terminal-biz .asset-card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--terminal-biz-text-primary);
+  margin: 0 0 var(--spacing-1) 0;
+}
+
+.terminal-biz .asset-card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-text-secondary);
+  margin: 0;
+}
+
+.terminal-biz .asset-card-status {
+  padding: 4px 12px;
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.terminal-biz .asset-card-status.active {
+  background-color: rgba(82, 196, 26, 0.1);
+  color: var(--color-success);
+}
+
+.terminal-biz .asset-card-status.pending {
+  background-color: rgba(250, 173, 20, 0.1);
+  color: var(--color-warning);
+}
+
+.terminal-biz .asset-card-status.inactive {
+  background-color: rgba(112, 117, 122, 0.1);
+  color: var(--color-gray);
+}
+
+/* 资产卡片指标 */
+.terminal-biz .asset-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--terminal-biz-bg-secondary);
+  border-radius: var(--terminal-biz-card-radius);
+}
+
+.terminal-biz .asset-metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.terminal-biz .asset-metric-label {
+  font-size: var(--font-size-xs);
+  color: var(--terminal-biz-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.terminal-biz .asset-metric-value {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--terminal-biz-text-primary);
+  line-height: 1.2;
+}
+
+.terminal-biz .asset-metric-unit {
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-text-secondary);
+  font-weight: var(--font-weight-normal);
+}
+
+/* 资产卡片操作 */
+.terminal-biz .asset-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--terminal-biz-border);
+}
+
+.terminal-biz .asset-card-btn {
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-btn-radius);
+  background-color: transparent;
+  color: var(--terminal-biz-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz .asset-card-btn:hover {
+  border-color: var(--terminal-biz-primary-color);
+  color: var(--terminal-biz-primary-color);
+  background-color: rgba(26, 95, 223, 0.05);
+}
+
+.terminal-biz .asset-card-btn.primary {
+  background-color: var(--terminal-biz-primary-color);
+  border-color: var(--terminal-biz-primary-color);
+  color: var(--color-white);
+}
+
+.terminal-biz .asset-card-btn.primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(26, 95, 223, 0.3);
+}
+
+/* 批量操作进度可视化 */
+.terminal-biz .batch-progress-container {
+  background-color: var(--terminal-biz-panel-bg);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-card-radius);
+  padding: var(--terminal-biz-panel-padding);
+  box-shadow: var(--terminal-biz-shadow);
+  margin-bottom: var(--spacing-6);
+}
+
+.terminal-biz .batch-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.terminal-biz .batch-progress-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--terminal-biz-text-primary);
+  margin: 0;
+}
+
+.terminal-biz .batch-progress-stats {
+  font-size: var(--font-size-sm);
+  color: var(--terminal-biz-text-secondary);
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+/* 粒子动画进度条 */
+.terminal-biz .particle-progress {
+  position: relative;
+  height: 20px;
+  background-color: var(--terminal-biz-bg-secondary);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  margin-bottom: var(--spacing-4);
+}
+
+.terminal-biz .particle-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--gradient-premium);
+  border-radius: var(--border-radius-full);
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.terminal-biz .particle-progress-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.terminal-biz .particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: particle-flow 1s linear infinite;
+}
+
+@keyframes particle-flow {
+  0% {
+    transform: translateX(-10px) translateY(50%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(calc(100% + 10px)) translateY(50%);
+    opacity: 0;
+  }
+}
+
+/* 报告预览3D翻页效果 */
+.terminal-biz .report-preview {
+  perspective: 1500px;
+  margin-bottom: var(--spacing-6);
+}
+
+.terminal-biz .report-preview-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-color: var(--terminal-biz-panel-bg);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-card-radius);
+  box-shadow: var(--terminal-biz-shadow);
+  overflow: hidden;
+}
+
+.terminal-biz .report-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-white);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-2xl);
+  color: var(--terminal-biz-text-secondary);
+}
+
+.terminal-biz .report-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
+  pointer-events: none;
+}
+
+.terminal-biz .report-page.flipped {
+  transform: rotateY(-180deg);
+}
+
+.terminal-biz .report-navigation {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-4);
+}
+
+.terminal-biz .report-nav-btn {
+  padding: var(--spacing-3) var(--spacing-6);
+  border: 1px solid var(--terminal-biz-border);
+  border-radius: var(--terminal-biz-btn-radius);
+  background-color: transparent;
+  color: var(--terminal-biz-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terminal-biz .report-nav-btn:hover {
+  border-color: var(--terminal-biz-primary-color);
+  color: var(--terminal-biz-primary-color);
+  background-color: rgba(26, 95, 223, 0.05);
+}
+
+.terminal-biz .report-nav-btn.primary {
+  background-color: var(--terminal-biz-primary-color);
+  border-color: var(--terminal-biz-primary-color);
+  color: var(--color-white);
+}
+
+.terminal-biz .report-nav-btn.primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(26, 95, 223, 0.3);
+}
+
+.terminal-biz .report-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--terminal-biz-border);
+  color: var(--terminal-biz-text-secondary);
+  background-color: transparent;
+}
+
+.terminal-biz .report-nav-btn:disabled:hover {
+  border-color: var(--terminal-biz-border);
+  color: var(--terminal-biz-text-secondary);
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .terminal-biz .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .terminal-biz .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .terminal-biz .asset-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .terminal-biz .asset-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 暗色主题下的仪表板卡片系统 */
+.terminal-biz.dark-mode .dashboard-container {
+  background-color: var(--terminal-biz-dark-bg-primary);
+}
+
+.terminal-biz.dark-mode .stat-card,
+.terminal-biz.dark-mode .dashboard-card,
+.terminal-biz.dark-mode .asset-card,
+.terminal-biz.dark-mode .batch-progress-container {
+  background-color: var(--terminal-biz-dark-bg-secondary);
+  border-color: var(--terminal-biz-dark-border-color);
+  box-shadow: var(--terminal-biz-dark-card-shadow);
+}
+
+.terminal-biz.dark-mode .stat-title,
+.terminal-biz.dark-mode .stat-value,
+.terminal-biz.dark-mode .stat-description,
+.terminal-biz.dark-mode .dashboard-card-title,
+.terminal-biz.dark-mode .asset-card-title,
+.terminal-biz.dark-mode .asset-card-subtitle,
+.terminal-biz.dark-mode .asset-metric-label,
+.terminal-biz.dark-mode .asset-metric-value,
+.terminal-biz.dark-mode .batch-progress-title,
+.terminal-biz.dark-mode .batch-progress-stats {
+  color: var(--terminal-biz-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .stat-change,
+.terminal-biz.dark-mode .dashboard-card-footer,
+.terminal-biz.dark-mode .asset-card-btn {
+  color: var(--terminal-biz-dark-text-secondary);
+}
+
+.terminal-biz.dark-mode .asset-metrics {
+  background-color: var(--terminal-biz-dark-bg-tertiary);
+}
+
+.terminal-biz.dark-mode .particle-progress {
+  background-color: var(--terminal-biz-dark-bg-tertiary);
+}
+
+.terminal-biz.dark-mode .report-page {
+  background-color: var(--terminal-biz-dark-bg-secondary);
+  color: var(--terminal-biz-dark-text-secondary);
+}
+
+.terminal-biz.dark-mode .report-nav-btn {
+  background-color: var(--terminal-biz-dark-bg-secondary);
+  border-color: var(--terminal-biz-dark-border-color);
+  color: var(--terminal-biz-dark-text-primary);
+}
+
+.terminal-biz.dark-mode .report-nav-btn:hover:not(:disabled) {
+  background-color: rgba(26, 95, 223, 0.1);
+  border-color: var(--terminal-biz-dark-primary-color);
+  color: var(--terminal-biz-dark-primary-color);
+}
+
+.terminal-biz.dark-mode .report-nav-btn:disabled {
+  background-color: var(--terminal-biz-dark-bg-tertiary);
+  border-color: var(--terminal-biz-dark-border-color);
+  color: var(--terminal-biz-dark-text-tertiary);
+  opacity: 0.5;
+}

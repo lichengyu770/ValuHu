@@ -1,0 +1,1464 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>帮助中心 - 数智估价核心引擎 - ValuHub</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="shared.css" />
+    <!-- 页面特定样式 -->
+    <style>
+      /* 基础重置与通用样式 */
+      :root {
+        --color-primary: #1a73e8;
+        --color-primary-light: #4285f4;
+        --color-secondary: #f9a825;
+        --color-secondary-light: #ffb74d;
+        --color-background: #f5f7fa;
+        --color-white: #ffffff;
+        --color-text: #1d2129;
+        --color-text-light: #666;
+        --color-border: #dcdfe6;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 12px rgba(26, 115, 232, 0.15);
+        --transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', '思源黑体', sans-serif;
+      }
+      body {
+        background-color: var(--color-white);
+        color: var(--color-text);
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border-radius: var(--border-radius);
+        border: none;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-light)
+        );
+        color: white;
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+      }
+      section {
+        padding: 60px 0;
+      }
+      section h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      section h3 {
+        font-size: 24px;
+        color: var(--color-text);
+        margin-bottom: 20px;
+      }
+      section p {
+        font-size: 16px;
+        color: var(--color-text-light);
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      /* 2. 封面区 */
+      .hero {
+        margin-top: 65px;
+        height: 300px;
+        background: var(--color-white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 36px;
+        margin-bottom: 15px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero p {
+        font-size: 16px;
+        color: var(--color-text-light);
+        margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* 帮助中心搜索 */
+      .help-search {
+        background: white;
+        padding: 40px 0;
+      }
+      .search-box {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+      .search-input {
+        flex: 1;
+        height: 50px;
+        padding: 0 20px;
+        border: 2px solid var(--color-border);
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+      .search-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+      }
+      .search-btn {
+        height: 50px;
+        padding: 0 30px;
+        font-size: 16px;
+      }
+
+      /* 常见问题 */
+      .faq-section {
+        background: var(--color-white);
+        padding: 60px 0;
+      }
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .faq-item {
+        background: white;
+        border-radius: var(--border-radius);
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+      .faq-item:hover {
+        box-shadow: var(--box-shadow);
+      }
+      .faq-question {
+        padding: 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s;
+      }
+      .faq-question:hover {
+        background: #f9fafb;
+      }
+      .faq-question h4 {
+        font-size: 18px;
+        color: var(--color-text);
+        margin: 0;
+        font-weight: 500;
+      }
+      .faq-question i {
+        color: var(--color-primary);
+        transition: transform 0.3s;
+        font-size: 16px;
+      }
+      .faq-answer {
+        padding: 0 20px 20px;
+        color: var(--color-text-light);
+        line-height: 1.8;
+        display: none;
+      }
+      .faq-item.active .faq-answer {
+        display: block;
+      }
+      .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+      }
+
+      /* 帮助分类 */
+      .help-categories {
+        padding: 60px 0;
+      }
+      .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+      .category-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: var(--transition);
+        border: 1px solid rgba(26, 115, 232, 0.1);
+      }
+      .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--box-shadow);
+        border-color: var(--color-primary);
+      }
+      .category-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        color: white;
+        border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      }
+      .category-title {
+        font-size: 20px;
+        color: var(--color-text);
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+      .category-desc {
+        color: var(--color-text-light);
+        margin-bottom: 20px;
+      }
+      .category-link {
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        transition: color 0.3s;
+      }
+      .category-link:hover {
+        color: var(--color-primary-light);
+      }
+      .category-link i {
+        margin-left: 5px;
+      }
+
+      /* 联系支持 */
+      .contact-support {
+        background: var(--color-white);
+        padding: 60px 0;
+      }
+      .contact-support h2 {
+        color: var(--color-text);
+        -webkit-text-fill-color: initial;
+      }
+      .contact-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: center;
+      }
+      .contact-info {
+        flex: 1;
+        min-width: 300px;
+      }
+      .contact-info h3 {
+        color: var(--color-text);
+      }
+      .contact-info p {
+        color: var(--color-text-light);
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .contact-item i {
+        width: 40px;
+        height: 40px;
+        background: rgba(26, 115, 232, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        color: var(--color-primary);
+      }
+      .contact-item span {
+        font-size: 16px;
+        color: var(--color-text);
+      }
+      .contact-form {
+        flex: 1;
+        min-width: 300px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--color-text);
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 16px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--border-radius);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+        background-color: white;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+      }
+      .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .form-submit {
+        width: 100%;
+        padding: 12px 24px;
+        font-size: 16px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-primary-light)
+        );
+        color: white;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+      }
+      .form-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 28px;
+        }
+        section h2 {
+          font-size: 24px;
+        }
+        .search-box {
+          flex-direction: column;
+        }
+        .search-input {
+          width: 100%;
+        }
+        .search-btn {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          height: 250px;
+        }
+        .hero h1 {
+          font-size: 24px;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <!-- 1. 导航栏（统一模板） -->
+    <nav class="navbar">
+      <div class="container">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img
+              src="src/assets/images/logo.svg"
+              alt="系统Logo"
+              width="32"
+              height="32"
+              style="object-fit: contain"
+            />
+          </div>
+          <span class="logo-text">数智估价核心引擎</span>
+        </a>
+        <div class="nav-menu">
+          <a href="index.html" class="">首页</a>
+          <!-- 产品服务下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >产品服务 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="valuation-engine.html" class="">估价引擎</a>
+              <a href="advanced-search.html" class="">高级搜索</a>
+              <a href="product-services.html" class="">产品服务</a>
+            </div>
+          </div>
+          <!-- 3D价格展示 -->
+          <div
+            class="price-3d-container"
+            style="
+              position: relative;
+              display: inline-block;
+              perspective: 800px;
+              width: 80px;
+              height: 40px;
+            "
+          >
+            <!-- 3D 矩形 -->
+            <div
+              class="price-cube"
+              style="
+                width: 80px;
+                height: 40px;
+                position: relative;
+                transform-style: preserve-3d;
+                animation: rotateCube 5s infinite linear;
+              "
+            >
+              <!-- 正面 -->
+              <div
+                class="cube-face front"
+                style="
+                  position: absolute;
+                  width: 80px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: translateZ(20px);
+                  border-radius: 4px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                住宅
+                <span style="font-size: 10px">¥12,500</span>
+              </div>
+              <!-- 背面 -->
+              <div
+                class="cube-face back"
+                style="
+                  position: absolute;
+                  width: 80px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #f9a825, #f57c00);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(180deg) translateZ(20px);
+                  border-radius: 4px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                商业
+                <span style="font-size: 10px">¥35,800</span>
+              </div>
+              <!-- 左侧面 -->
+              <div
+                class="cube-face left"
+                style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #34a853, #166900);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(-90deg) translateZ(40px);
+                  border-radius: 4px;
+                  font-size: 10px;
+                  font-weight: bold;
+                "
+              >
+                工业
+                <span style="font-size: 8px">¥8,900</span>
+              </div>
+              <!-- 右侧面 -->
+              <div
+                class="cube-face right"
+                style="
+                  position: absolute;
+                  width: 40px;
+                  height: 40px;
+                  background: linear-gradient(135deg, #ea4335, #c5221f);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(90deg) translateZ(40px);
+                  border-radius: 4px;
+                  font-size: 10px;
+                  font-weight: bold;
+                "
+              >
+                别墅
+                <span style="font-size: 8px">¥28,600</span>
+              </div>
+            </div>
+          </div>
+          <!-- 数据分析下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >数据分析 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="market-analysis.html" class="">市场分析</a>
+              <a href="comparison-tool.html" class="">比较工具</a>
+              <a href="data-visualization.html" class="">数据可视化</a>
+              <a href="case-study.html" class="">客户案例</a>
+            </div>
+          </div>
+          <!-- 评估预览下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >评估预览 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="gis-evaluation-preview.html" class="">GIS评估预览</a>
+              <a href="revenue-evaluation-preview.html" class=""
+                >收益评估预览</a
+              >
+            </div>
+          </div>
+          <!-- 关于我们下拉菜单 -->
+          <div class="dropdown">
+            <a href="#" class="dropdown-toggle"
+              >关于我们 <i class="fas fa-chevron-down"></i
+            ></a>
+            <div class="dropdown-menu">
+              <a href="tech-frame.html" class="">技术框架</a>
+              <a href="api-docs.html" class="">API文档</a>
+              <a href="team-intro.html" class="">团队介绍</a>
+              <a href="about-us.html" class="">关于我们</a>
+            </div>
+          </div>
+          <!-- 登录按钮 -->
+          <button class="btn btn-primary" id="loginBtn">登录</button>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="index.html" class="">首页</a></li>
+        <li><a href="valuation-engine.html">估价引擎</a></li>
+        <li><a href="advanced-search.html">高级搜索</a></li>
+        <li>
+          <!-- 移动端3D价格展示 -->
+          <div
+            class="price-3d-container"
+            style="
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              perspective: 800px;
+              width: 100%;
+              height: 60px;
+              padding: 10px;
+            "
+          >
+            <!-- 3D 矩形 -->
+            <div
+              class="price-cube"
+              style="
+                width: 120px;
+                height: 60px;
+                position: relative;
+                transform-style: preserve-3d;
+                animation: rotateCube 5s infinite linear;
+              "
+            >
+              <!-- 正面 -->
+              <div
+                class="cube-face front"
+                style="
+                  position: absolute;
+                  width: 120px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: translateZ(30px);
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: bold;
+                "
+              >
+                住宅
+                <span style="font-size: 12px">¥12,500</span>
+              </div>
+              <!-- 背面 -->
+              <div
+                class="cube-face back"
+                style="
+                  position: absolute;
+                  width: 120px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #f9a825, #f57c00);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(180deg) translateZ(30px);
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: bold;
+                "
+              >
+                商业
+                <span style="font-size: 12px">¥35,800</span>
+              </div>
+              <!-- 左侧面 -->
+              <div
+                class="cube-face left"
+                style="
+                  position: absolute;
+                  width: 60px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #34a853, #166900);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(-90deg) translateZ(60px);
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                工业
+                <span style="font-size: 10px">¥8,900</span>
+              </div>
+              <!-- 右侧面 -->
+              <div
+                class="cube-face right"
+                style="
+                  position: absolute;
+                  width: 60px;
+                  height: 60px;
+                  background: linear-gradient(135deg, #ea4335, #c5221f);
+                  color: white;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  backface-visibility: hidden;
+                  transform: rotateY(90deg) translateZ(60px);
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: bold;
+                "
+              >
+                别墅
+                <span style="font-size: 10px">¥28,600</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="market-analysis.html">市场分析</a></li>
+        <li><a href="comparison-tool.html">比较工具</a></li>
+        <li><a href="data-visualization.html">数据可视化</a></li>
+        <li><a href="case-study.html">客户案例</a></li>
+        <li><a href="product-services.html">产品服务</a></li>
+        <li><a href="gis-evaluation-preview.html">GIS评估预览</a></li>
+        <li><a href="revenue-evaluation-preview.html">收益评估预览</a></li>
+        <li><a href="tech-frame.html">技术框架</a></li>
+        <li><a href="api-docs.html">API文档</a></li>
+        <li><a href="team-intro.html">团队介绍</a></li>
+        <li><a href="about-us.html">关于我们</a></li>
+        <li><a href="contact.html">联系方式</a></li>
+        <li><a href="help-center.html">帮助中心</a></li>
+      </ul>
+    </div>
+
+    <!-- 2. 封面区 -->
+    <section class="hero">
+      <div class="container">
+        <h1><span>帮助中心</span></h1>
+        <p>
+          查找使用指南、常见问题解答和技术支持，解决您在使用过程中遇到的问题
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. 帮助中心搜索 -->
+    <section class="help-search">
+      <div class="container">
+        <div class="search-box">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="搜索帮助内容..."
+          />
+          <button class="btn btn-primary search-btn">搜索</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D价格展示 -->
+    <section
+      class="price-3d-section"
+      style="
+        background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+        padding: 60px 0;
+      "
+    >
+      <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px">3D价格展示</h2>
+        <div
+          class="price-3d-container"
+          style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            min-height: 400px;
+          "
+        >
+          <!-- 3D 矩形 -->
+          <div
+            class="price-cube"
+            style="
+              width: 200px;
+              height: 200px;
+              position: relative;
+              transform-style: preserve-3d;
+              animation: rotateCube 10s infinite linear;
+            "
+          >
+            <!-- 正面 -->
+            <div
+              class="cube-face front"
+              style="
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, #1a73e8, #0d47a1);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                backface-visibility: hidden;
+                transform: translateZ(100px);
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px">住宅估价</h3>
+              <p style="margin: 10px 0; font-size: 36px; font-weight: bold">
+                ¥12,500
+              </p>
+              <p style="margin: 0; font-size: 14px">每平方米</p>
+            </div>
+            <!-- 背面 -->
+            <div
+              class="cube-face back"
+              style="
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, #f9a825, #f57c00);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                backface-visibility: hidden;
+                transform: rotateY(180deg) translateZ(100px);
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px">商业地产</h3>
+              <p style="margin: 10px 0; font-size: 36px; font-weight: bold">
+                ¥35,800
+              </p>
+              <p style="margin: 0; font-size: 14px">每平方米</p>
+            </div>
+            <!-- 左侧面 -->
+            <div
+              class="cube-face left"
+              style="
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, #34a853, #166900);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                backface-visibility: hidden;
+                transform: rotateY(-90deg) translateZ(100px);
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px">工业地产</h3>
+              <p style="margin: 10px 0; font-size: 36px; font-weight: bold">
+                ¥8,900
+              </p>
+              <p style="margin: 0; font-size: 14px">每平方米</p>
+            </div>
+            <!-- 右侧面 -->
+            <div
+              class="cube-face right"
+              style="
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, #ea4335, #c5221f);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                backface-visibility: hidden;
+                transform: rotateY(90deg) translateZ(100px);
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px">别墅估价</h3>
+              <p style="margin: 10px 0; font-size: 36px; font-weight: bold">
+                ¥28,600
+              </p>
+              <p style="margin: 0; font-size: 14px">每平方米</p>
+            </div>
+            <!-- 顶面 -->
+            <div
+              class="cube-face top"
+              style="
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, #673ab7, #4527a0);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                backface-visibility: hidden;
+                transform: rotateX(90deg) translateZ(100px);
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px">写字楼</h3>
+              <p style="margin: 10px 0; font-size: 36px; font-weight: bold">
+                ¥22,300
+              </p>
+              <p style="margin: 0; font-size: 14px">每平方米</p>
+            </div>
+            <!-- 底面 -->
+            <div
+              class="cube-face bottom"
+              style="
+                position: absolute;
+                width: 200px;
+                height: 200px;
+                background: linear-gradient(135deg, #00bcd4, #008ba3);
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                backface-visibility: hidden;
+                transform: rotateX(-90deg) translateZ(100px);
+              "
+            >
+              <h3 style="margin: 0; font-size: 18px">土地估价</h3>
+              <p style="margin: 10px 0; font-size: 36px; font-weight: bold">
+                ¥5,800
+              </p>
+              <p style="margin: 0; font-size: 14px">每平方米</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D矩形动画 -->
+    <style>
+      @keyframes rotateCube {
+        from {
+          transform: rotateX(0deg) rotateY(0deg);
+        }
+        to {
+          transform: rotateX(360deg) rotateY(360deg);
+        }
+      }
+      /* 确保3D变换在所有浏览器中正常工作 */
+      .price-cube {
+        transform-style: preserve-3d !important;
+      }
+      .cube-face {
+        backface-visibility: hidden !important;
+      }
+    </style>
+
+    <!-- 4. 常见问题 -->
+    <section class="faq-section">
+      <div class="container">
+        <h2>常见问题</h2>
+        <div class="faq-container">
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>什么是数智估价核心引擎？</h4>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                数智估价核心引擎是一个基于人工智能和大数据技术的房地产智能估价平台，能够快速、精准地为各类房产提供价值评估服务。我们的平台结合了机器学习、计算机视觉、GIS等先进技术，通过分析海量房产交易数据，为用户提供实时、可靠的估价结果。
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>数智估价核心引擎的估价准确性如何？</h4>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                我们的估价引擎基于最新的AI算法和海量历史交易数据进行训练和优化，当前的估价准确率已达到95%以上，接近专业人工估价师的水平。当然，由于房地产市场的复杂性和动态性，最终的交易价格可能会受到市场供需、谈判技巧等多种因素的影响。
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>如何使用在线估价功能？</h4>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                使用我们的在线估价功能非常简单：首先在首页或核心功能页面找到"在线估价"入口，然后按照提示输入房产的详细信息，包括地址、户型、面积等基本信息，系统会自动分析并生成估价报告。整个过程通常只需要几分钟时间。
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>数智估价核心引擎支持哪些城市？</h4>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                我们目前已经覆盖全国所有一二线城市，以及大部分三四线城市。随着数据的不断积累和模型的持续优化，我们正在逐步扩大服务范围，未来将覆盖更多城市和地区。您可以在估价页面查询您所在城市是否已被支持。
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>企业客户如何接入API服务？</h4>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                企业客户可以通过以下步骤接入我们的API服务：1）联系我们的商务团队，申请API访问权限；2）获取API密钥和接入文档；3）根据文档进行技术集成；4）进行测试和上线。我们提供详细的开发文档、示例代码和技术支持，帮助企业快速完成接入。
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>如何获取更详细的估价报告？</h4>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+              <p>
+                我们提供多种类型的估价报告，从基础的在线估价结果到详细的专业评估报告。基础估价报告可以免费获取，包含基本的估价结果和简要分析。如果您需要更详细的专业报告，可以联系我们的客服团队，我们将根据您的需求提供定制化的报告服务。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 帮助分类 -->
+    <section class="help-categories">
+      <div class="container">
+        <h2>帮助分类</h2>
+        <div class="categories-grid">
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-user-guide"></i>
+            </div>
+            <h3 class="category-title">使用指南</h3>
+            <p class="category-desc">
+              详细的产品使用说明，帮助您快速上手我们的服务。
+            </p>
+            <a href="#" class="category-link"
+              >查看更多 <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <h3 class="category-title">问题解答</h3>
+            <p class="category-desc">
+              常见问题的详细解答，帮助您解决使用过程中遇到的各种问题。
+            </p>
+            <a href="#" class="category-link"
+              >查看更多 <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <h3 class="category-title">报告生成器</h3>
+            <p class="category-desc">
+              根据输入的数据自动生成小区数据报告，支持打印和下载。
+            </p>
+            <a href="report-generator.html" class="category-link"
+              >立即使用 <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <h3 class="category-title">技术文档</h3>
+            <p class="category-desc">
+              API接口文档、SDK使用说明等技术资料，供开发者参考。
+            </p>
+            <a href="#" class="category-link"
+              >查看更多 <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+          <div class="category-card">
+            <div class="category-icon">
+              <i class="fas fa-building"></i>
+            </div>
+            <h3 class="category-title">行业资讯</h3>
+            <p class="category-desc">
+              房地产市场动态、政策解读、行业趋势等资讯内容。
+            </p>
+            <a href="#" class="category-link"
+              >查看更多 <i class="fas fa-arrow-right"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 联系支持 -->
+    <section class="contact-support">
+      <div class="container">
+        <h2>联系我们</h2>
+        <div class="contact-container">
+          <div class="contact-info">
+            <h3>有问题？联系我们的支持团队</h3>
+            <p>
+              我们的客服团队将竭诚为您提供帮助，解决您在使用过程中遇到的任何问题。您可以通过以下方式与我们取得联系：
+            </p>
+            <div class="contact-item">
+              <i class="fas fa-phone-alt"></i>
+              <span>400-123-4567</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>support@shuzhiguji.com</span>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-clock"></i>
+              <span>周一至周五 9:00-18:00</span>
+            </div>
+          </div>
+          <div class="contact-form">
+            <form>
+              <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" id="name" placeholder="请输入您的姓名" />
+              </div>
+              <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" placeholder="请输入您的邮箱" />
+              </div>
+              <div class="form-group">
+                <label for="message">问题描述</label>
+                <textarea
+                  id="message"
+                  placeholder="请详细描述您的问题..."
+                ></textarea>
+              </div>
+              <button type="submit" class="btn form-submit">提交</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>项目介绍</h3>
+          <a href="index.html">首页</a>
+          <a href="market-analysis.html">市场分析</a>
+          <a href="product-services.html">产品服务</a>
+          <a href="case-study.html">成功案例</a>
+        </div>
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="about-us.html">关于我们</a>
+          <a href="team-intro.html">团队介绍</a>
+          <a href="api-docs.html">API文档</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="product-services.html">服务内容</a>
+          <a href="valuation-engine.html">估价引擎</a>
+          <a href="advanced-search.html">高级搜索</a>
+        </div>
+        <div class="footer-col">
+          <h3>帮助支持</h3>
+          <a href="help-center.html">帮助中心</a>
+          <a href="contact.html">联系方式</a>
+          <a href="feedback.html">意见反馈</a>
+        </div>
+      </div>
+      <div class="cooperation-enterprises">
+        <span
+          >合作企业：湖南智信房地产土地资产评估有限公司、长沙力智数字房产技术发展有限公司</span
+        >
+      </div>
+      <div class="copyright">
+        <p>© 2025 数智估价核心引擎 版权所有</p>
+        <p>
+          <a href="https://beian.miit.gov.cn/" target="_blank"
+            >湘ICP备2025144327号-1</a
+          >
+          |
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo"
+            target="_blank"
+            >湘公网安备43011202001203号</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // 移动端菜单切换
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.style.display =
+          mobileMenu.style.display === 'block' ? 'none' : 'block';
+      });
+
+      // 关闭移动端菜单（点击菜单项后）
+      const mobileMenuItems = mobileMenu.querySelectorAll('a');
+      mobileMenuItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          mobileMenu.style.display = 'none';
+        });
+      });
+
+      // FAQ折叠功能
+      const faqQuestions = document.querySelectorAll('.faq-question');
+      faqQuestions.forEach((question) => {
+        question.addEventListener('click', () => {
+          question.parentElement.classList.toggle('active');
+        });
+      });
+    </script>
+  </body>
+</html>

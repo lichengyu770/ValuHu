@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>行业报告 - ValuHub</title>
+    <meta content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="keywords" content="房地产行业报告，ValuHub，市场分析，投资报告">
+    <meta name="description" content="ValuHub提供最新的房地产行业报告，包括市场趋势、政策解读、区域分析等专业内容。">
+    
+    <!-- 引入Chart.js用于数据可视化 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Logo 样式 */
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .logo span {
+            font-size: 14px;
+            font-weight: normal;
+            color: #999;
+        }
+        
+        /* 导航菜单 */
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-item a:hover {
+            color: #667eea;
+        }
+        
+        .nav-item.active a {
+            color: #667eea;
+        }
+        
+        .nav-item.hot {
+            color: #ff6b6b;
+        }
+        
+        .nav-item.hot span {
+            background-color: #ff6b6b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* 登录按钮 */
+        .login-btn {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        /* 二级导航 */
+        .sub-nav {
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .sub-nav-content {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+        }
+        
+        .sub-nav-item a {
+            text-decoration: none;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .sub-nav-item a:hover,
+        .sub-nav-item a.active {
+            color: #667eea;
+            background-color: #f0f4ff;
+        }
+        
+        /* 英雄区域 - 动态数据可视化展示区 */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 背景动态效果 */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .hero-title {
+            font-size: 64px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: slideUp 1s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 24px;
+            margin-bottom: 60px;
+            opacity: 0.9;
+            animation: slideUp 1s ease-out 0.2s both;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* 动态数据卡片 */
+        .data-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+            animation: slideUp 1s ease-out 0.4s both;
+        }
+        
+        .data-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .data-card:hover {
+            transform: translateY(-10px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .data-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .data-label {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        /* 交互式报告分类导航系统 */
+        .categories-section {
+            background-color: #fff;
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 60px;
+        }
+        
+        /* 分类导航 */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 12px 24px;
+            background-color: #f0f4ff;
+            color: #667eea;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .category-btn:hover::before {
+            left: 100%;
+        }
+        
+        .category-btn:hover,
+        .category-btn.active {
+            background-color: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 报告卡片网格 */
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .report-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .report-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .report-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .report-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .report-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e9ecff 100%);
+        }
+        
+        .report-category {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: #667eea;
+            color: white;
+            font-size: 12px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .report-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .report-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .report-content {
+            padding: 20px;
+        }
+        
+        .report-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .report-stats {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        /* 个性化推荐模块 */
+        .recommendations-section {
+            background-color: #f8f9fa;
+            padding: 100px 0;
+        }
+        
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .recommendation-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recommendation-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+            transform: scale(2);
+            transition: transform 0.3s ease;
+        }
+        
+        .recommendation-card:hover::after {
+            transform: scale(1);
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .recommendation-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .recommendation-reason {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .recommendation-score {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #52c41a;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 12px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 沉浸式阅读体验区 */
+        .immersive-section {
+            background-color: #fff;
+            padding: 100px 0;
+        }
+        
+        .immersive-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .immersive-header {
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .immersive-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .immersive-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .immersive-content {
+            padding: 60px;
+            font-size: 18px;
+            line-height: 2;
+            color: #333;
+        }
+        
+        .immersive-content p {
+            margin-bottom: 30px;
+        }
+        
+        .immersive-content h2 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 50px 0 20px;
+            color: #667eea;
+        }
+        
+        .immersive-content h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 40px 0 15px;
+            color: #333;
+        }
+        
+        /* 数据可视化图表容器 */
+        .chart-container {
+            background-color: #f8f9ff;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        /* 页脚 */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #667eea;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .login-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+            
+            .hero-title {
+                font-size: 48px;
+            }
+            
+            .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .data-cards {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .immersive-content {
+                padding: 30px;
+                font-size: 16px;
+            }
+            
+            .category-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .data-number {
+                font-size: 36px;
+            }
+        }
+        
+        /* 滚动动画效果 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <img src="图片1.png" alt="ValuHub Logo">
+                ValuHub
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="visual-index.html">AI估价</a>
+                </div>
+                <div class="nav-item">
+                    <a href="platform.html">ValuHub平台</a>
+                </div>
+                <div class="nav-item active">
+                    <a href="reports.html">行业报告</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cooperation.html">企业合作</a>
+                </div>
+                <div class="nav-item">
+                    <a href="cases.html">案例库</a>
+                </div>
+                <div class="nav-item">
+                    <a href="pricing.html">服务价格</a>
+                </div>
+                <div class="nav-item">
+                    <a href="tutorials.html">使用教程</a>
+                </div>
+                <a href="login.html" class="login-btn">登录/注册</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 二级导航 -->
+    <div class="sub-nav">
+        <div class="container sub-nav-content">
+            <div class="sub-nav-item"><a href="visual-index.html">首页</a></div>
+            <div class="sub-nav-item"><a href="template.html">模板社区</a></div>
+            <div class="sub-nav-item"><a href="files.html">我的文件</a></div>
+            <div class="sub-nav-item"><a href="api.html">API服务</a></div>
+            <div class="sub-nav-item"><a href="solution.html">解决方案</a></div>
+            <div class="sub-nav-item"><a href="enterprise.html">企业服务</a></div>
+            <div class="sub-nav-item"><a href="pricing.html">价格</a></div>
+            <div class="sub-nav-item"><a href="download.html">下载</a></div>
+            <div class="sub-nav-item"><a href="school.html">院校端</a></div>
+            <div class="sub-nav-item"><a href="business.html">企业端</a></div>
+            <div class="sub-nav-item"><a href="association.html">协会端</a></div>
+            <div class="sub-nav-item"><a href="government.html">政府端</a></div>
+            <div class="sub-nav-item"><a href="public.html">大众端</a></div>
+        </div>
+    </div>
+    
+    <main>
+        <!-- 英雄区域 - 动态数据可视化展示区 -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">行业报告</h1>
+                    <p class="hero-subtitle">洞察市场趋势，把握投资机会</p>
+                    
+                    <!-- 动态数据卡片 -->
+                    <div class="data-cards">
+                        <div class="data-card">
+                            <div class="data-number" id="report-count">1,284</div>
+                            <div class="data-label">报告总数</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number" id="download-count">56,321</div>
+                            <div class="data-label">下载次数</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number" id="user-count">12,548</div>
+                            <div class="data-label">活跃用户</div>
+                        </div>
+                        <div class="data-card">
+                            <div class="data-number" id="accuracy-rate">98.5%</div>
+                            <div class="data-label">数据准确率</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 交互式报告分类导航系统 -->
+        <section class="categories-section">
+            <div class="container">
+                <h2 class="section-title fade-in">报告分类</h2>
+                <p class="section-subtitle fade-in">探索不同领域的行业洞察</p>
+                
+                <!-- 分类导航 -->
+                <div class="category-nav fade-in">
+                    <button class="category-btn active" data-category="all">全部报告</button>
+                    <button class="category-btn" data-category="market">市场分析</button>
+                    <button class="category-btn" data-category="investment">投资策略</button>
+                    <button class="category-btn" data-category="policy">政策解读</button>
+                    <button class="category-btn" data-category="regional">区域研究</button>
+                    <button class="category-btn" data-category="risk">风险评估</button>
+                </div>
+                
+                <!-- 报告卡片网格 -->
+                <div class="reports-grid" id="reports-grid">
+                    <!-- 报告卡片将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- 个性化推荐模块 -->
+        <section class="recommendations-section">
+            <div class="container">
+                <h2 class="section-title fade-in">为您推荐</h2>
+                <p class="section-subtitle fade-in">根据您的阅读习惯定制</p>
+                
+                <div class="recommendation-grid">
+                    <div class="recommendation-card fade-in">
+                        <h3 class="recommendation-title">2025年中国房地产市场展望</h3>
+                        <p class="recommendation-reason">基于您对市场分析报告的兴趣</p>
+                        <span class="recommendation-score">匹配度 92%</span>
+                    </div>
+                    <div class="recommendation-card fade-in">
+                        <h3 class="recommendation-title">长三角区域投资机会分析</h3>
+                        <p class="recommendation-reason">基于您对区域研究的关注</p>
+                        <span class="recommendation-score">匹配度 88%</span>
+                    </div>
+                    <div class="recommendation-card fade-in">
+                        <h3 class="recommendation-title">房地产金融风险评估报告</h3>
+                        <p class="recommendation-reason">基于您对风险评估的兴趣</p>
+                        <span class="recommendation-score">匹配度 85%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 沉浸式阅读体验区 -->
+        <section class="immersive-section">
+            <div class="container">
+                <h2 class="section-title fade-in">沉浸式阅读体验</h2>
+                <p class="section-subtitle fade-in">深度解析行业趋势</p>
+                
+                <div class="immersive-container fade-in">
+                    <div class="immersive-header">
+                        <h3 class="immersive-title">2025年房地产行业发展白皮书</h3>
+                        <div class="immersive-meta">
+                            <span>发布时间：2025-01-15</span>
+                            <span>作者：ValuHub研究院</span>
+                            <span>阅读量：12,548</span>
+                        </div>
+                    </div>
+                    <div class="immersive-content">
+                        <p>2024年，中国房地产市场经历了深刻的调整和变革。在政策引导下，市场逐步回归理性，行业格局加速重构。进入2025年，随着经济复苏和政策优化，房地产市场呈现出全新的发展态势。</p>
+                        
+                        <h2>一、市场整体回顾</h2>
+                        <p>2024年，全国商品房销售面积同比下降5.2%，销售额同比下降3.7%。市场调整主要集中在三四线城市，一线城市和强二线城市表现相对稳定。土地市场方面，成交规模同比下降8.1%，溢价率维持在较低水平。</p>
+                        
+                        <!-- 数据可视化图表 -->
+                        <div class="chart-container">
+                            <h4 class="chart-title">2024年全国商品房销售走势</h4>
+                            <canvas id="sales-chart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <h2>二、政策环境分析</h2>
+                        <p>2024年，中央及地方政府出台了一系列房地产调控政策，包括优化限购限贷、降低首付比例、调整贷款利率等。这些政策的实施，有效缓解了市场下行压力，促进了合理住房需求的释放。</p>
+                        
+                        <h2>三、2025年市场展望</h2>
+                        <p>展望2025年，随着经济持续复苏和政策效应的逐步显现，房地产市场有望实现企稳回升。预计全国商品房销售面积将同比增长3%-5%，销售额同比增长5%-8%。</p>
+                        
+                        <!-- 数据可视化图表 -->
+                        <div class="chart-container">
+                            <h4 class="chart-title">2025年房地产市场预测</h4>
+                            <canvas id="forecast-chart" width="400" height="200"></canvas>
+                        </div>
+                        
+                        <h2>四、投资策略建议</h2>
+                        <p>基于对市场趋势的分析，我们建议投资者：</p>
+                        <p>1. 聚焦核心城市和优质区域，关注具有产业支撑和人口流入的城市；</p>
+                        <p>2. 优先选择刚需和改善型住房项目，规避投机性需求；</p>
+                        <p>3. 关注政策变化，及时调整投资策略；</p>
+                        <p>4. 注重项目品质和开发商信誉，降低投资风险。</p>
+                        
+                        <h2>五、结论与展望</h2>
+                        <p>2025年，中国房地产市场将进入一个新的发展阶段。在政策引导和市场调整的双重作用下，市场将逐步回归理性，行业格局将加速重构。我们相信，随着经济持续复苏和政策优化，房地产市场有望实现高质量发展。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <!-- 每日生成报告数据 -->
+            <div style="background-color: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 12px; margin-bottom: 40px; text-align: center;">
+                <h3 style="color: white; margin-bottom: 10px; font-size: 24px;">每天有 <span style="color: #667eea; font-size: 32px; font-weight: bold;">100,000+</span> 房产估价报告在ValuHub生成</h3>
+            </div>
+            
+            <!-- 产品分类 -->
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>产品</h3>
+                    <ul>
+                        <li><a href="ai-valuation.html">AI估价</a></li>
+                        <li><a href="reports.html">行业报告</a></li>
+                        <li><a href="cases.html">案例库</a></li>
+                        <li><a href="template.html">模板社区</a></li>
+                        <li><a href="api.html">API服务</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>解决方案</h3>
+                    <ul>
+                        <li><a href="government.html">政府端</a></li>
+                        <li><a href="business.html">企业端</a></li>
+                        <li><a href="school.html">院校端</a></li>
+                        <li><a href="association.html">协会端</a></li>
+                        <li><a href="public.html">大众端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>资源</h3>
+                    <ul>
+                        <li><a href="tutorials.html">使用教程</a></li>
+                        <li><a href="enterprise.html">企业服务</a></li>
+                        <li><a href="download.html">下载</a></li>
+                        <li><a href="files.html">我的文件</a></li>
+                        <li><a href="main.html">工作台</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <ul>
+                        <li><a href="about.html">公司介绍</a></li>
+                        <li><a href="cooperation.html">企业合作</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                        <li><a href="join.html">加入我们</a></li>
+                        <li><a href="privacy.html">隐私政策</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 联系信息 -->
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="color: #ccc; font-size: 14px;">
+                    <p>电话：16680508457 | 微信：svip6763</p>
+                    <p>邮箱：contact@zhihuiyun.com | 工作时间：9:00-18:00</p>
+                </div>
+                <div style="color: #ccc; font-size: 14px;">
+                    <p>地址：湖南省长沙市岳麓区高新开发区</p>
+                </div>
+            </div>
+            
+            <!-- 版权信息 -->
+            <div class="footer-bottom">
+                <p>© 2025 ValuHubValuHub 版权所有 | 湘ICP备2025151710号</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 模拟报告数据
+        const reportsData = [
+            {
+                id: 1,
+                title: "2025年中国房地产市场展望",
+                category: "market",
+                date: "2025-01-15",
+                author: "ValuHub研究院",
+                excerpt: "本报告全面分析了2024年中国房地产市场的运行情况，并对2025年市场走势进行了预测和展望。",
+                views: 12548,
+                downloads: 5632,
+                likes: 892
+            },
+            {
+                id: 2,
+                title: "长三角区域投资机会分析",
+                category: "regional",
+                date: "2025-01-10",
+                author: "ValuHub研究院",
+                excerpt: "深入分析长三角区域房地产市场的发展现状和投资机会，为投资者提供决策参考。",
+                views: 8923,
+                downloads: 3421,
+                likes: 678
+            },
+            {
+                id: 3,
+                title: "2025年房地产政策解读",
+                category: "policy",
+                date: "2025-01-05",
+                author: "ValuHub研究院",
+                excerpt: "详细解读2025年中央及地方政府出台的房地产调控政策，分析政策对市场的影响。",
+                views: 15678,
+                downloads: 7890,
+                likes: 1234
+            },
+            {
+                id: 4,
+                title: "房地产投资风险评估报告",
+                category: "risk",
+                date: "2024-12-28",
+                author: "ValuHub研究院",
+                excerpt: "系统评估房地产投资的各类风险，并提出相应的风险管理策略。",
+                views: 9876,
+                downloads: 4567,
+                likes: 765
+            },
+            {
+                id: 5,
+                title: "2025年商业地产发展趋势",
+                category: "market",
+                date: "2024-12-20",
+                author: "ValuHub研究院",
+                excerpt: "分析2025年商业地产市场的发展趋势和投资机会，为投资者提供指导。",
+                views: 7654,
+                downloads: 3210,
+                likes: 543
+            },
+            {
+                id: 6,
+                title: "房地产企业融资策略研究",
+                category: "investment",
+                date: "2024-12-15",
+                author: "ValuHub研究院",
+                excerpt: "研究房地产企业的融资渠道和策略，为企业提供融资决策参考。",
+                views: 6543,
+                downloads: 2890,
+                likes: 432
+            }
+        ];
+        
+        // 生成报告卡片
+        function generateReportCards(category = 'all') {
+            const grid = document.getElementById('reports-grid');
+            const filteredReports = category === 'all' ? reportsData : reportsData.filter(report => report.category === category);
+            
+            grid.innerHTML = filteredReports.map(report => `
+                <div class="report-card fade-in">
+                    <div class="report-header">
+                        <span class="report-category">${report.category}</span>
+                        <h3 class="report-title">${report.title}</h3>
+                        <div class="report-meta">
+                            <span>${report.date}</span>
+                            <span>${report.author}</span>
+                        </div>
+                    </div>
+                    <div class="report-content">
+                        <p class="report-excerpt">${report.excerpt}</p>
+                        <div class="report-stats">
+                            <div class="stat-item">
+                                <span>👁️</span>
+                                <span>${report.views}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>📥</span>
+                                <span>${report.downloads}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span>❤️</span>
+                                <span>${report.likes}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // 添加滚动动画
+            observeElements();
+        }
+        
+        // 分类导航交互
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有active类
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                // 添加active类到当前按钮
+                btn.classList.add('active');
+                // 生成对应分类的报告卡片
+                generateReportCards(btn.dataset.category);
+            });
+        });
+        
+        // 数据可视化图表
+        window.onload = function() {
+            // 生成初始报告卡片
+            generateReportCards();
+            
+            // 销售走势图表
+            const salesCtx = document.getElementById('sales-chart').getContext('2d');
+            new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    datasets: [{
+                        label: '2024年销售面积',
+                        data: [85, 82, 88, 90, 87, 85, 83, 81, 79, 77, 75, 73],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: '2023年销售面积',
+                        data: [92, 90, 95, 98, 96, 94, 92, 90, 88, 86, 84, 82],
+                        borderColor: '#764ba2',
+                        backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+            
+            // 市场预测图表
+            const forecastCtx = document.getElementById('forecast-chart').getContext('2d');
+            new Chart(forecastCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2023年', '2024年', '2025年预测'],
+                    datasets: [{
+                        label: '销售面积（亿平方米）',
+                        data: [13.2, 12.5, 13.0],
+                        backgroundColor: '#667eea',
+                        borderRadius: 8
+                    }, {
+                        label: '销售额（万亿元）',
+                        data: [13.3, 12.9, 13.6],
+                        backgroundColor: '#764ba2',
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // 添加滚动动画
+            observeElements();
+            
+            // 数字动画效果
+            animateNumbers();
+        };
+        
+        // 滚动动画观察器
+        function observeElements() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // 数字动画效果
+        function animateNumbers() {
+            const numberElements = document.querySelectorAll('.data-number');
+            
+            numberElements.forEach(el => {
+                const target = el.textContent;
+                const isPercentage = target.includes('%');
+                const isNumber = !isNaN(parseFloat(target.replace(/,/g, '')));
+                
+                if (isNumber) {
+                    const targetNumber = parseFloat(target.replace(/,/g, '').replace(/%/g, ''));
+                    let current = 0;
+                    const increment = targetNumber / 100;
+                    const duration = 2000;
+                    const startTime = performance.now();
+                    
+                    function updateNumber(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // 使用缓动函数
+                        const easedProgress = 1 - Math.pow(1 - progress, 3);
+                        current = targetNumber * easedProgress;
+                        
+                        if (isPercentage) {
+                            el.textContent = current.toFixed(1) + '%';
+                        } else {
+                            el.textContent = current.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        }
+                        
+                        if (progress < 1) {
+                            requestAnimationFrame(updateNumber);
+                        } else {
+                            el.textContent = target;
+                        }
+                    }
+                    
+                    requestAnimationFrame(updateNumber);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

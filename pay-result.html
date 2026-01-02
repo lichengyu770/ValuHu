@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>支付结果 - ValuHub</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/extend.css" />
+    <!-- 复用扩展样式 -->
+    <style>
+      /* 基础样式，保持与原页面一致 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', '思源黑体', sans-serif;
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .btn-primary {
+        background: #007aff;
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #0066cc;
+      }
+      h2 {
+        font-size: 32px;
+        color: #1d2129;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      p {
+        font-size: 16px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+
+      /* 支付结果页专用样式 */
+      .result-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f7fa, #e9edf2);
+      }
+      .result-card {
+        background: white;
+        border-radius: 12px;
+        padding: 50px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 500px;
+        width: 100%;
+      }
+      .result-icon {
+        margin-bottom: 30px;
+      }
+      .result-details {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 30px 0;
+        text-align: left;
+      }
+      .result-detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 15px;
+      }
+      .result-detail-item:last-child {
+        margin-bottom: 0;
+      }
+      .detail-label {
+        color: #666;
+      }
+      .detail-value {
+        color: #1d2129;
+        font-weight: 500;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+      }
+      .btn-outline {
+        background: transparent;
+        border: 1px solid #007aff;
+        color: #007aff;
+      }
+      .btn-outline:hover {
+        background: #007aff;
+        color: white;
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
+        .result-card {
+          padding: 30px 20px;
+          margin: 20px;
+        }
+        h2 {
+          font-size: 24px;
+        }
+        .action-buttons {
+          flex-direction: column;
+        }
+        .action-buttons .btn {
+          width: 100%;
+        }
+      }
+    
+        img[src="图片1.png"] {
+            max-width: 45px !important;
+            max-height: 45px !important;
+            width: 45px !important;
+            height: 45px !important;
+            object-fit: contain !important;
+            display: inline-block !important;
+        }
+    </style>
+  
+
+
+
+
+
+
+
+
+<style>
+/* 通用修复样式 - 确保文字横向显示和导航栏增大 */
+
+/* 最高优先级 - 确保所有元素文字横向显示 */
+*,
+*::before,
+*::after {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    direction: ltr !important;
+    /* 只确保文字横向，不强制flex布局，让文本正常换行 */
+}
+
+/* 确保文本元素正常显示空格和换行 */
+p,
+span,
+div,
+th,
+td,
+li,
+strong,
+em,
+ai,
+button,
+input,
+textarea,
+select,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    display: block !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+/* 修复LOGO文字竖向显示问题 */
+.navbar-brand,
+.logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: var(--spacing-2) !important;
+    flex-direction: row !important;
+    white-space: nowrap !important;
+}
+
+.navbar-brand img,
+.logo img {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: contain !important;
+}
+
+.navbar-brand span,
+.navbar-brand a,
+.logo span,
+.logo a {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+
+/* 确保导航栏和菜单正确显示 */
+.navbar {
+    height: 80px !important;
+    padding: 16px 24px !important;
+    min-height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* 导航菜单样式 */
+.nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: var(--spacing-4) !important;
+}
+
+.nav-menu a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 80px !important;
+    padding: 0 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+}
+
+/* 导航按钮样式 */
+.nav-menu .btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+    min-height: 40px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+/* 确保容器元素横向显示 */
+.d-flex,
+.align-items-center,
+.justify-content-between,
+.justify-content-center,
+.hero-buttons,
+.filter-group,
+.filter-search-section,
+.action-buttons,
+.nav-actions,
+.nav-left,
+.nav-right,
+.user-info,
+.stat-header,
+.score-item-header {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+/* 移动端菜单按钮样式 */
+.btn-text.d-lg-none {
+    display: none !important;
+}
+
+/* 确保网格布局正常显示 */
+.grid,
+.grid-cols-4,
+.grid-cols-3,
+.grid-cols-2 {
+    display: grid !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表格布局正常显示 */
+table,
+tr,
+thead,
+tbody,
+th,
+td {
+    display: table !important;
+    display: table-row !important;
+    display: table-header-group !important;
+    display: table-row-group !important;
+    display: table-cell !important;
+    flex-direction: initial !important;
+}
+
+/* 确保列表布局正常显示 */
+ul,
+ol,
+li {
+    display: list-item !important;
+    flex-direction: initial !important;
+}
+
+/* 确保表单元素正常显示 */
+input,
+textarea,
+select,
+button {
+    display: inline-block !important;
+    flex-direction: initial !important;
+}
+
+/* 确保文本内容正常显示换行和空格 */
+.text-content,
+.card-content,
+.main-content,
+.scoring-content,
+.page-header,
+.analysis-title,
+.analysis-subtitle,
+.chart-container,
+.card,
+.card-header,
+.status-tag,
+.score-display,
+.pagination,
+.pagination-info,
+.score-detail-body,
+.detail-section,
+.detail-title,
+.detail-item,
+.detail-label,
+.detail-value,
+.score-item-name,
+.score-item-weight,
+.score-item-score,
+.score-item-description,
+.form-group,
+.form-label {
+    display: block !important;
+    flex-direction: initial !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    word-break: normal !important;
+}
+</style>
+</head>
+  <body>
+    <div class="result-container">
+      <div class="container">
+        <div class="result-card">
+          <div class="result-icon">
+            <i
+              class="fas fa-check-circle"
+              style="font-size: 80px; color: #00b42a"
+            ></i>
+          </div>
+          <h2>支付成功</h2>
+          <p>您已成功购买以下服务，感谢您的支持！</p>
+
+          <div class="result-details">
+            <div class="result-detail-item">
+              <span class="detail-label">服务名称：</span>
+              <span class="detail-value" id="serviceName">数智估价服务</span>
+            </div>
+            <div class="result-detail-item">
+              <span class="detail-label">订单编号：</span>
+              <span class="detail-value" id="orderNo">--</span>
+            </div>
+            <div class="result-detail-item">
+              <span class="detail-label">支付时间：</span>
+              <span class="detail-value" id="payTime">--</span>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button
+              class="btn btn-primary"
+              onclick="window.location.href = 'index.html'"
+            >
+              返回首页
+            </button>
+            <button
+              class="btn btn-outline"
+              onclick="window.location.href = '#core-function'"
+            >
+              查看功能
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 从URL获取订单号并显示
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById('orderNo').textContent =
+        params.get('orderNo') || '未知';
+      document.getElementById('serviceName').textContent =
+        params.get('service') || '数智估价服务';
+      document.getElementById('payTime').textContent =
+        new Date().toLocaleString('zh-CN');
+
+      // 记录支付成功日志
+      const log = {
+        action: '支付成功',
+        orderNo: params.get('orderNo') || '未知',
+        service: params.get('service') || '数智估价服务',
+        time: new Date().toISOString(),
+      };
+
+      // 存储到localStorage
+      const logs = JSON.parse(localStorage.getItem('userLogs') || '[]');
+      logs.push(log);
+      localStorage.setItem('userLogs', JSON.stringify(logs));
+    </script>
+  </body>
+</html>

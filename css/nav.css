@@ -1,0 +1,242 @@
+/* 导航栏样式 */
+/* 下拉菜单样式 */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.dropdown-toggle::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-bottom: 0;
+  transition: transform 0.3s ease;
+  color: #666;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  min-width: 180px;
+  padding: 10px 0;
+  margin: 0;
+  list-style: none;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  border: 1px solid rgba(26, 115, 232, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(26, 115, 232, 0.15);
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  clear: both;
+  font-weight: 400;
+  color: #4e5969;
+  text-align: inherit;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 0;
+}
+
+.dropdown-menu a:hover {
+  background-color: rgba(26, 115, 232, 0.05);
+  color: var(--color-primary);
+  padding-left: 20px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown:hover .dropdown-toggle::after {
+  transform: rotate(180deg);
+  color: var(--color-primary);
+}
+
+/* 确保导航项垂直对齐 */
+.nav-menu > a,
+.nav-menu > .dropdown > a {
+  display: inline-flex;
+  align-items: center;
+  height: 65px;
+  padding: 0 16px;
+  margin: 0;
+  text-decoration: none;
+  color: #4e5969;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-menu > a:hover,
+.nav-menu > .dropdown > a:hover {
+  color: var(--color-primary);
+}
+
+/* 高亮样式 */
+.nav-menu > a.active,
+.nav-menu > .dropdown > a.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.nav-menu > .dropdown > a.active::after {
+  color: var(--color-primary);
+}
+
+/* 移动端菜单切换按钮样式 */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #4e5969;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* 登录按钮样式 */
+#loginBtn {
+  background: var(--color-primary);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#loginBtn:hover {
+  background: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 65px;
+    right: -100%;
+    width: 100%;
+    max-width: 280px;
+    height: calc(100vh - 65px);
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 20px 0;
+    margin: 0;
+    gap: 0;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .nav-menu.active {
+    right: 0;
+  }
+
+  .nav-menu > a,
+  .nav-menu > .dropdown > a {
+    display: flex;
+    align-items: center;
+    height: auto;
+    padding: 12px 20px;
+    margin: 0;
+  }
+
+  .dropdown {
+    display: block;
+  }
+
+  .dropdown-menu {
+    position: static;
+    display: none;
+    min-width: auto;
+    box-shadow: none;
+    border: none;
+    background: rgba(26, 115, 232, 0.05);
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    animation: none;
+  }
+
+  .dropdown-menu a {
+    padding: 10px 40px;
+  }
+
+  #loginBtn {
+    width: calc(100% - 40px);
+    margin: 20px;
+  }
+}

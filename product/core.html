@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>核心产品 - 数智估价核心引擎</title>
+    <!-- 引入图标库 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- 引入共享样式 -->
+    <link rel="stylesheet" href="../shared.css" />
+    <style>
+      /* 页面特定样式 */
+      .content-section {
+        padding: 60px 0;
+        background: white;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 40px;
+        color: #1d2129;
+      }
+      .content-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .product-info {
+        line-height: 1.8;
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      .product-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .product-card {
+        background: linear-gradient(
+          135deg,
+          rgba(26, 115, 232, 0.05),
+          rgba(249, 168, 37, 0.05)
+        );
+        border: 1px solid rgba(26, 115, 232, 0.1);
+        border-radius: 12px;
+        padding: 30px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(26, 115, 232, 0.15);
+        border-color: var(--color-primary);
+      }
+      .product-card:hover::before {
+        transform: scaleX(1);
+      }
+      .product-icon {
+        font-size: 48px;
+        background: linear-gradient(
+          135deg,
+          var(--color-primary),
+          var(--color-secondary)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+      }
+      .product-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #1d2129;
+      }
+      .product-desc {
+        font-size: 14px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+      .product-features {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .product-features li {
+        font-size: 14px;
+        color: #999;
+        line-height: 1.8;
+        padding-left: 20px;
+        position: relative;
+      }
+      .product-features li::before {
+        content: '✓';
+        color: #1a73e8;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 引入导航栏 -->
+    <iframe
+      src="../nav.html"
+      frameborder="0"
+      style="width: 100%; height: 65px; border: none; display: block"
+    ></iframe>
+
+    <!-- 主要内容 -->
+    <main>
+      <section class="content-section">
+        <div class="content-container">
+          <h1 class="section-title">核心产品</h1>
+          <div class="product-info">
+            <p>
+              我们的核心产品是基于机器学习和GIS技术的智能估价系统，为客户提供高精度、高效率的房地产土地估价解决方案。
+            </p>
+            <p>
+              产品涵盖了房地产估价的各个环节，从数据采集到模型训练，再到结果输出，形成了完整的估价流程。
+            </p>
+          </div>
+          <div class="product-cards">
+            <div class="product-card">
+              <div class="product-icon"><i class="fas fa-cogs"></i></div>
+              <div class="product-title">智能估价引擎</div>
+              <div class="product-desc">
+                基于机器学习算法和大数据分析，实现高精度的房地产土地估价，估价精度达到95%以上。
+              </div>
+              <ul class="product-features">
+                <li>支持多种房地产类型</li>
+                <li>实时数据更新</li>
+                <li>高精度估价模型</li>
+                <li>快速响应</li>
+              </ul>
+            </div>
+            <div class="product-card">
+              <div class="product-icon">
+                <i class="fas fa-map-marked-alt"></i>
+              </div>
+              <div class="product-title">GIS空间分析</div>
+              <div class="product-desc">
+                结合地理信息系统，对房地产的空间位置、周边配套等因素进行深度分析，提高估价的准确性。
+              </div>
+              <ul class="product-features">
+                <li>空间位置分析</li>
+                <li>周边配套评估</li>
+                <li>区域发展预测</li>
+                <li>可视化展示</li>
+              </ul>
+            </div>
+            <div class="product-card">
+              <div class="product-icon"><i class="fas fa-chart-line"></i></div>
+              <div class="product-title">市场趋势分析</div>
+              <div class="product-desc">
+                基于历史数据和市场动态，预测房地产市场的发展趋势，为客户提供决策支持。
+              </div>
+              <ul class="product-features">
+                <li>历史数据挖掘</li>
+                <li>市场趋势预测</li>
+                <li>风险评估</li>
+                <li>投资建议</li>
+              </ul>
+            </div>
+            <div class="product-card">
+              <div class="product-icon"><i class="fas fa-database"></i></div>
+              <div class="product-title">大数据平台</div>
+              <div class="product-desc">
+                整合了多源数据，包括房地产交易数据、土地出让数据、人口数据等，为估价提供数据支撑。
+              </div>
+              <ul class="product-features">
+                <li>多源数据整合</li>
+                <li>数据清洗与标准化</li>
+                <li>数据安全保障</li>
+                <li>API接口支持</li>
+              </ul>
+            </div>
+            <div class="product-card">
+              <div class="product-icon"><i class="fas fa-user-cog"></i></div>
+              <div class="product-title">定制化解决方案</div>
+              <div class="product-desc">
+                根据客户的具体需求，提供定制化的估价解决方案，满足不同行业和场景的需求。
+              </div>
+              <ul class="product-features">
+                <li>行业定制化</li>
+                <li>场景化解决方案</li>
+                <li>灵活部署方式</li>
+                <li>专业技术支持</li>
+              </ul>
+            </div>
+            <div class="product-card">
+              <div class="product-icon"><i class="fas fa-file-alt"></i></div>
+              <div class="product-title">估价报告生成</div>
+              <div class="product-desc">
+                自动生成专业的估价报告，支持多种格式导出，提高工作效率。
+              </div>
+              <ul class="product-features">
+                <li>自动化报告生成</li>
+                <li>多种格式支持</li>
+                <li>自定义模板</li>
+                <li>一键导出</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h3>关于我们</h3>
+          <a href="../about/company.html" target="_blank">公司简介</a>
+          <a href="../about/team.html" target="_blank">团队介绍</a>
+          <a href="../about/culture.html" target="_blank">企业文化</a>
+          <a href="../about/history.html" target="_blank">发展历程</a>
+        </div>
+        <div class="footer-col">
+          <h3>产品服务</h3>
+          <a href="core.html" target="_blank">核心产品</a>
+          <a href="function.html" target="_blank">功能介绍</a>
+          <a href="case.html" target="_blank">成功案例</a>
+          <a href="../solution/index.html" target="_blank">解决方案</a>
+        </div>
+        <div class="footer-col">
+          <h3>资源中心</h3>
+          <a href="../resource/news.html" target="_blank">行业动态</a>
+          <a href="../resource/help.html" target="_blank">帮助中心</a>
+          <a href="../resource/doc.html" target="_blank">技术文档</a>
+          <a href="../resource/whitepaper.html" target="_blank">白皮书</a>
+        </div>
+        <div class="footer-col">
+          <h3>联系我们</h3>
+          <a href="tel:16680508457"><i class="fas fa-phone"></i> 16680508457</a>
+          <a href="mailto:1558691995@qq.com"
+            ><i class="fas fa-envelope"></i> 1558691995@qq.com</a
+          >
+          <a href="#" target="_blank"
+            ><i class="fas fa-map-marker-alt"></i> 湖南湘潭区</a
+          >
+          <a href="../service/online.html" target="_blank"
+            ><i class="fas fa-headset"></i> 在线客服</a
+          >
+        </div>
+        <div class="footer-col">
+          <h3>合作企业</h3>
+          <a href="../coop/hunanzhixin.html" target="_blank">湖南智新科技</a>
+          <a href="../coop/changshalizhi.html" target="_blank">长沙立智评估</a>
+          <a href="../coop/apply.html" target="_blank">合作申请</a>
+        </div>
+      </div>
+      <div class="copyright">
+        © 2025 湘潭市房算云互联网科技有限公司 版权所有 |
+        <a href="../policy/privacy.html" target="_blank">隐私政策</a> |
+        <a href="../policy/service.html" target="_blank">服务条款</a> |
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=43011202001203"
+          rel="noreferrer"
+          target="_blank"
+          >湘ICP备2025144327号-1 | 湘公网安备43011202001203号</a
+        >
+      </div>
+    </footer>
+
+    <!-- 引入共享脚本 -->
+    <script src="../shared.js"></script>
+  </body>
+</html>
