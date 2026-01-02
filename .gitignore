@@ -1,0 +1,9 @@
+# 排除系统临时文件
+*.tmp
+*.db
+visual-index.html.tmp
+zhihuiyun.db
+# 排除依赖文件夹
+node_modules/
+vendor/
+# 排除乱码命名文件*\"
