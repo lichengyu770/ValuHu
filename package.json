@@ -19,8 +19,7 @@
     "test:coverage": "turbo test:coverage",
     "prettier": "turbo prettier",
     "prettier:check": "turbo prettier:check",
-    "clean": "turbo clean",
-    "prepare": "husky"
+    "clean": "turbo clean"
   },
   "dependencies": {
     "@alicloud/credentials": "^2.4.4",
