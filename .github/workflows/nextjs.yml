@@ -2,21 +2,21 @@
 #
 # 要开始使用Next.js，请参阅：https://nextjs.org/docs/getting-started
 #
-名称: 将Next.js站点部署到Pages
+name: Deploy Next.js site to Pages
 
-在:
+on:
   # 在针对默认分支的推送上运行
-推送:
-分支: [“主要”]
+  push:
+    branches: [main]
 
   # 允许您从“操作”选项卡手动运行此工作流
-  工作流调度:
+  workflow_dispatch:
 
 # 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages
 permissions:
   contents: read
-页面: 写入
-身份令牌: 写入
+  pages: write
+  id-token: write
 
 # 仅允许一次并发部署，跳过正在进行的运行与最新排队运行之间的已排队运行。
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
